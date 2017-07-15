@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+  
+    
+    
+    <!--    produkcija-->
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+          p:location="./WEB-INF/jdbc.properties" />
+
+
+    <!--lokal-->
+    <!--<bean id="propertyConfigurer"
+    class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+    p:location="/WEB-INF/jdbc.properties" />-->
+
+
+
+
+
+
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+          p:driverClassName="${jdbc.driverClassName}"
+          p:url="${jdbc.url}"
+          p:username="${jdbc.username}"
+          p:password="${jdbc.password}"
+    />
+    
+  
+    
+    
+    
+    
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" /> 
+        <property name="annotatedClasses">
+            <list>
+                <value>com.livesexhouse.model.Chat</value> 
+                <value>com.livesexhouse.model.Girls</value> 
+                <value>com.livesexhouse.model.GirlsDoStuff</value> 
+                <value>com.livesexhouse.model.GirlsDress</value> 
+                <value>com.livesexhouse.model.GirlsHair</value> 
+                <value>com.livesexhouse.model.GirlsM2m</value> 
+                <value>com.livesexhouse.model.GirlsPiercing</value> 
+                <value>com.livesexhouse.model.IpAddress</value> 
+                <value>com.livesexhouse.model.UserBckData</value> 
+                <value>com.livesexhouse.model.UserM2m</value> 
+                <value>com.livesexhouse.model.Users</value> 
+                <value>com.livesexhouse.model.VideoClip</value> 
+                 <value>com.livesexhouse.model.VideoCategories</value> 
+                 <value>com.livesexhouse.model.VideoRoom</value> 
+                <value>com.livesexhouse.model.VideoM2m</value> 
+                <value>com.livesexhouse.model.MemberHouse</value> 
+                <value>com.livesexhouse.model.GirlsBreast</value> 
+                <value>com.livesexhouse.model.Contact</value>
+                <value>com.livesexhouse.controller.Setup</value> 
+                <value>com.livesexhouse.model.VideoCategoryCountClip</value>
+                <value>com.livesexhouse.model.VideoFileName</value>
+       
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.search.default.directory_provider">filesystem</prop>
+                <prop key="hibernate.search.default.indexBase">"/var/lucene/indexes"/</prop>
+            </props>
+        </property> 
+        
+    </bean>
+
+    
+      <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+    <property name="sessionFactory" ref="sessionFactory" />
+    
+    </bean> 
+    
+    
+    
+    
+    
+    
+    <tx:annotation-driven transaction-manager="transactionManager" />
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true" />
+            <tx:method name="find*" read-only="true" />
+            <tx:method name="*" />
+        </tx:attributes>
+    </tx:advice>
+    
+    
+    
+    
+        <bean id="contactDao" class="com.livesexhouse.DAO.ContactDao" />
+        <bean id="setupDao" class="com.livesexhouse.DAO.SetupDao" />
+        <bean id="setup" class="com.livesexhouse.controller.Setup" />
+        <bean id="videoDao" class="com.livesexhouse.DAO.VideoDao" />
+        <bean id="videoM2mDao" class="com.livesexhouse.DAO.VideoM2mDao" />
+        <bean id="videoRoomDao" class="com.livesexhouse.DAO.VideoRoomDao" />
+        <bean id="videoCategoryCountClipDao" class="com.livesexhouse.DAO.VideoCategoryCountClipDao" />
+        
+        
+        <bean id="memberHouseDao" class="com.livesexhouse.DAO.MemberHouseDao" />
+        <bean id="pagination" class="com.livesexhouse.controller.Pagination" />
+        <bean id="videoCategoryDao" class="com.livesexhouse.DAO.VideoCategoryDao" />
+        <bean id="comparator" class="com.livesexhouse.controller.Comparator" />
+        <bean id="nameGenerator" class="com.livesexhouse.controller.NameGenerator" />
+        <bean id="videoFileNameDao" class="com.livesexhouse.DAO.VideoFileNameDao" />
+        <bean id="frameGrabberDao" class="com.livesexhouse.controller.FrameGrabberDao" />
+        <bean id="saveVideoFile" class="com.livesexhouse.controller.SaveVideoFile" />
+    
+        
+    
+    
+</beans>

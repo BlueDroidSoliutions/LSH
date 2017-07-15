@@ -1,0 +1,457 @@
+/*----------  forms
+------------------------------------------------------------------------------*/
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="submit"],
+input[type="date"],
+textarea {
+	@include border-radius(15px);
+	background: #650000;
+	height: 58px;
+	padding: 0 20px 0 25px;
+	color: #fff;
+	border: none;
+	@include input-placeholder(#fff);
+	@include transition(all 0.3s ease-in-out);
+	&:focus,
+	&:active {
+
+	}
+}
+textarea {
+	min-height: 278px;
+	padding: 15px 20px;
+	margin-bottom: 10px;
+}
+#textarea_feedback {
+	text-align: right;
+	font-size: 14px;
+}
+.legend {
+	font-size: 14px;
+	margin-top: 10px;
+}
+.center-content {
+	max-width: 1600px;
+	margin: auto;
+	padding: 0 20px;
+}
+.form-block {
+	background: rgba(63, 0, 0, 0.85);
+	color: #fff;
+	float: left;
+	width: 100%;
+	padding: 50px 8%;
+	border-radius: 16px;
+	margin-bottom: 40px;
+	margin-top: 25px;
+	h2, .left, .right {
+		float: left;
+	}
+	h2 {
+		width: 20%;
+	}
+	.left, .right {
+		width: 40%;
+	}
+	.left {
+		padding-right: 20px;
+	}
+	.right {
+		padding-left: 20px;
+	}
+	.one-third {
+		width: 33.3333%;
+		float: left;
+		padding-right: 20px;
+		&:last-of-type {
+			padding-right: 0;
+		}
+	}
+	.field-wrapper {
+		font-size: 20px;
+		margin-bottom: 20px;
+		float: left;
+		width: 100%;
+		input, textarea {
+			float: left;
+			width: 100%;
+		}
+	}
+	.field-label {
+		margin-bottom: 10px;
+		display: block;
+		font-size: 20px;
+		padding-left: 5px;
+	}
+	.label {
+		padding-left: 15px;
+	}
+	.btn-submit {
+		color: #fff;
+		font-size: 28px;
+		padding: 14px 18px;
+		background: #ff0000;
+		float: right;
+		margin-top: 30px;
+	}
+	&.participate-form {
+		h2 {
+			width: 100%;
+			float: left;
+			margin-bottom: 30px;
+			font-size: 28px;
+		}
+	}
+	@include breakpoint(tablet){
+		h2 {
+			width: 100%;
+		}
+		.left, .right {
+			width: 50%;
+		}
+	}
+	@include breakpoint(phone){
+		h2 {
+			width: 100%;
+		}
+		.left, .right {
+			width: 100%;
+			padding: 0;
+		}
+	}
+}
+
+
+.u-title {
+	color: $yellow;
+	font-size: 44px;
+	text-transform: uppercase;
+	position: relative;
+	&:after {
+	    position: absolute;
+	    content: '';
+	    width: 60px;
+	    height: 3px;
+	    background: $yellow;
+	    left: 0;
+	    bottom: 0;
+	    -moz-transition: all .3s ease-in-out;
+	    -o-transition: all .3s ease-in-out;
+	    -webkit-transition: all .3s ease-in-out;
+	    transition: all .3s ease-in-out;
+	}
+}
+
+input#subject::-webkit-inner-spin-button,
+input#subject::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+.selectric .label {
+	height: 48px !important;
+	line-height: 48px !important;
+}
+
+.selectric .button {
+	height: 48px !important;
+}
+
+body.page-participate  {
+	background: url('../../assets/img/content/participate_bgr.jpg') no-repeat;
+	background-size: cover;
+	background-position: 50% 50%;
+
+	&:before {
+		display: none;
+	}
+
+	.container {
+		&:before {
+			position: absolute;
+		    width: 100%;
+		    height: 50vh;
+		    content: '';
+		 	background: rgba(0,0,0,1);
+			background: -moz-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.76) 24%, rgba(5,5,5,0.53) 47%, rgba(146,0,0,0.29) 71%, rgba(146,0,0,0) 100%);
+			background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(0,0,0,1)), color-stop(24%, rgba(0,0,0,0.76)), color-stop(47%, rgba(5,5,5,0.53)), color-stop(71%, rgba(146,0,0,0.29)), color-stop(100%, rgba(146,0,0,0)));
+			background: -webkit-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.76) 24%, rgba(5,5,5,0.53) 47%, rgba(146,0,0,0.29) 71%, rgba(146,0,0,0) 100%);
+			background: -o-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.76) 24%, rgba(5,5,5,0.53) 47%, rgba(146,0,0,0.29) 71%, rgba(146,0,0,0) 100%);
+			background: -ms-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.76) 24%, rgba(5,5,5,0.53) 47%, rgba(146,0,0,0.29) 71%, rgba(146,0,0,0) 100%);
+			background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.76) 24%, rgba(5,5,5,0.53) 47%, rgba(146,0,0,0.29) 71%, rgba(146,0,0,0) 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#920000', GradientType=0 );
+		 }
+
+		&:after {
+			content: '';
+			position: absolute;
+			background: rgba(140, 4, 0, 0.6);
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			z-index: -1;
+		}
+	}
+}
+
+.page-participate {
+	h2 {
+		display: block;
+		float: none !important;
+		max-width: 220px;
+		margin: 0 auto;
+	}
+
+	input[type="text"], input[type="email"], input[type="password"], input[type="submit"], input[type="date"], textarea {
+		height: 48px;
+	}
+
+	input[type="submit"] {
+		line-height: 0;
+	}
+
+	.txt-holder {
+		width: 100%;
+		max-width: 1000px;
+		margin: 0 auto;
+
+		p {
+			font-family: $font-q;
+			font-size: 20px;
+			margin-bottom: 25px;
+
+			a {
+				color: #ff0;
+			}
+		}
+	}
+
+	.jcf-file {
+	    display: inline-block;
+	    white-space: nowrap;
+	    position: relative;
+	    overflow: hidden;
+	    background: #650000;
+	    height: 48px;
+	    width: 100%;
+	    border-radius: 15px;
+	    cursor: pointer;
+
+	    &:hover {
+	    	.jcf-upload-button:before {
+	    		top: 40%;
+	    	}
+	    }
+
+		.jcf-fake-input {
+		    border: none;
+		    padding: 0 15px;
+		    font-size: 20px;
+		    line-height: 48px;
+		    height: 48px;
+		    width: 80%;
+		}
+
+		.jcf-upload-button {
+			border: none;
+		    line-height: 0;
+		    height: 48px;
+		    font-size: 0;
+		    padding: 0;
+		    width: 20%;
+		    position: relative;
+		    @include transi(0.3s);
+
+		    &:before {
+		    	content: url('../../assets/img/upload.png');
+		    	position: absolute;
+		    	top: 50%;
+		    	left: 50%;
+		    	@include translate(-50%, -50%);
+		    	@include transi(0.3s);
+		    }
+		}
+	}
+
+	.jcf-checkbox {
+	    margin: 0 7px 0 0;
+	    height: 20px;
+	    width: 20px;
+	    border-radius: 100%;
+	    border: 2px solid #FEFF00;
+	    background: transparent;
+
+	    span {
+		    height: 0;
+		    width: 0;
+		    top: 0;
+		    left: 0;
+		    margin: 0;
+		    border: none;
+		    -moz-transform: rotate(0);
+		    -ms-transform: rotate(0);
+		    -webkit-transform: rotate(0);
+		    transform: rotate(0);
+		    -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.7071067811865483, M12=0.7071067811865467, M21=-0.7071067811865467, M22=0.7071067811865483, SizingMethod='auto expand')";
+		    background: #ff0000;
+		    right: 0;
+		    bottom: 0;
+		    @include transi(0.3s);
+		}
+
+		&.jcf-checked span {
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	.jcf-focus, .jcf-focus * {
+		border-color: #FEFF00 !Important;
+	}
+
+	.chack {
+		font-family: $font-q;
+		font-size: 20px;
+
+		a {
+			font-family: $font-q;
+			font-size: 20px;
+			color: #FEFF00;
+		}
+	}
+
+
+	.one-third.textarea-holder {
+		.field-wrapper{
+			font-size: 16px;
+
+			textarea {
+				min-height: 200px;
+
+				@include input-placeholder (#999);
+			}
+		}
+	}
+
+	.bottom-form {
+		text-align: center;
+	}
+
+	.btn-submit {
+		float: none;
+	    display: block;
+		margin: 20px auto;
+	}
+
+	.required-holder {
+		position: relative;
+	}
+
+	.required-f {
+		font-family: $font-q;
+		font-size: 14px;
+		line-height: 1.1;
+		color: #fff;
+		text-align: right;
+		padding: 12px 20px 12px 15px;
+		position: absolute;
+		background: rgba(0, 0, 0, 0.61);
+		border-radius: 12px;
+
+		&.r-email {
+			top: 0;
+			right: -4%;
+		}
+
+		&.r-terms {
+			left: -5%;
+			top: 50%;
+    		@include translate(-100%, -50%);
+		}
+
+		&:after {
+			content: '!';
+			font-family: $font-q;
+			font-size: 45px;
+			color: #FEFF00;
+			font-family: 300px;
+			position: absolute;
+			right: 5px;
+			top: 50%;
+			@include translate(0, -50%);
+		}
+	}
+
+	@include max-query(1600px)  {
+		.form-block {
+			padding: 40px 4%;
+			margin-top: 20px;
+		}
+
+		.txt-holder p {
+			font-size: 18px;
+			line-height: 1.2;
+		}
+	}
+
+	@include max-query(1024px) {
+		.wrapper {
+			padding: 0 2%;
+		}
+		.center-content {
+			padding: 0;
+		}
+
+		.form-block {
+			float: none;
+			padding: 25px 4%;
+			margin-top: 0;
+		}
+
+		.one-third {
+			width: 100%;
+			float: none;
+			padding-right: 0;
+
+			&.textarea-holder {
+				margin-bottom: 15px;
+			}
+		}
+
+		.txt-holder {
+			p {
+			    font-size: 15px;
+			    margin-bottom: 15px;
+			}
+		}
+
+		.field-label {
+			font-size: 16px;
+		}
+
+		.field-wrapper {
+			margin-bottom: 10px;
+		}
+
+		.chack, .chack a {
+			font-size: 16px;
+		}
+
+		input[type="submit"] {
+		    background: #ff0000;
+		    font-size: 24px;
+		    font-weight: 300;
+		    padding: 0 25px;
+		    height: 50px;
+		}
+
+		.required-f.r-terms {
+			top: 130%;
+			left: -15%;
+			@include translate(0,0);
+		}
+	}
+}

@@ -1,0 +1,346 @@
+# ************************************************************
+# Sequel Pro SQL dump
+# Version 4541
+#
+# http://www.sequelpro.com/
+# https://github.com/sequelpro/sequelpro
+#
+# Host: 127.0.0.1 (MySQL 5.7.16)
+# Database: livesexhouse
+# Generation Time: 2017-06-02 09:28:32 +0000
+# ************************************************************
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+# Dump of table categories
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `categories`;
+
+CREATE TABLE `video_room` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table chat
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `chat`;
+
+CREATE TABLE `chat` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `from_user` int(11) NOT NULL,
+  `to_user` int(11) NOT NULL,
+  `msg` tinytext NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table contact
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `contact`;
+
+CREATE TABLE `contact` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `language` varchar(16) DEFAULT '1',
+  `user_group` varchar(16) DEFAULT '1',
+  `email` varchar(64) NOT NULL DEFAULT '',
+  `name` varchar(64) NOT NULL,
+  `subject` varchar(128) DEFAULT NULL,
+  `message` varchar(401) NOT NULL,
+  `date` datetime NOT NULL,
+  `ip` varchar(16) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table girls
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `girls`;
+
+CREATE TABLE `girls` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL,
+  `gender` tinyint(1) NOT NULL,
+  `age` int(2) NOT NULL,
+  `state` varchar(128) NOT NULL,
+  `city` varchar(128) NOT NULL,
+  `zip_code` varchar(16) NOT NULL,
+  `email` varchar(128) NOT NULL,
+  `user_name` varchar(128) NOT NULL,
+  `like` int(6) DEFAULT '0',
+  `breast` int(1) NOT NULL,
+  `weight` int(11) NOT NULL,
+  `piercing` tinyint(1) NOT NULL,
+  `shave` tinyint(1) NOT NULL,
+  `toy` tinyint(1) NOT NULL,
+  `story` tinytext,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table girls_breast
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `girls_breast`;
+
+CREATE TABLE `girls_breast` (
+  `id` int(2) NOT NULL AUTO_INCREMENT,
+  `size` varchar(32) COLLATE utf8_unicode_ci DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+
+# Dump of table girls_do_stuff
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `girls_do_stuff`;
+
+CREATE TABLE `girls_do_stuff` (
+  `id` int(4) NOT NULL AUTO_INCREMENT,
+  `do_stuff` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table girls_dress
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `girls_dress`;
+
+CREATE TABLE `girls_dress` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
+  `dress` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table girls_hair
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `girls_hair`;
+
+CREATE TABLE `girls_hair` (
+  `id` int(3) NOT NULL AUTO_INCREMENT,
+  `hair` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table girls_m2m
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `girls_m2m`;
+
+CREATE TABLE `girls_m2m` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `girl_id` int(11) NOT NULL,
+  `piercing` int(3) NOT NULL,
+  `hair` int(3) NOT NULL,
+  `dress` int(3) NOT NULL,
+  `do_stuff` int(3) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table girls_piercing
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `girls_piercing`;
+
+CREATE TABLE `girls_piercing` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `where` varchar(32) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table ip_address
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `ip_address`;
+
+CREATE TABLE `ip_address` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `ip_address` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table password
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `password`;
+
+CREATE TABLE `password` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table setup
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `setup`;
+
+CREATE TABLE `setup` (
+  `id` int(2) NOT NULL AUTO_INCREMENT,
+  `nameString` varchar(32) COLLATE utf8_unicode_ci DEFAULT '',
+  `nameInt` int(2) DEFAULT NULL,
+  `valueString` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `valueInt` int(2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+LOCK TABLES `setup` WRITE;
+/*!40000 ALTER TABLE `setup` DISABLE KEYS */;
+
+INSERT INTO `setup` (`id`, `nameString`, `nameInt`, `valueString`, `valueInt`)
+VALUES
+	(1,'files location',3,'./resources',NULL),
+	(2,'context Path production/local',NULL,'',NULL),
+	(3,'productsPerPage',1,NULL,9),
+	(4,'metod location',NULL,'./',NULL),
+	(5,'siteName',NULL,'www.livesexhouse.com',NULL);
+
+/*!40000 ALTER TABLE `setup` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table user_bck_data
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `user_bck_data`;
+
+CREATE TABLE `user_bck_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL,
+  `state` varchar(128) NOT NULL,
+  `city` varchar(128) NOT NULL,
+  `zip_code` varchar(16) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table user_m2m
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `user_m2m`;
+
+CREATE TABLE `user_m2m` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `fav_clip` int(11) DEFAULT NULL,
+  `fav_girl` int(11) DEFAULT NULL,
+  `vote` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table users
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `users`;
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `memberfrom` datetime NOT NULL,
+  `username` varchar(64) NOT NULL,
+  `rola` int(2) NOT NULL,
+  `tokens` int(10) NOT NULL,
+  `email` varchar(64) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table video_clip
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `video_clip`;
+
+CREATE TABLE `video_clip` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) NOT NULL,
+  `tag` varchar(128) NOT NULL,
+  `wish_list` int(11) DEFAULT '0',
+  `view` int(11) DEFAULT '0',
+  `like` int(11) DEFAULT '0',
+  `dislike` int(11) DEFAULT '0',
+  `upload_date` datetime DEFAULT NULL,
+  `room` int(11) NOT NULL,
+  `season` int(2) NOT NULL,
+  `duration` int(6) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `video_clip` WRITE;
+/*!40000 ALTER TABLE `video_clip` DISABLE KEYS */;
+
+INSERT INTO `video_clip` (`id`, `name`, `tag`, `wish_list`, `view`, `like`, `dislike`, `upload_date`, `room`, `season`, `duration`)
+VALUES
+	(1,'Lora alone','solo dildo blond',1,100,2,3,NULL,1,1,234),
+	(2,'Anita threesome','threesome anal',3,234,4,4,NULL,2,1,32),
+	(3,'Jany love hard','hard core black anal',5,633,55,66,NULL,3,1,34),
+	(4,'Sexy girl love sex','love sex dildo solo',7,1,67,7,NULL,3,1,64),
+	(5,'Dany babe','solo babe',9,44,889,788,NULL,3,3,32),
+	(6,'Slut swallows','swallow slut jizz',2,5,0,0,NULL,2,3,34),
+	(7,'creampied whore','creampied doggy style',2,667,55,554,NULL,4,3,44),
+	(8,'super milf','milf love boy anal',3,8,54,6,NULL,5,4,333),
+	(9,'hot smoking russian','russian hot anal',0,98,2,4,NULL,1,5,455),
+	(10,'teen love blowjob','teen love blowjob',0,554,0,4,NULL,2,3,3);
+
+/*!40000 ALTER TABLE `video_clip` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table video_m2m
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `video_m2m`;
+
+CREATE TABLE `video_m2m` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `clip_id` int(11) NOT NULL,
+  `category` int(3) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

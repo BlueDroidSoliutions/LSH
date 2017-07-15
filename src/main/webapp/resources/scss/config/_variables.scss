@@ -1,0 +1,15 @@
+/*----------  variables
+------------------------------------------------------------------------------*/
+
+// Sprites
+$icons: sprite-map("icons/*.png", $spacing: 20px, $layout: vertical);
+$icons2x: sprite-map("icons2x/*.png", $spacing: 20px, $layout: vertical);  //if you don't need retina display icons, exclude this line
+
+
+// Colors
+$white: #fff;
+$black: #000;
+$grey: #666;
+$yellow: #ffff00;
+
+$red: #ff0000;

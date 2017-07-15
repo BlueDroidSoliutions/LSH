@@ -1,0 +1,16 @@
+/*----------  footer
+------------------------------------------------------------------------------*/
+
+.footer {
+	@include base-float;
+	text-align: center;
+	min-height: 35px;
+	p {
+		font-size: 12px;
+		color: #fff;
+		line-height: 16px;
+		a {
+			color: #fff;
+		}
+	}
+}
