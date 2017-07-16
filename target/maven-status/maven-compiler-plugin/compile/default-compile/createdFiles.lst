@@ -40,6 +40,7 @@ com/livesexhouse/controller/NameGenerator.class
 com/livesexhouse/DAO/SetupDao.class
 com/livesexhouse/model/MemberHouse.class
 com/livesexhouse/model/UserBckData.class
+.netbeans_automatic_build
 com/livesexhouse/model/VideoRoom_.class
 com/livesexhouse/model/VideoM2m_.class
 com/livesexhouse/model/GirlsPiercing.class

@@ -23,11 +23,27 @@ http://www.springframework.org/schema/security/spring-security.xsd
     <dependencies> 
          
          
-<dependency>
-  <groupId>net.coobird</groupId>
-  <artifactId>thumbnailator</artifactId>
-  <version>0.4.8</version>
-</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+            <version>4.3.9.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-websocket</artifactId>
+            <version>9.0.0.M22</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        
+        
+        
+        
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>0.4.8</version>
+        </dependency>
          
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -49,27 +65,17 @@ http://www.springframework.org/schema/security/spring-security.xsd
             <version>4.2.2.RELEASE</version>
         </dependency>
          
-          <dependency>
+        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-taglibs</artifactId>
             <version>4.2.2.RELEASE</version>
         </dependency>
-         
-         
-         
-         
-         
-         
          
         <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
-         
-         
-         
-         
          
          
         <dependency>
@@ -108,17 +114,6 @@ http://www.springframework.org/schema/security/spring-security.xsd
         </dependency>
          
          
-         
-        
-         
-          
-                          
-                            
-   
-         
-         
-         
-         
         <dependency>
             <groupId>org.bytedeco</groupId>
             <artifactId>javacv</artifactId>
@@ -149,9 +144,6 @@ http://www.springframework.org/schema/security/spring-security.xsd
         </dependency>
          
          
-         
-         
-         
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-search-orm</artifactId>
@@ -164,10 +156,6 @@ http://www.springframework.org/schema/security/spring-security.xsd
         </dependency>
          
 
-         
-         
-         
-  
          
         <dependency>
             <groupId>jaxen</groupId>
