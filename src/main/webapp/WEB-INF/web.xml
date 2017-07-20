@@ -48,7 +48,11 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            /WEB-INF/applicationContext.xml,/WEB-INF/spring-database.xml,/WEB-INF/spring-security.xml,classpath*:springWebMultipartContext.xml
+            /WEB-INF/applicationContext.xml,
+            /WEB-INF/spring-database.xml,
+            /WEB-INF/spring-security.xml,
+            classpath*:springWebMultipartContext.xml,
+            /WEB-INF/websocket-config.xml
         </param-value>
     </context-param>
     

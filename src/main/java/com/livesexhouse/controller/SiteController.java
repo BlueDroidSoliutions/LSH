@@ -1,6 +1,7 @@
 package com.livesexhouse.controller;
 
 import com.livesexhouse.DAO.*;
+import com.livesexhouse.chat.ActiveUserService;
 import com.livesexhouse.model.Contact;
 import com.livesexhouse.model.MemberHouse;
 import com.livesexhouse.model.VideoCategories;
@@ -19,6 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -82,6 +86,8 @@ public class SiteController {
 
     @Autowired
     SessionFactory sessionFactory;
+    
+    private ActiveUserService activeUserService;
 
 //    List<Setup> setups = setupDao.getSetups();
 //    
@@ -94,6 +100,22 @@ public class SiteController {
 //    String noVideoFound = setups.get(6).getValueString();
 //    String videosLocation = setups.get(7).getValueString();
 //    String videosUploadLocation = setups.get(8).getValueString();
+    
+    
+    
+    
+    @MessageMapping("/activeUsers")
+  public void activeUsers(Message<Object> message) {
+    Principal user = message.getHeaders().get(SimpMessageHeaderAccessor.USER_HEADER, Principal.class);
+    activeUserService.mark(user.getName());
+  }
+    
+    
+    
+    
+    
+    
+    
     @RequestMapping(value = {"/logout"}, method = RequestMethod.GET)
     public String logoutDo(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);

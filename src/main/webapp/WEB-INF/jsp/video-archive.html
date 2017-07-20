@@ -1,3 +1,5 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js ie6"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js ie7"> <![endif]-->
@@ -30,9 +32,9 @@
 				</a>
 				<ul id="main-nav">
 					<li><a href="javascript:;">Live streams</a></li>
-					<li><a href="video-archive.html;">Video archive</a></li>
+					<li><a href="video-archive.html">Video archive</a></li>
 					<li>
-						<a href="javascript:;">Web cam</a>
+						<a href="webcam.html">Web cam</a>
 						<a href="javascript:;" class="submenu-btn">
 							<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 129 129" enable-background="new 0 0 129 129">
 							  <g>
@@ -70,75 +72,177 @@
 								<div class="filters-holder">
 									<span class="filter-tag">
 										<span class="remove-filter">Remove</span>
-										blonde
+										<span class="value">blonde</span>
 									</span>
-										<span class="filter-tag">
+									<span class="filter-tag">
 										<span class="remove-filter">Remove</span>
-										blonde
+										<span class="value">blonde</span>
 									</span>
-										<span class="filter-tag">
+									<span class="filter-tag">
 										<span class="remove-filter">Remove</span>
-										example
+										<span class="value">example</span>
 									</span>
-										<span class="filter-tag">
+									<span class="filter-tag">
 										<span class="remove-filter">Remove</span>
-										example
+										<span class="value">example</span>
 									</span>
 								</div>
 							</div>
 						</div>
 						<div class="filter-by">
 							<ul>
-								<li class="active">
-									<a href="javascript:;">Category</a>
+								<li>
+									<a href="javascript:;"  class="current" data-tab="tab-1">Category</a>
 								</li>
 								<li>
-									<a href="javascript:;">Participant</a>
+									<a href="javascript:;" data-tab="tab-2">Participant</a>
 								</li>
 								<li>
-									<a href="javascript:;">Duration</a>
+									<a href="javascript:;" data-tab="tab-3">Duration</a>
 								</li>
 								<li>
-									<a href="javascript:;">Season</a>
+									<a href="javascript:;" data-tab="tab-4">Season</a>
 								</li>
 								<li>
-									<a href="javascript:;">Date edited</a>
+									<a href="javascript:;" data-tab="tab-5">Date edited</a>
 								</li>
 							</ul>
 						</div>
 						<div class="category-list">
-							<ul>
-								<li>
-									<a href="javascript:;">
-										<span class="name">Category</span>
-										<span class="results">56</span>
-									</a>
-								</li>
-								<li class="has-children">
-									<a href="javascript:;">
-										<span class="name">Category AB</span>
-										<span class="results">17</span>
-									</a>
-								</li>
-								<li>
-									<a href="javascript:;">
-										<span class="name">Category</span>
-										<span class="results">102</span>
-									</a>
-								</li>
-								<li>
-									<a href="javascript:;">
-										<span class="name">Category</span>
-										<span class="results">99</span>
-									</a>
-								</li>
-								<li class="has-children">
-									<a href="javascript:;">
-										<span class="name">Category</span>
-										<span class="results">55</span>
-									</a>
-								</li>
-							</ul>
+							<div id="tab-1" class="filter-content current">
+								<ul>
+									<li>
+										<a href="javascript:;">
+											<span class="name">Category 1</span>
+											<span class="results">56</span>
+										</a>
+									</li>
+									<li class="has-children">
+										<a href="javascript:;">
+											<span class="name">Category AB</span>
+											<span class="results">17</span>
+										</a>
+									</li>
+									<li>
+										<a href="javascript:;">
+											<span class="name">Category</span>
+											<span class="results">102</span>
+										</a>
+									</li>
+									<li>
+										<a href="javascript:;">
+											<span class="name">Category</span>
+											<span class="results">99</span>
+										</a>
+									</li>
+									<li class="has-children">
+										<a href="javascript:;">
+											<span class="name">Category</span>
+											<span class="results">55</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div id="tab-2" class="filter-content">
+								<ul>
+									<li>
+										<a href="javascript:;">
+											Participant 1
+										</a>
+									</li>
+									<li class="has-children">
+										<a href="javascript:;">
+											Participant 2
+										</a>
+									</li>
+									<li>
+										<a href="javascript:;">
+											Participant 3
+										</a>
+									</li>
+									<li>
+										<a href="javascript:;">
+											Participant 4
+										</a>
+									</li>
+									<li class="has-children">
+										<a href="javascript:;">
+											Participant 5
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div id="tab-3" class="filter-content">
+								<ul>
+									<li>
+										<a href="javascript:;">
+											<span class="name">Category 3</span>
+											<span class="results">56</span>
+										</a>
+									</li>
+									<li class="has-children">
+										<a href="javascript:;">
+											<span class="name">Category AB</span>
+											<span class="results">17</span>
+										</a>
+									</li>
+									<li>
+										<a href="javascript:;">
+											<span class="name">Category</span>
+											<span class="results">102</span>
+										</a>
+									</li>
+									<li>
+										<a href="javascript:;">
+											<span class="name">Category</span>
+											<span class="results">99</span>
+										</a>
+									</li>
+									<li class="has-children">
+										<a href="javascript:;">
+											<span class="name">Category</span>
+											<span class="results">55</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div id="tab-4" class="filter-content">
+								<ul>
+									<li>
+										<a href="javascript:;">
+											Season 1
+										</a>
+									</li>
+									<li class="has-children">
+										<a href="javascript:;">
+											Season 2
+										</a>
+									</li>
+									<li>
+										<a href="javascript:;">
+											Season 3
+										</a>
+									</li>
+									<li>
+										<a href="javascript:;">
+											Season 4
+										</a>
+									</li>
+									<li class="has-children">
+										<a href="javascript:;">
+											Season 5
+										</a>
+									</li>
+								</ul>
+							</div>	
+							<div id="tab-5" class="filter-content">
+								<div class="picker-wrapper">
+									<div data-toggle="datepicker" class="pickedDate"></div>
+								</div>
+								<div class="btn-wrap">
+									<a href="javascript:;" class="btn-small">Choose date</a>
+								</div>
+							</div>		
 						</div>
 					</div>
 					<div class="main-content">
@@ -148,12 +252,29 @@
 								<ul>
 									<li>
 										<a href="javascript:;">Popularity</a>
+										<div class="option-block popularity">
+											<a href="javascript:;" class=" low-popularity">Most popular</a>
+											<a href="javascript:;" class=" high-popularity">Least popular</a>
+										</div>
 									</li>
 									<li>
-										<a href="javascript:;">Date</a>
+										<a href="javascript:;" >Date</a>
+										<div class="option-block dates">
+											<p>
+												Date sort content?
+											</p>
+										</div>
 									</li>
 									<li>
 										<a href="javascript:;">Duration</a>
+										<div class="option-block duration">
+											<ul>
+												<li><a href="javascript:;">Less than 5min</a></li>
+												<li><a href="javascript:;">5min to 15min</a></li>
+												<li><a href="javascript:;">15min to 30min</a></li>
+												<li><a href="javascript:;">More than 30min</a></li>
+											</ul>
+										</div>
 									</li>
 									<li>
 										<span class="collapse-sort">Collapse</span>
@@ -456,6 +577,7 @@
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script type="text/javascript">window.jQuery || document.write("<script src='assets/scripts/main/jquery-1.8.3.min.js'>\x3C/script>")</script>
 	<script type="text/javascript" src="assets/scripts/libs/masonry.pkgd.min.js"></script>
+	<script type="text/javascript" src="assets/scripts/libs/datepicker.min.js"></script>
 	<script type="text/javascript" src="assets/scripts/main/default.js"></script>
 
  <!--[if lt IE 7]>
