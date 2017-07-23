@@ -310,34 +310,7 @@ function iframeDimensions() {
     // Datepicker
         
 
-    if ( $( '[data-toggle="datepicker"]' ).length ) {
-
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; 
-        var yyyy = today.getFullYear();
-
-        if(dd<10) {
-            dd = '0'+dd
-        } 
-
-        if(mm<10) {
-            mm = '0'+mm
-        }
-
-        console.log(today);
-
-        var today = $().datepicker('getDate', true);
-        var firstVideo = $().datepicker('getDate', true);
-
-       $('[data-toggle="datepicker"]').datepicker({
-            inline: true,
-            container: '.picker-wrapper',
-            endDate: today, 
-            startDate: '07/01/2017'
-       });
-
-    }
+    
 
     $('.filter-tag').click(function(){
         var selectedFilter = $(this).find('.value').text();

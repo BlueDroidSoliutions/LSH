@@ -87,6 +87,11 @@ public class SiteController {
     @Autowired
     SessionFactory sessionFactory;
     
+    @Autowired
+    Params params;
+    
+   
+
     private ActiveUserService activeUserService;
 
 //    List<Setup> setups = setupDao.getSetups();
@@ -100,22 +105,12 @@ public class SiteController {
 //    String noVideoFound = setups.get(6).getValueString();
 //    String videosLocation = setups.get(7).getValueString();
 //    String videosUploadLocation = setups.get(8).getValueString();
-    
-    
-    
-    
     @MessageMapping("/activeUsers")
-  public void activeUsers(Message<Object> message) {
-    Principal user = message.getHeaders().get(SimpMessageHeaderAccessor.USER_HEADER, Principal.class);
-    activeUserService.mark(user.getName());
-  }
-    
-    
-    
-    
-    
-    
-    
+    public void activeUsers(Message<Object> message) {
+        Principal user = message.getHeaders().get(SimpMessageHeaderAccessor.USER_HEADER, Principal.class);
+        activeUserService.mark(user.getName());
+    }
+
     @RequestMapping(value = {"/logout"}, method = RequestMethod.GET)
     public String logoutDo(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
@@ -786,19 +781,22 @@ public class SiteController {
             //3.date 
             @RequestParam(required = false, value = "3", defaultValue = "0") int dateFilter,
             //4.room 
-            @RequestParam(required = false, value = "4", defaultValue = "0") int roomFilter,
+            @RequestParam(required = false, value = "4", defaultValue = "0") int[] roomFilter,
             //5.season 
-            @RequestParam(required = false, value = "5", defaultValue = "0") int seasonFilter,
+            @RequestParam(required = false, value = "5", defaultValue = "0") int[] seasonFilter,
             //6.duration
-            @RequestParam(required = false, value = "6", defaultValue = "0") int durationFilter,
+            @RequestParam(required = false, value = "6", defaultValue = "0") int[] durationFilter,
             //7.member
-            @RequestParam(required = false, value = "7", defaultValue = "0") int memberFilter,
-            //8.member
-            @RequestParam(required = false, value = "8", defaultValue = "0") int categoryFilter,
+            @RequestParam(required = false, value = "7", defaultValue = "0") int[] memberFilter,
+            //8.category
+            @RequestParam(required = false, value = "8", defaultValue = "0") int[] categoryFilter,
+            @RequestParam(required = false, value = "9", defaultValue = "0") int resetFirstResult,
             ModelMap model,
             HttpServletResponse response,
             HttpServletRequest request) throws Exception {
         try {
+
+            
 
             String userName = "";
             if (principal != null) {
@@ -819,14 +817,72 @@ public class SiteController {
             int numberOfVideos = 0;
             List<VideoClip> videosResultsList = new ArrayList<>();
             List<MemberHouse> memberHouse = memberHouseDao.find();
+
             List<VideoRoom> videoRoom = videoRoomDao.find();
             List<VideoCategories> videoCategories = videoCategoryDao.find();
             List<VideoCategoryCountClip> videoCategoryCountClips = videoCategoryCountClipDao.find();
+            List<String> individualPar = new ArrayList<>();
             int videoNumTotal = 0;
 
-            if (dateFilter != 0 || roomFilter != 0 || seasonFilter != 0 || durationFilter != 0 || memberFilter != 0 || categoryFilter != 0 || sort != 0) {
+            noVideoFound = "<p style=\"color:white\">" + noVideoFound + "</p>";
+
+  
+            
+            String allParams = "";
+            String paramsWithoutSort = "";
+            
+
+            
+
+            if (dateFilter != 0 || roomFilter.length > 1 || seasonFilter.length > 1 || durationFilter.length > 1 || memberFilter.length > 1 || categoryFilter.length > 1 || sort != 0) {
                 bigPagination = true;
+            }
+
+            if (!bigPagination) {
+
+                if (roomFilter.length == 1) {
+                    if (roomFilter[0] != 0) {
+                        bigPagination = true;
+                    }
+                }
+
+                if (seasonFilter.length == 1) {
+                    if (seasonFilter[0] != 0) {
+                        bigPagination = true;
+                    }
+                }
+
+                if (durationFilter.length == 1) {
+                    if (durationFilter[0] != 0) {
+                        bigPagination = true;
+                    }
+                }
+
+                if (memberFilter.length == 1) {
+                    if (memberFilter[0] != 0) {
+                        bigPagination = true;
+                    }
+                }
+
+                if (categoryFilter.length == 1) {
+                    if (categoryFilter[0] != 0) {
+                        bigPagination = true;
+                    }
+                }
+
+            }
+
+            
+        
+            
+            if (bigPagination) {
+                Object[] par = params.allParam(categoryFilter, roomFilter, memberFilter, seasonFilter, durationFilter, sort, String.valueOf(dateFilter),totalSeasons, memberHouse, videoRoom, videoCategories);
+                allParams = (String) par[0];
+                paramsWithoutSort = (String) par[1];
+                individualPar = (List<String>)par[2];
+
                 Object[] tmp = videoDao.find(maxVideoPerPage, firstResult, sort, dateFilter, roomFilter, seasonFilter, durationFilter, memberFilter, categoryFilter);
+
                 videosResultsList = (List<VideoClip>) tmp[0];
                 numberOfVideos = (int) tmp[1];
                 videoNumTotal = (int) tmp[2];
@@ -841,14 +897,17 @@ public class SiteController {
                 if (!bigPagination) {
                     pag = pagination.pagination(firstResult, numberOfVideos, "video", maxVideoPerPage, path);
                 } else {
-                    pag = pagination.pagination(firstResult, numberOfVideos, "video", maxVideoPerPage, path, sort, dateFilter, roomFilter, seasonFilter, durationFilter, memberFilter, categoryFilter);
+                    pag = pagination.pagination(firstResult, numberOfVideos, "video", maxVideoPerPage, path, allParams);
                 }
             }
 
-            if (numberOfVideos == 0) {
-                model.addAttribute("noVideoFound", noVideoFound);
+            if (numberOfVideos != 0) {
+                noVideoFound = "";
             }
 
+            
+            model.addAttribute("individualPar", individualPar);
+            model.addAttribute("noVideoFound", noVideoFound);
             model.addAttribute("member", memberHouse);
             model.addAttribute("videoRoom", videoRoom);
             model.addAttribute("videoCategories", videoCategories);
@@ -869,6 +928,9 @@ public class SiteController {
             model.addAttribute("durationFilter", durationFilter);
             model.addAttribute("memberFilter", memberFilter);
             model.addAttribute("categoryFilter", categoryFilter);
+            model.addAttribute("paramsWithoutSort", paramsWithoutSort);
+            model.addAttribute("params", allParams);
+          
 
         } catch (Exception ex) {
         }

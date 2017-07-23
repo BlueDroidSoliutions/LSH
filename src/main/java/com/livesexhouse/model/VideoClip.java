@@ -142,8 +142,16 @@ public class VideoClip implements Serializable {
         this.voteDown = voteDown;
     }
 
-    public Integer getDuration() {
-        return duration;
+    public String getDuration() {
+        int totalSecs = this.duration;
+
+        int hours = totalSecs / 3600;
+        int minutes = (totalSecs % 3600) / 60;
+        int seconds = totalSecs % 60;
+
+        String timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+
+        return timeString;
     }
 
     public void setDuration(Integer duration) {
@@ -190,5 +198,5 @@ public class VideoClip implements Serializable {
     public String toString() {
         return "com.livesexhouse.model.VideoClip[ id=" + id + " ]";
     }
-    
+
 }

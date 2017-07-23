@@ -33,6 +33,7 @@ com/livesexhouse/model/GirlsHair_.class
 com/livesexhouse/controller/Comparator.class
 com/livesexhouse/controller/Comparator$1.class
 com/livesexhouse/model/GirlsDoStuff.class
+com/livesexhouse/controller/FilterArrayString.class
 com/livesexhouse/controller/SiteController.class
 com/livesexhouse/model/GirlsBreast.class
 com/livesexhouse/model/GirlsHair.class
@@ -50,6 +51,7 @@ com/livesexhouse/model/GirlsPiercing.class
 com/livesexhouse/model/GirlsDress_.class
 com/livesexhouse/chat/ActiveUserService.class
 com/livesexhouse/DAO/MemberHouseDao.class
+com/livesexhouse/controller/Params.class
 com/livesexhouse/controller/Setup.class
 com/livesexhouse/model/Contact.class
 com/livesexhouse/model/IpAddress_.class

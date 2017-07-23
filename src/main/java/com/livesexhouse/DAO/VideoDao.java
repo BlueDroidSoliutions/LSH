@@ -181,7 +181,8 @@ public VideoClip findByIdNewSes(int id) {
         return new Object[]{result, numVideos};
     }
 
-    public Object[] find(int maxVideoPerPage, int firstResult, int sort, int dateFilter, int roomFilter, int seasonFilter, int durationFilter, int memberFilter, int categoryFilter) {
+    public Object[] find(int maxVideoPerPage, int firstResult, int sort, int dateFilterr, int[] roomFilterr, int[] seasonFilterr, int[] durationFilterr, 
+            int[] memberFilterr, int[] categoryFilterr) {
         List<VideoClip> result = new ArrayList();
         int numVideos = 0;
         int videoNumTotal = 0;
@@ -190,42 +191,120 @@ public VideoClip findByIdNewSes(int id) {
             List seasonList = new ArrayList();
             List memberList = new ArrayList();
             List roomList = new ArrayList();
+            List durationList = new ArrayList();
             List categoryList = new ArrayList();
             String and = "AND";
             String query = "";
+            String sortStr = "";
+            String durationStr = "";
             Boolean begin = false;
-            Boolean noResult = false;
+            Boolean customQuery = true;
             Boolean memberB = false;
             Boolean seasonB = false;
             Boolean roomB = false;
             Boolean categoryB = false;
+            Boolean durationB = false;
+            Boolean sortBool = false;
+            
+            int dateFilter = 0;
+            int roomFilter = 0;
+            int seasonFilter = 0;
+            int durationFilter = 0; 
+            int memberFilter = 0;
+            int categoryFilter = 0;
             
 
-            Query videoNumTotalQ = sessionFactory.getCurrentSession().createQuery("SELECT v.id FROM VideoClip v");
+            Query videoNumTotalQ = sessionFactory.getCurrentSession().createQuery("SELECT v.id FROM VideoClip v WHERE enabled = 1");
             videoNumTotal = (int) videoNumTotalQ.getResultList().size();
             
+            switch (sort) {
+                
+                case 1:
+                    sortStr = " ORDER BY name ASC";
+                    break;
+                case 2:
+                    sortStr = " ORDER BY name DESC";
+                    break;
+                case 3:
+                    sortStr = " ORDER BY wish_list DESC";
+                    break; 
+                case 4:
+                    sortStr = " ORDER BY view_count DESC";
+                    break;
+                case 5:
+                    sortStr = " ORDER BY vote_up ASC";
+                    break;
+                case 6:
+                    sortStr = " ORDER BY vote_up DESC";
+                    break;
+                case 7:
+                    sortStr = " ORDER BY upload_date ASC";
+                    break;
+                case 8:
+                    sortStr = " ORDER BY upload_date DESC";
+                    break;
+//                case 9:
+//                    sortStr = " ORDER BY season ASC";
+//                    break;
+//                case 10:
+//                    sortStr = " ORDER BY season DESC";
+//                    break;
+                case 11:
+                    sortStr = " ORDER BY duration ASC";
+                    break;
+                case 12:
+                    sortStr = " ORDER BY duration DESC";
+                    break;
+            }
             
             
+            
+            
+            if(roomFilterr.length == 1 && seasonFilterr.length ==1 && durationFilterr.length ==1 && memberFilterr.length ==1 && categoryFilterr.length ==1 ){
+           
+            roomFilter = roomFilterr[0];
+            seasonFilter = seasonFilterr[0];
+            durationFilter = durationFilterr[0]; 
+            memberFilter = memberFilterr[0];
+            categoryFilter = categoryFilterr[0];
+                
+                
+            switch (durationFilter) {
+                
+                case 1:
+                    durationStr = " AND duration < 300";
+                    break;
+                case 2:
+                    durationStr = " AND duration > 299 AND duration < 900";
+                    break;
+                case 3:
+                    durationStr = " AND duration > 899 AND duration < 1800";
+                    break; 
+                case 4:
+                    durationStr = " AND duration > 1799";
+                    break;
+                
+            }
             
             if (memberFilter != 0) {
-                Query member = sessionFactory.getCurrentSession().createQuery("SELECT v.clipId FROM VideoM2m v WHERE v.memberHouseId = :m ");
+                Query member = sessionFactory.getCurrentSession().createQuery("SELECT v.clipId FROM VideoM2m v WHERE v.memberHouseId = :m");
                 member.setParameter("m", memberFilter);
                 memberList = member.getResultList();
                 if(memberList.isEmpty())
-                    noResult = true;
-                query = query + "SELECT v FROM VideoClip v WHERE v.id IN :memberList";
+                    customQuery = false;
+                query = query + "SELECT v FROM VideoClip v WHERE v.id IN :memberList AND enabled = 1";
                 begin = true;
                 memberB = true;
             }
 
             if (seasonFilter != 0) {
-                Query season = sessionFactory.getCurrentSession().createQuery("SELECT v.clipId FROM VideoM2m v WHERE v.season = :s ");
+                Query season = sessionFactory.getCurrentSession().createQuery("SELECT v.clipId FROM VideoM2m v WHERE v.season = :s");
                 season.setParameter("s", seasonFilter);
                 seasonList = season.getResultList();
                 if(seasonList.isEmpty())
-                    noResult = true;
+                    customQuery = false;
                 if (!begin) {
-                    query = query + "SELECT v FROM VideoClip v WHERE v.id IN :seasonList";
+                    query = query + "SELECT v FROM VideoClip v WHERE v.id IN :seasonList AND enabled = 1";
                     begin = true;
                 } else {
                     query = query + " AND v.id IN :seasonList";
@@ -235,28 +314,30 @@ public VideoClip findByIdNewSes(int id) {
 
                             
             if (roomFilter != 0) {
-                Query room = sessionFactory.getCurrentSession().createQuery("SELECT v.clipId FROM VideoM2m v WHERE v.room = :r ");
+                Query room = sessionFactory.getCurrentSession().createQuery("SELECT v.clipId FROM VideoM2m v WHERE v.room = :r");
                 room.setParameter("r", roomFilter);
                 roomList = room.getResultList();
                 if(roomList.isEmpty())
-                    noResult = true;
+                    customQuery = false;
                 if(!begin){
-                    query = query + "SELECT v FROM VideoClip v WHERE v.id IN :roomList";
+                    query = query + "SELECT v FROM VideoClip v WHERE v.id IN :roomList AND enabled = 1";
                     begin = true;
                 } else {
                     query = query + " AND v.id IN :roomList";
                 }
                 roomB=true;
             }
+            
+            
 
             if (categoryFilter != 0) {
-                Query category = sessionFactory.getCurrentSession().createQuery("SELECT v.clipId FROM VideoM2m v WHERE v.categoryId = :c ");
+                Query category = sessionFactory.getCurrentSession().createQuery("SELECT v.clipId FROM VideoM2m v WHERE v.categoryId = :c");
                 category.setParameter("c", categoryFilter);
                 categoryList = category.getResultList();
                 if(categoryList.isEmpty())
-                    noResult = true;
+                    customQuery = false;
                 if(!begin){
-                    query = query + "SELECT v FROM VideoClip v WHERE v.id IN :categoryList";
+                    query = query + "SELECT v FROM VideoClip v WHERE v.id IN :categoryList AND enabled = 1";
                     begin = true;
                 } else {
                     query = query + " AND v.id IN :categoryList";
@@ -267,11 +348,19 @@ public VideoClip findByIdNewSes(int id) {
             
             
             
+            if(query.length()<2){
+                query = "SELECT v FROM VideoClip v WHERE enabled = 1";
+                if (durationFilter != 0)
+                    query = query + durationStr;
+            }
             
-            if(!noResult){
-            
+            if(customQuery){
+                if (durationFilter != 0)
+                    query = query + durationStr;
+                query = query +  sortStr;
+                
+                
             Query q2 = sessionFactory.getCurrentSession().createQuery(query);
-
             if(memberB)
                 q2.setParameter("memberList", memberList);
             if(seasonB)
@@ -281,57 +370,188 @@ public VideoClip findByIdNewSes(int id) {
             if(categoryB)
                 q2.setParameter("categoryList", categoryList);
             
-            
 
             numVideos = q2.getResultList().size();
-
             q2.setFirstResult(firstResult);
             q2.setMaxResults(maxVideoPerPage);
-            
             result = q2.getResultList();
             }
 
-//            switch (sort) {
-//                case 0:
-//                    cr.addOrder(Order.asc("name"));
-//                    break;
-//                case 1:
-//                    cr.addOrder(Order.asc("name"));
-//                    break;
-//                case 2:
-//                    cr.addOrder(Order.desc("name"));
-//                    break;
-//                case 3:
-//                    cr.addOrder(Order.desc("wishList"));
-//                    break;
-//                case 4:
-//                    cr.addOrder(Order.desc("view"));
-//                    break;
-//                case 5:
-//                    cr.addOrder(Order.asc("like"));
-//                    break;
-//                case 6:
-//                    cr.addOrder(Order.desc("like"));
-//                    break;
-//                case 7:
-//                    cr.addOrder(Order.asc("uploadDate"));
-//                    break;
-//                case 8:
-//                    cr.addOrder(Order.desc("uploadDate"));
-//                    break;
-//                case 9:
-//                    cr.addOrder(Order.asc("season"));
-//                    break;
-//                case 10:
-//                    cr.addOrder(Order.desc("season"));
-//                    break;
-//                case 11:
-//                    cr.addOrder(Order.asc("duration"));
-//                    break;
-//                case 12:
-//                    cr.addOrder(Order.desc("duration"));
-//                    break;
-//            }
+            } else {
+             
+                
+                /////////////////////// ako ima vise filtera
+                
+                
+                
+                
+               String sBegin = "select t1.clip_id from ";
+
+        String stringCategory = "";
+        String stringRoom = "";
+        String stringMember = "";
+        String stringSeason = "";
+        String stringDuration = "";
+
+        String sFinal = "";
+
+        int count = 1;
+
+        Boolean categoryFilterrB = true;
+        if (categoryFilterr.length == 1) {
+            if (categoryFilterr[0] == 0) {
+                categoryFilterrB = false;
+            }
+        }
+
+        Boolean roomFilterrB = true;
+        if (roomFilterr.length == 1) {
+            if (roomFilterr[0] == 0) {
+                roomFilterrB = false;
+            }
+        }
+
+        Boolean memberFilterrB = true;
+        if (memberFilterr.length == 1) {
+            if (memberFilterr[0] == 0) {
+                memberFilterrB = false;
+            }
+        }
+
+        Boolean seasonFilterrB = true;
+        if (seasonFilterr.length == 1) {
+            if (seasonFilterr[0] == 0) {
+                seasonFilterrB = false;
+            }
+        }
+
+        Boolean durationFilterrB = true;
+        if (durationFilterr.length == 1) {
+            if (durationFilterr[0] == 0) {
+                durationFilterrB = false;
+            }
+        }
+
+        if (categoryFilterrB) {
+            for (int i = 0; i < categoryFilterr.length; i++) {
+                if (categoryFilterr[i] != 0) {
+                    stringCategory = stringCategory + "(select clip_id from video_m2m where category_id = " + categoryFilterr[i] + ") t" + count + "," + "";
+                    count++;
+                }
+            }
+        }
+
+        /////////////
+        if (roomFilterrB) {
+            for (int i = 0; i < roomFilterr.length; i++) {
+                if (roomFilterr[i] != 0) {
+                    stringRoom = stringRoom + "(select clip_id from video_m2m where room = " + roomFilterr[i] + ") t" + count + "," + "";
+                    count++;
+                }
+            }
+        }
+
+        ///////////
+        if (memberFilterrB) {
+            for (int i = 0; i < memberFilterr.length; i++) {
+                if (memberFilterr[i] != 0) {
+                    stringMember = stringMember + "(select clip_id from video_m2m where member_house_id = " + memberFilterr[i] + ") t" + count + "," + "";
+                    count++;
+                }
+            }
+        }
+
+        /////////
+        if (seasonFilterrB) {
+                for (int i = 0; i < seasonFilterr.length; i++) {
+                    if (seasonFilterr[i] != 0) {
+                        stringSeason = stringSeason + "(select clip_id from video_m2m where season = " + seasonFilterr[i] + ") t" + count + "," + "";
+                        count++;
+                    }
+                }
+        }
+
+        //////////
+        
+
+
+        if (durationFilterrB) {
+                for (int i = 0; i < durationFilterr.length; i++) {
+                    if (durationFilterr[i] != 0) {
+                        if(durationFilterr[i] == 1){
+stringDuration = stringDuration + "(select id as clip_id from video_clip where duration < 300) t" + count + "," + "";
+                        count++;
+                        }
+                        if(durationFilterr[i] == 2){
+stringDuration = stringDuration + "(select id as clip_id from video_clip where duration > 299 AND duration < 900) t" + count + "," + "";
+                        count++;
+                        }
+                        if(durationFilterr[i] == 3){
+stringDuration = stringDuration + "(select id as clip_id from video_clip where duration > 899 AND duration < 1800) t" + count + "," + "";
+                        count++;
+                        }
+                        if(durationFilterr[i] == 4){
+stringDuration = stringDuration + "(select id as clip_id from video_clip where duration > 1799) t" + count + "," + "";
+                        count++;
+                        }
+                    }
+                }
+        }
+
+        /////////
+        String mid = stringCategory + stringRoom + stringMember + stringSeason + stringDuration;
+        ////////
+
+        mid = mid.substring(0, mid.length() - 1);
+        String endString = " WHERE t1.clip_id = t2.clip_id ";
+        count--;
+        if (count > 2) {
+            for (int i = 2; i < count; i++) {
+                endString = endString + "AND t" + i + ".clip_id = " + "t" + (i + 1) + ".clip_id ";
+            }
+        }
+
+
+        sFinal = sBegin + mid + endString  + ";";
+
+ 
+                
+               Query q3 = sessionFactory.getCurrentSession().createNativeQuery(sFinal);
+               
+
+            numVideos = q3.getResultList().size();
+                
+//            q3.setFirstResult(firstResult);
+//            q3.setMaxResults(maxVideoPerPage);
+                List m = new ArrayList();
+                m = q3.getResultList();
+                
+                for(Object n : m){
+                    Session session = sessionFactory.getCurrentSession();
+                    Query queryQ = session.getNamedQuery("VideoClip.findById");
+                    queryQ.setParameter("id", Integer.valueOf(n.toString()));
+                    VideoClip vc = (VideoClip)queryQ.getSingleResult();
+                    result.add(vc);
+                }
+                
+                if(!m.isEmpty()){
+            String q4 = "SELECT v FROM VideoClip v WHERE v.id IN :mm AND enabled = 1 ";
+            q4 = q4 + sortStr;
+            Query q5 = sessionFactory.getCurrentSession().createQuery(q4);
+            q5.setParameter("mm", m);
+            numVideos = q5.getResultList().size();
+            q5.setFirstResult(firstResult);
+            q5.setMaxResults(maxVideoPerPage);
+            result = q5.getResultList();
+                }
+            }
+            
+        
+            
+            
+            
+            
+            
             
 
         } catch (HibernateException e) {

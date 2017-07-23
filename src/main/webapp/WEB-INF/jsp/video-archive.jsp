@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-124 152
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js ie6"> <![endif]-->
@@ -22,6 +23,52 @@
 
     </head>
     <body>
+        
+<style>
+
+    .pagination{
+        display: inline-block;
+    
+    width: 100%;
+    height: auto;
+    background-color: transparent;
+    color: white;
+}
+.pagination a{
+    text-decoration: none;
+    font-size: 15px;
+
+}
+.pagination li{
+/*    display: inline-block;*/
+    
+    width: 30px;
+    margin-left: -3px;
+    transition: background-color .2s ease-in;
+    -moz-transition: background-color .2s ease-in;
+    -webkit-transition: background-color .2 ease-in;
+    color: white;
+}
+.pagination li:hover{
+    background-color: white;
+    color: black;
+
+}
+.pagination ul{
+    width: 400px;
+    height: auto;
+    text-align: center;
+    margin: auto;
+    color:white;
+}
+.active li{
+    background-color: white;
+    color: red;
+}
+
+</style>
+
+
         <div class="container full-screen-height">
             <%@include file="menu.jsp" %>
             <div id="page-wrap">
@@ -42,26 +89,13 @@
 
 
 
-                                        <span class="filter-tag">
-                                            <span class="remove-filter">Remove</span>
-                                            <span class="value">blonde</span>
-                                        </span>
-
-                                        <span class="filter-tag">
-                                            <span class="remove-filter">Remove</span>
-                                            <span class="value">blonde</span>
-                                        </span>
-
-                                        <span class="filter-tag">
-                                            <span class="remove-filter">Remove</span>
-                                            <span class="value">example</span>
-                                        </span>
-
-                                        <span class="filter-tag">
-                                            <span class="remove-filter">Remove</span>
-                                            <span class="value">example</span>
-                                        </span>
-
+                                        <c:forEach items="${individualPar}" var="ip">
+                                            <c:set var="iipp" value="${fn:split(ip, ',')}" />
+                                            <a href="${pth}./video?${iipp[1]}" class="filter-tag">
+                                                <span class="remove-filter">Remove</span>
+                                                <span class="value">${iipp[0]}</span>
+                                            </a>
+                                        </c:forEach>
 
 
                                     </div>
@@ -101,7 +135,7 @@
                                     <ul>
                                         <c:forEach items="${videoCategoryCountClips}" var="vccc">
                                             <li>
-                                                <a href="${pth}./videos?8=${vccc.id}">
+                                                <a href="${pth}./video?8=${vccc.id}${params}">
                                                     <span class="name">${vccc.name}</span>
                                                     <span class="results">${vccc.numb}</span>
                                                 </a>
@@ -119,7 +153,7 @@
                                     <ul>
                                         <c:forEach items="${videoRoom}" var="vRoom">
                                           <li>
-                                            <a href="javascript:;">
+                                            <a href="${pth}./video?4=${vRoom.id}${params}">
                                                 ${vRoom.name}
                                             </a>
                                         </li>
@@ -141,7 +175,7 @@
                                         
                                 <c:forEach begin="1" end="${totalSeasons}" var="totS" varStatus="loopStatus">        
                                       <li>
-                                            <a href="javascript:;">
+                                            <a href="${pth}./video?5=${loopStatus.index}${params}">
                                                 ${totS}
                                             </a>
                                         </li>   
@@ -159,10 +193,10 @@
                                 
                                 <div id="tab-4" class="filter-content">
                                     <ul>
-                                                    <li><a href="javascript:;">Less than 5min</a></li>
-                                                    <li><a href="javascript:;">5min to 15min</a></li>
-                                                    <li><a href="javascript:;">15min to 30min</a></li>
-                                                    <li><a href="javascript:;">More than 30min</a></li>
+                                                    <li><a href="${pth}./video?6=1${params}">Less than 5 min</a></li>
+                                                    <li><a href="${pth}./video?6=2${params}">5 min to 15 min</a></li>
+                                                    <li><a href="${pth}./video?6=3${params}">15 min to 30 min</a></li>
+                                                    <li><a href="${pth}./video?6=4${params}">More than 30 min</a></li>
                                     </ul>
                                 </div>	
                                 
@@ -171,10 +205,10 @@
                                 
                                 <div id="tab-6" class="filter-content">
                                     <ul>
-                                       <c:forEach items="${memberHouse}" var="vRoom">
+                                       <c:forEach items="${member}" var="mHouse">
                                           <li>
-                                            <a href="javascript:;">
-                                                ${memberHouse.name}
+                                            <a href="${pth}./video?7=${mHouse.id}${params}">
+                                                ${mHouse.name}
                                             </a>
                                         </li>
                                         </c:forEach>
@@ -213,48 +247,36 @@
                                         <li>
                                             <a href="javascript:;">Name</a>
                                             <div class="option-block popularity">
-                                                <a href="javascript:;" class="a-z">A-Z</a>
-                                                <a href="javascript:;" class="z-a">Z-A</a>
+                                                <a href="${pth}./video?2=1${paramsWithoutSort}" class="a-z">A-Z</a>
+                                                <a href="${pth}./video?2=2${paramsWithoutSort}" class="z-a">Z-A</a>
                                             </div>
                                         </li>
 
                                         <li>
-                                            <a href="javascript:;">Wish List</a>
+                                            <a href="${pth}./video?2=3${paramsWithoutSort}">Wish List</a>
                                         </li>
 
                                         <li>
-                                            <a href="javascript:;">View</a>
+                                            <a href="${pth}./video?2=4${paramsWithoutSort}">View</a>
                                         </li>
 
                                         <li>
                                             <a href="javascript:;">Popularity</a>
                                             <div class="option-block popularity">
-                                                <a href="javascript:;" class="high-popularity">Most popular</a>
-                                                <a href="javascript:;" class="low-popularity">Least popular</a>
+                                                <a href="${pth}./video?2=6${paramsWithoutSort}" class="high-popularity">Most popular</a>
+                                                <a href="${pth}./video?2=5${paramsWithoutSort}" class="low-popularity">Least popular</a>
                                             </div>
                                         </li>
 
                                         <li>
                                             <a href="javascript:;">Date</a>
                                             <div class="option-block popularity">
-                                                <a href="javascript:;" class="newest">Newest first</a>
-                                                <a href="javascript:;" class="oldest">Oldest first</a>
+                                                <a href="${pth}./video?2=8${paramsWithoutSort}" class="newest">Newest first</a>
+                                                <a href="${pth}./video?2=7${paramsWithoutSort}" class="oldest">Oldest first</a>
                                             </div>
                                         </li>
 
-                                        <li>
-                                            <a href="javascript:;">Season</a>
-                                            <div class="option-block popularity">
 
-
-
-                                                <a href="javascript:;" class="newest">Newest first</a>
-                                                <a href="javascript:;" class="oldest">Oldest first</a>
-
-
-
-                                            </div>
-                                        </li>
 
 
 
@@ -263,10 +285,9 @@
                                             <a href="javascript:;">Duration</a>
                                             <div class="option-block duration">
                                                 <ul>
-                                                    <li><a href="javascript:;">Less than 5min</a></li>
-                                                    <li><a href="javascript:;">5min to 15min</a></li>
-                                                    <li><a href="javascript:;">15min to 30min</a></li>
-                                                    <li><a href="javascript:;">More than 30min</a></li>
+                                                    <li><a href="${pth}./video?2=12${paramsWithoutSort}">Longest first</a></li>
+                                                    <li><a href="${pth}./video?2=11${paramsWithoutSort}">shortest first</a></li>
+                                                   
                                                 </ul>
                                             </div>
                                         </li>
@@ -274,14 +295,14 @@
                                         
                                         
                                         <li>
-										<a href="${pth}./videos?2=0&&3=${dateFilter}&&4=${roomFilter}&&5=${seasonFilter}&&6=${durationFilter}&&7=${memberFilter}&&8=${categoryFilter}">RESET SORT<></a>
+										<a href="${pth}./video?2=0${paramsWithoutSort}">RESET SORT</a>
 									</li>
                                         
                                         
                                         
-                                        <li>
+<!--                                        <li>
                                             <span class="collapse-sort">Collapse</span>
-                                        </li>
+                                        </li>-->
                                     </ul>
                                 </div>
                             </div>
@@ -292,36 +313,8 @@
                                     
                                     
                                     
-                                    
-                                    <li class="video-item">
-                                        <a href="javascript:;">
-                                            <div class="thumbnail">
-                                                <img src="assets/img/content/01.jpg" class="rollme" alt=""/>
-                                                <img src="assets/img/content/02.jpg" class="rollme" alt="" />
-                                                <img src="assets/img/content/03.jpg" class="rollme" alt="" />
-                                                <img src="assets/img/content/04.jpg" class="rollme" alt="" />
-                                            </div>
-                                            <div class="video-info">
-                                                <div class="description">
-                                                    <h5>Name name name</h5>
-                                                    <span class="views">34.450 views</span>
-                                                </div>
-                                                <span class="access-link">Access</span>
-                                                <span class="video-duration">10:36</span>
-                                                <div class="video-thumbs">
-                                                    <span class="thumbs thumbs-down">
-                                                        <span class="icon"></span>
-                                                        <span class="counter">2</span>
-                                                    </span>
-                                                    <span class="thumbs thumbs-up">
-                                                        <span class="icon"></span>
-                                                        <span class="counter">25</span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                   
+                                  
+                                   ${noVideoFound}
                                     
                                     
                                     
@@ -343,7 +336,7 @@
 										<div class="video-info">
 											<div class="description">
 												<h5>${video.name}</h5>
-												<span class="views">${video.viewCount}</span>
+												<span class="views">${video.viewCount} views</span>
 											</div>
 											<span class="access-link">Access</span>
 											<span class="video-duration">${video.duration}</span>
@@ -372,37 +365,16 @@
                             </div>
                             <div class="ads">
                                 <a href="javascript:;">
-                                    <img src="assets/img/o4.jpg" alt="" />
+                                    <img src="${location}/assets/img/o4.jpg" alt="" />
                                 </a>
                                 <a href="javascript:;">
-                                    <img src="assets/img/o4.jpg" alt="" />
+                                    <img src="${location}/assets/img/o4.jpg" alt="" />
                                 </a>
                             </div>
                         </div>
                         <div class="pagination">
-                            <ul>
-                                <li class="prev">
-                                    <a href="javascript:;">Previous</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;">1</a>
-                                </li>
-                                <li class="active">
-                                    <a href="javascript:;">2</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;">3</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;">4</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;">5</a>
-                                </li>
-                                <li class="next">
-                                    <a href="javascript:;">Next</a>
-                                </li>
-                            </ul>
+                            
+                            <ul>${pagination}</ul>
                         </div>
                     </div>
                 </div>
@@ -419,14 +391,55 @@
 
         <!-- javascript -->
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-        <script type="text/javascript">window.jQuery || document.write("<script src='assets/scripts/main/jquery-1.8.3.min.js'>\x3C/script>")</script>
-        <script type="text/javascript" src="assets/scripts/libs/masonry.pkgd.min.js"></script>
-        <script type="text/javascript" src="assets/scripts/libs/datepicker.min.js"></script>
-        <script type="text/javascript" src="assets/scripts/main/default.js"></script>
+        <script type="text/javascript">window.jQuery || document.write("<script src='${location}/assets/scripts/main/jquery-1.8.3.min.js'>\x3C/script>")</script>
+        <script type="text/javascript" src="${location}/assets/scripts/libs/masonry.pkgd.min.js"></script>
+        <script type="text/javascript" src="${location}/assets/scripts/libs/datepicker.min.js"></script>
+        <script type="text/javascript" src="${location}/assets/scripts/main/default.js"></script>
 
         <!--[if lt IE 7]>
            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
        <![endif]-->
+        
+        
+        
+        
+        <script>
+            if ( $( '[data-toggle="datepicker"]' ).length ) {
+
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; 
+        var yyyy = today.getFullYear();
+
+        if(dd<10) {
+            dd = '0'+dd
+        } 
+
+        if(mm<10) {
+            mm = '0'+mm
+        }
+
+        console.log(today);
+
+        var today = $().datepicker('getDate', true);
+        var firstVideo = $().datepicker('getDate', true);
+
+       $('[data-toggle="datepicker"]').datepicker({
+            inline: true,
+            container: '.picker-wrapper',
+            endDate: today, 
+            startDate: '07/07/2017'
+       });
+       
+       
+       
+       
+       
+       
+
+    }
+        </script>
+        
 
     </body>
 </html>
