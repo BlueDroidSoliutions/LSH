@@ -107,6 +107,7 @@
     
     
         <bean id="contactDao" class="com.livesexhouse.DAO.ContactDao" />
+        <bean id="userDao" class="com.livesexhouse.DAO.UserDao" />
         <bean id="setupDao" class="com.livesexhouse.DAO.SetupDao" />
         <bean id="setup" class="com.livesexhouse.controller.Setup" />
         <bean id="videoDao" class="com.livesexhouse.DAO.VideoDao" />

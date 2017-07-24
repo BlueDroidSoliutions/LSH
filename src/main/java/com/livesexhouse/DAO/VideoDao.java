@@ -206,7 +206,7 @@ public VideoClip findByIdNewSes(int id) {
             Boolean durationB = false;
             Boolean sortBool = false;
             
-            int dateFilter = 0;
+//            int dateFilter = 0;
             int roomFilter = 0;
             int seasonFilter = 0;
             int durationFilter = 0; 
@@ -261,12 +261,13 @@ public VideoClip findByIdNewSes(int id) {
             
             
             if(roomFilterr.length == 1 && seasonFilterr.length ==1 && durationFilterr.length ==1 && memberFilterr.length ==1 && categoryFilterr.length ==1 ){
-           
+                System.out.println("jeste");
             roomFilter = roomFilterr[0];
             seasonFilter = seasonFilterr[0];
             durationFilter = durationFilterr[0]; 
             memberFilter = memberFilterr[0];
             categoryFilter = categoryFilterr[0];
+            
                 
                 
             switch (durationFilter) {
@@ -328,6 +329,15 @@ public VideoClip findByIdNewSes(int id) {
                 roomB=true;
             }
             
+            if (dateFilterr.length()>3) {
+                if(!begin){
+                    query = query + "SELECT v FROM VideoClip v WHERE v.uploadDate >='"+ dateFilterr+" 00:00:00' AND v.uploadDate <= '"+dateFilterr+" 23:59:59' AND enabled = 1";
+                    begin = true;
+                } else {
+                    query = query + " AND v.uploadDate >='"+ dateFilterr+" 00:00:00' AND v.uploadDate <= '"+dateFilterr+" 23:59:59' ";
+                }
+            }
+            
             
 
             if (categoryFilter != 0) {
@@ -347,20 +357,20 @@ public VideoClip findByIdNewSes(int id) {
             
             
             
-            
             if(query.length()<2){
                 query = "SELECT v FROM VideoClip v WHERE enabled = 1";
-                if (durationFilter != 0)
+                if (durationFilter != 0){
                     query = query + durationStr;
+                }
             }
-            
             if(customQuery){
                 if (durationFilter != 0)
                     query = query + durationStr;
                 query = query +  sortStr;
                 
-                
+                System.out.println(query);
             Query q2 = sessionFactory.getCurrentSession().createQuery(query);
+            
             if(memberB)
                 q2.setParameter("memberList", memberList);
             if(seasonB)
@@ -370,6 +380,7 @@ public VideoClip findByIdNewSes(int id) {
             if(categoryB)
                 q2.setParameter("categoryList", categoryList);
             
+            System.out.println(query);
 
             numVideos = q2.getResultList().size();
             q2.setFirstResult(firstResult);
@@ -379,7 +390,7 @@ public VideoClip findByIdNewSes(int id) {
 
             } else {
              
-                
+                System.out.println("nije");
                 /////////////////////// ako ima vise filtera
                 
                 
@@ -392,10 +403,16 @@ public VideoClip findByIdNewSes(int id) {
         String stringMember = "";
         String stringSeason = "";
         String stringDuration = "";
+        String stringDate = "";
 
         String sFinal = "";
 
         int count = 1;
+        
+        Boolean dateFilterrB = true;
+        if (dateFilterr.length() < 3) {
+                dateFilterrB = false;
+        }
 
         Boolean categoryFilterrB = true;
         if (categoryFilterr.length == 1) {
@@ -473,8 +490,15 @@ public VideoClip findByIdNewSes(int id) {
 
         //////////
         
+        query = query + "SELECT v FROM VideoClip v WHERE v.uploadDate >='"+ dateFilterr+" 00:00:00' AND v.uploadDate <= '"+dateFilterr+" 23:59:59' AND enabled = 1";
+        
+        
+        if(dateFilterrB){
+            stringDate = stringDate +"(select id as clip_id from video_clip WHERE upload_date >='"+ dateFilterr+" 00:00:00' AND upload_date <= '"+dateFilterr+" 23:59:59') t" + count + "," + "";
+                        count++;
+        }
 
-
+///////
         if (durationFilterrB) {
                 for (int i = 0; i < durationFilterr.length; i++) {
                     if (durationFilterr[i] != 0) {
@@ -499,7 +523,7 @@ stringDuration = stringDuration + "(select id as clip_id from video_clip where d
         }
 
         /////////
-        String mid = stringCategory + stringRoom + stringMember + stringSeason + stringDuration;
+        String mid = stringCategory + stringRoom +stringDate+ stringMember + stringSeason + stringDuration;
         ////////
 
         mid = mid.substring(0, mid.length() - 1);
@@ -514,15 +538,13 @@ stringDuration = stringDuration + "(select id as clip_id from video_clip where d
 
         sFinal = sBegin + mid + endString  + ";";
 
- 
+              
                 
                Query q3 = sessionFactory.getCurrentSession().createNativeQuery(sFinal);
                
 
             numVideos = q3.getResultList().size();
-                
-//            q3.setFirstResult(firstResult);
-//            q3.setMaxResults(maxVideoPerPage);
+
                 List m = new ArrayList();
                 m = q3.getResultList();
                 

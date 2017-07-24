@@ -61,6 +61,7 @@ com/livesexhouse/DAO/ContactDao.class
 com/livesexhouse/controller/FrameGrabberDao.class
 com/livesexhouse/DAO/GirlsHairDao.class
 com/livesexhouse/controller/Comparator$2.class
+com/livesexhouse/DAO/UserDao.class
 com/livesexhouse/model/Girls.class
 com/livesexhouse/chat/ChatSchedulingConfigurer.class
 com/livesexhouse/model/UserBckData_.class

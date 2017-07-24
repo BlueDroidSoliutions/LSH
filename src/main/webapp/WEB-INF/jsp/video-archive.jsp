@@ -1,6 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+
 
 
 <!DOCTYPE html>
@@ -67,6 +69,9 @@
 }
 
 </style>
+<%@include file="sign.jsp" %>
+
+
 
 
         <div class="container full-screen-height">
@@ -217,20 +222,33 @@
                                 
                                 
                                 
-                                
-                                
-                                <div id="tab-5" class="filter-content">
-                                    <div class="picker-wrapper">
-                                        <div data-toggle="datepicker" class="pickedDate"></div>
-                                    </div>
-                                    <div class="btn-wrap">
-                                        <a href="javascript:;" class="btn-small">Choose date</a>
-                                    </div>
-                                </div>	
-                                
-                                
-                                
-                                
+
+
+                                                    <div id="tab-5" class="filter-content">
+                                                        <div class="picker-wrapper">
+                                                            <div data-toggle="datepicker" class="pickedDate"></div>
+                                                        </div>
+
+                                                        <c:set var="numberAsString" value="${filterDateExist}"></c:set>
+                                                        <c:choose>
+                                                            <c:when test="${!numberAsString.matches('[0-9]+')}">
+                                                                <div class="btn-wrap">
+                                                                <a href="javascript:;" class="btn-small">Choose date</a>
+                                                            </div>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <p style="color:white">Remove Date from filters and try again</p>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                       
+
+
+
+                                                    </div>	
+
+
+
+
                                 
                                 
                                 
@@ -439,7 +457,7 @@
 
     $('.filter-tag').click(function(){
         var selectedFilter = $(this).find('.value').text();
-        alert(selectedFilter);
+//        alert(selectedFilter);
     });
 
     jQuery.fn.checkEmpty = function() {

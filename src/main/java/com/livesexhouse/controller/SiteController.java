@@ -4,6 +4,7 @@ import com.livesexhouse.DAO.*;
 import com.livesexhouse.chat.ActiveUserService;
 import com.livesexhouse.model.Contact;
 import com.livesexhouse.model.MemberHouse;
+import com.livesexhouse.model.Users;
 import com.livesexhouse.model.VideoCategories;
 import com.livesexhouse.model.VideoCategoryCountClip;
 import com.livesexhouse.model.VideoClip;
@@ -11,6 +12,7 @@ import com.livesexhouse.model.VideoFileName;
 import com.livesexhouse.model.VideoM2m;
 import com.livesexhouse.model.VideoRoom;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -89,6 +91,9 @@ public class SiteController {
     
     @Autowired
     Params params;
+    
+    @Autowired
+    UserDao userDao;
     
    
 
@@ -832,10 +837,23 @@ public class SiteController {
             String allParams = "";
             String paramsWithoutSort = "";
             
-
+            
+            if (!dateFilter.equals("0")){
+                if(dateFilter.charAt(4)!='-'){
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm/DD/yyyy");
+                Date date = simpleDateFormat.parse(dateFilter);
+                SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-mm-DD");
+                dateFilter = simpleDateFormat2.format(date);
+                }
+            }
+               
+            String filterDateExist = "yes";
+            if (!dateFilter.equals("0"))
+                filterDateExist = "1";
+            
             
 
-            if (!dateFilter.isEmpty() || roomFilter.length > 1 || seasonFilter.length > 1 || durationFilter.length > 1 || memberFilter.length > 1 || categoryFilter.length > 1 || sort != 0) {
+            if (!dateFilter.equals("0") || roomFilter.length > 1 || seasonFilter.length > 1 || durationFilter.length > 1 || memberFilter.length > 1 || categoryFilter.length > 1 || sort != 0) {
                 bigPagination = true;
             }
 
@@ -877,7 +895,7 @@ public class SiteController {
         
             
             if (bigPagination) {
-                Object[] par = params.allParam(categoryFilter, roomFilter, memberFilter, seasonFilter, durationFilter, sort, String.valueOf(dateFilter),totalSeasons, memberHouse, videoRoom, videoCategories);
+                Object[] par = params.allParam(categoryFilter, roomFilter, memberFilter, seasonFilter, durationFilter, sort, dateFilter,totalSeasons, memberHouse, videoRoom, videoCategories , totalSeasons);
                 allParams = (String) par[0];
                 paramsWithoutSort = (String) par[1];
                 individualPar = (List<String>)par[2];
@@ -921,6 +939,7 @@ public class SiteController {
             model.addAttribute("videoCategoryCountClips", videoCategoryCountClips);
             model.addAttribute("videoLocation", videoLocation);
             model.addAttribute("imgLocation", imgLocation);
+            model.addAttribute("filterDateExist", filterDateExist);
 
             
             model.addAttribute("startDate", startDate);
@@ -976,6 +995,38 @@ public class SiteController {
             c.setIp(request.getRemoteAddr());
 
             contactDao.saveContact(c);
+
+        } catch (Exception ex) {
+        }
+        return "index";
+    }
+    
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    public String signup(
+            ModelMap model,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+        try {
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("location", setupDao.getLocation());
+
+            String username = "";
+            String password = "";
+            username = request.getParameter("username");
+            password = request.getParameter("password");
+            boolean myChk=(request.getParameter("checkboxAccept")!=null)?true:false;
+            if(!username.isEmpty() && !userDao.exist(username) && myChk)
+            {
+                Users user = new Users();
+                
+                
+                
+                
+            } else{
+                System.out.println("postoji");
+            }
+
+            
 
         } catch (Exception ex) {
         }

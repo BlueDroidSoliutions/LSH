@@ -9,7 +9,9 @@ import com.livesexhouse.model.MemberHouse;
 import com.livesexhouse.model.VideoCategories;
 import com.livesexhouse.model.VideoRoom;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -20,7 +22,7 @@ public class Params {
     
     
     
-    public Object[] allParam(int[] categoryFilter, int[] roomFilter, int[] memberFilter, int[] seasonFilter, int[] durationFilter, int sort, String date, int numbOfSeason,List<MemberHouse> memberHouse,List<VideoRoom> videoRoom, List<VideoCategories> videoCategories){
+    public Object[] allParam(int[] categoryFilter, int[] roomFilter, int[] memberFilter, int[] seasonFilter, int[] durationFilter, int sort, String date, int numbOfSeason,List<MemberHouse> memberHouse,List<VideoRoom> videoRoom, List<VideoCategories> videoCategories,int maxSeason){
        String params = "";
        
             for (int i = 0; i < categoryFilter.length; i++) {
@@ -52,8 +54,19 @@ public class Params {
                     params = params + 6 + "=" + durationFilter[i] + "&&";
                 }
             }
-            String paramsWithoutSort = "&&"+params + "3=" + date;
-            params = "&&"+params + 2 + "=" + sort + "&&3=" + date;
+            String paramsWithoutSort = "";
+            
+            if(date.length()>3){
+                paramsWithoutSort = "&&"+params + "3=" + date;
+                params = "&&"+params + 2 + "=" + sort + "&&3=" + date;
+            }
+                
+            else{
+                paramsWithoutSort = "&&"+params ;
+                params = "&&"+params + 2 + "=" + sort;
+            }
+            
+          
             
         
         List<String> individualPar = new ArrayList<>();
@@ -69,6 +82,14 @@ public class Params {
                         individualPar.add(vc.getName()+","+params.replace(s+"&&","").substring(2));
                     }
                 }
+            }
+            
+            if(s.charAt(0) == '3'){
+                
+                    if(s.substring(2, s.length()).length()>3){
+                        individualPar.add(date+","+params.replace("&&"+s,"").substring(2));
+                    }
+                
             }
             
             if(s.charAt(0) == '4'){
@@ -88,15 +109,20 @@ public class Params {
             }
        
             
-            if(s.charAt(0) == '5'){
+             if(s.charAt(0) == '5'){
                for (int i = 0; i < seasonFilter.length; i++) {
-                        individualPar.add("Season "+(i+1)+","+params.replace(s+"&&","").substring(2));
+                   for(int in = 1 ; in<= maxSeason ; in++ ){
+                       if(in==Integer.valueOf(s.substring(2, s.length())))
+                           individualPar.add("Season "+in+","+params.replace(s+"&&","").substring(2));
+                   }
                 }
             }
             
+            
+            
             if(s.charAt(0) == '6'){
                for (int i = 0; i < durationFilter.length; i++) {
-                   
+                   for(int in = 1 ; in<= maxSeason ; in++ ){
                         if(Integer.valueOf(s.substring(2, s.length())) == 1){
                             individualPar.add("Less than 5 min"+","+params.replace(s+"&&","").substring(2));
                         }
@@ -112,16 +138,21 @@ public class Params {
                         if(Integer.valueOf(s.substring(2, s.length())) == 4){
                             individualPar.add("More than 30 min"+","+params.replace(s+"&&","").substring(2));
                         }
-                   
+                   }
                         
                 }
             }
             
             
         }
-        
-        
-       
+ 
+Set<String> hs = new HashSet<>();
+hs.addAll(individualPar);
+individualPar.clear();
+individualPar.addAll(hs);
+//        
+//       for(String sss : individualPar)
+//            System.out.println(sss);
         
         return new Object[]{params,paramsWithoutSort,individualPar};
     }
