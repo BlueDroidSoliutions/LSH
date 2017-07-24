@@ -779,7 +779,7 @@ public class SiteController {
             @RequestParam(required = false, value = "2", defaultValue = "0") int sort,
             //FILTERS
             //3.date 
-            @RequestParam(required = false, value = "3", defaultValue = "0") int dateFilter,
+            @RequestParam(required = false, value = "3", defaultValue = "0") String dateFilter,
             //4.room 
             @RequestParam(required = false, value = "4", defaultValue = "0") int[] roomFilter,
             //5.season 
@@ -812,6 +812,7 @@ public class SiteController {
             String path = setups.get(1).getValueString();
             String videoLocation = setups.get(8).getValueString();
             String imgLocation = setups.get(9).getValueString();
+            String startDate = setups.get(10).getValueString();
             Boolean bigPagination = false;
             String pag = "";
             int numberOfVideos = 0;
@@ -834,7 +835,7 @@ public class SiteController {
 
             
 
-            if (dateFilter != 0 || roomFilter.length > 1 || seasonFilter.length > 1 || durationFilter.length > 1 || memberFilter.length > 1 || categoryFilter.length > 1 || sort != 0) {
+            if (!dateFilter.isEmpty() || roomFilter.length > 1 || seasonFilter.length > 1 || durationFilter.length > 1 || memberFilter.length > 1 || categoryFilter.length > 1 || sort != 0) {
                 bigPagination = true;
             }
 
@@ -921,6 +922,8 @@ public class SiteController {
             model.addAttribute("videoLocation", videoLocation);
             model.addAttribute("imgLocation", imgLocation);
 
+            
+            model.addAttribute("startDate", startDate);
             model.addAttribute("sort", sort);
             model.addAttribute("dateFilter", dateFilter);
             model.addAttribute("roomFilter", roomFilter);

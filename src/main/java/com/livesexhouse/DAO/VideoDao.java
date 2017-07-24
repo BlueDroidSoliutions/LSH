@@ -181,7 +181,7 @@ public VideoClip findByIdNewSes(int id) {
         return new Object[]{result, numVideos};
     }
 
-    public Object[] find(int maxVideoPerPage, int firstResult, int sort, int dateFilterr, int[] roomFilterr, int[] seasonFilterr, int[] durationFilterr, 
+    public Object[] find(int maxVideoPerPage, int firstResult, int sort, String dateFilterr, int[] roomFilterr, int[] seasonFilterr, int[] durationFilterr, 
             int[] memberFilterr, int[] categoryFilterr) {
         List<VideoClip> result = new ArrayList();
         int numVideos = 0;

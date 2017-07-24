@@ -159,7 +159,7 @@ input#subject::-webkit-calendar-picker-indicator {
 	height: 48px !important;
 }
 
-body.page-participate  {
+body {
 	background: url('../../assets/img/content/participate_bgr.jpg') no-repeat;
 	background-size: cover;
 	background-position: 50% 50%;
@@ -452,6 +452,205 @@ body.page-participate  {
 			top: 130%;
 			left: -15%;
 			@include translate(0,0);
+		}
+	}
+}
+
+// main-popup
+.main-popup {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.8);
+	z-index: 9999;
+	text-align: center;
+	display: table;
+	display: none;
+	h2, a {
+		color: $yellow;
+	}
+	h2 {
+		font-size: 40px;
+		margin-bottom: 20px;
+	}
+	a {
+		@include transition(all 0.3s ease-in-out);
+		&:hover {
+			color: #fff;
+			text-decoration: underline;
+		}
+	}
+	p {
+		color: #fff;
+		font-size: 18px;
+		margin-bottom: 14px;
+		font-family: $font-q;
+	}
+	input[type="text"],
+	input[type="email"],
+	input[type="password"] {
+		border-radius: 0;
+		background: transparent;
+		border: none;
+		border-bottom: 2px solid #ff0000;
+		line-height: 42px;
+		height: 42px;
+		margin-bottom: 15px;
+		padding: 0 10px 0 4px;
+		width: 256px;
+		font-size: 17px;
+		font-weight: 300;
+		font-family: $font-q;
+		&::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+		    color:    #a09e9e;
+		}
+		:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+		   color:    #a09e9e;
+		   opacity:  1;
+		}
+		&::-moz-placeholder { /* Mozilla Firefox 19+ */
+		   color:    #a09e9e;
+		   opacity:  1;
+		}
+		&:-ms-input-placeholder { /* Internet Explorer 10-11 */
+		   color:    #a09e9e;
+		}
+		&::-ms-input-placeholder { /* Microsoft Edge */
+		   color:    #a09e9e;
+		}
+	}
+	
+	button {
+		cursor: pointer;
+		background: #ff0000;
+		color: #fff;
+		outline: none;
+		border: none;
+		@include transition(all 0.3s ease-in-out);
+		margin-top: 10px;
+		&:hover {
+			background: #b10404;
+			color: $yellow;
+		}
+	}
+	.inner-wrapper {
+		position: relative;
+	}
+	.close-me {
+		position: absolute;
+		right: -20px;
+		top: -20px;
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		border: 2px solid $yellow;
+		background: #941f24 url(../img/x.png) no-repeat center center;
+		background-size: 20px 20px;
+	}
+	.popup-wrapper {
+		margin: auto;
+		display: table-cell;
+    	vertical-align: middle;
+	}
+	.inner {
+		width: 100%;
+		max-width: 440px;
+		margin: auto;
+		position: relative;
+		padding: 50px 15px 60px;
+		border-radius: 12px;
+		background: #5e0b0e url(../img/login-shadow.png) no-repeat top left;
+		background-size: contain;
+		display: none;
+		@include transition(all 0.3s ease-in-out);
+		&.active-block {
+			display: block;
+		}
+	}
+	.jcf-checkbox {
+	    margin: 0 7px 0 0;
+	    height: 20px;
+	    width: 20px;
+	    border-radius: 100%;
+	    border: 2px solid #FEFF00;
+	    background: transparent;
+	    span {
+		    height: 0;
+		    width: 0;
+		    top: 0;
+		    left: 0;
+		    margin: 0;
+		    border: none;
+		    -moz-transform: rotate(0);
+		    -ms-transform: rotate(0);
+		    -webkit-transform: rotate(0);
+		    transform: rotate(0);
+		    -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.7071067811865483, M12=0.7071067811865467, M21=-0.7071067811865467, M22=0.7071067811865483, SizingMethod='auto expand')";
+		    background: #ff0000;
+		    right: 0;
+		    bottom: 0;
+		    @include transi(0.3s);
+		}
+		&.jcf-checked span {
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	.jcf-focus, .jcf-focus * {
+		border-color: #FEFF00 !Important;
+	}
+
+	.chack {
+		font-family: $font-q;
+		font-size: 16px;
+		display: block;
+		padding: 0 25px;
+		color: #fff;
+		a {
+			font-family: $font-q;
+			font-size: 16px;
+			color: #FEFF00;
+		}
+	}
+	.support {
+		display: block;
+		color: $yellow;
+		text-decoration: underline;
+		margin-bottom: 20px;
+		font-size: 16px;
+		margin-top: 4px;
+		@include transi(0.3s);
+		font-family: $font-q;
+		&:hover {
+			color: #fff;
+			text-decoration: none;
+		}
+	}
+	&.active {
+		display: table;
+	}
+	@include breakpoint(phone){
+		padding: 30px;
+		.inner {
+			padding: 20px 10px 30px;
+		}
+		h2 {
+		    font-size: 34px;
+		    margin-bottom: 0;
+		}
+		p {
+			a {
+				display: block;
+			}
+		}
+		input[type="text"],
+		input[type="email"],
+		input[type="password"] {
+			line-height: 38px;
+			height: 38px;
 		}
 	}
 }

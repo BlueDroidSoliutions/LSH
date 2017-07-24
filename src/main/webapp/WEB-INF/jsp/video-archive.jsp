@@ -320,7 +320,7 @@
                                     
                                      <c:forEach items="${video}" var="video">
 								<li class="video-item">
-									<a href="javascript:;">
+									<a href="www.custom-design.org">
 										<div class="thumbnail">
                                                                                     
                          <c:forEach begin="1" end="5" var="cfe" varStatus="loopStatus">
@@ -401,10 +401,14 @@
        <![endif]-->
         
         
+        <c:set var="startD" value='${startDate}'/> 
+        <script> var sd = '<c:out value="${startD}"/>'; </script>
         
-        
-        <script>
-            if ( $( '[data-toggle="datepicker"]' ).length ) {
+       
+    <script>
+    
+    
+    if ( $( '[data-toggle="datepicker"]' ).length ) {
 
         var today = new Date();
         var dd = today.getDate();
@@ -428,16 +432,55 @@
             inline: true,
             container: '.picker-wrapper',
             endDate: today, 
-            startDate: '07/07/2017'
+            startDate: sd
        });
-       
-       
-       
-       
-       
-       
 
     }
+
+    $('.filter-tag').click(function(){
+        var selectedFilter = $(this).find('.value').text();
+        alert(selectedFilter);
+    });
+
+    jQuery.fn.checkEmpty = function() {
+       return !$.trim(this.html()).length;
+    };
+         
+    $('.btn-small').click(function(e){
+
+
+        if($(".pickedDate").checkEmpty()){
+           
+            console.log('empty'); 
+            e.preventDefault();
+        } else {
+            console.log('full');    
+            var selectedDate = $('.pickedDate').text();
+
+            var pageUrl = window.location.href;
+            var newUrl;
+        } 
+
+   if (pageUrl.indexOf('?') == -1) {
+            newUrl = pageUrl + "?3=" + selectedDate;
+        } else {
+            newUrl = pageUrl + "&&3=" + selectedDate;
+           
+        }
+
+
+   location.href = newUrl;
+
+
+
+
+    });
+
+    
+    
+    
+    
+    
         </script>
         
 

@@ -36,12 +36,15 @@
 @import "partials/sticky2b";
 @import "partials/rest";
 @import "partials/my-account";
+@import "partials/livestream";
 
 /*----------  libs
 ------------------------------------------------------------------------------*/
 
 @import "lib/owl.carousel";
 @import "lib/selectric";
+@import "lib/datepicker";
+
 
 /*----------  styles
 ------------------------------------------------------------------------------*/
@@ -72,7 +75,13 @@ body {
 #page-wrap {
 	position: relative;
 	right: 0;
+	
 	@include transition(right 0.4s ease-in-out);
+	@include breakpoint(desktop){
+		&.full-height-wrap .video-view {
+			@include calc(min-height, "100vh - 162px");
+		} 
+	}
 	@include breakpoint(tablet){
 		&.push {
 			right: 30%;
@@ -572,8 +581,9 @@ body {
 		display: inline-block;
 		padding: 8px;
 		cursor: pointer;
-		&.current{
+		&.current {
 			.inner {
+				border: 2px solid $yellow;
 				background: #290000;
 			}
 		}
@@ -1042,7 +1052,7 @@ body {
 		float: left;
 		width: 100%;
 		padding: 0 5%;
-		margin: 15px auto 15px;
+		margin: 42px auto 15px;
 		img {
 			width: 100%;
 		}
@@ -1207,11 +1217,12 @@ body {
 	#carousel {
 		width: 100%;
 		float: left;
-		height: 78vh;
+		height: 73vh;
 		position: relative;
 		padding-left: 16px;
 		padding-right: 60px;
-		padding-bottom: 25px;
+		padding-bottom: 30px;
+		padding-top: 30px;
 		.flex-viewport {
 			height: 100% !important;
 		}
@@ -1223,7 +1234,7 @@ body {
 			li {
 				position: relative;
 				margin-bottom: 16px;
-				max-height: 230px;
+				max-height: 210px;
 				overflow: hidden;
 			}
 		}
@@ -1240,11 +1251,10 @@ body {
 		.flex-nav-next {
 			position: absolute;
 			width: 50px;
-			left: 44%;
+			left: 40%;
 			// right: 0;
 			z-index: 80;
-			height: 30px;
-			height: 40px;
+			height: 22px;
 			text-align: center;
 			margin: auto;
 			a {
@@ -1253,16 +1263,16 @@ body {
 			}
 		}
 		.flex-nav-prev {
-			bottom: -25px;
+			bottom: 0;
 			a {
 				background: transparent url(../img/slideBott.png) no-repeat center center;
 			}
 		}
 		.flex-nav-next {
-			top: -25px;
+			top: 0;
 			
 			a {
-				background: transparent url(../img/slideTop.png) no-repeat center center;
+				background: transparent url(../img/slideTop.png) no-repeat center bottom;
 				
 			}
 		}
@@ -1343,7 +1353,7 @@ body {
 		}
 	}
 	.more-details {
-		position: absolute;
+		// position: absolute;
 		width: 100%;
 		background: rgba(72, 0, 0, 0.84);
 		padding: 38px 28px 18px;
@@ -1395,5 +1405,15 @@ body {
 		.categories p {
 			font-size: 13px;
 		}
+	}
+}
+
+.room-links {
+	float: left;
+	width: 100%;
+	margin-bottom: 20px;
+	a {
+		color: #fff;
+		display: block;
 	}
 }

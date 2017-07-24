@@ -11,7 +11,7 @@
     transform: translateX(280px);
     transition: transform 200ms linear;
     .scrollContent {
-        padding: 0;
+        padding-right: 27px;
         background-color: #1e1d1d;
     }
     .fakeScrollBar {
@@ -61,7 +61,7 @@
                 background-color: #1e1d1d;
                 transition: transform 200ms linear;
             }
-            &:hover {
+            // &:hover {
                 span:nth-child(1),
                     span:nth-child(3) {
                     opacity: 0;
@@ -72,7 +72,7 @@
                 span:nth-child(2)::after {
                     transform: rotate(-90deg);
                 }
-            }
+            // }
         }
         .user {
             .name {
@@ -141,16 +141,16 @@
                     margin-top: 10px;
                     li {
                         position: relative;
-                        padding-left: 15px;
-                        &::before {
-                            content: '\2022';
-                            font-size: 20px;
-                            line-height: 1;
-                            position: absolute;
-                            left: 0;
-                            top: 0;
-                            color: white;
-                        }
+                        // padding-left: 15px;
+                        // &::before {
+                        //     content: '\2022';
+                        //     font-size: 20px;
+                        //     line-height: 1;
+                        //     position: absolute;
+                        //     left: 0;
+                        //     top: 0;
+                        //     color: white;
+                        // }
                         a {
                             font-size: 16px;
                             line-height: 20px;
@@ -188,6 +188,7 @@
         .vip-member {
             margin-top: 40px;
             text-align: center;
+            display: block;
             p {
                 padding: 0 15px;
                 margin: 0 0 14px 0;

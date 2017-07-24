@@ -44,7 +44,7 @@
                                                  <li><a href="${path}./login">Login/Join</a></li>
                                              </c:otherwise>
                                         </c:choose>
-                                        <li><a href="${path}./uploadMultiPage">um</a></li>
+<!--                                        <li><a href="${path}./uploadMultiPage">um</a></li>-->
                                        
 					
 				</ul>

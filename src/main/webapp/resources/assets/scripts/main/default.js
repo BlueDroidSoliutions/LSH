@@ -58,6 +58,11 @@ $(document).ready(function () {
             itemHeight: 210,
             margin: 30,
         });
+
+        $('.more-rate a').click(function () {
+            $('.more-rate a.active').removeClass('active');
+            $(this).addClass('active').prevAll().addClass('active');
+        });
     }
 
     // Mobile menu button 
@@ -202,22 +207,22 @@ function iframeDimensions() {
     /*--------------------------------------------------------------
      ## Equal Height
      --------------------------------------------------------------*/
-    if ($(window).width() > 767) {
-        var homeForm = $(".page-chat .video-view .main-info-list>li");
+    // if ($(window).width() > 767) {
+    //     var homeForm = $(".page-chat .video-view .main-info-list>li");
 
-        var max = Math.max.apply(Math, homeForm.map(function () {
-            return $(this).height();
-        })
-                );
+    //     var max = Math.max.apply(Math, homeForm.map(function () {
+    //         return $(this).height();
+    //     })
+    //             );
 
-        homeForm.each(function () {
-            var paddingTopBottom = (max - $(this).height()) / 2;
-            $(this).css({
-                'padding-bottom': paddingTopBottom + 'px',
-                'padding-top': paddingTopBottom + 'px'
-            });
-        });
-    }
+    //     homeForm.each(function () {
+    //         var paddingTopBottom = (max - $(this).height()) / 2;
+    //         $(this).css({
+    //             'padding-bottom': paddingTopBottom + 'px',
+    //             'padding-top': paddingTopBottom + 'px'
+    //         });
+    //     });
+    // }
 
     // Tip popup
     $('.tip-btn').on('click', function (e) {
@@ -310,37 +315,8 @@ function iframeDimensions() {
     // Datepicker
         
 
-    
 
-    $('.filter-tag').click(function(){
-        var selectedFilter = $(this).find('.value').text();
-        alert(selectedFilter);
-    });
-
-    jQuery.fn.checkEmpty = function() {
-       return !$.trim(this.html()).length;
-    };
-         
-    $('.btn-small').click(function(e){
-
-
-        if($(".pickedDate").checkEmpty()){
-           
-            console.log('empty'); 
-            e.preventDefault();
-        } else {
-            console.log('full');    
-            var selectedDate = $('.pickedDate').text();
-            alert(selectedDate);
-
-        }      
-
-    });
-
-
-
-
-    $('.filter-by a').click(function(){
+    $('.filter-by a').click(function(e){
         var tab_id = $(this).attr('data-tab');
 
         $('.filter-by a').removeClass('current');
@@ -348,7 +324,18 @@ function iframeDimensions() {
 
         $(this).addClass('current');
         $("#"+tab_id).addClass('current');
+
+
+        localStorage.setItem('activeTab', $(e.target).attr('data-tab'));
     })
+
+    var activeTab = localStorage.getItem('activeTab');
+    console.log(activeTab);
+
+    if (activeTab) {
+       $('a[data-tab="' + activeTab + '"]').trigger('click');
+    }
+
 
     $(".sort-options > ul > li ").click(function (e) {
         if( $(this).hasClass('active-btn') ){
