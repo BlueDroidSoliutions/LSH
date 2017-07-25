@@ -41,7 +41,7 @@
                                                  <li><a href="${path}./logout">${userName} Logout</a></li>
                                              </c:when>
                                              <c:otherwise>
-                                                 <li><a href="${path}./login">Login/Join</a></li>
+                                                 <li><a href="javascript:;" id="login-btn">Login/Join</a></li>
                                              </c:otherwise>
                                         </c:choose>
 <!--                                        <li><a href="${path}./uploadMultiPage">um</a></li>-->

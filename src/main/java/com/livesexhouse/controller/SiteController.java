@@ -767,6 +767,8 @@ public class SiteController {
         }
         return "video-archive";
     }
+    
+   
 
     @RequestMapping(value = "/video", method = RequestMethod.GET)
     public String videos(
@@ -795,7 +797,10 @@ public class SiteController {
             @RequestParam(required = false, value = "7", defaultValue = "0") int[] memberFilter,
             //8.category
             @RequestParam(required = false, value = "8", defaultValue = "0") int[] categoryFilter,
+            //9.reset
             @RequestParam(required = false, value = "9", defaultValue = "0") int resetFirstResult,
+            //10.search
+            @RequestParam(required = false, value = "10", defaultValue = "0") String search,
             ModelMap model,
             HttpServletResponse response,
             HttpServletRequest request) throws Exception {
@@ -1012,14 +1017,25 @@ public class SiteController {
 
             String username = "";
             String password = "";
+            String email = "";
             username = request.getParameter("username");
             password = request.getParameter("password");
+            email = request.getParameter("email");
+
             boolean myChk=(request.getParameter("checkboxAccept")!=null)?true:false;
-            if(!username.isEmpty() && !userDao.exist(username) && myChk)
+            if(!username.isEmpty() && !password.isEmpty() && !email.isEmpty() && !userDao.exist(username) && myChk)
             {
                 Users user = new Users();
+                user.setEmail(email);
+                short m = 1;
+                user.setEnabled(m);
+                Date date = new Date();
+                user.setMemberfrom(date);
+                user.setPassword(password);
+                user.setTokens(0);
+                user.setUsername(username);
                 
-                
+                userDao.save(user);
                 
                 
             } else{
@@ -1032,6 +1048,8 @@ public class SiteController {
         }
         return "index";
     }
+    
+     
 
     @RequestMapping("/participate")
     public String participate(
@@ -1075,5 +1093,250 @@ public class SiteController {
         }
         return "vote";
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+     @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public String search(
+            Principal principal,
+            //1.firstResult
+            @RequestParam(required = false, value = "1", defaultValue = "0") int firstResult,
+            //2.SORT
+            //name 1=asc 2=desc
+            //wishList 3=desc 
+            //views 4=edsc
+            //likes 5=asc 6=desc
+            //date 7=asc 8=desc
+            //season 9=asc 10=desc
+            //duration 11=asc 12=desc
+            @RequestParam(required = false, value = "2", defaultValue = "0") int sort,
+            //FILTERS
+            //3.date 
+            @RequestParam(required = false, value = "3", defaultValue = "0") String dateFilter,
+            //4.room 
+            @RequestParam(required = false, value = "4", defaultValue = "0") int[] roomFilter,
+            //5.season 
+            @RequestParam(required = false, value = "5", defaultValue = "0") int[] seasonFilter,
+            //6.duration
+            @RequestParam(required = false, value = "6", defaultValue = "0") int[] durationFilter,
+            //7.member
+            @RequestParam(required = false, value = "7", defaultValue = "0") int[] memberFilter,
+            //8.category
+            @RequestParam(required = false, value = "8", defaultValue = "0") int[] categoryFilter,
+            //9.reset
+            @RequestParam(required = false, value = "9", defaultValue = "0") int resetFirstResult,
+            //10.search
+            @RequestParam(required = false, value = "10", defaultValue = "0") String search,
+            ModelMap model,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+        
+         try {
+
+            
+
+            String userName = "";
+            if (principal != null) {
+                userName = principal.getName();
+            }
+            model.addAttribute("userName", userName);
+
+            List<Setup> setups = setupDao.getSetups();
+            int maxVideoPerPage = setups.get(2).getValueInt();
+            int totalSeasons = setups.get(5).getValueInt();
+            String location = setups.get(0).getValueString();
+            String noVideoFound = setups.get(6).getValueString();
+            String path = setups.get(1).getValueString();
+            String videoLocation = setups.get(8).getValueString();
+            String imgLocation = setups.get(9).getValueString();
+            String startDate = setups.get(10).getValueString();
+            Boolean bigPagination = false;
+            String pag = "";
+            int numberOfVideos = 0;
+            List<VideoClip> videosResultsList = new ArrayList<>();
+            List<MemberHouse> memberHouse = memberHouseDao.find();
+
+            List<VideoRoom> videoRoom = videoRoomDao.find();
+            List<VideoCategories> videoCategories = videoCategoryDao.find();
+            List<VideoCategoryCountClip> videoCategoryCountClips = videoCategoryCountClipDao.find();
+            List<String> individualPar = new ArrayList<>();
+            int videoNumTotal = 0;
+
+            noVideoFound = "<p style=\"color:white\">" + noVideoFound + "</p>";
+
+            
+            
+            
+            
+            
+            
+             String string = "";
+            
+            string = request.getParameter("string");
+
+            
+            
+            if(!string.isEmpty())
+            {
+                String[] parts = string.split(" ");
+
+            } else{
+                System.out.println("postoji");
+            }
+
+            
+            
+            
+            
+            
+            
+            
+            
+            String allParams = "";
+            String paramsWithoutSort = "";
+            
+            
+            if (!dateFilter.equals("0")){
+                if(dateFilter.charAt(4)!='-'){
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm/DD/yyyy");
+                Date date = simpleDateFormat.parse(dateFilter);
+                SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-mm-DD");
+                dateFilter = simpleDateFormat2.format(date);
+                }
+            }
+               
+            String filterDateExist = "yes";
+            if (!dateFilter.equals("0"))
+                filterDateExist = "1";
+            
+            
+
+            if (!dateFilter.equals("0") || roomFilter.length > 1 || seasonFilter.length > 1 || durationFilter.length > 1 || memberFilter.length > 1 || categoryFilter.length > 1 || sort != 0) {
+                bigPagination = true;
+            }
+
+            if (!bigPagination) {
+
+                if (roomFilter.length == 1) {
+                    if (roomFilter[0] != 0) {
+                        bigPagination = true;
+                    }
+                }
+
+                if (seasonFilter.length == 1) {
+                    if (seasonFilter[0] != 0) {
+                        bigPagination = true;
+                    }
+                }
+
+                if (durationFilter.length == 1) {
+                    if (durationFilter[0] != 0) {
+                        bigPagination = true;
+                    }
+                }
+
+                if (memberFilter.length == 1) {
+                    if (memberFilter[0] != 0) {
+                        bigPagination = true;
+                    }
+                }
+
+                if (categoryFilter.length == 1) {
+                    if (categoryFilter[0] != 0) {
+                        bigPagination = true;
+                    }
+                }
+
+            }
+
+            
+        
+            
+            if (bigPagination) {
+                Object[] par = params.allParam(categoryFilter, roomFilter, memberFilter, seasonFilter, durationFilter, sort, dateFilter,totalSeasons, memberHouse, videoRoom, videoCategories , totalSeasons);
+                allParams = (String) par[0];
+                paramsWithoutSort = (String) par[1];
+                individualPar = (List<String>)par[2];
+
+                Object[] tmp = videoDao.find(maxVideoPerPage, firstResult, sort, dateFilter, roomFilter, seasonFilter, durationFilter, memberFilter, categoryFilter);
+
+                videosResultsList = (List<VideoClip>) tmp[0];
+                numberOfVideos = (int) tmp[1];
+                videoNumTotal = (int) tmp[2];
+            } else {
+                Object[] tmp = videoDao.findAll(maxVideoPerPage, firstResult);
+                videosResultsList = (List<VideoClip>) tmp[0];
+                numberOfVideos = (int) tmp[1];
+                videoNumTotal = numberOfVideos;
+            }
+
+            if (numberOfVideos > maxVideoPerPage) {
+                if (!bigPagination) {
+                    pag = pagination.pagination(firstResult, numberOfVideos, "video", maxVideoPerPage, path);
+                } else {
+                    pag = pagination.pagination(firstResult, numberOfVideos, "video", maxVideoPerPage, path, allParams);
+                }
+            }
+
+            if (numberOfVideos != 0) {
+                noVideoFound = "";
+            }
+
+            
+            model.addAttribute("individualPar", individualPar);
+            model.addAttribute("noVideoFound", noVideoFound);
+            model.addAttribute("member", memberHouse);
+            model.addAttribute("videoRoom", videoRoom);
+            model.addAttribute("videoCategories", videoCategories);
+            model.addAttribute("path", path);
+            model.addAttribute("location", location);
+            model.addAttribute("pagination", pag);
+            model.addAttribute("video", videosResultsList);
+            model.addAttribute("totalSeasons", totalSeasons);
+            model.addAttribute("videoNumTotal", videoNumTotal);
+            model.addAttribute("videoCategoryCountClips", videoCategoryCountClips);
+            model.addAttribute("videoLocation", videoLocation);
+            model.addAttribute("imgLocation", imgLocation);
+            model.addAttribute("filterDateExist", filterDateExist);
+
+            
+            model.addAttribute("startDate", startDate);
+            model.addAttribute("sort", sort);
+            model.addAttribute("dateFilter", dateFilter);
+            model.addAttribute("roomFilter", roomFilter);
+            model.addAttribute("seasonFilter", seasonFilter);
+            model.addAttribute("durationFilter", durationFilter);
+            model.addAttribute("memberFilter", memberFilter);
+            model.addAttribute("categoryFilter", categoryFilter);
+            model.addAttribute("paramsWithoutSort", paramsWithoutSort);
+            model.addAttribute("params", allParams);
+          
+
+        } catch (Exception ex) {
+        }
+            
+           
+
+        
+        return "video-archive";
+    }
+    
+    
+    
+    
+    
+    
 
 }

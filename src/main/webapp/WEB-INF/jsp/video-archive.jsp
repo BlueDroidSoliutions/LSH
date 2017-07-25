@@ -69,7 +69,11 @@
 }
 
 </style>
-<%@include file="sign.jsp" %>
+
+
+
+
+<%--<%@include file="sign.jsp" %>--%>
 
 
 
@@ -83,10 +87,19 @@
                             <div class="top-part">
                                 <h1>Video archive</h1>
                                 <div class="search-form">
-                                    <form action="" method="post">
-                                        <input type="text" placeholder="Search" />
-                                        <button type="submit">Search</button>
+                                    
+                                    
+                                    
+                                    <form name='search' action="${pageContext.request.contextPath}/search" method="POST">
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                        <input type="text" placeholder="Search" name="string" />
+                                        <button  name="submit" type="submit"  value="submit" class="btn">Search</button>
+                                                                                          
                                     </form>
+                                    
+                                    
+                                    
+                                    
                                 </div>
                                 <div class="selected-filters">
                                     <span class="title">Filter:</span>

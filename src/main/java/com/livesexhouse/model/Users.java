@@ -32,14 +32,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")
     , @NamedQuery(name = "Users.findById", query = "SELECT u FROM Users u WHERE u.id = :id")
-    , @NamedQuery(name = "Users.findByMemberfrom", query = "SELECT u FROM Users u WHERE u.memberfrom = :memberfrom")
     , @NamedQuery(name = "Users.findByUsername", query = "SELECT u FROM Users u WHERE u.username = :username")
-    , @NamedQuery(name = "Users.findByRola", query = "SELECT u FROM Users u WHERE u.rola = :rola")
+    , @NamedQuery(name = "Users.findByPassword", query = "SELECT u FROM Users u WHERE u.password = :password")
+    , @NamedQuery(name = "Users.findByEnabled", query = "SELECT u FROM Users u WHERE u.enabled = :enabled")
     , @NamedQuery(name = "Users.findByTokens", query = "SELECT u FROM Users u WHERE u.tokens = :tokens")
-    , @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email")
-    , @NamedQuery(name = "Users.findByBadgeOne", query = "SELECT u FROM Users u WHERE u.badgeOne = :badgeOne")
-    , @NamedQuery(name = "Users.findByBadgeTwo", query = "SELECT u FROM Users u WHERE u.badgeTwo = :badgeTwo")
-    , @NamedQuery(name = "Users.findByPassword", query = "SELECT u FROM Users u WHERE u.password = :password")})
+    , @NamedQuery(name = "Users.findByMemberfrom", query = "SELECT u FROM Users u WHERE u.memberfrom = :memberfrom")
+    , @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email")})
 public class Users implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,39 +48,33 @@ public class Users implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "memberfrom")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date memberfrom;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 64)
+    @Size(min = 1, max = 45)
     @Column(name = "username")
     private String username;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "rola")
-    private int rola;
+    @Size(min = 1, max = 45)
+    @Column(name = "password")
+    private String password;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "enabled")
+    private short enabled;
     @Basic(optional = false)
     @NotNull
     @Column(name = "tokens")
     private int tokens;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "memberfrom")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date memberfrom;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 64)
     @Column(name = "email")
     private String email;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "badgeOne")
-    private int badgeOne;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "badgeTwo")
-    private int badgeTwo;
-    @Size(max = 128)
-    @Column(name = "password")
-    private String password;
 
     public Users() {
     }
@@ -91,15 +83,14 @@ public class Users implements Serializable {
         this.id = id;
     }
 
-    public Users(Integer id, Date memberfrom, String username, int rola, int tokens, String email, int badgeOne, int badgeTwo) {
+    public Users(Integer id, String username, String password, short enabled, int tokens, Date memberfrom, String email) {
         this.id = id;
-        this.memberfrom = memberfrom;
         this.username = username;
-        this.rola = rola;
+        this.password = password;
+        this.enabled = enabled;
         this.tokens = tokens;
+        this.memberfrom = memberfrom;
         this.email = email;
-        this.badgeOne = badgeOne;
-        this.badgeTwo = badgeTwo;
     }
 
     public Integer getId() {
@@ -110,14 +101,6 @@ public class Users implements Serializable {
         this.id = id;
     }
 
-    public Date getMemberfrom() {
-        return memberfrom;
-    }
-
-    public void setMemberfrom(Date memberfrom) {
-        this.memberfrom = memberfrom;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -126,12 +109,20 @@ public class Users implements Serializable {
         this.username = username;
     }
 
-    public int getRola() {
-        return rola;
+    public String getPassword() {
+        return password;
     }
 
-    public void setRola(int rola) {
-        this.rola = rola;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public short getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(short enabled) {
+        this.enabled = enabled;
     }
 
     public int getTokens() {
@@ -142,36 +133,20 @@ public class Users implements Serializable {
         this.tokens = tokens;
     }
 
+    public Date getMemberfrom() {
+        return memberfrom;
+    }
+
+    public void setMemberfrom(Date memberfrom) {
+        this.memberfrom = memberfrom;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public int getBadgeOne() {
-        return badgeOne;
-    }
-
-    public void setBadgeOne(int badgeOne) {
-        this.badgeOne = badgeOne;
-    }
-
-    public int getBadgeTwo() {
-        return badgeTwo;
-    }
-
-    public void setBadgeTwo(int badgeTwo) {
-        this.badgeTwo = badgeTwo;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     @Override

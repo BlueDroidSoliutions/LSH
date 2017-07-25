@@ -5,9 +5,7 @@
  */
 package com.livesexhouse.DAO;
 
-import com.livesexhouse.model.Contact;
 import com.livesexhouse.model.Users;
-import com.livesexhouse.model.VideoFileName;
 import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -26,9 +24,14 @@ public class UserDao {
     SessionFactory sessionFactory;
 
     
- public void saveContact(Users c) {
+ public void save(Users c) {
+     try{
+         System.out.println("t1");
         Session session = sessionFactory.getCurrentSession();
+         System.out.println("t2");
         session.save(c);
+     System.out.println("t3");}
+     catch(Exception e){System.out.println("trrr");}
     }
    
     
@@ -39,12 +42,8 @@ public class UserDao {
         try {
             Session session = sessionFactory.getCurrentSession();
             Query q = session.createNativeQuery("SELECT * FROM users WHERE username = '"+key+"';");
-            
             if(q.getResultList().size()!=0)
                 b=true;
-            
-            
-            
         } catch (Exception e) {
         }
         return b;

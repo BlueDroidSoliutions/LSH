@@ -73,8 +73,7 @@ value="${_csrf.token}"/>
 					    </div>
 					    <button  name="submit" type="submit"  value="submit" class="btn">SIGN IN</button>
                                             
-                                             <input type="hidden" name="${_csrf.parameterName}"
-			value="${_csrf.token}" />
+                                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					</form>
                                         
                                         

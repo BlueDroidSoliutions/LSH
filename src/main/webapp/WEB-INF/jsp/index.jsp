@@ -18,6 +18,7 @@
 	<script type="text/javascript" src="${location}/assets/scripts/libs/modernizr.2.8.3.min.js"></script>
 </head>
 <body>
+    <%@include file="sign.jsp" %>
 	<div class="container full-screen-height">
 		
             <%@include file="menu.jsp" %>
