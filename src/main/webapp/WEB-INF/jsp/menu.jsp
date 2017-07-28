@@ -13,11 +13,11 @@
 					<span></span>
 				</a>
 				<ul id="main-nav">
-					<li><a href="javascript:;">Live streams</a></li>
+					<li><a href="${path}./live-stream">Live streams</a></li>
 					<li><a href="${path}./video">Video archive</a></li>
 					<li><a href="javascript:;">Tokens</a></li>
 					<li>
-						<a href="javascript:;">Web cam</a>
+						<a href="${path}./webcam">Web cam</a>
 						<a href="javascript:;" class="submenu-btn">
 							<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 129 129" enable-background="new 0 0 129 129">
 							  <g>
@@ -38,7 +38,7 @@
                                         
                                         <c:choose>
                                              <c:when test="${not empty userName}">
-                                                 <li><a href="${path}./logout">${userName} Logout</a></li>
+                                                 <li><a href="${path}./logout">Logout ${userName}</a></li>
                                              </c:when>
                                              <c:otherwise>
                                                  <li><a href="javascript:;" id="login-btn">Login/Join</a></li>

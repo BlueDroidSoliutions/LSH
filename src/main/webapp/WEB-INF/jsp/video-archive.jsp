@@ -73,13 +73,15 @@
 
 
 
-<%--<%@include file="sign.jsp" %>--%>
+<%@include file="sign.jsp" %>
+<div class="container full-screen-height">
+<%@include file="menu.jsp" %>
 
 
 
 
-        <div class="container full-screen-height">
-            <%@include file="menu.jsp" %>
+
+
             <div id="page-wrap">
                 <div class="content">
                     <div class="wrapper">
@@ -351,7 +353,7 @@
                                     
                                      <c:forEach items="${video}" var="video">
 								<li class="video-item">
-									<a href="www.custom-design.org">
+									<a href="./">
 										<div class="thumbnail">
                                                                                     
                          <c:forEach begin="1" end="5" var="cfe" varStatus="loopStatus">

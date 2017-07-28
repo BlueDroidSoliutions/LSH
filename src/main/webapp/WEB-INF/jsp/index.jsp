@@ -1,5 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js ie6"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js ie7"> <![endif]-->
@@ -14,14 +17,20 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
+	<link rel="stylesheet" href="${location}/assets/css/lib/jcf.css">
 	<link rel="stylesheet" href="${location}/assets/css/style.css">
 	<script type="text/javascript" src="${location}/assets/scripts/libs/modernizr.2.8.3.min.js"></script>
 </head>
 <body>
-    <%@include file="sign.jsp" %>
-	<div class="container full-screen-height">
-		
+	
+            <%@include file="sign.jsp" %>
+
+
+
+
+        <div class="container full-screen-height">
             <%@include file="menu.jsp" %>
+            
             
 		<div id="page-wrap">
 			<div class="content">
@@ -102,7 +111,7 @@
 						<div class="main-bottom">
 							<div class="hero">
 								<h2>Online now - Web cam</h2>
-								<a href="javascript:;">View all</a>
+								<a href="webcam.html">View all</a>
 								<a href="javascript:;" class="token-img">
 									<img src="" alt="" />
 								</a>
@@ -142,6 +151,8 @@
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script type="text/javascript">window.jQuery || document.write("<script src='${location}/assets/scripts/main/jquery-1.8.3.min.js'>\x3C/script>")</script>
 	<script type="text/javascript" src="${location}/assets/scripts/libs/owl.carousel.min.js"></script>
+	<script type="text/javascript" src="${location}/assets/scripts/libs/jcf.js"></script>
+	<script type="text/javascript" src="${location}/assets/scripts/libs/jcf.checkbox.js"></script>
 	<script type="text/javascript" src="${location}/assets/scripts/main/default.js"></script>
 
  <!--[if lt IE 7]>

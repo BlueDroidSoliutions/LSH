@@ -88,14 +88,15 @@ public class SiteController {
 
     @Autowired
     SessionFactory sessionFactory;
-    
+
     @Autowired
     Params params;
-    
+
     @Autowired
     UserDao userDao;
-    
-   
+
+    @Autowired
+    Redirect redirect;
 
     private ActiveUserService activeUserService;
 
@@ -127,7 +128,7 @@ public class SiteController {
         model.addAttribute("path", setupDao.getPath());
         model.addAttribute("location", setupDao.getLocation());
 
-        return "index";
+        return redirect.re(request.getHeader("referer"));
     }
 
     @RequestMapping(value = {"/"}, method = RequestMethod.GET)
@@ -767,10 +768,302 @@ public class SiteController {
         }
         return "video-archive";
     }
-    
+
    
 
-    @RequestMapping(value = "/video", method = RequestMethod.GET)
+    @RequestMapping(value = "/contactpost", method = RequestMethod.POST)
+    public String contactpost(
+            ModelMap model,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+        try {
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("location", setupDao.getLocation());
+
+            Contact c = new Contact();
+            Date date = new Date();
+
+            c.setName(request.getParameter("name"));
+            c.setEmail(request.getParameter("mail"));
+            c.setSubject(request.getParameter("subject"));
+            c.setMessage(request.getParameter("message-text"));
+            c.setLanguage(request.getParameter("lng"));
+            c.setUserGroup(request.getParameter("user"));
+            c.setDate(date);
+            c.setIp(request.getRemoteAddr());
+
+            contactDao.saveContact(c);
+
+        } catch (Exception ex) {
+        }
+        return "index";
+    }
+
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    public String signup(
+            ModelMap model,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+        try {
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("location", setupDao.getLocation());
+
+            String username = "";
+            String password = "";
+            String email = "";
+            username = request.getParameter("username");
+            password = request.getParameter("password");
+            email = request.getParameter("email");
+
+            boolean myChk = (request.getParameter("checkboxAccept") != null) ? true : false;
+            if (!username.isEmpty() && !password.isEmpty() && !email.isEmpty() && !userDao.exist(username) && myChk) {
+                Users user = new Users();
+                user.setEmail(email);
+                short m = 1;
+                user.setEnabled(m);
+                Date date = new Date();
+                user.setMemberfrom(date);
+                user.setPassword(password);
+                user.setTokens(0);
+                user.setUsername(username);
+
+                userDao.save(user);
+
+            } else {
+                System.out.println("postoji");
+            }
+
+        } catch (Exception ex) {
+        }
+        return "index";
+    }
+
+   
+
+    @RequestMapping("/chat")
+    public String chat(
+            Principal principal,
+            ModelMap model,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+
+        try {
+            String userName = "";
+            if (principal != null) {
+                userName = principal.getName();
+            }
+            model.addAttribute("userName", userName);
+
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("location", setupDao.getLocation());
+
+        } catch (Exception ex) {
+        }
+        return "chat";
+    }
+
+    @RequestMapping("/contact")
+    public String contact(
+            Principal principal,
+            ModelMap model,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+
+        try {
+            String userName = "";
+            if (principal != null) {
+                userName = principal.getName();
+            }
+            model.addAttribute("userName", userName);
+
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("location", setupDao.getLocation());
+
+        } catch (Exception ex) {
+        }
+        return "contact";
+    }
+
+    @RequestMapping("/live-stream")
+    public String livestream(
+            Principal principal,
+            ModelMap model,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+
+        try {
+            String userName = "";
+            if (principal != null) {
+                userName = principal.getName();
+            }
+            model.addAttribute("userName", userName);
+
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("location", setupDao.getLocation());
+
+        } catch (Exception ex) {
+        }
+        return "live-stream";
+    }
+
+    @RequestMapping("/my-account")
+    public String myaccount(
+            Principal principal,
+            ModelMap model,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+
+        try {
+            String userName = "";
+            if (principal != null) {
+                userName = principal.getName();
+            }
+            model.addAttribute("userName", userName);
+
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("location", setupDao.getLocation());
+
+        } catch (Exception ex) {
+        }
+        return "my-account";
+    }
+
+    @RequestMapping("/offline")
+    public String offline(
+            Principal principal,
+            ModelMap model,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+
+        try {
+            String userName = "";
+            if (principal != null) {
+                userName = principal.getName();
+            }
+            model.addAttribute("userName", userName);
+
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("location", setupDao.getLocation());
+
+        } catch (Exception ex) {
+        }
+        return "offline";
+    }
+
+    @RequestMapping("/participate")
+    public String participate(
+            Principal principal,
+            ModelMap model,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+
+        try {
+            String userName = "";
+            if (principal != null) {
+                userName = principal.getName();
+            }
+            model.addAttribute("userName", userName);
+
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("location", setupDao.getLocation());
+
+        } catch (Exception ex) {
+        }
+        return "participate";
+    }
+
+    @RequestMapping("/vote-video")
+    public String votevideo(
+            Principal principal,
+            ModelMap model,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+
+        try {
+            String userName = "";
+            if (principal != null) {
+                userName = principal.getName();
+            }
+            model.addAttribute("userName", userName);
+
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("location", setupDao.getLocation());
+
+        } catch (Exception ex) {
+        }
+        return "vote-video";
+    }
+
+    @RequestMapping("/vote")
+    public String vote(
+            Principal principal,
+            ModelMap model,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+
+        try {
+            String userName = "";
+            if (principal != null) {
+                userName = principal.getName();
+            }
+            model.addAttribute("userName", userName);
+
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("location", setupDao.getLocation());
+
+        } catch (Exception ex) {
+        }
+        return "vote";
+    }
+
+    @RequestMapping("/webcam")
+    public String webcam(
+            Principal principal,
+            ModelMap model,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+
+        try {
+            String userName = "";
+            if (principal != null) {
+                userName = principal.getName();
+            }
+            model.addAttribute("userName", userName);
+
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("location", setupDao.getLocation());
+
+        } catch (Exception ex) {
+        }
+        return "webcam";
+    }
+
+    @RequestMapping("/wish")
+    public String wish(
+            Principal principal,
+            ModelMap model,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+
+        try {
+            String userName = "";
+            if (principal != null) {
+                userName = principal.getName();
+            }
+            model.addAttribute("userName", userName);
+
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("location", setupDao.getLocation());
+
+        } catch (Exception ex) {
+        }
+        return "wish";
+    }
+
+    
+    
+    
+     @RequestMapping(value = "/video", method = RequestMethod.GET)
     public String videos(
             Principal principal,
             //1.firstResult
@@ -806,8 +1099,6 @@ public class SiteController {
             HttpServletRequest request) throws Exception {
         try {
 
-            
-
             String userName = "";
             if (principal != null) {
                 userName = principal.getName();
@@ -837,26 +1128,22 @@ public class SiteController {
 
             noVideoFound = "<p style=\"color:white\">" + noVideoFound + "</p>";
 
-  
-            
             String allParams = "";
             String paramsWithoutSort = "";
-            
-            
-            if (!dateFilter.equals("0")){
-                if(dateFilter.charAt(4)!='-'){
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm/DD/yyyy");
-                Date date = simpleDateFormat.parse(dateFilter);
-                SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-mm-DD");
-                dateFilter = simpleDateFormat2.format(date);
+
+            if (!dateFilter.equals("0")) {
+                if (dateFilter.charAt(4) != '-') {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm/DD/yyyy");
+                    Date date = simpleDateFormat.parse(dateFilter);
+                    SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-mm-DD");
+                    dateFilter = simpleDateFormat2.format(date);
                 }
             }
-               
+
             String filterDateExist = "yes";
-            if (!dateFilter.equals("0"))
+            if (!dateFilter.equals("0")) {
                 filterDateExist = "1";
-            
-            
+            }
 
             if (!dateFilter.equals("0") || roomFilter.length > 1 || seasonFilter.length > 1 || durationFilter.length > 1 || memberFilter.length > 1 || categoryFilter.length > 1 || sort != 0) {
                 bigPagination = true;
@@ -896,14 +1183,11 @@ public class SiteController {
 
             }
 
-            
-        
-            
             if (bigPagination) {
-                Object[] par = params.allParam(categoryFilter, roomFilter, memberFilter, seasonFilter, durationFilter, sort, dateFilter,totalSeasons, memberHouse, videoRoom, videoCategories , totalSeasons);
+                Object[] par = params.allParam(categoryFilter, roomFilter, memberFilter, seasonFilter, durationFilter, sort, dateFilter, totalSeasons, memberHouse, videoRoom, videoCategories, totalSeasons);
                 allParams = (String) par[0];
                 paramsWithoutSort = (String) par[1];
-                individualPar = (List<String>)par[2];
+                individualPar = (List<String>) par[2];
 
                 Object[] tmp = videoDao.find(maxVideoPerPage, firstResult, sort, dateFilter, roomFilter, seasonFilter, durationFilter, memberFilter, categoryFilter);
 
@@ -929,7 +1213,6 @@ public class SiteController {
                 noVideoFound = "";
             }
 
-            
             model.addAttribute("individualPar", individualPar);
             model.addAttribute("noVideoFound", noVideoFound);
             model.addAttribute("member", memberHouse);
@@ -946,7 +1229,6 @@ public class SiteController {
             model.addAttribute("imgLocation", imgLocation);
             model.addAttribute("filterDateExist", filterDateExist);
 
-            
             model.addAttribute("startDate", startDate);
             model.addAttribute("sort", sort);
             model.addAttribute("dateFilter", dateFilter);
@@ -957,149 +1239,11 @@ public class SiteController {
             model.addAttribute("categoryFilter", categoryFilter);
             model.addAttribute("paramsWithoutSort", paramsWithoutSort);
             model.addAttribute("params", allParams);
-          
 
         } catch (Exception ex) {
         }
         return "video-archive";
     }
-
-    @RequestMapping("/contact")
-    public String archive(
-            ModelMap model,
-            HttpServletResponse response,
-            HttpServletRequest request) throws Exception {
-        try {
-            model.addAttribute("path", setupDao.getPath());
-            model.addAttribute("location", setupDao.getLocation());
-
-        } catch (Exception ex) {
-        }
-        return "contact";
-    }
-
-    @RequestMapping(value = "/contactpost", method = RequestMethod.POST)
-    public String contactpost(
-            ModelMap model,
-            HttpServletResponse response,
-            HttpServletRequest request) throws Exception {
-        try {
-            model.addAttribute("path", setupDao.getPath());
-            model.addAttribute("location", setupDao.getLocation());
-
-            Contact c = new Contact();
-            Date date = new Date();
-
-            c.setName(request.getParameter("name"));
-            c.setEmail(request.getParameter("mail"));
-            c.setSubject(request.getParameter("subject"));
-            c.setMessage(request.getParameter("message-text"));
-            c.setLanguage(request.getParameter("lng"));
-            c.setUserGroup(request.getParameter("user"));
-            c.setDate(date);
-            c.setIp(request.getRemoteAddr());
-
-            contactDao.saveContact(c);
-
-        } catch (Exception ex) {
-        }
-        return "index";
-    }
-    
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String signup(
-            ModelMap model,
-            HttpServletResponse response,
-            HttpServletRequest request) throws Exception {
-        try {
-            model.addAttribute("path", setupDao.getPath());
-            model.addAttribute("location", setupDao.getLocation());
-
-            String username = "";
-            String password = "";
-            String email = "";
-            username = request.getParameter("username");
-            password = request.getParameter("password");
-            email = request.getParameter("email");
-
-            boolean myChk=(request.getParameter("checkboxAccept")!=null)?true:false;
-            if(!username.isEmpty() && !password.isEmpty() && !email.isEmpty() && !userDao.exist(username) && myChk)
-            {
-                Users user = new Users();
-                user.setEmail(email);
-                short m = 1;
-                user.setEnabled(m);
-                Date date = new Date();
-                user.setMemberfrom(date);
-                user.setPassword(password);
-                user.setTokens(0);
-                user.setUsername(username);
-                
-                userDao.save(user);
-                
-                
-            } else{
-                System.out.println("postoji");
-            }
-
-            
-
-        } catch (Exception ex) {
-        }
-        return "index";
-    }
-    
-     
-
-    @RequestMapping("/participate")
-    public String participate(
-            ModelMap model,
-            HttpServletResponse response,
-            HttpServletRequest request) throws Exception {
-        try {
-            model.addAttribute("path", setupDao.getPath());
-            model.addAttribute("location", setupDao.getLocation());
-
-        } catch (Exception ex) {
-        }
-        return "participate";
-    }
-
-    @RequestMapping("/votevideo")
-    public String votevideo(
-            ModelMap model,
-            HttpServletResponse response,
-            HttpServletRequest request) throws Exception {
-        try {
-            model.addAttribute("path", setupDao.getPath());
-            model.addAttribute("location", setupDao.getLocation());
-
-        } catch (Exception ex) {
-        }
-        return "votevideo";
-    }
-
-    @RequestMapping("/vote")
-    public String vote(
-            ModelMap model,
-            HttpServletResponse response,
-            HttpServletRequest request) throws Exception {
-
-        try {
-            model.addAttribute("path", setupDao.getPath());
-            model.addAttribute("location", setupDao.getLocation());
-
-        } catch (Exception ex) {
-        }
-        return "vote";
-    }
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1111,41 +1255,11 @@ public class SiteController {
      @RequestMapping(value = "/search", method = RequestMethod.POST)
     public String search(
             Principal principal,
-            //1.firstResult
-            @RequestParam(required = false, value = "1", defaultValue = "0") int firstResult,
-            //2.SORT
-            //name 1=asc 2=desc
-            //wishList 3=desc 
-            //views 4=edsc
-            //likes 5=asc 6=desc
-            //date 7=asc 8=desc
-            //season 9=asc 10=desc
-            //duration 11=asc 12=desc
-            @RequestParam(required = false, value = "2", defaultValue = "0") int sort,
-            //FILTERS
-            //3.date 
-            @RequestParam(required = false, value = "3", defaultValue = "0") String dateFilter,
-            //4.room 
-            @RequestParam(required = false, value = "4", defaultValue = "0") int[] roomFilter,
-            //5.season 
-            @RequestParam(required = false, value = "5", defaultValue = "0") int[] seasonFilter,
-            //6.duration
-            @RequestParam(required = false, value = "6", defaultValue = "0") int[] durationFilter,
-            //7.member
-            @RequestParam(required = false, value = "7", defaultValue = "0") int[] memberFilter,
-            //8.category
-            @RequestParam(required = false, value = "8", defaultValue = "0") int[] categoryFilter,
-            //9.reset
-            @RequestParam(required = false, value = "9", defaultValue = "0") int resetFirstResult,
-            //10.search
-            @RequestParam(required = false, value = "10", defaultValue = "0") String search,
             ModelMap model,
             HttpServletResponse response,
             HttpServletRequest request) throws Exception {
-        
-         try {
 
-            
+        try {
 
             String userName = "";
             if (principal != null) {
@@ -1176,125 +1290,24 @@ public class SiteController {
 
             noVideoFound = "<p style=\"color:white\">" + noVideoFound + "</p>";
 
-            
-            
-            
-            
-            
-            
-             String string = "";
-            
+            String string = "";
+
             string = request.getParameter("string");
 
             
+            System.out.println("post search"+string);
             
-            if(!string.isEmpty())
-            {
+            
+            
+            if (!string.isEmpty()) {
                 String[] parts = string.split(" ");
 
-            } else{
+            } else {
                 System.out.println("postoji");
             }
 
             
-            
-            
-            
-            
-            
-            
-            
-            String allParams = "";
-            String paramsWithoutSort = "";
-            
-            
-            if (!dateFilter.equals("0")){
-                if(dateFilter.charAt(4)!='-'){
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm/DD/yyyy");
-                Date date = simpleDateFormat.parse(dateFilter);
-                SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-mm-DD");
-                dateFilter = simpleDateFormat2.format(date);
-                }
-            }
-               
-            String filterDateExist = "yes";
-            if (!dateFilter.equals("0"))
-                filterDateExist = "1";
-            
-            
 
-            if (!dateFilter.equals("0") || roomFilter.length > 1 || seasonFilter.length > 1 || durationFilter.length > 1 || memberFilter.length > 1 || categoryFilter.length > 1 || sort != 0) {
-                bigPagination = true;
-            }
-
-            if (!bigPagination) {
-
-                if (roomFilter.length == 1) {
-                    if (roomFilter[0] != 0) {
-                        bigPagination = true;
-                    }
-                }
-
-                if (seasonFilter.length == 1) {
-                    if (seasonFilter[0] != 0) {
-                        bigPagination = true;
-                    }
-                }
-
-                if (durationFilter.length == 1) {
-                    if (durationFilter[0] != 0) {
-                        bigPagination = true;
-                    }
-                }
-
-                if (memberFilter.length == 1) {
-                    if (memberFilter[0] != 0) {
-                        bigPagination = true;
-                    }
-                }
-
-                if (categoryFilter.length == 1) {
-                    if (categoryFilter[0] != 0) {
-                        bigPagination = true;
-                    }
-                }
-
-            }
-
-            
-        
-            
-            if (bigPagination) {
-                Object[] par = params.allParam(categoryFilter, roomFilter, memberFilter, seasonFilter, durationFilter, sort, dateFilter,totalSeasons, memberHouse, videoRoom, videoCategories , totalSeasons);
-                allParams = (String) par[0];
-                paramsWithoutSort = (String) par[1];
-                individualPar = (List<String>)par[2];
-
-                Object[] tmp = videoDao.find(maxVideoPerPage, firstResult, sort, dateFilter, roomFilter, seasonFilter, durationFilter, memberFilter, categoryFilter);
-
-                videosResultsList = (List<VideoClip>) tmp[0];
-                numberOfVideos = (int) tmp[1];
-                videoNumTotal = (int) tmp[2];
-            } else {
-                Object[] tmp = videoDao.findAll(maxVideoPerPage, firstResult);
-                videosResultsList = (List<VideoClip>) tmp[0];
-                numberOfVideos = (int) tmp[1];
-                videoNumTotal = numberOfVideos;
-            }
-
-            if (numberOfVideos > maxVideoPerPage) {
-                if (!bigPagination) {
-                    pag = pagination.pagination(firstResult, numberOfVideos, "video", maxVideoPerPage, path);
-                } else {
-                    pag = pagination.pagination(firstResult, numberOfVideos, "video", maxVideoPerPage, path, allParams);
-                }
-            }
-
-            if (numberOfVideos != 0) {
-                noVideoFound = "";
-            }
-
-            
             model.addAttribute("individualPar", individualPar);
             model.addAttribute("noVideoFound", noVideoFound);
             model.addAttribute("member", memberHouse);
@@ -1309,34 +1322,11 @@ public class SiteController {
             model.addAttribute("videoCategoryCountClips", videoCategoryCountClips);
             model.addAttribute("videoLocation", videoLocation);
             model.addAttribute("imgLocation", imgLocation);
-            model.addAttribute("filterDateExist", filterDateExist);
-
-            
-            model.addAttribute("startDate", startDate);
-            model.addAttribute("sort", sort);
-            model.addAttribute("dateFilter", dateFilter);
-            model.addAttribute("roomFilter", roomFilter);
-            model.addAttribute("seasonFilter", seasonFilter);
-            model.addAttribute("durationFilter", durationFilter);
-            model.addAttribute("memberFilter", memberFilter);
-            model.addAttribute("categoryFilter", categoryFilter);
-            model.addAttribute("paramsWithoutSort", paramsWithoutSort);
-            model.addAttribute("params", allParams);
-          
+           
 
         } catch (Exception ex) {
         }
-            
-           
 
-        
         return "video-archive";
     }
-    
-    
-    
-    
-    
-    
-
 }

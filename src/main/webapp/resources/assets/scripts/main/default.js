@@ -419,7 +419,7 @@ function iframeDimensions() {
 
 
     // LOGIN / SIGN IN
-    var loginChecker = true;
+    var loginChecker = false;
     var signinChecker = false;
 
     if (loginChecker == true){
