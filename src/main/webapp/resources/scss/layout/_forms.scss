@@ -26,8 +26,12 @@ textarea {
 	margin-bottom: 10px;
 }
 #textarea_feedback {
+	margin-top: 5px;
 	text-align: right;
 	font-size: 14px;
+	&.alertMe {
+		color: #ff0000;
+	}
 }
 .legend {
 	font-size: 14px;
@@ -654,3 +658,4 @@ body {
 		}
 	}
 }
+

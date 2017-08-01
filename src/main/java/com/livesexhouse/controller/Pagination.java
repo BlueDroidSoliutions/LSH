@@ -25,7 +25,7 @@ public class Pagination {
         }
 
         if (brojStranicaUkupno > 5 && stranicaTrenutna > 3) {
-            s = s + "<li>....</li>";
+            s = s + "<li>...</li>";
         }
 
         if (brojStranicaUkupno < 6) {
@@ -123,7 +123,7 @@ public class Pagination {
         }
 
         if (brojStranicaUkupno > 5 && stranicaTrenutna < brojStranicaUkupno - 2) {
-            s = s + "<li>....</li>";
+            s = s + "<li>...</li>";
         }
 
         if (stranicaTrenutna < brojStranicaUkupno - 2 && brojStranicaUkupno > 5) {
@@ -168,7 +168,7 @@ public class Pagination {
         }
 
         if (brojStranicaUkupno > 5 && stranicaTrenutna > 3) {
-            s = s + "....";
+            s = s + "...";
         }
 
         if (brojStranicaUkupno < 6) {
@@ -278,7 +278,7 @@ public class Pagination {
         }
 
         if (brojStranicaUkupno > 5 && stranicaTrenutna < brojStranicaUkupno - 2) {
-            s = s + "....";
+            s = s + "...";
         }
 
         if (stranicaTrenutna < brojStranicaUkupno - 2 && brojStranicaUkupno > 5) {

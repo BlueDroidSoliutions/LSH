@@ -99,7 +99,11 @@ body {
 	right: 0;
 }
 
-
+.full-screen-height {
+	.content {
+		min-height: calc(100vh - 162px);
+	}
+}
 
 // Homepage
 .main-block {

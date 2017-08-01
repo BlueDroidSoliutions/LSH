@@ -13,9 +13,10 @@
 					<span></span>
 				</a>
 				<ul id="main-nav">
+                                    <li><a href="${path}./">Home</a></li>
 					<li><a href="${path}./live-stream">Live streams</a></li>
 					<li><a href="${path}./video">Video archive</a></li>
-					<li><a href="javascript:;">Tokens</a></li>
+					
 					<li>
 						<a href="${path}./webcam">Web cam</a>
 						<a href="javascript:;" class="submenu-btn">

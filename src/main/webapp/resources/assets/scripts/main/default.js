@@ -28,7 +28,11 @@ $(document).ready(function () {
        jcf.replaceAll();
     }
 
-   
+    // Custom textarea scrollbar
+    if ($('.textarea-scrollbar').length){
+        $('.textarea-scrollbar').scrollbar();
+    
+    }
 
     if ($("#carousel").length) {
         
@@ -123,6 +127,12 @@ $(document).ready(function () {
         var text_remaining = text_max - text_length;
 
         $('#textarea_feedback').html(text_remaining + ' characters remaining');
+
+        if(text_remaining < 0){
+            $('#textarea_feedback').addClass('alertMe');
+        } else {
+            $('#textarea_feedback').removeClass('alertMe');
+        }
     });
 
     // Close token popup
@@ -198,7 +208,7 @@ $(window).resize(function () {
 });
 
 function iframeDimensions() {
-    $('iframe').each(function () {
+    $('video').each(function () {
         var iWid = $(this).width();
         $(this).css('height', iWid * 0.56);
     });
@@ -312,9 +322,6 @@ function iframeDimensions() {
      
     }
 
-    // Datepicker
-        
-
 
     $('.filter-by a').click(function(e){
         var tab_id = $(this).attr('data-tab');
@@ -324,7 +331,6 @@ function iframeDimensions() {
 
         $(this).addClass('current');
         $("#"+tab_id).addClass('current');
-
 
         localStorage.setItem('activeTab', $(e.target).attr('data-tab'));
     })

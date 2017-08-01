@@ -155,7 +155,7 @@
                                     <ul>
                                         <c:forEach items="${videoCategoryCountClips}" var="vccc">
                                             <li>
-                                                <a href="${pth}./video?8=${vccc.id}${params}">
+                                                <a href="${pth}./video?8=${vccc.id}${params}${percent}">
                                                     <span class="name">${vccc.name}</span>
                                                     <span class="results">${vccc.numb}</span>
                                                 </a>
@@ -195,7 +195,7 @@
                                         
                                 <c:forEach begin="1" end="${totalSeasons}" var="totS" varStatus="loopStatus">        
                                       <li>
-                                            <a href="${pth}./video?5=${loopStatus.index}${params}">
+                                            <a href="${pth}./video?5=${loopStatus.index}${params}${percent}">
                                                 ${totS}
                                             </a>
                                         </li>   
@@ -213,10 +213,10 @@
                                 
                                 <div id="tab-4" class="filter-content">
                                     <ul>
-                                                    <li><a href="${pth}./video?6=1${params}">Less than 5 min</a></li>
-                                                    <li><a href="${pth}./video?6=2${params}">5 min to 15 min</a></li>
-                                                    <li><a href="${pth}./video?6=3${params}">15 min to 30 min</a></li>
-                                                    <li><a href="${pth}./video?6=4${params}">More than 30 min</a></li>
+                                                    <li><a href="${pth}./video?6=1${params}${percent}">Less than 5 min</a></li>
+                                                    <li><a href="${pth}./video?6=2${params}${percent}">5 min to 15 min</a></li>
+                                                    <li><a href="${pth}./video?6=3${params}${percent}">15 min to 30 min</a></li>
+                                                    <li><a href="${pth}./video?6=4${params}${percent}">More than 30 min</a></li>
                                     </ul>
                                 </div>	
                                 
@@ -227,7 +227,7 @@
                                     <ul>
                                        <c:forEach items="${member}" var="mHouse">
                                           <li>
-                                            <a href="${pth}./video?7=${mHouse.id}${params}">
+                                            <a href="${pth}./video?7=${mHouse.id}${params}${percent}">
                                                 ${mHouse.name}
                                             </a>
                                         </li>
@@ -280,32 +280,32 @@
                                         <li>
                                             <a href="javascript:;">Name</a>
                                             <div class="option-block popularity">
-                                                <a href="${pth}./video?2=1${paramsWithoutSort}" class="a-z">A-Z</a>
-                                                <a href="${pth}./video?2=2${paramsWithoutSort}" class="z-a">Z-A</a>
+                                                <a href="${pth}./video?2=1${paramsWithoutSort}${percent}" class="a-z">A-Z</a>
+                                                <a href="${pth}./video?2=2${paramsWithoutSort}${percent}" class="z-a">Z-A</a>
                                             </div>
                                         </li>
 
                                         <li>
-                                            <a href="${pth}./video?2=3${paramsWithoutSort}">Wish List</a>
+                                            <a href="${pth}./video?2=3${paramsWithoutSort}${percent}">Wish List</a>
                                         </li>
 
                                         <li>
-                                            <a href="${pth}./video?2=4${paramsWithoutSort}">View</a>
+                                            <a href="${pth}./video?2=4${paramsWithoutSort}${percent}">View</a>
                                         </li>
 
                                         <li>
                                             <a href="javascript:;">Popularity</a>
                                             <div class="option-block popularity">
-                                                <a href="${pth}./video?2=6${paramsWithoutSort}" class="high-popularity">Most popular</a>
-                                                <a href="${pth}./video?2=5${paramsWithoutSort}" class="low-popularity">Least popular</a>
+                                                <a href="${pth}./video?2=6${paramsWithoutSort}${percent}" class="high-popularity">Most popular</a>
+                                                <a href="${pth}./video?2=5${paramsWithoutSort}${percent}" class="low-popularity">Least popular</a>
                                             </div>
                                         </li>
 
                                         <li>
                                             <a href="javascript:;">Date</a>
                                             <div class="option-block popularity">
-                                                <a href="${pth}./video?2=8${paramsWithoutSort}" class="newest">Newest first</a>
-                                                <a href="${pth}./video?2=7${paramsWithoutSort}" class="oldest">Oldest first</a>
+                                                <a href="${pth}./video?2=8${paramsWithoutSort}${percent}" class="newest">Newest first</a>
+                                                <a href="${pth}./video?2=7${paramsWithoutSort}${percent}" class="oldest">Oldest first</a>
                                             </div>
                                         </li>
 
@@ -318,8 +318,8 @@
                                             <a href="javascript:;">Duration</a>
                                             <div class="option-block duration">
                                                 <ul>
-                                                    <li><a href="${pth}./video?2=12${paramsWithoutSort}">Longest first</a></li>
-                                                    <li><a href="${pth}./video?2=11${paramsWithoutSort}">shortest first</a></li>
+                                                    <li><a href="${pth}./video?2=12${paramsWithoutSort}${percent}">Longest first</a></li>
+                                                    <li><a href="${pth}./video?2=11${paramsWithoutSort}${percent}">shortest first</a></li>
                                                    
                                                 </ul>
                                             </div>
@@ -328,7 +328,7 @@
                                         
                                         
                                         <li>
-										<a href="${pth}./video?2=0${paramsWithoutSort}">RESET SORT</a>
+										<a href="${pth}./video?2=0${paramsWithoutSort}${percent}">RESET SORT</a>
 									</li>
                                         
                                         
@@ -353,7 +353,7 @@
                                     
                                      <c:forEach items="${video}" var="video">
 								<li class="video-item">
-									<a href="./">
+									<a href="./video/${video.id}">
 										<div class="thumbnail">
                                                                                     
                          <c:forEach begin="1" end="5" var="cfe" varStatus="loopStatus">

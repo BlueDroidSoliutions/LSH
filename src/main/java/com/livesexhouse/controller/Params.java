@@ -22,18 +22,13 @@ public class Params {
     
     
     
-    public Object[] allParam(int[] categoryFilter, int[] roomFilter, int[] memberFilter, int[] seasonFilter, int[] durationFilter, int sort, String date, int numbOfSeason,List<MemberHouse> memberHouse,List<VideoRoom> videoRoom, List<VideoCategories> videoCategories,int maxSeason){
+    public Object[] allParam(int[] categoryFilter, int[] roomFilter, int[] memberFilter, int[] seasonFilter, int[] durationFilter, int sort, String date, int numbOfSeason,List<MemberHouse> memberHouse,List<VideoRoom> videoRoom, List<VideoCategories> videoCategories,int maxSeason,String search ){
        String params = "";
+       
        
             for (int i = 0; i < categoryFilter.length; i++) {
                 if (categoryFilter[i] != 0) {
                     params = params + 8 + "=" + categoryFilter[i] + "&&";
-                }
-            }
-
-            for (int i = 0; i < roomFilter.length; i++) {
-                if (roomFilter[i] != 0) {
-                    params = params + 4 + "=" + roomFilter[i] + "&&";
                 }
             }
 
@@ -42,6 +37,18 @@ public class Params {
                     params = params + 7 + "=" + memberFilter[i] + "&&";
                 }
             }
+            
+            for (int i = 0; i < roomFilter.length; i++) {
+                if (roomFilter[i] != 0) {
+                    params = params + 4 + "=" + roomFilter[i] + "&&";
+                }
+            }
+            
+            
+            if(!search.equals("0")){
+                params = params + 10 + "=" + search + "&&";
+            }
+
 
             for (int i = 0; i < seasonFilter.length; i++) {
                 if (seasonFilter[i] != 0) {
@@ -67,31 +74,41 @@ public class Params {
             }
             
           
-            
         
         List<String> individualPar = new ArrayList<>();
         
         
+
+        
+        
         String test = params + "&&";
         String[] parts = test.subSequence(2, test.length()).toString().split("&&");
+        
+       
         for(String s : parts){
             
+            
+            
+            //date
+            if(s.charAt(0) == '3'){
+                    if(s.substring(2, s.length()).length()>3){
+                        individualPar.add(date+","+params.replace("&&"+s,"").substring(2));
+                    }
+            }
+            
+            
+            //category
             if(s.charAt(0) == '8'){
                 for(VideoCategories vc : videoCategories){
                     if(vc.getId().equals(Integer.valueOf(s.substring(2, s.length())))){
+                        System.out.println("s: " +s );
                         individualPar.add(vc.getName()+","+params.replace(s+"&&","").substring(2));
                     }
                 }
             }
             
-            if(s.charAt(0) == '3'){
-                
-                    if(s.substring(2, s.length()).length()>3){
-                        individualPar.add(date+","+params.replace("&&"+s,"").substring(2));
-                    }
-                
-            }
             
+            //room
             if(s.charAt(0) == '4'){
                 for(VideoRoom vr : videoRoom){
                     if(vr.getId().equals(Integer.valueOf(s.substring(2, s.length())))){
@@ -100,6 +117,8 @@ public class Params {
                 }
             }
 
+            
+            //member
             if(s.charAt(0) == '7'){
                 for(MemberHouse mh : memberHouse){
                     if(mh.getId().equals(Integer.valueOf(s.substring(2, s.length())))){
@@ -109,17 +128,26 @@ public class Params {
             }
        
             
+            //season
              if(s.charAt(0) == '5'){
                for (int i = 0; i < seasonFilter.length; i++) {
                    for(int in = 1 ; in<= maxSeason ; in++ ){
-                       if(in==Integer.valueOf(s.substring(2, s.length())))
+                       if(in==Integer.valueOf(s.substring(2, s.length()))){
                            individualPar.add("Season "+in+","+params.replace(s+"&&","").substring(2));
+                       System.out.println("FF "+"Season "+in+","+params.replace(s+"&&","").substring(2));
+                       }
                    }
                 }
             }
+             
+             //search
+             if(s.charAt(0) == '1' && s.charAt(1) == '0' && s.charAt(3) != '0'){
+                 String sear = "";
+               sear = s.subSequence(0, s.length()-1).toString();
+               individualPar.add("Search: "+ search.replace('-', ' ')+","+params.replace(s+"&&","").substring(2));
+            }
             
-            
-            
+            //duration
             if(s.charAt(0) == '6'){
                for (int i = 0; i < durationFilter.length; i++) {
                    for(int in = 1 ; in<= maxSeason ; in++ ){
@@ -146,14 +174,18 @@ public class Params {
             
         }
  
-Set<String> hs = new HashSet<>();
-hs.addAll(individualPar);
-individualPar.clear();
-individualPar.addAll(hs);
-//        
-//       for(String sss : individualPar)
-//            System.out.println(sss);
         
+Set<String> hs2 = new HashSet<>();
+hs2.addAll(individualPar);
+individualPar.clear();
+individualPar.addAll(hs2);
+       
+//        System.out.println("params "+params);
+//        System.out.println("paramsWithoutSort "+paramsWithoutSort);
+//        
+//        for(String g : individualPar)
+//            System.out.println(g);
+                        
         return new Object[]{params,paramsWithoutSort,individualPar};
     }
     

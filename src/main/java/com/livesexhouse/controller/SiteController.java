@@ -741,14 +741,20 @@ public class SiteController {
             HttpServletResponse response,
             HttpServletRequest request) throws Exception {
         try {
-
+            System.out.println("t1");
             List<Setup> setups = setupDao.getSetups();
+            int maxVideoPerPage = setups.get(2).getValueInt();
             int totalSeasons = setups.get(5).getValueInt();
             String location = setups.get(0).getValueString();
-
+            String noVideoFound = setups.get(6).getValueString();
             String path = setups.get(1).getValueString();
+            String videoLocation = setups.get(8).getValueString();
+            String imgLocation = setups.get(9).getValueString();
+            String startDate = setups.get(10).getValueString();
 
+            System.out.println("t2");
             VideoClip v = videoDao.findById(id);
+            System.out.println("t3");
 
             List<MemberHouse> memberHouse = memberHouseDao.find();
             List<VideoRoom> videoRoom = videoRoomDao.find();
@@ -763,10 +769,14 @@ public class SiteController {
             model.addAttribute("location", location);
             model.addAttribute("totalSeasons", totalSeasons);
             model.addAttribute("videoCategoryCountClips", videoCategoryCountClips);
-
+            
+            model.addAttribute("noVideoFound", noVideoFound);
+            model.addAttribute("videoLocation", videoLocation);
+            model.addAttribute("imgLocation", imgLocation);
+            System.out.println("t4");
         } catch (Exception ex) {
         }
-        return "video-archive";
+        return "video-player";
     }
 
    
@@ -830,7 +840,7 @@ public class SiteController {
                 userDao.save(user);
 
             } else {
-                System.out.println("postoji");
+                System.out.println("postoji user");
             }
 
         } catch (Exception ex) {
@@ -1098,7 +1108,7 @@ public class SiteController {
             HttpServletResponse response,
             HttpServletRequest request) throws Exception {
         try {
-
+            System.out.println("**********");
             String userName = "";
             if (principal != null) {
                 userName = principal.getName();
@@ -1144,8 +1154,15 @@ public class SiteController {
             if (!dateFilter.equals("0")) {
                 filterDateExist = "1";
             }
+            
+            Boolean searchExist = false;
+            if (!search.equals("0")) {
+                searchExist = true;
+            } 
+            
+            
 
-            if (!dateFilter.equals("0") || roomFilter.length > 1 || seasonFilter.length > 1 || durationFilter.length > 1 || memberFilter.length > 1 || categoryFilter.length > 1 || sort != 0) {
+            if (!dateFilter.equals("0") || roomFilter.length > 1 || seasonFilter.length > 1 || durationFilter.length > 1 || memberFilter.length > 1 || categoryFilter.length > 1 || sort != 0 || searchExist) {
                 bigPagination = true;
             }
 
@@ -1157,6 +1174,10 @@ public class SiteController {
                     }
                 }
 
+                if (searchExist) {
+                        bigPagination = true;
+                }
+                
                 if (seasonFilter.length == 1) {
                     if (seasonFilter[0] != 0) {
                         bigPagination = true;
@@ -1184,13 +1205,13 @@ public class SiteController {
             }
 
             if (bigPagination) {
-                Object[] par = params.allParam(categoryFilter, roomFilter, memberFilter, seasonFilter, durationFilter, sort, dateFilter, totalSeasons, memberHouse, videoRoom, videoCategories, totalSeasons);
+                Object[] par = params.allParam(categoryFilter, roomFilter, memberFilter, seasonFilter, durationFilter, sort, dateFilter, totalSeasons, memberHouse, videoRoom, videoCategories, totalSeasons, search);
                 allParams = (String) par[0];
                 paramsWithoutSort = (String) par[1];
                 individualPar = (List<String>) par[2];
 
-                Object[] tmp = videoDao.find(maxVideoPerPage, firstResult, sort, dateFilter, roomFilter, seasonFilter, durationFilter, memberFilter, categoryFilter);
-
+                Object[] tmp = videoDao.find(maxVideoPerPage, firstResult, sort, dateFilter, roomFilter, seasonFilter, durationFilter, memberFilter, categoryFilter,search);
+                
                 videosResultsList = (List<VideoClip>) tmp[0];
                 numberOfVideos = (int) tmp[1];
                 videoNumTotal = (int) tmp[2];
@@ -1212,7 +1233,9 @@ public class SiteController {
             if (numberOfVideos != 0) {
                 noVideoFound = "";
             }
+            String percent = "";
 
+            model.addAttribute("percent", percent);
             model.addAttribute("individualPar", individualPar);
             model.addAttribute("noVideoFound", noVideoFound);
             model.addAttribute("member", memberHouse);
@@ -1237,11 +1260,16 @@ public class SiteController {
             model.addAttribute("durationFilter", durationFilter);
             model.addAttribute("memberFilter", memberFilter);
             model.addAttribute("categoryFilter", categoryFilter);
-            model.addAttribute("paramsWithoutSort", paramsWithoutSort);
+            model.addAttribute("paramsWithoutSort", paramsWithoutSort.substring(0, paramsWithoutSort.length()-2));
             model.addAttribute("params", allParams);
+            
+            System.out.println("params without sort: " + paramsWithoutSort.substring(0, paramsWithoutSort.length()-2));
+            System.out.println("percent: "+ percent);
+            System.out.println("params: " + allParams);
 
         } catch (Exception ex) {
         }
+         System.out.println("********");
         return "video-archive";
     }
     
@@ -1260,8 +1288,10 @@ public class SiteController {
             HttpServletRequest request) throws Exception {
 
         try {
+            
 
             String userName = "";
+            
             if (principal != null) {
                 userName = principal.getName();
             }
@@ -1295,19 +1325,42 @@ public class SiteController {
             string = request.getParameter("string");
 
             
-            System.out.println("post search"+string);
-            
+             System.out.println("z1");           
             
             
             if (!string.isEmpty()) {
+                
                 String[] parts = string.split(" ");
-
-            } else {
-                System.out.println("postoji");
-            }
+                individualPar.add("Search: " + string + ",10=0");
+            } 
 
             
+            
+            
+            
+            
+            
+            Object[] tmp = videoDao.search(maxVideoPerPage, string);
 
+                videosResultsList = (List<VideoClip>) tmp[0];
+                numberOfVideos = (int) tmp[1];
+                videoNumTotal = (int) tmp[2];
+                String percent = (String) tmp[3];
+            
+           
+                if (numberOfVideos > maxVideoPerPage) {
+                    pag = pagination.pagination(0, numberOfVideos, "video", maxVideoPerPage, path,percent.substring(2));
+            }
+            
+            if (numberOfVideos != 0) {
+                noVideoFound = "";
+            }
+            
+            
+            
+            
+            model.addAttribute("startDate", startDate);
+            model.addAttribute("percent", percent);
             model.addAttribute("individualPar", individualPar);
             model.addAttribute("noVideoFound", noVideoFound);
             model.addAttribute("member", memberHouse);

@@ -365,6 +365,46 @@
 	}
 }
 
+// .pagination{
+//         display: inline-block;
+    
+//     width: 100%;
+//     height: auto;
+//     background-color: transparent;
+//     color: white;
+// }
+// .pagination a{
+//     text-decoration: none;
+//     font-size: 15px;
+
+// }
+// .pagination li{
+// /*    display: inline-block;*/
+    
+//     width: 30px;
+//     margin-left: -3px;
+//     transition: background-color .2s ease-in;
+//     -moz-transition: background-color .2s ease-in;
+//     -webkit-transition: background-color .2 ease-in;
+//     color: white;
+// }
+// .pagination li:hover{
+//     background-color: white;
+//     color: black;
+
+// }
+// .pagination ul{
+//     width: 400px;
+//     height: auto;
+//     text-align: center;
+//     margin: auto;
+//     color:white;
+// }
+// .active li{
+//     background-color: white;
+//     color: red;
+// }
+
 .left-sidebar {
 	width: 280px;
 	margin-top: 20px;
@@ -372,17 +412,19 @@
 	border-radius: 20px;
 	float: left;
 	.top-part {
-		padding: 30px 30px 20px;
+		padding: 30px 15px 20px;
 	}
 	h1 {
 		font-size: 40px;
 		color: $white;
+		text-align: center;
 	}
 	.search-form {
 		width: 100%;
 		margin-bottom: 20px;
 		float: left;
 		clear: both;
+		position: relative;
 		input[type="text"] {
 			width: 100%;
 			border-radius: 0;
@@ -391,9 +433,29 @@
 			color: #b3b3b3;
 			height: 48px;
 			padding-left: 15px;
+			padding-right: 40px;
 		}
 		button {
-			display: none;
+			display: block;
+			outline: none;
+			border: none;
+			background: transparent;
+			background-color: rgba(0, 0, 0, 0.2);
+			background-image: url(../img/search-icon.png);
+			background-repeat: no-repeat;
+			background-position: center center;
+			background-size: 90% 90%;
+			text-indent: -9999px;
+			width: 30px;
+			height: 30px;
+			position: absolute;
+			top: 9px;
+			right: 5px;
+			cursor: pointer;
+			@include transition(all 0.3s ease-in-out);
+			&:hover {
+				background-color: rgba(0, 0, 0, 0.6);
+			}
 		}
 	}
 	.pickedDate {
