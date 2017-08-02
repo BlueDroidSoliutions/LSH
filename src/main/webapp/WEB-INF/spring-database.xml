@@ -61,8 +61,8 @@
                 <value>com.livesexhouse.model.UserM2m</value> 
                 <value>com.livesexhouse.model.Users</value> 
                 <value>com.livesexhouse.model.VideoClip</value> 
-                 <value>com.livesexhouse.model.VideoCategories</value> 
-                 <value>com.livesexhouse.model.VideoRoom</value> 
+                <value>com.livesexhouse.model.VideoCategories</value>
+                <value>com.livesexhouse.model.VideoRoom</value>
                 <value>com.livesexhouse.model.VideoM2m</value> 
                 <value>com.livesexhouse.model.MemberHouse</value> 
                 <value>com.livesexhouse.model.GirlsBreast</value> 
@@ -70,7 +70,10 @@
                 <value>com.livesexhouse.controller.Setup</value> 
                 <value>com.livesexhouse.model.VideoCategoryCountClip</value>
                 <value>com.livesexhouse.model.VideoFileName</value>
-       
+                <value>com.livesexhouse.model.Order</value>
+                <value>com.livesexhouse.model.OrderPayment</value>
+                <value>com.livesexhouse.model.Membership</value>
+                <value>com.livesexhouse.model.PricePackage</value>
             </list>
         </property>
         <property name="hibernateProperties">
