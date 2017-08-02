@@ -27,47 +27,10 @@
     <body>
         
 <style>
-
-    .pagination{
-        display: inline-block;
-    
-    width: 100%;
-    height: auto;
-    background-color: transparent;
-    color: white;
-}
-.pagination a{
-    text-decoration: none;
-    font-size: 15px;
-
-}
-.pagination li{
-/*    display: inline-block;*/
-    
-    width: 30px;
-    margin-left: -3px;
-    transition: background-color .2s ease-in;
-    -moz-transition: background-color .2s ease-in;
-    -webkit-transition: background-color .2 ease-in;
-    color: white;
-}
-.pagination li:hover{
-    background-color: white;
-    color: black;
-
-}
-.pagination ul{
-    width: 400px;
-    height: auto;
-    text-align: center;
-    margin: auto;
-    color:white;
-}
-.active li{
+#active{
     background-color: white;
     color: red;
 }
-
 </style>
 
 

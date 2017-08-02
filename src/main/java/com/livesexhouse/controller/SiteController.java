@@ -741,7 +741,6 @@ public class SiteController {
             HttpServletResponse response,
             HttpServletRequest request) throws Exception {
         try {
-            System.out.println("t1");
             List<Setup> setups = setupDao.getSetups();
             int maxVideoPerPage = setups.get(2).getValueInt();
             int totalSeasons = setups.get(5).getValueInt();
@@ -752,9 +751,7 @@ public class SiteController {
             String imgLocation = setups.get(9).getValueString();
             String startDate = setups.get(10).getValueString();
 
-            System.out.println("t2");
             VideoClip v = videoDao.findById(id);
-            System.out.println("t3");
 
             List<MemberHouse> memberHouse = memberHouseDao.find();
             List<VideoRoom> videoRoom = videoRoomDao.find();
@@ -773,7 +770,6 @@ public class SiteController {
             model.addAttribute("noVideoFound", noVideoFound);
             model.addAttribute("videoLocation", videoLocation);
             model.addAttribute("imgLocation", imgLocation);
-            System.out.println("t4");
         } catch (Exception ex) {
         }
         return "video-player";

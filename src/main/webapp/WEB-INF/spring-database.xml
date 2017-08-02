@@ -125,7 +125,7 @@
         <bean id="frameGrabberDao" class="com.livesexhouse.controller.FrameGrabberDao" />
         <bean id="saveVideoFile" class="com.livesexhouse.controller.SaveVideoFile" />
         <bean id="params" class="com.livesexhouse.controller.Params" />
-         <bean id="redirect" class="com.livesexhouse.controller.Redirect" />
+        <bean id="redirect" class="com.livesexhouse.controller.Redirect" />
     
         
     
