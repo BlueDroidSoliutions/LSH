@@ -379,7 +379,11 @@
 
         
         <script type="text/javascript" src="${location}/assets/scripts/libs/datepicker.min.js"></script>
-        <%@include file="jsScript.jsp" %>
+       <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script type="text/javascript">window.jQuery || document.write("<script src='${location}/assets/scripts/main/jquery-1.8.3.min.js'>\x3C/script>")</script>
+	<script type="text/javascript" src="${location}/assets/scripts/libs/masonry.pkgd.min.js"></script>
+	<script type="text/javascript" src="${location}/assets/scripts/libs/datepicker.min.js"></script>
+	<script type="text/javascript" src="${location}/assets/scripts/main/default.js"></script>
         
         
         <c:set var="startD" value='${startDate}'/> 
@@ -387,8 +391,6 @@
         
        
     <script>
-    
-    
     if ( $( '[data-toggle="datepicker"]' ).length ) {
 
         var today = new Date();
@@ -429,9 +431,7 @@
          
     $('.btn-small').click(function(e){
 
-
         if($(".pickedDate").checkEmpty()){
-           
             console.log('empty'); 
             e.preventDefault();
         } else {
@@ -449,19 +449,10 @@
            
         }
 
-
    location.href = newUrl;
-
-
-
 
     });
 
-    
-    
-    
-    
-    
         </script>
         
 

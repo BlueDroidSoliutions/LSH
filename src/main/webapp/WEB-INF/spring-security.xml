@@ -20,10 +20,10 @@
 
 		<form-login
 		    login-page="/*"
-		    default-target-url="/"
-			authentication-failure-url="/login?error"
-			username-parameter="username"
-			password-parameter="password" />
+		    default-target-url="/my-account"
+                    authentication-failure-url="/login?error"
+                    username-parameter="username"
+                    password-parameter="password" />
 		<logout logout-success-url="/logout"  />
 		<!-- enable csrf protection -->
 		<csrf/>

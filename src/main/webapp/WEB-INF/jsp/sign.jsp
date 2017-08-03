@@ -42,7 +42,7 @@
                 </script>
                 
                 
-                <form id="signup" method="post" action="${pageContext.request.contextPath}/signup" name="forma" accept-charset="UTF-8">
+                <form id="signup" method="post" action="${pageContext.request.contextPath}${path}/signup" name="forma" accept-charset="UTF-8">
 
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
@@ -82,7 +82,7 @@
 
 
 
-                <form name='loginForm' action="<c:url value='./login' />" method='POST'>
+                <form name='loginForm' action="${path}./login" method='POST'>
                     <div>
                         <input type="text" id="name" name="username" placeholder="username">
                     </div>
@@ -150,7 +150,6 @@
                                                  <li><a href="javascript:;" id="login-btn">Login/Join</a></li>
                                              </c:otherwise>
                                         </c:choose>
-<!--                                        <li><a href="${path}./uploadMultiPage">um</a></li>-->
                                        
 					
 				</ul>

@@ -137,11 +137,12 @@ public class SiteController {
 
         ModelAndView model = new ModelAndView();
 
-        String userName = "";
         if (principal != null) {
-            userName = principal.getName();
+            Users u = new Users();
+            u = userDao.findByUsername(principal.getName());
+            model.addObject("userName", principal.getName());
+            model.addObject("user", u);
         }
-        model.addObject("userName", userName);
 
         model.addObject("path", setupDao.getPath());
         model.addObject("location", setupDao.getLocation());
@@ -740,8 +741,17 @@ public class SiteController {
             @PathVariable int id,
             ModelMap model,
             HttpServletResponse response,
+            Principal principal,
             HttpServletRequest request) throws Exception {
         try {
+
+            if (principal != null) {
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
+            }
+
             List<Setup> setups = setupDao.getSetups();
             int maxVideoPerPage = setups.get(2).getValueInt();
             int totalSeasons = setups.get(5).getValueInt();
@@ -763,11 +773,11 @@ public class SiteController {
             model.addAttribute("member", memberHouse);
             model.addAttribute("videoRoom", videoRoom);
             model.addAttribute("videoCategories", videoCategories);
-            model.addAttribute("path", path);
-            model.addAttribute("location", location);
+            model.addAttribute("path", "."+path);
+            model.addAttribute("location", "."+location);
             model.addAttribute("totalSeasons", totalSeasons);
             model.addAttribute("videoCategoryCountClips", videoCategoryCountClips);
-            
+
             model.addAttribute("noVideoFound", noVideoFound);
             model.addAttribute("videoLocation", videoLocation);
             model.addAttribute("imgLocation", imgLocation);
@@ -776,14 +786,21 @@ public class SiteController {
         return "video-player";
     }
 
-   
-
     @RequestMapping(value = "/contactpost", method = RequestMethod.POST)
     public String contactpost(
             ModelMap model,
             HttpServletResponse response,
+            Principal principal,
             HttpServletRequest request) throws Exception {
         try {
+
+            if (principal != null) {
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
+            }
+
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("location", setupDao.getLocation());
 
@@ -838,7 +855,7 @@ public class SiteController {
                 ur.setRole("ROLE_USER");
                 ur.setUsernameId(userDao.save(user));
                 userDao.saveRola(ur);
-                
+
             } else {
                 System.out.println("postoji user");
             }
@@ -848,8 +865,6 @@ public class SiteController {
         return "index";
     }
 
-   
-
     @RequestMapping("/chat")
     public String chat(
             Principal principal,
@@ -858,11 +873,12 @@ public class SiteController {
             HttpServletRequest request) throws Exception {
 
         try {
-            String userName = "";
             if (principal != null) {
-                userName = principal.getName();
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
             }
-            model.addAttribute("userName", userName);
 
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("location", setupDao.getLocation());
@@ -880,11 +896,12 @@ public class SiteController {
             HttpServletRequest request) throws Exception {
 
         try {
-            String userName = "";
             if (principal != null) {
-                userName = principal.getName();
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
             }
-            model.addAttribute("userName", userName);
 
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("location", setupDao.getLocation());
@@ -902,11 +919,12 @@ public class SiteController {
             HttpServletRequest request) throws Exception {
 
         try {
-            String userName = "";
             if (principal != null) {
-                userName = principal.getName();
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
             }
-            model.addAttribute("userName", userName);
 
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("location", setupDao.getLocation());
@@ -924,11 +942,12 @@ public class SiteController {
             HttpServletRequest request) throws Exception {
 
         try {
-            String userName = "";
             if (principal != null) {
-                userName = principal.getName();
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
             }
-            model.addAttribute("userName", userName);
 
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("location", setupDao.getLocation());
@@ -946,11 +965,12 @@ public class SiteController {
             HttpServletRequest request) throws Exception {
 
         try {
-            String userName = "";
             if (principal != null) {
-                userName = principal.getName();
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
             }
-            model.addAttribute("userName", userName);
 
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("location", setupDao.getLocation());
@@ -968,11 +988,12 @@ public class SiteController {
             HttpServletRequest request) throws Exception {
 
         try {
-            String userName = "";
             if (principal != null) {
-                userName = principal.getName();
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
             }
-            model.addAttribute("userName", userName);
 
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("location", setupDao.getLocation());
@@ -990,11 +1011,12 @@ public class SiteController {
             HttpServletRequest request) throws Exception {
 
         try {
-            String userName = "";
             if (principal != null) {
-                userName = principal.getName();
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
             }
-            model.addAttribute("userName", userName);
 
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("location", setupDao.getLocation());
@@ -1012,12 +1034,12 @@ public class SiteController {
             HttpServletRequest request) throws Exception {
 
         try {
-            String userName = "";
             if (principal != null) {
-                userName = principal.getName();
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
             }
-            model.addAttribute("userName", userName);
-
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("location", setupDao.getLocation());
 
@@ -1034,11 +1056,12 @@ public class SiteController {
             HttpServletRequest request) throws Exception {
 
         try {
-            String userName = "";
             if (principal != null) {
-                userName = principal.getName();
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
             }
-            model.addAttribute("userName", userName);
 
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("location", setupDao.getLocation());
@@ -1056,11 +1079,12 @@ public class SiteController {
             HttpServletRequest request) throws Exception {
 
         try {
-            String userName = "";
             if (principal != null) {
-                userName = principal.getName();
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
             }
-            model.addAttribute("userName", userName);
 
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("location", setupDao.getLocation());
@@ -1070,10 +1094,7 @@ public class SiteController {
         return "wish";
     }
 
-    
-    
-    
-     @RequestMapping(value = "/video", method = RequestMethod.GET)
+    @RequestMapping(value = "/video", method = RequestMethod.GET)
     public String videos(
             Principal principal,
             //1.firstResult
@@ -1108,12 +1129,12 @@ public class SiteController {
             HttpServletResponse response,
             HttpServletRequest request) throws Exception {
         try {
-            System.out.println("**********");
-            String userName = "";
             if (principal != null) {
-                userName = principal.getName();
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
             }
-            model.addAttribute("userName", userName);
 
             List<Setup> setups = setupDao.getSetups();
             int maxVideoPerPage = setups.get(2).getValueInt();
@@ -1154,13 +1175,11 @@ public class SiteController {
             if (!dateFilter.equals("0")) {
                 filterDateExist = "1";
             }
-            
+
             Boolean searchExist = false;
             if (!search.equals("0")) {
                 searchExist = true;
-            } 
-            
-            
+            }
 
             if (!dateFilter.equals("0") || roomFilter.length > 1 || seasonFilter.length > 1 || durationFilter.length > 1 || memberFilter.length > 1 || categoryFilter.length > 1 || sort != 0 || searchExist) {
                 bigPagination = true;
@@ -1175,9 +1194,9 @@ public class SiteController {
                 }
 
                 if (searchExist) {
-                        bigPagination = true;
+                    bigPagination = true;
                 }
-                
+
                 if (seasonFilter.length == 1) {
                     if (seasonFilter[0] != 0) {
                         bigPagination = true;
@@ -1210,8 +1229,8 @@ public class SiteController {
                 paramsWithoutSort = (String) par[1];
                 individualPar = (List<String>) par[2];
 
-                Object[] tmp = videoDao.find(maxVideoPerPage, firstResult, sort, dateFilter, roomFilter, seasonFilter, durationFilter, memberFilter, categoryFilter,search);
-                
+                Object[] tmp = videoDao.find(maxVideoPerPage, firstResult, sort, dateFilter, roomFilter, seasonFilter, durationFilter, memberFilter, categoryFilter, search);
+
                 videosResultsList = (List<VideoClip>) tmp[0];
                 numberOfVideos = (int) tmp[1];
                 videoNumTotal = (int) tmp[2];
@@ -1260,23 +1279,17 @@ public class SiteController {
             model.addAttribute("durationFilter", durationFilter);
             model.addAttribute("memberFilter", memberFilter);
             model.addAttribute("categoryFilter", categoryFilter);
-            model.addAttribute("paramsWithoutSort", paramsWithoutSort.substring(0, paramsWithoutSort.length()-2));
+            model.addAttribute("paramsWithoutSort", paramsWithoutSort.substring(0, paramsWithoutSort.length() - 2));
             model.addAttribute("params", allParams);
-            
-            System.out.println("params without sort: " + paramsWithoutSort.substring(0, paramsWithoutSort.length()-2));
-            System.out.println("percent: "+ percent);
-            System.out.println("params: " + allParams);
+
+           
 
         } catch (Exception ex) {
         }
-         System.out.println("********");
         return "video-archive";
     }
-    
-    
-    
-    
-     @RequestMapping(value = "/search", method = RequestMethod.POST)
+
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
     public String search(
             Principal principal,
             ModelMap model,
@@ -1284,14 +1297,13 @@ public class SiteController {
             HttpServletRequest request) throws Exception {
 
         try {
-            
 
-            String userName = "";
-            
             if (principal != null) {
-                userName = principal.getName();
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
             }
-            model.addAttribute("userName", userName);
 
             List<Setup> setups = setupDao.getSetups();
             int maxVideoPerPage = setups.get(2).getValueInt();
@@ -1320,41 +1332,28 @@ public class SiteController {
 
             string = request.getParameter("string");
 
-            
-             System.out.println("z1");           
-            
-            
+
             if (!string.isEmpty()) {
-                
+
                 String[] parts = string.split(" ");
                 individualPar.add("Search: " + string + ",10=0");
-            } 
+            }
 
-            
-            
-            
-            
-            
-            
             Object[] tmp = videoDao.search(maxVideoPerPage, string);
 
-                videosResultsList = (List<VideoClip>) tmp[0];
-                numberOfVideos = (int) tmp[1];
-                videoNumTotal = (int) tmp[2];
-                String percent = (String) tmp[3];
-            
-           
-                if (numberOfVideos > maxVideoPerPage) {
-                    pag = pagination.pagination(0, numberOfVideos, "video", maxVideoPerPage, path,percent.substring(2));
+            videosResultsList = (List<VideoClip>) tmp[0];
+            numberOfVideos = (int) tmp[1];
+            videoNumTotal = (int) tmp[2];
+            String percent = (String) tmp[3];
+
+            if (numberOfVideos > maxVideoPerPage) {
+                pag = pagination.pagination(0, numberOfVideos, "video", maxVideoPerPage, path, percent.substring(2));
             }
-            
+
             if (numberOfVideos != 0) {
                 noVideoFound = "";
             }
-            
-            
-            
-            
+
             model.addAttribute("startDate", startDate);
             model.addAttribute("percent", percent);
             model.addAttribute("individualPar", individualPar);
@@ -1371,7 +1370,6 @@ public class SiteController {
             model.addAttribute("videoCategoryCountClips", videoCategoryCountClips);
             model.addAttribute("videoLocation", videoLocation);
             model.addAttribute("imgLocation", imgLocation);
-           
 
         } catch (Exception ex) {
         }

@@ -9,6 +9,7 @@ import com.livesexhouse.model.UserM2m;
 import com.livesexhouse.model.UserRoles;
 import com.livesexhouse.model.Users;
 import javax.persistence.Query;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,23 @@ public class UserDao {
        @Autowired
     SessionFactory sessionFactory;
 
+       
+       public Users findByUsername(String username) {
+
+        Users u = new Users();
+
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            Query query = session.getNamedQuery("Users.findByUsername");
+            query.setParameter("username", username);
+            u = (Users) query.getSingleResult();
+        } catch (HibernateException e) {
+        }
+        return u;
+    }
+       
+       
+       
     
  public Integer save(Users c) {
      Integer i = 0;

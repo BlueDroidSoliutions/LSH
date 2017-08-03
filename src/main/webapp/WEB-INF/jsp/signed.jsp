@@ -37,7 +37,7 @@
                 </div>
                 <div class="user clearfix">
                     <div class="info">
-                        <span class="name">Heyman Oly</span>
+                        <span class="name">${user.username}</span>
                         <span class="membership">Regular</span>
                         <div class="tokens">
                             <span>
@@ -57,7 +57,7 @@
                                       c0,6.448-5.228,11.676-11.676,11.676"/>
                                 </svg>
                             </span>
-                            <span class="number">258</span>
+                            <span class="number"> ${user.tokens}</span>
                         </div>
                     </div>
                     <div class="image">
@@ -82,7 +82,7 @@
                     <span class="icon"></span>
                     <div class="info-content">
                         <span class="title">Member since:</span>
-                        <span>12/22/2017</span>
+                        <span>${user.memberfrom}</span>
                     </div>
                 </div>
                 <div class="info-box">
@@ -102,10 +102,10 @@
                         <path fill="none" stroke="#FFFFFF" stroke-width="1.533" stroke-miterlimit="10" d="M24.54,12.745
                               c0,6.448-5.228,11.676-11.676,11.676"/>
                         </svg>
-                        <span>258</span>
+                        <span>${user.tokens}</span>
                     </span>
                     <div class="info-content">
-                        <span>Tokens 258</span>
+                        <span>Tokens ${user.tokens}</span>
                         <ul>
                             <li>
                                 <a href="javascript:;">Buy</a>
@@ -172,7 +172,7 @@
                         <img src="${location}/assets/img/logout-icon.png" alt="">
                     </span>
                     <div class="info-content">
-                       <a href="javascript:;">Logout</a>
+                       <a href="${path}./logout">Logout</a>
                     </div>
                 </div>
                 <div class="info-box">
@@ -194,6 +194,16 @@
         </div>
         
         <div class="container full-screen-height">
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             
             
             
@@ -231,7 +241,7 @@
 					</li>
 					<li><a href="${path}./vote">Vote</a></li>
 					<li><a href="${path}./contact">Contact</a></li>
-                                        <li><a href="javascript:;" id="user">${userName}<strong>258</strong></a></li>
+                                        <li><a href="javascript:;" id="user">${user.username}<strong> ${user.tokens}</strong></a></li>
 <!--                                        
 
 
