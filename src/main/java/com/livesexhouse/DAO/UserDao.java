@@ -5,6 +5,8 @@
  */
 package com.livesexhouse.DAO;
 
+import com.livesexhouse.model.UserM2m;
+import com.livesexhouse.model.UserRoles;
 import com.livesexhouse.model.Users;
 import javax.persistence.Query;
 import org.hibernate.Session;
@@ -24,14 +26,22 @@ public class UserDao {
     SessionFactory sessionFactory;
 
     
- public void save(Users c) {
+ public Integer save(Users c) {
+     Integer i = 0;
      try{
-         System.out.println("t1");
         Session session = sessionFactory.getCurrentSession();
-         System.out.println("t2");
-        session.save(c);
-     System.out.println("t3");}
-     catch(Exception e){System.out.println("trrr");}
+        i = (Integer)session.save(c);
+     }
+     catch(Exception e){}
+     return i;
+    }
+ 
+ public void saveRola(UserRoles u) {
+     try{
+        Session session = sessionFactory.getCurrentSession();
+        session.save(u);
+     }
+     catch(Exception e){}
     }
    
     

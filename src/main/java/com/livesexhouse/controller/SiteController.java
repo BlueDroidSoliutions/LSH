@@ -4,6 +4,7 @@ import com.livesexhouse.DAO.*;
 import com.livesexhouse.chat.ActiveUserService;
 import com.livesexhouse.model.Contact;
 import com.livesexhouse.model.MemberHouse;
+import com.livesexhouse.model.UserRoles;
 import com.livesexhouse.model.Users;
 import com.livesexhouse.model.VideoCategories;
 import com.livesexhouse.model.VideoCategoryCountClip;
@@ -833,8 +834,11 @@ public class SiteController {
                 user.setTokens(0);
                 user.setUsername(username);
 
-                userDao.save(user);
-
+                UserRoles ur = new UserRoles();
+                ur.setRole("ROLE_USER");
+                ur.setUsernameId(userDao.save(user));
+                userDao.saveRola(ur);
+                
             } else {
                 System.out.println("postoji user");
             }
@@ -1268,10 +1272,6 @@ public class SiteController {
          System.out.println("********");
         return "video-archive";
     }
-    
-    
-    
-    
     
     
     

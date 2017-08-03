@@ -2,29 +2,28 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+
+
+
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js ie6"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js ie7"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js ie8"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-        <link href="${location}favicon.ico" rel="icon" />
-	<title>Chat</title>
-	<meta name="description" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+        
+
+
+
+<c:choose>
+    <c:when test="${not empty userName}">
+    <%@include file="signed.jsp" %>
+    </c:when>
+    <c:otherwise>
+    <%@include file="sign.jsp" %>
+    </c:otherwise>
+</c:choose>
 	
-	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
-	<link rel="stylesheet" href="${location}/assets/css/lib/jcf.css">
-	<link rel="stylesheet" href="${location}/assets/css/lib/fakeScroll.css">
-	<link rel="stylesheet" href="${location}/assets/css/style.css">
-	<script type="text/javascript" src="${location}/assets/scripts/libs/modernizr.2.8.3.min.js"></script>
-</head>
-<body class="page-chat">
-    <%@include file="menu.jsp" %>
-	<div class="container full-screen-height">
-		
 		
 		<div id="page-wrap">
 			<div class="wrapper ">

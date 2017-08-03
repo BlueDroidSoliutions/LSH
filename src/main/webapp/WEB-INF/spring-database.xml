@@ -70,6 +70,7 @@
                 <value>com.livesexhouse.controller.Setup</value> 
                 <value>com.livesexhouse.model.VideoCategoryCountClip</value>
                 <value>com.livesexhouse.model.VideoFileName</value>
+                <value>com.livesexhouse.model.UserRoles</value>
                 <value>com.livesexhouse.model.Order</value>
                 <value>com.livesexhouse.model.OrderPayment</value>
                 <value>com.livesexhouse.model.Membership</value>
