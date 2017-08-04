@@ -23,9 +23,7 @@ public class ChatSchedulingConfigurer implements SchedulingConfigurer{
      return new ThreadPoolTaskScheduler();
   }
   
-  /**
-   * This is setting up a scheduled bean which will see which users are active
-   */
+ 
   @Bean
   @Inject
   public ActiveUserPinger activeUserPinger(SimpMessagingTemplate template, ActiveUserService activeUserService) {

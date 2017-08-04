@@ -2,3 +2,4 @@
 /target/www.livesexhouse.com-1.0-SNAPSHOT.war
 /nb-configuration.xml
 /target
+/target/*

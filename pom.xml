@@ -22,49 +22,71 @@ http://www.springframework.org/schema/security/spring-security.xsd
          
         
         
-        <dependency>
-        <groupId>io.projectreactor.spring</groupId>
-        <artifactId>reactor-spring-context</artifactId>
-        <version>2.0.7.RELEASE</version>
-    </dependency>
         
-        <dependency>
-  <groupId>org.projectreactor</groupId>
-  <artifactId>reactor-tcp</artifactId>
-  <version>1.0.1.RELEASE</version>
-</dependency>
         
-        <dependency>
-    <groupId>io.netty</groupId>
-    <artifactId>netty-all</artifactId>
-    <version>4.1.13.Final</version>
-</dependency>
-        
-        <dependency>
-    <groupId>io.projectreactor</groupId>
-    <artifactId>reactor-core</artifactId>
-    <version>3.0.7.RELEASE</version>
-</dependency>
         
         
         <dependency>
-    <groupId>org.projectreactor</groupId>
-    <artifactId>reactor-net</artifactId>
-    <version>1.1.6.RELEASE</version>
-</dependency>
+            <groupId>org.projectreactor</groupId>
+            <artifactId>reactor-net</artifactId>
+            <version>1.1.6.RELEASE</version>
+        </dependency>
         
-        <dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-messaging</artifactId>
-    <version>4.3.9.RELEASE</version>
-</dependency>
         
         
         <dependency>
-    <groupId>com.google.guava</groupId>
-    <artifactId>guava</artifactId>
-    <version>22.0</version>
-</dependency>
+            <groupId>io.projectreactor.spring</groupId>
+            <artifactId>reactor-spring-context</artifactId>
+            <version>2.0.7.RELEASE</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.projectreactor</groupId>
+            <artifactId>reactor-tcp</artifactId>
+            <version>1.0.1.RELEASE</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.13.Final</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty</artifactId>
+            <version>3.10.6.Final</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+            <version>3.0.7.RELEASE</version>
+        </dependency>
+        
+        
+    
+        
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+            <version>4.3.9.RELEASE</version>
+        </dependency>
+        
+        
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>22.0</version>
+        </dependency>
+        
+        
+        
+        
+        
+        
+        
         
         
         <dependency>
