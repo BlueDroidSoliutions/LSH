@@ -16,9 +16,10 @@
 
     
     <context:component-scan base-package="com.livesexhouse.controller" />
-    
-     <context:component-scan base-package="com.livesexhouse.DAO" />
-     <context:component-scan base-package="com.livesexhouse.chat" />
+
+    <context:component-scan base-package="com.livesexhouse.service" />
+    <context:component-scan base-package="com.livesexhouse.DAO" />
+    <context:component-scan base-package="com.livesexhouse.chat" />
     <context:component-scan base-package="com.livesexhouse.model" />
 
     <mvc:annotation-driven />
