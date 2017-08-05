@@ -19,11 +19,14 @@ public class PricePackage implements Serializable {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "credits", nullable = false, unique = true)
-    private Integer credits;
+    @Column(name = "tokens", nullable = false)
+    private Integer tokens;
     
-    @Column(name = "amount", nullable = false, unique = true)
+    @Column(name = "amount", nullable = false)
     private Double amount;
+
+    @Column(name = "active", nullable = false)
+    private Boolean active;
 
     @Override
     public String toString() {
@@ -46,12 +49,12 @@ public class PricePackage implements Serializable {
         this.name = name;
     }
 
-    public Integer getCredits() {
-        return credits;
+    public Integer getTokens() {
+        return tokens;
     }
 
-    public void setCredits(Integer credits) {
-        this.credits = credits;
+    public void setTokens(Integer credits) {
+        this.tokens = credits;
     }
 
     public Double getAmount() {
@@ -61,5 +64,12 @@ public class PricePackage implements Serializable {
     public void setAmount(Double amount) {
         this.amount = amount;
     }
-    
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }

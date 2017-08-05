@@ -6,6 +6,9 @@ import com.livesexhouse.model.PricePackage;
 import com.livesexhouse.service.PricePackageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  *
@@ -16,6 +19,12 @@ public class PricePackageServiceImpl extends AbstractGenericService<PricePackage
 
     @Autowired
     private PricePackageDao pricePackageDao;
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PricePackage> findAllActive() {
+        return getPricePackageDao().findAllActive();
+    }
 
     @Override
     protected GenericDao<PricePackage> getEntityDao() {
