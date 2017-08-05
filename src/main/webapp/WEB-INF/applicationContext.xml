@@ -52,8 +52,14 @@
     
 <!--    produkcija-->
     <bean id="propertyConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-          p:location="../WEB-INF/jdbc.properties" />
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>/WEB-INF/application.properties</value>
+                <value>/WEB-INF/jdbc.properties</value>
+            </list>
+        </property>
+    </bean>
     
   
 <!--    lokal  -->
@@ -78,8 +84,5 @@
     
     
 <tx:annotation-driven transaction-manager="transactionManager" mode="proxy" proxy-target-class="true" />
-
-     
-
 
 </beans>

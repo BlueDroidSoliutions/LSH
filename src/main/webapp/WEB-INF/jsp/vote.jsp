@@ -60,7 +60,7 @@
                                             <p>${pricePackage.tokens} tokens</p>
                                             <span>${pricePackage.amount}$</span>
                                         </div>
-                                        <a href="javascript:;" class="btn" onclick="buyTokens(${_csrf.token}, ${pricePackage.id})">Buy</a>
+                                        <a href="javascript:;" class="btn" onclick="buyTokens('${_csrf.token}', ${pricePackage.id})">Buy</a>
                                     </li>
                                 </c:if>
                             </c:forEach>
