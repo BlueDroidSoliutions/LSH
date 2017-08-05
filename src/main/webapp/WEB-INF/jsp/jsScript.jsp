@@ -11,6 +11,7 @@
         <script type="text/javascript">window.jQuery || document.write("<script src='${location}/assets/scripts/main/jquery-1.8.3.min.js'>\x3C/script>")</script>
         <script type="text/javascript" src="${location}/assets/scripts/libs/masonry.pkgd.min.js"></script>
         <script type="text/javascript" src="${location}/assets/scripts/libs/jQuery.fakeScroll.js"></script>
+        <script type="text/javascript" src="${location}/assets/scripts/libs/jcf.js"></script>
         <script type="text/javascript" src="${location}/assets/scripts/main/default.js"></script>
 
         <!--[if lt IE 7]>

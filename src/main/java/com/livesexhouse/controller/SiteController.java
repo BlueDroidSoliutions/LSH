@@ -2,25 +2,8 @@ package com.livesexhouse.controller;
 
 import com.livesexhouse.DAO.*;
 import com.livesexhouse.chat.ActiveUserService;
-import com.livesexhouse.model.Contact;
-import com.livesexhouse.model.MemberHouse;
-import com.livesexhouse.model.UserRoles;
-import com.livesexhouse.model.Users;
-import com.livesexhouse.model.VideoCategories;
-import com.livesexhouse.model.VideoCategoryCountClip;
-import com.livesexhouse.model.VideoClip;
-import com.livesexhouse.model.VideoFileName;
-import com.livesexhouse.model.VideoM2m;
-import com.livesexhouse.model.VideoRoom;
-import java.security.Principal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.StringJoiner;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import com.livesexhouse.model.*;
+import com.livesexhouse.service.PricePackageService;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
@@ -32,14 +15,20 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.StringJoiner;
 
 @Controller
 
@@ -98,6 +87,9 @@ public class SiteController {
 
     @Autowired
     Redirect redirect;
+
+    @Autowired
+    private PricePackageService pricePackageService;
 
     private ActiveUserService activeUserService;
 
@@ -226,6 +218,7 @@ public class SiteController {
         }
         return "uploadMulti";
     }
+
 
     @RequestMapping(value = "/uploadMulti", method = RequestMethod.POST)
 
@@ -1042,7 +1035,7 @@ public class SiteController {
             }
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("location", setupDao.getLocation());
-
+            model.addAttribute("pricePackages", pricePackageService.findAllActive());
         } catch (Exception ex) {
         }
         return "vote";
