@@ -7,6 +7,7 @@ import com.livesexhouse.model.Users;
 import com.livesexhouse.service.OrderPaymentService;
 import com.livesexhouse.service.OrderService;
 import com.livesexhouse.util.CryptoUtil;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,24 +78,26 @@ public class EpochController {
 	@RequestMapping(value = "/postback", method = RequestMethod.POST)
 	public void postback(@RequestParam("ans") String ans, @RequestParam("order_id") String memberId,
 			@RequestParam("transaction_id") String transactionId, @RequestParam("pi_code") String piCode,
-			@RequestParam("x_order_id") Long orderId) {
+			@RequestParam("x_order_id") String orderId) {
         LOGGER.info("REST postback request from Epoch memberId: {} transactionId: {} orderId: {}", memberId,
 				transactionId, orderId);
         try {
-            String decryptedOrderId = CryptoUtil.decrypt(orderId.toString().getBytes());
-            orderId = Long.valueOf(decryptedOrderId);
-            validatePostBackParameters(transactionId, piCode, orderId);
+            byte[] decodedOrderId = Base64.decodeBase64(orderId);
+            String decryptedOrderId = CryptoUtil.decrypt(decodedOrderId);
+            Long originalOrderId = Long.valueOf(decryptedOrderId);
+            validatePostBackParameters(transactionId, piCode, originalOrderId);
+
+            Order order = getOrderService().findById(originalOrderId);
+            Users user = order.getUser();
+            if (user.getEpochMemberId() == null && memberId != null) {
+                user.setEpochMemberId(memberId);
+            }
+            user.setTokens(user.getTokens() + order.getPricePackage().getTokens());
+            getUserDao().save(user);
+            getOrderPaymentService().create(order, transactionId);
         } catch (Exception e) {
-			LOGGER.error(e.getMessage());
-		}
-		Order order = getOrderService().findById(orderId);
-		Users user = order.getUser();
-		if (user.getEpochMemberId() == null && memberId != null) {
-			user.setEpochMemberId(memberId);
-		}
-		user.setTokens(user.getTokens() + order.getPricePackage().getTokens());
-		getUserDao().save(user);
-		getOrderPaymentService().create(order, transactionId);
+            LOGGER.error(e.getMessage());
+        }
 	}
 
 	private void validatePostBackParameters(String ans, String piCode, Long orderId) throws InvalidParameterException {
