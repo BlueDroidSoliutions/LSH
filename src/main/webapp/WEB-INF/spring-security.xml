@@ -7,13 +7,15 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 
+    <http pattern="/epoch/*" security="none">
+    </http>
+
     <!-- enable use-expressions -->
 	<http  use-expressions="true">
 
 		<intercept-url pattern="/admin**" access="hasRole('ADMIN')" />
-                <intercept-url pattern="/uploadMultiPage**" access="hasRole('VIDEO')" />
-                <intercept-url pattern="/uploadMulti**" access="hasRole('VIDEO')" />
-                
+        <intercept-url pattern="/uploadMultiPage**" access="hasRole('VIDEO')" />
+        <intercept-url pattern="/uploadMulti**" access="hasRole('VIDEO')" />
 
 		<!-- access denied page -->
 		<access-denied-handler error-page="/403" />
@@ -25,8 +27,6 @@
                     username-parameter="username"
                     password-parameter="password" />
 		<logout logout-success-url="/logout"  />
-		<!-- enable csrf protection -->
-		<csrf/>
 	</http>
 
 	<!-- Select users and user_roles from database -->
