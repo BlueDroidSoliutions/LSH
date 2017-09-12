@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.3" 
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="
-http://maven.apache.org/POM/4.3 
-http://maven.apache.org/xsd/maven-4.3.xsd
-http://www.springframework.org/schema/security
-http://www.springframework.org/schema/security/spring-security.xsd
-">
+         xsi:schemaLocation=" http://maven.apache.org/POM/4.3 http://maven.apache.org/xsd/maven-4.3.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.mycompany</groupId>
     <artifactId>www.livesexhouse.com</artifactId>
@@ -22,7 +17,11 @@ http://www.springframework.org/schema/security/spring-security.xsd
          
         
         
-        
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.0</version>
+        </dependency>
         
         
         
@@ -52,6 +51,13 @@ http://www.springframework.org/schema/security/spring-security.xsd
             <version>4.1.13.Final</version>
         </dependency>
         
+        
+        
+        
+        
+        
+        
+        
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty</artifactId>
@@ -66,7 +72,20 @@ http://www.springframework.org/schema/security/spring-security.xsd
         </dependency>
         
         
-    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+        </dependency>
         
         <dependency>
             <groupId>org.springframework</groupId>
@@ -306,7 +325,7 @@ http://www.springframework.org/schema/security/spring-security.xsd
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>eclipselink</artifactId>
             <version>2.5.2</version>
@@ -317,7 +336,7 @@ http://www.springframework.org/schema/security/spring-security.xsd
             <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
             <version>2.5.2</version>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>

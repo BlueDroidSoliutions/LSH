@@ -206,15 +206,7 @@
                         </div>
                     </div>
                 </div>
-                <footer class="footer">
-                    <div class="wrapper">
-                        <div class="banner">
-                            <img src="${location}/assets/img/o2.jpg" alt="">
-                        </div>
-                        <p>The site contains sexually explictit material. Enter only if you are at least 18 years old and agree to our cookie rools.</p>
-                        <p>Live Sex House - All Rights Reserved 2017.</p>
-                    </div>
-                </footer>
+               <%@include file="footer.jsp" %>
             </div>
         </div>
 

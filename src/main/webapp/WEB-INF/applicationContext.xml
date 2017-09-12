@@ -25,8 +25,8 @@
     <mvc:annotation-driven />
     
     <mvc:resources mapping="/resources/**" location="/resources/" />
-<!--    <mvc:resources mapping="/ext/**" location="file:C:/ftp/"/>-->
-    <mvc:resources mapping="/ext/**" location="file:/Users/roller/Desktop/vudu/"/>
+    <mvc:resources mapping="/ext/**" location="file:C:/ftp/"/>
+<!--    <mvc:resources mapping="/ext/**" location="file:/Users/roller/Desktop/vudu/"/>-->
     
     
     
@@ -41,18 +41,12 @@
 
 
     
-<!--    produkcija-->
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
           p:location="../WEB-INF/jdbc.properties" />
     
   
-<!--    lokal  -->
-<!--     <bean id="propertyConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-          p:location="/WEB-INF/jdbc.properties" />-->
-    
-  
+
     
 
 <bean id="dataSource"

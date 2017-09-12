@@ -8,9 +8,6 @@
 <!DOCTYPE html>
 
 
-?${_csrf.parameterName}=${_csrf.token}
-
-${_csrf.parameterName} <br/>${_csrf.token}
 
 
 <form method="POST" role="form" action="${pageContext.request.contextPath}/uploadMulti" enctype="multipart/form-data">

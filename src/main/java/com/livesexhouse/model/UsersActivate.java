@@ -16,6 +16,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -23,17 +24,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author roller
  */
 @Entity
-@Table(name = "user_m2m")
+@Table(name = "users_activate")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "UserM2m.findAll", query = "SELECT u FROM UserM2m u")
-    , @NamedQuery(name = "UserM2m.findById", query = "SELECT u FROM UserM2m u WHERE u.id = :id")
-    , @NamedQuery(name = "UserM2m.findByUserId", query = "SELECT u FROM UserM2m u WHERE u.userId = :userId")
-    , @NamedQuery(name = "UserM2m.findByFavClip", query = "SELECT u FROM UserM2m u WHERE u.favClip = :favClip")
-    , @NamedQuery(name = "UserM2m.findByFavGirl", query = "SELECT u FROM UserM2m u WHERE u.favGirl = :favGirl")
-    , @NamedQuery(name = "UserM2m.findByVote", query = "SELECT u FROM UserM2m u WHERE u.vote = :vote")
-    , @NamedQuery(name = "UserM2m.findByLikedClip", query = "SELECT u FROM UserM2m u WHERE u.likedClip = :likedClip")})
-public class UserM2m implements Serializable {
+    @NamedQuery(name = "UsersActivate.findAll", query = "SELECT u FROM UsersActivate u")
+    , @NamedQuery(name = "UsersActivate.findById", query = "SELECT u FROM UsersActivate u WHERE u.id = :id")
+    , @NamedQuery(name = "UsersActivate.findByUserId", query = "SELECT u FROM UsersActivate u WHERE u.userId = :userId")
+    , @NamedQuery(name = "UsersActivate.findByUserKey", query = "SELECT u FROM UsersActivate u WHERE u.userKey = :userKey")})
+public class UsersActivate implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,25 +43,23 @@ public class UserM2m implements Serializable {
     @NotNull
     @Column(name = "user_id")
     private int userId;
-    @Column(name = "fav_clip")
-    private Integer favClip;
-    @Column(name = "fav_girl")
-    private Integer favGirl;
-    @Column(name = "vote")
-    private Integer vote;
-    @Column(name = "liked_clip")
-    private Integer likedClip;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 128)
+    @Column(name = "user_key")
+    private String userKey;
 
-    public UserM2m() {
+    public UsersActivate() {
     }
 
-    public UserM2m(Integer id) {
+    public UsersActivate(Integer id) {
         this.id = id;
     }
 
-    public UserM2m(Integer id, int userId) {
+    public UsersActivate(Integer id, int userId, String userKey) {
         this.id = id;
         this.userId = userId;
+        this.userKey = userKey;
     }
 
     public Integer getId() {
@@ -82,36 +78,12 @@ public class UserM2m implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getFavClip() {
-        return favClip;
+    public String getUserKey() {
+        return userKey;
     }
 
-    public void setFavClip(Integer favClip) {
-        this.favClip = favClip;
-    }
-
-    public Integer getFavGirl() {
-        return favGirl;
-    }
-
-    public void setFavGirl(Integer favGirl) {
-        this.favGirl = favGirl;
-    }
-
-    public Integer getVote() {
-        return vote;
-    }
-
-    public void setVote(Integer vote) {
-        this.vote = vote;
-    }
-
-    public Integer getLikedClip() {
-        return likedClip;
-    }
-
-    public void setLikedClip(Integer likedClip) {
-        this.likedClip = likedClip;
+    public void setUserKey(String userKey) {
+        this.userKey = userKey;
     }
 
     @Override
@@ -124,10 +96,10 @@ public class UserM2m implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UserM2m)) {
+        if (!(object instanceof UsersActivate)) {
             return false;
         }
-        UserM2m other = (UserM2m) object;
+        UsersActivate other = (UsersActivate) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -136,7 +108,7 @@ public class UserM2m implements Serializable {
 
     @Override
     public String toString() {
-        return "com.livesexhouse.model.UserM2m[ id=" + id + " ]";
+        return "com.livesexhouse.model.UsersActivate[ id=" + id + " ]";
     }
     
 }

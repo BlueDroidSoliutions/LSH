@@ -21,16 +21,6 @@
           p:location="./WEB-INF/jdbc.properties" />
 
 
-    <!--lokal-->
-    <!--<bean id="propertyConfigurer"
-    class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-    p:location="/WEB-INF/jdbc.properties" />-->
-
-
-
-
-
-
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource"
           p:driverClassName="${jdbc.driverClassName}"
@@ -39,12 +29,6 @@
           p:password="${jdbc.password}"
     />
     
-  
-    
-    
-    
-    
-
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" /> 
         <property name="annotatedClasses">
@@ -75,6 +59,8 @@
                 <value>com.livesexhouse.model.OrderPayment</value>
                 <value>com.livesexhouse.model.Membership</value>
                 <value>com.livesexhouse.model.PricePackage</value>
+                <value>com.livesexhouse.model.UsersBlacklist</value>
+                <value>com.livesexhouse.model.UsersActivate</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -130,6 +116,9 @@
         <bean id="saveVideoFile" class="com.livesexhouse.controller.SaveVideoFile" />
         <bean id="params" class="com.livesexhouse.controller.Params" />
         <bean id="redirect" class="com.livesexhouse.controller.Redirect" />
+        <bean id="userM2mDAO" class="com.livesexhouse.DAO.UserM2mDAO" />
+        <bean id="usersBlacklistDAO" class="com.livesexhouse.DAO.UsersBlacklistDAO" />
+        <bean id="usersActivateDAO" class="com.livesexhouse.DAO.UsersActivateDAO" />
     
         
     

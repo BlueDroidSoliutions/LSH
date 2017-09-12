@@ -107,14 +107,14 @@
 
                                 <div id="tab-1" class="filter-content current">
                                     <ul>
-                                        <c:forEach items="${videoCategoryCountClips}" var="vccc">
-                                            <li>
-                                                <a href="${pth}./video?8=${vccc.id}${params}${percent}">
-                                                    <span class="name">${vccc.name}</span>
-                                                    <span class="results">${vccc.numb}</span>
-                                                </a>
-                                            </li>
-                                        </c:forEach>
+                                            <c:forEach items="${videoCategoryCountClips}" var="vccc">
+                                                <li>
+                                                    <a href="${pth}./video?8=${vccc.id}${params}${percent}">
+                                                        <span class="name">${vccc.name}</span>
+                                                        <span class="results">${vccc.numb}</span>
+                                                    </a>
+                                                </li>
+                                            </c:forEach>
                                     </ul>
                                 </div>
 
@@ -366,12 +366,7 @@
                     </div>
                 </div>
 
-                <footer class="footer">
-                    <div class="wrapper">
-                        <p>The site contains sexually explictit material. Enter only if you are at least 18 years old and agree to our cookie rools.</p>
-                        <p>Live Sex House - All Rights Reserved 2017.</p>
-                    </div>
-                </footer>
+               <%@include file="footer.jsp" %>
             </div>
 
         </div>
@@ -384,6 +379,8 @@
 	<script type="text/javascript" src="${location}/assets/scripts/libs/masonry.pkgd.min.js"></script>
 	<script type="text/javascript" src="${location}/assets/scripts/libs/datepicker.min.js"></script>
 	<script type="text/javascript" src="${location}/assets/scripts/main/default.js"></script>
+        <script type="text/javascript" src="${location}/assets/scripts/libs/jquery.flexslider-min.js"></script>
+        <script type="text/javascript" src="${location}/assets/scripts/libs/jQuery.fakeScroll.js"></script>
         
         
         <c:set var="startD" value='${startDate}'/> 

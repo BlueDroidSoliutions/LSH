@@ -24,18 +24,18 @@ $(document).ready(function () {
     }
 
 
-    if ( $( ".chack" ).length ) {
-       jcf.replaceAll();
+    if ($(".chack").length) {
+        jcf.replaceAll();
     }
 
     // Custom textarea scrollbar
-    if ($('.textarea-scrollbar').length){
+    if ($('.textarea-scrollbar').length) {
         $('.textarea-scrollbar').scrollbar();
-    
+
     }
 
     if ($("#carousel").length) {
-        
+
         $("#carousel .slides a").click(function (e) {
             e.preventDefault();
             $(this).attr("href").replace("watch?v=", "v/");
@@ -128,7 +128,7 @@ $(document).ready(function () {
 
         $('#textarea_feedback').html(text_remaining + ' characters remaining');
 
-        if(text_remaining < 0){
+        if (text_remaining < 0) {
             $('#textarea_feedback').addClass('alertMe');
         } else {
             $('#textarea_feedback').removeClass('alertMe');
@@ -178,16 +178,16 @@ $(document).ready(function () {
             }
         });
     }
-    
+
     $('#user').on('click', function (event) {
-        if(!$('body').hasClass('side-nav-open')) {
+        if (!$('body').hasClass('side-nav-open')) {
             $('body').addClass('side-nav-open');
         }
         event.preventDefault();
     });
-    
+
     $('.side-nav .toggle-side-nav').on('click', function (event) {
-        if($('body').hasClass('side-nav-open')) {
+        if ($('body').hasClass('side-nav-open')) {
             $('body').removeClass('side-nav-open');
         }
         event.preventDefault();
@@ -211,6 +211,11 @@ function iframeDimensions() {
     $('video').each(function () {
         var iWid = $(this).width();
         $(this).css('height', iWid * 0.56);
+    });
+
+    $('iframe').each(function () {
+        var iFrame = $(this).width();
+        $(this).css('height', iFrame * 0.56);
     });
     // obavezno u CSS-u za iframe { width: 100% !important; }
 
@@ -284,11 +289,11 @@ function iframeDimensions() {
         if ($(".page-chat .right-container .tab-link").first().hasClass('current')) {
             $('.page-chat').addClass('private');
             $('.page-chat .private-only').css('display', 'block');
-            $('.page-chat .video-view .main-info-list > li').first().css('width', '50%');
-            $('.page-chat .models-online').delay('5000').fadeOut('slow');
+            // $('.page-chat .video-view .main-info-list > li').first().css('width', '50%');
+            // $('.page-chat .models-online').delay('5000').fadeOut('slow');
         } else {
             $('.page-chat').removeClass('private');
-            $('.page-chat .private-only').css('display', 'none');
+            // $('.page-chat .private-only').css('display', 'none');
         }
     });
 
@@ -302,7 +307,7 @@ function iframeDimensions() {
         $('.chat-box .chat-popup').fadeOut('slow');
     });
 
-    $('.page-chat .models-online').delay('5000').fadeOut('slow');
+    // $('.page-chat .models-online').delay('5000').fadeOut('slow');
 
     // JCF
     if ($('body').hasClass('page-chat') || $('body').hasClass('page-participate')) {
@@ -316,21 +321,21 @@ function iframeDimensions() {
     if ($('body').hasClass('page-chat')) {
         $('.fakeScroll').fakeScroll();
     }
-    if ( $( ".fakeScroll" ).length ) {
-     
+    if ($(".fakeScroll").length) {
+
         $('.fakeScroll').fakeScroll();
-     
+
     }
 
 
-    $('.filter-by a').click(function(e){
+    $('.filter-by a').click(function (e) {
         var tab_id = $(this).attr('data-tab');
 
         $('.filter-by a').removeClass('current');
         $('.filter-content').removeClass('current');
 
         $(this).addClass('current');
-        $("#"+tab_id).addClass('current');
+        $("#" + tab_id).addClass('current');
 
         localStorage.setItem('activeTab', $(e.target).attr('data-tab'));
     })
@@ -339,28 +344,28 @@ function iframeDimensions() {
     console.log(activeTab);
 
     if (activeTab) {
-       $('a[data-tab="' + activeTab + '"]').trigger('click');
+        $('a[data-tab="' + activeTab + '"]').trigger('click');
     }
 
 
     $(".sort-options > ul > li ").click(function (e) {
-        if( $(this).hasClass('active-btn') ){
-              $(this).toggleClass('active-btn').find('.option-block.active ').slideUp().removeClass('active');
+        if ($(this).hasClass('active-btn')) {
+            $(this).toggleClass('active-btn').find('.option-block.active ').slideUp().removeClass('active');
         } else {
             $(".sort-options > ul > li.active-btn").removeClass('active-btn');
             $('.option-block.active ').slideUp().removeClass('active');
             $(this).toggleClass('active-btn').find('.option-block ').slideToggle().toggleClass('active');
         }
-      
-       $('[data-toggle="datepicker"]').focus();
+
+        $('[data-toggle="datepicker"]').focus();
     });
 
-    $(document).mouseup(function(e) 
+    $(document).mouseup(function (e)
     {
         var container = $(".sort-options");
 
         // if the target of the click isn't the container nor a descendant of the container
-        if (!container.is(e.target) && container.has(e.target).length === 0) 
+        if (!container.is(e.target) && container.has(e.target).length === 0)
         {
             $(".sort-options > ul > li.active-btn").removeClass('active-btn');
             $('.option-block.active ').slideUp().removeClass('active');
@@ -369,7 +374,7 @@ function iframeDimensions() {
 
     // Check screen size
     function screenClass() {
-        if($(window).innerWidth() > 1024) {
+        if ($(window).innerWidth() > 1024) {
             $('body').addClass('big-screen').removeClass('small-screen');
         } else {
             $('body').addClass('small-screen').removeClass('big-screen');
@@ -379,12 +384,12 @@ function iframeDimensions() {
     screenClass();
 
     // And recheck when window gets resized.
-    $(window).bind('resize',function(){
+    $(window).bind('resize', function () {
         screenClass();
     });
 
 
-    $('.video-item').each(function(index, element) {
+    $('.video-item').each(function (index, element) {
 
         var isPaused = true;   // New variable
         var initialFadeIn = 300;
@@ -392,19 +397,19 @@ function iframeDimensions() {
         var fadeTime = 300;
         var numberOfItems = $(this).find('.rollme').length;
         var currentItem = 0;
-        var target =  $(this).find('.rollme');
+        var target = $(this).find('.rollme');
 
         target.mouseenter(function () { // Mouse over slider, pause
-           
+
         }).mouseleave(function () { // mouse out of slider, unpause
-           
+
         });
 
 
-       target.hover(function() {
+        target.hover(function () {
             isPaused = false;
-        }, function(){
-             isPaused = true;
+        }, function () {
+            isPaused = true;
         });
 
         target.eq(currentItem).fadeIn(initialFadeIn);
@@ -417,53 +422,158 @@ function iframeDimensions() {
                 } else {
                     currentItem++;
                 }
-               target.eq(currentItem).fadeIn(fadeTime);
+                target.eq(currentItem).fadeIn(fadeTime);
             }
         }, itemInterval);
 
     });
 
 
-    // LOGIN / SIGN IN
-    var loginChecker = false;
-    var signinChecker = false;
 
-    if (loginChecker == true){
-       $('.main-popup').addClass('active');
+
+
+
+
+
+
+    // LOGIN / SIGN IN
+//        var loginChecker = false;
+//        var signinChecker = false;
+//        var emailTaken = false;
+//        var usernameTaken = false;
+//        var wrongPassword = false;
+//        var wrongUsername = false;
+//        var checkEmail = false;
+//        var alredySigned = false;
+//        var thanksReg = false;
+//        var serverOff = false;
+//        var emptyField = false;
+//        
+//        var serverOffMsg = "server vill be.. bla bla bla";
+
+    if (loginChecker == true) {
+        $('.main-popup').addClass('active');
         $(' #sign-up').show();
     }
-    if (signinChecker == true){
+    if (signinChecker == true) {
         $('.main-popup').addClass('active');
         $(' #sign-in').show();
     }
-    $('#login-btn').click(function(){
+    if (emailTaken == true) {
+        $('.main-popup .inner-wrapper').prepend("<p>Email is taken by another account</p>");
         $('.main-popup').addClass('active');
         $(' #sign-up').show();
+    }
+    if (wrongPassword == true) {
+        $('.main-popup .inner-wrapper').prepend("<p>Wrong username or password</p>")
+    }
+    if (wrongUsername == true) {
+        $('.main-popup .inner-wrapper').prepend("<p>Wrong username or password</p>")
+    }
+    if (usernameTaken == true) {
+        $('.main-popup .inner-wrapper').prepend("<p>This username is already taken by another user</p>");
+        $('.main-popup').addClass('active');
+        $(' #sign-up').show();
+    }
+
+    if (thanksReg == true) {
+        $('.main-popup .inner-wrapper').prepend("<p>Thank you for verification, please </p>")
+    }
+
+    if (emptyField == true) {
+        $('.main-popup .inner-wrapper').prepend("<p>Empty field </p>");
+        $('.main-popup').addClass('active');
+        $(' #sign-up').show();
+    }
+
+
+    if (checkEmail == true) {
+        $('.main-popup').addClass('active');
+        $('.main-popup .inner-wrapper').prepend("<p>Please check your E-Mail</p>");
+        $(' #sign-in').show();
+        $(' #sign-up').hide();
+        $(' #showCreate').hide();
+        $(' #dont').hide();
+        $(' .inner-wrapper h2').hide();
+        $(' #name').hide();
+        $(' #password').hide();
+        $(' .btn').hide();
+    }
+
+
+//    if (serverOff == true) {
+//        $('.main-popup').addClass('active');
+//        $('.main-popup .popup-wrapper').prepend("<p>" + serverOffMsg + "</p>");
+//        $(' #sign-in').hide();
+//        $(' #sign-up').hide();
+//        
+//    }
+
+
+
+
+
+
+    $('#login-btn').click(function () {
+        $('.main-popup').addClass('active');
+        if (alredySigned == true) {
+            $('#sign-up').hide();
+            $('#sign-in').show();
+        } else if (checkEmail == true) {
+            $('.main-popup').addClass('active');
+            $(' #sign-in').show();
+            $(' #sign-up').hide();
+            $(' #showCreate').hide();
+            $(' #dont').hide();
+            $(' .inner-wrapper h2').hide();
+            $(' #name').hide();
+            $(' #password').hide();
+            $(' .btn').hide();
+        } else {
+            $('#sign-up').show();
+            $('#sign-in').hide();
+        }
+
+
+
     });
-   
+
     // Go from LOGIN to SIGN IN
-    $('#showSignIn').click(function(){
+    $('#showSignIn').click(function () {
         $('#sign-up').hide();
         $('#sign-in').show();
     });
-    $('.close-me').click(function(){
+    $('#showCreate').click(function () {
+        $('#sign-up').show();
+        $('#sign-in').hide();
+    });
+
+
+    $('.close-me').click(function () {
         $(this).parent().hide();
         $('.main-popup').removeClass('active');
     });
+
+
 
     // TEST links 
     var roomItems = $('.room-navigation > li');
 
     $(".room-links a").click(function () {
-        var theID  = $(this).data("id");
+        var theID = $(this).data("id");
         var selectedRoom = $(this).text();
 
         $('.selected-room').text(selectedRoom);
 
         roomItems.removeClass('active');
-        roomItems.filter(function() {
+        roomItems.filter(function () {
             return $(this).data('room') === theID;
         }).addClass('active');
 
+    });
+
+
+    $(".btn-settings").click(function () {
+        $(this).next().slideToggle();
     });
 }

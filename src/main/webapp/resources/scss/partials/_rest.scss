@@ -635,13 +635,12 @@
                 text-align: center;
                 padding: 10px;
 
-                &>li {
+                & > li {
                     display: block;
-                    width: 100%;
+                    width: 50%;
                     margin: 0 auto 10px;
                     min-width: 110px;
-                    float: none;
-
+                    min-height: 70px;
                     &:after {
                         display: none;
                     }
@@ -649,7 +648,7 @@
                     &:first-of-type {
                         width: 100% !important;
                         display: block;
-
+                        margin-top: 15px;
                         img {
                             max-width: 70px;
                         }

@@ -4,6 +4,7 @@ import com.livesexhouse.controller.Setup;
 import com.livesexhouse.model.GirlsHair;
 import com.livesexhouse.model.GirlsHair;
 import com.livesexhouse.model.MemberHouse;
+import com.livesexhouse.model.VideoCategories;
 import com.livesexhouse.model.VideoClip;
 import com.livesexhouse.model.VideoM2m;
 import java.util.ArrayList;
@@ -109,5 +110,29 @@ public class VideoM2mDao {
         }
         return result;
     }
+   
+   
+   public List<VideoCategories> findCategoriesByVideoId(int id) {
+        Query q = sessionFactory.getCurrentSession().createQuery("SELECT v.categoryId FROM VideoM2m v WHERE v.clipId = :m");
+            q.setParameter("m", id);
+         List cat = new ArrayList();
+         cat = q.getResultList();         
+         Query q2 = sessionFactory.getCurrentSession().createQuery("SELECT v FROM VideoCategories v WHERE v.id IN :cat");
+         q2.setParameter("cat", cat);
+        List<VideoCategories> result = new ArrayList<>();
+        result = q2.getResultList();
+        return result;
+    }
+   
+   public int findSeasonByVideoId(int id) {
+        Query q = sessionFactory.getCurrentSession().createNativeQuery("SELECT v.season FROM video_m2m v WHERE v.clip_id ="+id+" and v.season is not null;");
+           
+         List <Integer>cat = new ArrayList<>();
+         int r = (Integer) q.getSingleResult();
+         
+         return r;
+   
+   }
+   
     
 }
