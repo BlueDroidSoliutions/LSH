@@ -25,5 +25,10 @@ public class NameGenerator
   {
     return new BigInteger(512, random).toString(32);
   }
+  
+  public String nextBigKey()
+  {
+    return new BigInteger(512, random).toString(64);
+  }
 
 }

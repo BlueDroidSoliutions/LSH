@@ -26,6 +26,14 @@ import java.util.List;
     , @NamedQuery(name = "Users.findByUsername", query = "SELECT u FROM Users u WHERE u.username = :username")
     , @NamedQuery(name = "Users.findByPassword", query = "SELECT u FROM Users u WHERE u.password = :password")
     , @NamedQuery(name = "Users.findByEnabled", query = "SELECT u FROM Users u WHERE u.enabled = :enabled")
+    , @NamedQuery(name = "Users.findGirls", query = "SELECT u.username FROM Users u WHERE u.enabled = 2 OR u.enabled = 4 OR u.enabled = 6")
+    , @NamedQuery(name = "Users.findByEnabled2", query = "SELECT u.username FROM Users u WHERE u.enabled = 2")
+    , @NamedQuery(name = "Users.findByEnabled3", query = "SELECT u.username FROM Users u WHERE u.enabled = 3")
+    , @NamedQuery(name = "Users.findByEnabled4", query = "SELECT u.username FROM Users u WHERE u.enabled = 4")
+    , @NamedQuery(name = "Users.findByEnabled5", query = "SELECT u.username FROM Users u WHERE u.enabled = 5")
+    , @NamedQuery(name = "Users.findByEnabled6", query = "SELECT u.username FROM Users u WHERE u.enabled = 6")
+    , @NamedQuery(name = "Users.findByEnabled7", query = "SELECT u.username FROM Users u WHERE u.enabled = 7")
+        
     , @NamedQuery(name = "Users.findByTokens", query = "SELECT u FROM Users u WHERE u.tokens = :tokens")
     , @NamedQuery(name = "Users.findByMemberfrom", query = "SELECT u FROM Users u WHERE u.memberfrom = :memberfrom")
     , @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email")})
@@ -168,5 +176,5 @@ public class Users implements Serializable {
     public String toString() {
         return "com.livesexhouse.model.Users[ id=" + id + " ]";
     }
-    
+
 }

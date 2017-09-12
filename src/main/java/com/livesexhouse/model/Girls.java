@@ -9,8 +9,6 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -43,102 +41,65 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Girls.findByPiercing", query = "SELECT g FROM Girls g WHERE g.piercing = :piercing")
     , @NamedQuery(name = "Girls.findByShave", query = "SELECT g FROM Girls g WHERE g.shave = :shave")
     , @NamedQuery(name = "Girls.findByToy", query = "SELECT g FROM Girls g WHERE g.toy = :toy")
-    , @NamedQuery(name = "Girls.findByStory", query = "SELECT g FROM Girls g WHERE g.story = :story")})
+    , @NamedQuery(name = "Girls.findByStory", query = "SELECT g FROM Girls g WHERE g.story = :story")
+    , @NamedQuery(name = "Girls.findByEnabled", query = "SELECT g FROM Girls g WHERE g.enabled = 1")
+    , @NamedQuery(name = "Girls.findByTarifa", query = "SELECT g FROM Girls g WHERE g.tarifa = :tarifa")})
 public class Girls implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 128)
+    @Size(max = 128)
     @Column(name = "name")
     private String name;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "gender")
-    private boolean gender;
-    @Basic(optional = false)
-    @NotNull
+    private Boolean gender;
     @Column(name = "age")
-    private int age;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 128)
+    private Integer age;
+    @Size(max = 128)
     @Column(name = "state")
     private String state;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 128)
+    @Size(max = 128)
     @Column(name = "city")
     private String city;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 16)
+    @Size(max = 16)
     @Column(name = "zip_code")
     private String zipCode;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 128)
+    @Size(max = 128)
     @Column(name = "email")
     private String email;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 128)
+    @Size(max = 128)
     @Column(name = "user_name")
     private String userName;
     @Column(name = "like")
     private Integer like;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "breast")
-    private int breast;
-    @Basic(optional = false)
-    @NotNull
+    private Integer breast;
     @Column(name = "weight")
-    private int weight;
-    @Basic(optional = false)
-    @NotNull
+    private Integer weight;
     @Column(name = "piercing")
-    private boolean piercing;
-    @Basic(optional = false)
-    @NotNull
+    private Boolean piercing;
     @Column(name = "shave")
-    private boolean shave;
-    @Basic(optional = false)
-    @NotNull
+    private Boolean shave;
     @Column(name = "toy")
-    private boolean toy;
+    private Boolean toy;
     @Size(max = 255)
     @Column(name = "story")
     private String story;
+    @Column(name = "enabled")
+    private Boolean enabled;
+    @Column(name = "tarifa")
+    private Integer tarifa;
 
     public Girls() {
     }
 
     public Girls(Integer id) {
         this.id = id;
-    }
-
-    public Girls(Integer id, String name, boolean gender, int age, String state, String city, String zipCode, String email, String userName, int breast, int weight, boolean piercing, boolean shave, boolean toy) {
-        this.id = id;
-        this.name = name;
-        this.gender = gender;
-        this.age = age;
-        this.state = state;
-        this.city = city;
-        this.zipCode = zipCode;
-        this.email = email;
-        this.userName = userName;
-        this.breast = breast;
-        this.weight = weight;
-        this.piercing = piercing;
-        this.shave = shave;
-        this.toy = toy;
     }
 
     public Integer getId() {
@@ -157,19 +118,19 @@ public class Girls implements Serializable {
         this.name = name;
     }
 
-    public boolean getGender() {
+    public Boolean getGender() {
         return gender;
     }
 
-    public void setGender(boolean gender) {
+    public void setGender(Boolean gender) {
         this.gender = gender;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
@@ -221,43 +182,43 @@ public class Girls implements Serializable {
         this.like = like;
     }
 
-    public int getBreast() {
+    public Integer getBreast() {
         return breast;
     }
 
-    public void setBreast(int breast) {
+    public void setBreast(Integer breast) {
         this.breast = breast;
     }
 
-    public int getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 
-    public boolean getPiercing() {
+    public Boolean getPiercing() {
         return piercing;
     }
 
-    public void setPiercing(boolean piercing) {
+    public void setPiercing(Boolean piercing) {
         this.piercing = piercing;
     }
 
-    public boolean getShave() {
+    public Boolean getShave() {
         return shave;
     }
 
-    public void setShave(boolean shave) {
+    public void setShave(Boolean shave) {
         this.shave = shave;
     }
 
-    public boolean getToy() {
+    public Boolean getToy() {
         return toy;
     }
 
-    public void setToy(boolean toy) {
+    public void setToy(Boolean toy) {
         this.toy = toy;
     }
 
@@ -267,6 +228,22 @@ public class Girls implements Serializable {
 
     public void setStory(String story) {
         this.story = story;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Integer getTarifa() {
+        return tarifa;
+    }
+
+    public void setTarifa(Integer tarifa) {
+        this.tarifa = tarifa;
     }
 
     @Override

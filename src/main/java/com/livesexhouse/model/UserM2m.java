@@ -31,7 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "UserM2m.findByUserId", query = "SELECT u FROM UserM2m u WHERE u.userId = :userId")
     , @NamedQuery(name = "UserM2m.findByFavClip", query = "SELECT u FROM UserM2m u WHERE u.favClip = :favClip")
     , @NamedQuery(name = "UserM2m.findByFavGirl", query = "SELECT u FROM UserM2m u WHERE u.favGirl = :favGirl")
-    , @NamedQuery(name = "UserM2m.findByVote", query = "SELECT u FROM UserM2m u WHERE u.vote = :vote")})
+    , @NamedQuery(name = "UserM2m.findByVote", query = "SELECT u FROM UserM2m u WHERE u.vote = :vote")
+    , @NamedQuery(name = "UserM2m.findByLikedClip", query = "SELECT u FROM UserM2m u WHERE u.likedClip = :likedClip")})
 public class UserM2m implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,6 +51,8 @@ public class UserM2m implements Serializable {
     private Integer favGirl;
     @Column(name = "vote")
     private Integer vote;
+    @Column(name = "liked_clip")
+    private Integer likedClip;
 
     public UserM2m() {
     }
@@ -101,6 +104,14 @@ public class UserM2m implements Serializable {
 
     public void setVote(Integer vote) {
         this.vote = vote;
+    }
+
+    public Integer getLikedClip() {
+        return likedClip;
+    }
+
+    public void setLikedClip(Integer likedClip) {
+        this.likedClip = likedClip;
     }
 
     @Override

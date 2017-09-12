@@ -212,6 +212,11 @@ function iframeDimensions() {
         var iWid = $(this).width();
         $(this).css('height', iWid * 0.56);
     });
+
+     $('iframe').each(function () {
+        var iFrame = $(this).width();
+        $(this).css('height',  iFrame * 0.56);
+    });
     // obavezno u CSS-u za iframe { width: 100% !important; }
 
     /*--------------------------------------------------------------
@@ -284,11 +289,11 @@ function iframeDimensions() {
         if ($(".page-chat .right-container .tab-link").first().hasClass('current')) {
             $('.page-chat').addClass('private');
             $('.page-chat .private-only').css('display', 'block');
-            $('.page-chat .video-view .main-info-list > li').first().css('width', '50%');
-            $('.page-chat .models-online').delay('5000').fadeOut('slow');
+            // $('.page-chat .video-view .main-info-list > li').first().css('width', '50%');
+            // $('.page-chat .models-online').delay('5000').fadeOut('slow');
         } else {
             $('.page-chat').removeClass('private');
-            $('.page-chat .private-only').css('display', 'none');
+            // $('.page-chat .private-only').css('display', 'none');
         }
     });
 
@@ -302,7 +307,7 @@ function iframeDimensions() {
         $('.chat-box .chat-popup').fadeOut('slow');
     });
 
-    $('.page-chat .models-online').delay('5000').fadeOut('slow');
+    // $('.page-chat .models-online').delay('5000').fadeOut('slow');
 
     // JCF
     if ($('body').hasClass('page-chat') || $('body').hasClass('page-participate')) {
@@ -333,7 +338,7 @@ function iframeDimensions() {
         $("#"+tab_id).addClass('current');
 
         localStorage.setItem('activeTab', $(e.target).attr('data-tab'));
-    })
+    });
 
     var activeTab = localStorage.getItem('activeTab');
     console.log(activeTab);
@@ -424,29 +429,123 @@ function iframeDimensions() {
     });
 
 
+  
+  
+    
     // LOGIN / SIGN IN
-    var loginChecker = false;
-    var signinChecker = false;
+//        var loginChecker = false;
+//        var signinChecker = false;
+//        var emailTaken = false;
+//        var usernameTaken = false;
+//        var wrongPassword = false;
+//        var wrongUsername = false;
+//        var checkEmail = false;
+//        var alredySigned = false;
+//        var thanksReg = false;
+//        var serverOff = false;
+//        var emptyField = false;
+//        
+//        var serverOffMsg = "server vill be.. bla bla bla";
 
-    if (loginChecker == true){
-       $('.main-popup').addClass('active');
+    if (loginChecker == true) {
+        $('.main-popup').addClass('active');
         $(' #sign-up').show();
     }
-    if (signinChecker == true){
+    if (signinChecker == true) {
         $('.main-popup').addClass('active');
         $(' #sign-in').show();
     }
-    $('#login-btn').click(function(){
+    if (emailTaken == true) {
+        $('.main-popup .inner-wrapper').prepend("<p>Email is taken by another account</p>");
         $('.main-popup').addClass('active');
         $(' #sign-up').show();
+    }
+    if (wrongPassword == true) {
+        $('.main-popup .inner-wrapper').prepend("<p>Wrong username or password</p>")
+    }
+    if (wrongUsername == true) {
+        $('.main-popup .inner-wrapper').prepend("<p>Wrong username or password</p>")
+    }
+    if (usernameTaken == true) {
+        $('.main-popup .inner-wrapper').prepend("<p>This username is already taken by another user</p>");
+        $('.main-popup').addClass('active');
+        $(' #sign-up').show();
+    }
+
+    if (thanksReg == true) {
+        $('.main-popup .inner-wrapper').prepend("<p>Thank you for verification, please </p>")
+    }
+
+    if (emptyField == true) {
+        $('.main-popup .inner-wrapper').prepend("<p>Empty field </p>");
+        $('.main-popup').addClass('active');
+        $(' #sign-up').show();
+    }
+
+
+    if (checkEmail == true) {
+        $('.main-popup').addClass('active');
+        $('.main-popup .inner-wrapper').prepend("<p>Please check your E-Mail</p>");
+        $(' #sign-in').show();
+        $(' #sign-up').hide();
+        $(' #showCreate').hide();
+        $(' #dont').hide();
+        $(' .inner-wrapper h2').hide();
+        $(' #name').hide();
+        $(' #password').hide();
+        $(' .btn').hide();
+    }
+
+
+//    if (serverOff == true) {
+//        $('.main-popup').addClass('active');
+//        $('.main-popup .popup-wrapper').prepend("<p>" + serverOffMsg + "</p>");
+//        $(' #sign-in').hide();
+//        $(' #sign-up').hide();
+//        
+//    }
+
+
+
+
+
+
+    $('#login-btn').click(function () {
+        $('.main-popup').addClass('active');
+        if (alredySigned == true) {
+            $('#sign-up').hide();
+            $('#sign-in').show();
+        } else if (checkEmail == true) {
+            $('.main-popup').addClass('active');
+            $(' #sign-in').show();
+            $(' #sign-up').hide();
+            $(' #showCreate').hide();
+            $(' #dont').hide();
+            $(' .inner-wrapper h2').hide();
+            $(' #name').hide();
+            $(' #password').hide();
+            $(' .btn').hide();
+        } else {
+            $('#sign-up').show();
+            $('#sign-in').hide();
+        }
+
+
+
     });
-   
+
     // Go from LOGIN to SIGN IN
-    $('#showSignIn').click(function(){
+    $('#showSignIn').click(function () {
         $('#sign-up').hide();
         $('#sign-in').show();
     });
-    $('.close-me').click(function(){
+    $('#showCreate').click(function () {
+        $('#sign-up').show();
+        $('#sign-in').hide();
+    });
+
+
+    $('.close-me').click(function () {
         $(this).parent().hide();
         $('.main-popup').removeClass('active');
     });
@@ -465,5 +564,10 @@ function iframeDimensions() {
             return $(this).data('room') === theID;
         }).addClass('active');
 
+    });
+
+    
+    $(".btn-settings").click(function () {
+        $(this).next().slideToggle();
     });
 }

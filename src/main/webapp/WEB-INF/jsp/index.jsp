@@ -24,6 +24,11 @@
     </c:otherwise>
 </c:choose>
 
+   
+    
+    
+    
+    
 		<div id="page-wrap">
 			<div class="content">
 				<div class="wrapper">
@@ -75,8 +80,8 @@
 							</ul>
 						</div>
 						
-						<a href="javascript:;" class="sidebar-btn">Participate</a>
-						<a href="javascript:;" class="sidebar-btn">Your wish</a>
+						<a href="./participate" class="sidebar-btn">Participate</a>
+						<a href="./wish" class="sidebar-btn">Your wish</a>
 					</div>
 					<div class="main-block">
 						<div class="main-top">
@@ -87,7 +92,7 @@
 								<iframe width="420" height="345" src="https://www.youtube.com/embed/LIMYj5mpMM4" frameborder="0" ></iframe>
 							</div>
 							<aside class="video-aside">
-								<a href="javascript:;" class="one-half widget">
+								<a href="./video" class="one-half widget">
 									<h3>Video <br/> archive</h3>
 								</a>
 								<a href="javascript:;" class="one-half widget img-bg"  style="background-image: url(${location}/assets/img/content/img-wanted.png);">
@@ -103,7 +108,7 @@
 						<div class="main-bottom">
 							<div class="hero">
 								<h2>Online now - Web cam</h2>
-								<a href="webcam.html">View all</a>
+								<a href="./webcam">View all</a>
 								<a href="javascript:;" class="token-img">
 									<img src="" alt="" />
 								</a>
@@ -129,24 +134,26 @@
 				</div>
 			</div>
 
-			<footer class="footer">
-				<div class="wrapper">
-					<p>The site contains sexually explictit material. Enter only if you are at least 18 years old and agree to our cookie rools.</p>
-					<p>Live Sex House - All Rights Reserved 2017.</p>
-				</div>
-			</footer>
+			 <%@include file="footer.jsp" %>
 		</div>
 			
 	</div>
 
 	<!-- javascript -->
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-        <script type="text/javascript">window.jQuery || document.write("<script src='${location}/assets/scripts/main/jquery-1.8.3.min.js'>\x3C/script>")</script>
-        <script type="text/javascript" src="${location}/assets/scripts/libs/jquery.flexslider-min.js"></script>
-        <script type="text/javascript" src="${location}/assets/scripts/libs/jQuery.fakeScroll.js"></script>
-        <script type="text/javascript" src="${location}/assets/scripts/libs/jcf.js"></script>
-        <script type="text/javascript" src="${location}/assets/scripts/libs/jcf.range.js"></script>
-        <script type="text/javascript" src="${location}/assets/scripts/main/default.js"></script>
+
+        
+        
+        
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script type="text/javascript">window.jQuery || document.write("<script src='assets/scripts/main/jquery-1.8.3.min.js'>\x3C/script>")</script>
+	<script type="text/javascript" src="${location}/assets/scripts/libs/owl.carousel.min.js"></script>
+	<script type="text/javascript" src="${location}/assets/scripts/libs/jcf.js"></script>
+	<script type="text/javascript" src="${location}/assets/scripts/libs/jcf.checkbox.js"></script>
+	<script type="text/javascript" src="${location}/assets/scripts/libs/jQuery.fakeScroll.js"></script>
+	<script type="text/javascript" src="${location}/assets/scripts/main/default.js"></script>
+        
+        
+        
  <!--[if lt IE 7]>
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->

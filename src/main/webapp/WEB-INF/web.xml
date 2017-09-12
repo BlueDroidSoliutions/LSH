@@ -38,6 +38,7 @@
             /WEB-INF/applicationContext.xml,
             /WEB-INF/spring-database.xml,
             /WEB-INF/spring-security.xml,
+            /WEB-INF/socketConfig.xml,
             classpath*:springWebMultipartContext.xml
 <!--            /WEB-INF/websocket-config.xml-->
         </param-value>

@@ -24,8 +24,7 @@
     </c:otherwise>
 </c:choose>
 
-
-		<div id="page-wrap">
+<div id="page-wrap">
 			<div class="wish-container clearfix">
 				<div class="box-left">
 					<div class="form-holder clearfix">
@@ -99,17 +98,20 @@
 			</div>
 		</div>
 
-			<footer class="footer">
-				<div class="wrapper">
-					<p>The site contains sexually explictit material. Enter only if you are at least 18 years old and agree to our cookie rools.</p>
-					<p>Live Sex House - All Rights Reserved 2017.</p>
-				</div>
-			</footer>
+			<%@include file="footer.jsp" %>
+
 		</div>
 			
 	</div>
 
-	<%@include file="jsScript.jsp" %>
+	<!-- javascript -->
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script type="text/javascript">window.jQuery || document.write("<script src='assets/scripts/main/jquery-1.8.3.min.js'>\x3C/script>");</script>
+	<script type="text/javascript" src="${location}/assets/scripts/libs/jquery.selectric.js"></script>
+	<script type="text/javascript" src="${location}/assets/scripts/main/default.js"></script>
 
+ <!--[if lt IE 7]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
 </body>
 </html>

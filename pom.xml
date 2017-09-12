@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.3" 
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="
-http://maven.apache.org/POM/4.3 
-http://maven.apache.org/xsd/maven-4.3.xsd
-http://www.springframework.org/schema/security
-http://www.springframework.org/schema/security/spring-security.xsd
-">
+         xsi:schemaLocation=" http://maven.apache.org/POM/4.3 http://maven.apache.org/xsd/maven-4.3.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.mycompany</groupId>
     <artifactId>www.livesexhouse.com</artifactId>
@@ -23,6 +18,73 @@ http://www.springframework.org/schema/security/spring-security.xsd
         
         
         
+        <dependency>
+    <groupId>org.glassfish.tyrus</groupId>
+    <artifactId>tyrus-core</artifactId>
+    <version>1.13.1</version>
+</dependency>
+        
+        <dependency>
+    <groupId>org.glassfish.tyrus</groupId>
+    <artifactId>tyrus-client</artifactId>
+    <version>1.13.1</version>
+    <scope>test</scope>
+</dependency>
+        
+        <dependency>
+    <groupId>org.glassfish.tyrus</groupId>
+    <artifactId>tyrus-container-glassfish-cdi</artifactId>
+    <version>1.13.1</version>
+</dependency>
+        
+        <dependency>
+    <groupId>org.glassfish.tyrus</groupId>
+    <artifactId>tyrus-container-glassfish-ejb</artifactId>
+    <version>1.13.1</version>
+</dependency>
+
+<dependency>
+    <groupId>org.glassfish.tyrus</groupId>
+    <artifactId>tyrus-container-grizzly-client</artifactId>
+    <version>1.13.1</version>
+    <scope>test</scope>
+</dependency>
+
+<dependency>
+    <groupId>org.glassfish.tyrus</groupId>
+    <artifactId>tyrus-container-servlet</artifactId>
+    <version>1.13.1</version>
+</dependency>
+
+<dependency>
+    <groupId>org.glassfish.tyrus</groupId>
+    <artifactId>tyrus-server</artifactId>
+    <version>1.13.1</version>
+</dependency>
+
+<dependency>
+    <groupId>org.glassfish.tyrus</groupId>
+    <artifactId>tyrus-spi</artifactId>
+    <version>1.13.1</version>
+</dependency>
+
+        
+        
+        
+        
+<!--        <dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-websocket</artifactId>
+    <version>9.0.0.M26</version>
+</dependency>-->
+        
+        
+        
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.0</version>
+        </dependency>
         
         
         
@@ -66,7 +128,15 @@ http://www.springframework.org/schema/security/spring-security.xsd
         </dependency>
         
         
-    
+        
+        
+        
+        
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+        </dependency>
         
         <dependency>
             <groupId>org.springframework</groupId>
