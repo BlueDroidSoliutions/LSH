@@ -19,12 +19,24 @@ public class PricePackage implements Serializable {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
+<<<<<<< .merge_file_aE0sbc
     @Column(name = "credits", nullable = false, unique = true)
     private Integer credits;
     
     @Column(name = "amount", nullable = false, unique = true)
     private Double amount;
 
+=======
+    @Column(name = "tokens", nullable = false)
+    private Integer tokens;
+    
+    @Column(name = "amount", nullable = false)
+    private Double amount;
+
+    @Column(name = "active", nullable = false)
+    private Boolean active;
+
+>>>>>>> .merge_file_5YVFwU
     @Override
     public String toString() {
         return "name=" + name;
@@ -46,12 +58,21 @@ public class PricePackage implements Serializable {
         this.name = name;
     }
 
+<<<<<<< .merge_file_aE0sbc
     public Integer getCredits() {
         return credits;
     }
 
     public void setCredits(Integer credits) {
         this.credits = credits;
+=======
+    public Integer getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(Integer credits) {
+        this.tokens = credits;
+>>>>>>> .merge_file_5YVFwU
     }
 
     public Double getAmount() {
@@ -61,5 +82,16 @@ public class PricePackage implements Serializable {
     public void setAmount(Double amount) {
         this.amount = amount;
     }
+<<<<<<< .merge_file_aE0sbc
     
+=======
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+>>>>>>> .merge_file_5YVFwU
 }

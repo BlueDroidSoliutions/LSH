@@ -7,6 +7,10 @@ import com.livesexhouse.model.OrderPayment;
 import com.livesexhouse.service.OrderPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+<<<<<<< .merge_file_hqGlkj
+=======
+import org.springframework.transaction.annotation.Transactional;
+>>>>>>> .merge_file_7iYy83
 
 import java.util.Date;
 
@@ -21,6 +25,10 @@ public class OrderPaymentServiceImpl extends AbstractGenericService<OrderPayment
     private OrderPaymentDao orderPaymentDao;
 
     @Override
+<<<<<<< .merge_file_hqGlkj
+=======
+    @Transactional
+>>>>>>> .merge_file_7iYy83
     public OrderPayment create(Order order, String transactionId) {
         OrderPayment orderPayment = new OrderPayment();
         orderPayment.setOrder(order);
@@ -31,6 +39,15 @@ public class OrderPaymentServiceImpl extends AbstractGenericService<OrderPayment
     }
 
     @Override
+<<<<<<< .merge_file_hqGlkj
+=======
+    @Transactional(readOnly = true)
+    public OrderPayment findByTransactionId(String transactionId) {
+        return getOrderPaymentDao().findByTransactionId(transactionId);
+    }
+
+    @Override
+>>>>>>> .merge_file_7iYy83
     protected GenericDao<OrderPayment> getEntityDao() {
         return getOrderPaymentDao();
     }

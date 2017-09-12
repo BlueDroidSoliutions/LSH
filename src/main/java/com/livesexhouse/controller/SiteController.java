@@ -1,6 +1,7 @@
 package com.livesexhouse.controller;
 
 import com.livesexhouse.DAO.*;
+<<<<<<< .merge_file_NiwM6t
 
 import com.livesexhouse.model.Contact;
 import com.livesexhouse.model.MemberHouse;
@@ -24,6 +25,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+=======
+import com.livesexhouse.chat.ActiveUserService;
+import com.livesexhouse.model.*;
+import com.livesexhouse.service.PricePackageService;
+>>>>>>> .merge_file_eAZYLc
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
@@ -37,15 +43,29 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+<<<<<<< .merge_file_NiwM6t
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+=======
+import org.springframework.web.bind.annotation.*;
+>>>>>>> .merge_file_eAZYLc
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.StringJoiner;
 
 @Controller
 
@@ -106,10 +126,16 @@ public class SiteController {
     Redirect redirect;
 
     @Autowired
+<<<<<<< .merge_file_NiwM6t
     UserM2mDAO userM2mDAO;
 
     @Autowired
     UsersActivateDAO usersActivateDAO;
+=======
+    private PricePackageService pricePackageService;
+
+    private ActiveUserService activeUserService;
+>>>>>>> .merge_file_eAZYLc
 
 //    List<Setup> setups = setupDao.getSetups();
 //    
@@ -533,6 +559,7 @@ public class SiteController {
         }
         return "uploadMulti";
     }
+
 
     @RequestMapping(value = "/uploadMulti", method = RequestMethod.POST)
 
@@ -1435,8 +1462,12 @@ public class SiteController {
         } 
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("location", setupDao.getLocation());
+<<<<<<< .merge_file_NiwM6t
             model.addAttribute("bck", "");
 
+=======
+            model.addAttribute("pricePackages", pricePackageService.findAllActive());
+>>>>>>> .merge_file_eAZYLc
         } catch (Exception ex) {
         }
         return "vote";

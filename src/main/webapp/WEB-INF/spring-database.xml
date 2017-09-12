@@ -4,10 +4,9 @@
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+<<<<<<< .merge_file_J2b3Ph
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
@@ -19,6 +18,9 @@
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
           p:location="./WEB-INF/jdbc.properties" />
+=======
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+>>>>>>> .merge_file_N91ljp
 
 
     <bean id="dataSource"
@@ -28,7 +30,11 @@
           p:username="${jdbc.username}"
           p:password="${jdbc.password}"
     />
+<<<<<<< .merge_file_J2b3Ph
     
+=======
+
+>>>>>>> .merge_file_N91ljp
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" /> 
         <property name="annotatedClasses">
@@ -69,29 +75,22 @@
                 <prop key="hibernate.search.default.directory_provider">filesystem</prop>
                 <prop key="hibernate.search.default.indexBase">"/var/lucene/indexes"/</prop>
             </props>
-        </property> 
-        
+        </property>
     </bean>
 
-    
-      <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
-    <property name="sessionFactory" ref="sessionFactory" />
-    
-    </bean> 
-    
-    
-    
-    
-    
-    
-    <tx:annotation-driven transaction-manager="transactionManager" />
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+      <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <tx:annotation-driven />
+    <tx:advice id="txAdvice" >
         <tx:attributes>
             <tx:method name="get*" read-only="true" />
             <tx:method name="find*" read-only="true" />
             <tx:method name="*" />
         </tx:attributes>
     </tx:advice>
+<<<<<<< .merge_file_J2b3Ph
     
     
     
@@ -123,4 +122,26 @@
         
     
     
+=======
+
+    <bean id="contactDao" class="com.livesexhouse.DAO.ContactDao" />
+    <bean id="userDao" class="com.livesexhouse.DAO.UserDao" />
+    <bean id="setupDao" class="com.livesexhouse.DAO.SetupDao" />
+    <bean id="setup" class="com.livesexhouse.controller.Setup" />
+    <bean id="videoDao" class="com.livesexhouse.DAO.VideoDao" />
+    <bean id="videoM2mDao" class="com.livesexhouse.DAO.VideoM2mDao" />
+    <bean id="videoRoomDao" class="com.livesexhouse.DAO.VideoRoomDao" />
+    <bean id="videoCategoryCountClipDao" class="com.livesexhouse.DAO.VideoCategoryCountClipDao" />
+    <bean id="memberHouseDao" class="com.livesexhouse.DAO.MemberHouseDao" />
+    <bean id="pagination" class="com.livesexhouse.controller.Pagination" />
+    <bean id="videoCategoryDao" class="com.livesexhouse.DAO.VideoCategoryDao" />
+    <bean id="comparator" class="com.livesexhouse.controller.Comparator" />
+    <bean id="nameGenerator" class="com.livesexhouse.controller.NameGenerator" />
+    <bean id="videoFileNameDao" class="com.livesexhouse.DAO.VideoFileNameDao" />
+    <bean id="frameGrabberDao" class="com.livesexhouse.controller.FrameGrabberDao" />
+    <bean id="saveVideoFile" class="com.livesexhouse.controller.SaveVideoFile" />
+    <bean id="params" class="com.livesexhouse.controller.Params" />
+    <bean id="redirect" class="com.livesexhouse.controller.Redirect" />
+
+>>>>>>> .merge_file_N91ljp
 </beans>
