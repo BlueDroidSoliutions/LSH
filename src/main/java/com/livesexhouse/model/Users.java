@@ -67,12 +67,6 @@ public class Users implements Serializable {
     @Column(name = "email")
     private String email;
 
-<<<<<<< .merge_file_DZc7dk
-=======
-    @Column(name = "epoch_member_id")
-    private String epochMemberId;
-
->>>>>>> .merge_file_HcF0PB
     @OneToMany(fetch = FetchType.LAZY)
     @Column(name = "user_id")
     private List<Membership> memberships;
@@ -150,25 +144,6 @@ public class Users implements Serializable {
         this.email = email;
     }
 
-<<<<<<< .merge_file_DZc7dk
-=======
-    public String getEpochMemberId() {
-        return epochMemberId;
-    }
-
-    public void setEpochMemberId(String epochMemberId) {
-        this.epochMemberId = epochMemberId;
-    }
-
-    public List<Membership> getMemberships() {
-        return memberships;
-    }
-
-    public void setMemberships(List<Membership> memberships) {
-        this.memberships = memberships;
-    }
-
->>>>>>> .merge_file_HcF0PB
     @Override
     public int hashCode() {
         int hash = 0;

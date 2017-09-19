@@ -9,10 +9,6 @@ import com.livesexhouse.model.Users;
 import com.livesexhouse.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-<<<<<<< .merge_file_Mo4YWE
-=======
-import org.springframework.transaction.annotation.Transactional;
->>>>>>> .merge_file_7ePTeV
 
 /**
  *
@@ -25,10 +21,6 @@ public class OrderServiceImpl extends AbstractGenericService<Order> implements O
     private OrderDao orderDao;
 
     @Override
-<<<<<<< .merge_file_Mo4YWE
-=======
-    @Transactional
->>>>>>> .merge_file_7ePTeV
     public Order create(Users user, PricePackage pricePackage) {
         Order order = new Order();
         order.setUser(user);

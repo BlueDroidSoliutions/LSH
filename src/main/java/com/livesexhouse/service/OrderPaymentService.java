@@ -11,9 +11,4 @@ public interface OrderPaymentService extends GenericService<OrderPayment> {
 
     OrderPayment create(Order order, String transactionId);
 
-<<<<<<< .merge_file_GmONZW
-=======
-    OrderPayment findByTransactionId(String transactionId);
-
->>>>>>> .merge_file_kPHCrA
 }

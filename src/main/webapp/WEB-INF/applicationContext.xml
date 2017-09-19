@@ -3,29 +3,26 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
 
+    
     <context:component-scan base-package="com.livesexhouse.controller" />
+
     <context:component-scan base-package="com.livesexhouse.service" />
     <context:component-scan base-package="com.livesexhouse.DAO" />
     <context:component-scan base-package="com.livesexhouse.chat" />
     <context:component-scan base-package="com.livesexhouse.model" />
 
-    <bean id="objectMapperFactoryBean"
-          class="com.livesexhouse.controller.configuration.ObjectMapperFactoryBean" />
-
-    <mvc:annotation-driven >
-        <mvc:message-converters>
-            <bean class=" org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-                <property name="objectMapper" ref="objectMapperFactoryBean" />
-            </bean>
-        </mvc:message-converters>
-    </mvc:annotation-driven>
+    <mvc:annotation-driven />
     
     <mvc:resources mapping="/resources/**" location="/resources/" />
     <mvc:resources mapping="/ext/**" location="file:C:/ftp/"/>
@@ -36,23 +33,19 @@
     <bean id="filterMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="-1" />
     </bean>
+
+
+
+
+
+
+
     
-<<<<<<< .merge_file_Pkrwvv
-=======
-    <!--    produkcija-->
->>>>>>> .merge_file_EGS8Md
     <bean id="propertyConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations">
-            <list>
-                <value>/WEB-INF/application.properties</value>
-                <value>/WEB-INF/jdbc.properties</value>
-            </list>
-        </property>
-    </bean>
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+          p:location="../WEB-INF/jdbc.properties" />
     
   
-<<<<<<< .merge_file_Pkrwvv
 
     
 
@@ -73,11 +66,5 @@
 
      
 
-=======
-<!--    lokal  -->
-<!--     <bean id="propertyConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-          p:location="/WEB-INF/jdbc.properties" />-->
->>>>>>> .merge_file_EGS8Md
 
 </beans>
