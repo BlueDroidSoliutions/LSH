@@ -26,7 +26,7 @@
 
 		
 		<div id="page-wrap" class="full-height-wrap">
-			<div class="wrapper">
+			<div class="wrapper ">
 				<div class="video-view-wrapper">
 					
 				</div>
@@ -34,11 +34,7 @@
 						<!-- left blocl -->
 						<div class="left-container">
 							<div class="main-video-block">
-								<video id="my_video_1" class="video-js vjs-default-skin" width="640px" height="267px"
-								      controls preload="none"
-								      data-setup='{ "aspectRatio":"640:267", "playbackRates": [1, 1.5, 2] }'>
-								   <source src="http://www.custom-design.org/lsh/${video.id}.mp4" type='video/mp4' 
-  </video>
+								<iframe id="main_frame" src="https://www.youtube.com/embed/LIMYj5mpMM4" frameborder="0" ></iframe>
 							</div>
 							<div class="bottom">
 								<div class="main-info">
@@ -48,7 +44,7 @@
 										</li>
 										<li class="duration">
 											<div class="ico-wrapper">
-												<a href="../addtofav/${video.id}">
+												<a href="javascript:;">
 													<svg version="1.1" id="fav" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 														 width="24.75px" height="23px" viewBox="0 0 24.75 23" enable-background="new 0 0 24.75 23" xml:space="preserve">
 														<path fill="#C1272D" d="M12.645,18.485L20.126,23l-1.985-8.51l6.609-5.726l-8.704-0.738L12.645,0L9.243,8.026L0.539,8.764
@@ -153,7 +149,7 @@
 								
 							</div>
 							<!-- <a href="javascript:;" class="o-bottom-container">
-								<img src="assets/img/o2.jpg" alt="" />
+								<img src="${location}/assets/img/o2.jpg" alt="" />
 							</a> -->
 						</div>
 						<!-- End of left block -->
@@ -165,22 +161,9 @@
 									<li>
 										<a href="https://www.youtube.com/embed/azwzZIZHXzk" >
 											<div class="inner">
-												<div class="video-info">
-													<div class="description">
-														<h5>Name name name</h5>
-													</div>
-													<span class="video-duration">10:36</span>
-													<div class="video-thumbs">
-														<span class="thumbs thumbs-down">
-															<span class="icon"></span>
-															<span class="counter">2</span>
-														</span>
-														<span class="thumbs thumbs-up">
-															<span class="icon"></span>
-															<span class="counter">25</span>
-														</span>
-													</div>
-												</div>
+												<h4>Item name</h4>
+												<span class="views">32,332323</span>
+												<span class="duration">10:36</span>
 											</div>
 											<img src="${location}/assets/img/content/slider-1.png" />
 										</a>
@@ -188,22 +171,9 @@
 									<li>
 										<a href="https://www.youtube.com/embed/HOU4k7z7QjE" target="main_frame">
 											<div class="inner">
-												<div class="video-info">
-													<div class="description">
-														<h5>Name name name</h5>
-													</div>
-													<span class="video-duration">10:36</span>
-													<div class="video-thumbs">
-														<span class="thumbs thumbs-down">
-															<span class="icon"></span>
-															<span class="counter">2</span>
-														</span>
-														<span class="thumbs thumbs-up">
-															<span class="icon"></span>
-															<span class="counter">25</span>
-														</span>
-													</div>
-												</div>
+												<h4>Item name</h4>
+												<span class="views">32,332323</span>
+												<span class="duration">10:36</span>
 											</div>
 											<img src="${location}/assets/img/content/slider-1.png" />
 										</a>
@@ -211,22 +181,9 @@
 									<li>
 										<a href="https://www.youtube.com/embed/azwzZIZHXzk" target="main_frame">
 											<div class="inner">
-												<div class="video-info">
-													<div class="description">
-														<h5>Name name name</h5>
-													</div>
-													<span class="video-duration">10:36</span>
-													<div class="video-thumbs">
-														<span class="thumbs thumbs-down">
-															<span class="icon"></span>
-															<span class="counter">2</span>
-														</span>
-														<span class="thumbs thumbs-up">
-															<span class="icon"></span>
-															<span class="counter">25</span>
-														</span>
-													</div>
-												</div>
+												<h4>Item name</h4>
+												<span class="views">32,332323</span>
+												<span class="duration">10:36</span>
 											</div>
 											<img src="${location}/assets/img/content/slider-1.png" />
 										</a>
@@ -234,22 +191,9 @@
 									<li>
 										<a href="https://www.youtube.com/embed/HOU4k7z7QjE" target="main_frame">
 											<div class="inner">
-												<div class="video-info">
-													<div class="description">
-														<h5>Name name name</h5>
-													</div>
-													<span class="video-duration">10:36</span>
-													<div class="video-thumbs">
-														<span class="thumbs thumbs-down">
-															<span class="icon"></span>
-															<span class="counter">2</span>
-														</span>
-														<span class="thumbs thumbs-up">
-															<span class="icon"></span>
-															<span class="counter">25</span>
-														</span>
-													</div>
-												</div>
+												<h4>Item name</h4>
+												<span class="views">32,332323</span>
+												<span class="duration">10:36</span>
 											</div>
 											<img src="${location}/assets/img/content/slider-1.png" />
 										</a>
@@ -257,22 +201,9 @@
 									<li>
 										<a href="https://www.youtube.com/embed/azwzZIZHXzk" target="main_frame">
 											<div class="inner">
-												<div class="video-info">
-													<div class="description">
-														<h5>Name name name</h5>
-													</div>
-													<span class="video-duration">10:36</span>
-													<div class="video-thumbs">
-														<span class="thumbs thumbs-down">
-															<span class="icon"></span>
-															<span class="counter">2</span>
-														</span>
-														<span class="thumbs thumbs-up">
-															<span class="icon"></span>
-															<span class="counter">25</span>
-														</span>
-													</div>
-												</div>
+												<h4>Item name</h4>
+												<span class="views">32,332323</span>
+												<span class="duration">10:36</span>
 											</div>
 											<img src="${location}/assets/img/content/slider-1.png" />
 										</a>
@@ -281,22 +212,9 @@
 									<li>
 										<a href="https://www.youtube.com/embed/HOU4k7z7QjE" target="main_frame">
 											<div class="inner">
-												<div class="video-info">
-													<div class="description">
-														<h5>Name name name</h5>
-													</div>
-													<span class="video-duration">10:36</span>
-													<div class="video-thumbs">
-														<span class="thumbs thumbs-down">
-															<span class="icon"></span>
-															<span class="counter">2</span>
-														</span>
-														<span class="thumbs thumbs-up">
-															<span class="icon"></span>
-															<span class="counter">25</span>
-														</span>
-													</div>
-												</div>
+												<h4>Item name</h4>
+												<span class="views">32,332323</span>
+												<span class="duration">10:36</span>
 											</div>
 											<img src="${location}/assets/img/content/slider-1.png" />
 										</a>
@@ -311,29 +229,18 @@
 					</div>
 			</div>
 				
- <%@include file="footer.jsp" %>
+
+			<footer class="footer">
+				<div class="wrapper">
+					<p>The site contains sexually explictit material. Enter only if you are at least 18 years old and agree to our cookie rools.</p>
+					<p>Live Sex House - All Rights Reserved 2017.</p>
+				</div>
+			</footer>
 		</div>
 			
 	</div>
 
-	<!-- javascript -->
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-	<script type="text/javascript">window.jQuery || document.write("<script src='assets/scripts/main/jquery-1.8.3.min.js'>\x3C/script>")</script>
-	<script type="text/javascript" src="${location}/assets/scripts/libs/jquery.flexslider-min.js"></script>
-	<script type="text/javascript" src="${location}/assets/scripts/libs/jQuery.fakeScroll.js"></script>
-	
-	<script type="text/javascript" src="${location}/assets/scripts/libs/jcf.js"></script>
-	<script type="text/javascript" src="${location}/assets/scripts/libs/jcf.checkbox.js"></script>
-	
-
-	<script type="text/javascript" src="${location}/assets/scripts/main/default.js"></script>
-
-	<link href="//vjs.zencdn.net/5.19/video-js.min.css" rel="stylesheet">
-	<script src="//vjs.zencdn.net/5.19/video.min.js"></script>
-
- <!--[if lt IE 7]>
-    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-<![endif]-->
+	<%@include file="jsScript.jsp" %>
 
 </body>
 </html>

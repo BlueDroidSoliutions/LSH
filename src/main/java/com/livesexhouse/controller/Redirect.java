@@ -18,9 +18,9 @@ public class Redirect {
         String r = "";
 
         if (sleshAfterWww == -1) {
-            r = "redirect:index";
+            r = "index";
         } else if (sleshAfterWww == s.length() - 1) {
-            r = "redirect:index";
+            r = "index";
         } else {
             r = "redirect:" + s.substring(s.indexOf(".com") + 5, s.length());
         }

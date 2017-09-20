@@ -176,6 +176,8 @@ public class VideoDao {
             int[] memberFilterr, int[] categoryFilterr, String search) {
         search = search.trim();
         search = search.replace('-', ' ');
+//        System.out.println("sout     search "+search);
+//        search = "0";
         
         List<VideoClip> result = new ArrayList();
         int numVideos = 0;
@@ -253,6 +255,7 @@ public class VideoDao {
             }
 
             if (roomFilterr.length == 1 && seasonFilterr.length == 1 && durationFilterr.length == 1 && memberFilterr.length == 1 && categoryFilterr.length == 1) {
+                System.out.println("123 jedan filter");
                 roomFilter = roomFilterr[0];
                 seasonFilter = seasonFilterr[0];
                 durationFilter = durationFilterr[0];
@@ -288,11 +291,9 @@ public class VideoDao {
                     memberB = true;
                 }
 
-              
                 
                 
-                
-                if (!search.equals("0")) {
+                if (!search.equals('0')) {
                     Query searchQ = sessionFactory.getCurrentSession().createQuery("SELECT v.id FROM VideoClip v WHERE v.tag LIKE :searchKeyword or v.name LIKE :searchKeyword");
                     searchQ.setParameter("searchKeyword", search+"%");
                     
@@ -379,7 +380,6 @@ public class VideoDao {
                     query = query + sortStr;
 
                     Query q2 = sessionFactory.getCurrentSession().createQuery(query);
-                    
 
                     if (memberB) {
                         q2.setParameter("memberList", memberList);
@@ -404,6 +404,7 @@ public class VideoDao {
                 }
 
             } else {
+                System.out.println("123 vise filtera");
                 /////////////////////// ako ima vise filtera
                 String sBegin = "select t1.clip_id from ";
 
@@ -453,7 +454,7 @@ public class VideoDao {
                 }
                 
                 Boolean searchFilterB = true;
-                if (search.equals("0")) {
+                if (search.equals('0')) {
                         searchFilterB = false;
                 }
 
@@ -559,6 +560,7 @@ public class VideoDao {
                 }
 
                 sFinal = sBegin + mid + endString + ";";
+                System.out.println(sFinal);
 
                 Query q3 = sessionFactory.getCurrentSession().createNativeQuery(sFinal);
 

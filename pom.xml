@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.3" 
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation=" http://maven.apache.org/POM/4.3 http://maven.apache.org/xsd/maven-4.3.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+         xsi:schemaLocation="
+http://maven.apache.org/POM/4.3 
+http://maven.apache.org/xsd/maven-4.3.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security.xsd
+">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.mycompany</groupId>
     <artifactId>www.livesexhouse.com</artifactId>
@@ -17,11 +22,7 @@
          
         
         
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.9.0</version>
-        </dependency>
+        
         
         
         
@@ -51,13 +52,6 @@
             <version>4.1.13.Final</version>
         </dependency>
         
-        
-        
-        
-        
-        
-        
-        
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty</artifactId>
@@ -72,20 +66,7 @@
         </dependency>
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>1</version>
-        </dependency>
+    
         
         <dependency>
             <groupId>org.springframework</groupId>
@@ -196,6 +177,12 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.10</version>
         </dependency>
          
          
@@ -325,7 +312,7 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
         </dependency>
-<!--        <dependency>
+        <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>eclipselink</artifactId>
             <version>2.5.2</version>
@@ -336,7 +323,7 @@
             <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
             <version>2.5.2</version>
             <scope>provided</scope>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
@@ -352,8 +339,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <compilerArguments>
                         <endorseddirs>${endorsed.dir}</endorseddirs>
                     </compilerArguments>

@@ -10,9 +10,9 @@
 <!--[if IE 7]>         <html class="no-js ie7"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js ie8"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
- 
-        
 
+
+<script type="text/javascript" src="${location}/assets/scripts/pages/vote.js"></script>
 
 
 <c:choose>
@@ -36,66 +36,34 @@
 					</div>
 					<div class="top-list">
 						<ul>
-							<li>
-								<div class="item-inner">
-									<h3>Entry</h3>
-									<p>100 tokens</p>
-									<span>10$</span>
-								</div>
-								<a href="javascript:;" class="btn">Buy</a>
-							</li>
-							<li>
-								<div class="item-inner">
-									<h3>Basic</h3>
-									<p>100 tokens</p>
-									<span>10$</span>
-								</div>
-								<a href="javascript:;" class="btn">Buy</a>
-							</li>
-							<li>
-								<div class="item-inner">
-									<h3>Fan</h3>
-									<p>500 tokens</p>
-									<span>48$</span>
-								</div>
-								<a href="javascript:;" class="btn">Buy</a>
-							</li>
-							<li>
-								<div class="item-inner">
-									<h3>Advance</h3>
-									<p>500 tokens</p>
-									<span>48$</span>
-								</div>
-								<a href="javascript:;" class="btn">Buy</a>
-							</li>
+                            <c:forEach items="${pricePackages}" var="pricePackage">
+                                <c:if test="${pricePackage.name != 'silver' && pricePackage.name != 'gold' && pricePackage.name != 'premium'}">
+                                    <li>
+                                        <div class="item-inner">
+                                            <h3>${pricePackage.name}</h3>
+                                            <p>${pricePackage.tokens} tokens</p>
+                                            <span>${pricePackage.amount}$</span>
+                                        </div>
+                                        <a href="javascript:;" class="btn" onclick="buyTokens('${_csrf.token}', ${pricePackage.id})">Buy</a>
+                                    </li>
+                                </c:if>
+                            </c:forEach>
 						</ul>
 					</div>
 					<div class="bottom-list">
 						<ul>
-							<li class="silver">
-								<div class="item-inner">
-									<img src="${location}/assets/img/silver.png" alt="" />
-									<p>10 tokens</p>
-									<span>10$</span>
-								</div>
-								<a href="javascript:;" class="btn">Buy</a>
-							</li>
-							<li class="gold">
-								<div class="item-inner">
-									<img src="${location}/assets/img/gold.png" alt="" />
-									<p>50 tokens</p>
-									<span>48$</span>
-								</div>
-								<a href="javascript:;" class="btn">Buy</a>
-							</li>
-							<li class="premium">
-								<div class="item-inner">
-									<img src="${location}/assets/img/platinum.png" alt="" />
-									<p>100 tokens</p>
-									<span>78$</span>
-								</div>
-								<a href="javascript:;" class="btn">Buy</a>
-							</li>
+                            <c:forEach items="${pricePackages}" var="pricePackage">
+                                <c:if test="${pricePackage.name == 'silver' || pricePackage.name == 'gold' || pricePackage.name == 'premium'}">
+                                    <li class="${pricePackage.name}">
+                                        <div class="item-inner">
+                                            <img src="${location}/assets/img/${pricePackage.name}.png" alt="" />
+                                            <p>${pricePackage.tokens} tokens</p>
+                                            <span>${pricePackage.amount}$</span>
+                                        </div>
+                                        <a href="javascript:;" class="btn" onclick="buyTokens('${_csrf.token}', ${pricePackage.id})">Buy</a>
+                                    </li>
+                                </c:if>
+                            </c:forEach>
 						</ul>
 					</div>
 				</div>
@@ -1500,7 +1468,12 @@
 				</div>
 			</div>
 
-			 <%@include file="footer.jsp" %>
+			<footer class="footer">
+				<div class="wrapper">
+					<p>The site contains sexually explictit material. Enter only if you are at least 18 years old and agree to our cookie rools.</p>
+					<p>Live Sex House - All Rights Reserved 2017.</p>
+				</div>
+			</footer>
 		</div>
 			
 	</div>

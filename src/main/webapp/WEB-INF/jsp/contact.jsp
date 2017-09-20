@@ -83,7 +83,6 @@ value="${_csrf.token}"/>
 									<input id="name" type="text" name="name">
 								</div>
 								<p class="legend">*required fields</p>
-                                                                <p class="legend">or contact us via <a style="color: white;" href="mailto:contact@livesexhouse.com?Subject=Contact">Email</a></p>
 							</div>
 							<div class="right">
 								<div class="field-wrapper">
@@ -111,7 +110,12 @@ value="${_csrf.token}"/>
 				</div>
 			</div>
 
-			 <%@include file="footer.jsp" %>
+			<footer class="footer">
+				<div class="wrapper">
+					<p>The site contains sexually explictit material. Enter only if you are at least 18 years old and agree to our cookie rools.</p>
+					<p>Live Sex House - All Rights Reserved 2017.</p>
+				</div>
+			</footer>
 		</div>
 			
 	</div>

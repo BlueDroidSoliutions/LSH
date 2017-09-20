@@ -67,6 +67,9 @@ public class Users implements Serializable {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "epoch_member_id")
+    private String epochMemberId;
+
     @OneToMany(fetch = FetchType.LAZY)
     @Column(name = "user_id")
     private List<Membership> memberships;
@@ -142,6 +145,22 @@ public class Users implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getEpochMemberId() {
+        return epochMemberId;
+    }
+
+    public void setEpochMemberId(String epochMemberId) {
+        this.epochMemberId = epochMemberId;
+    }
+
+    public List<Membership> getMemberships() {
+        return memberships;
+    }
+
+    public void setMemberships(List<Membership> memberships) {
+        this.memberships = memberships;
     }
 
     @Override

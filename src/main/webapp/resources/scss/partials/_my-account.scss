@@ -6,19 +6,19 @@
     height: 100%;
     max-height: 100vh;
     overflow-y: auto;
+    
     z-index: 999;
-    transform: translateX(300px);
+    transform: translateX(280px);
     transition: transform 200ms linear;
     .scrollContent {
         padding-right: 27px;
-        padding-right: 21px;
         background-color: #1e1d1d;
     }
     .fakeScrollBar {
         background: #6d0202;;
-        position: fixed;
-        right: 0;
-        z-index: 200000;
+            position: fixed;
+            right: 0;
+            z-index: 200000;
 
     }
     .head-section {
@@ -136,13 +136,8 @@
                 text-align: center;
             }
             .info-content {
-                .btn-settings {
-                    display: inline-block;
-                    color: #fff;
-                }
                 margin-left: 60px;
                 ul {
-                    display: none;
                     margin-top: 10px;
                     li {
                         position: relative;

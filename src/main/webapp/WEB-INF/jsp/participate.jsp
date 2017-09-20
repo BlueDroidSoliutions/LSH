@@ -86,7 +86,12 @@
 				</div>
 			</div>
 
-			 <%@include file="footer.jsp" %>
+			<footer class="footer">
+				<div class="wrapper">
+					<p>The site contains sexually explictit material. Enter only if you are at least 18 years old and agree to our cookie rools.</p>
+					<p>Live Sex House - All Rights Reserved 2017.</p>
+				</div>
+			</footer>
 		</div>
 			
 	</div>
