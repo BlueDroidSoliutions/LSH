@@ -11,7 +11,9 @@ import java.io.Serializable;
 @Table(name = "price_package")
 public class PricePackage implements Serializable {
     
-    @Id
+	private static final long serialVersionUID = 1500860025200682563L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
@@ -27,11 +29,12 @@ public class PricePackage implements Serializable {
 
     @Column(name = "active", nullable = false)
     private Boolean active;
-
-    @Override
-    public String toString() {
-        return "name=" + name;
-    }
+    
+    @Column(name = "monthly", nullable = false)
+    private Boolean monthly;
+    
+    @Column(name = "external_package_id")
+    private String externalPackageId;
 
     public Long getId() {
         return id;
@@ -72,4 +75,26 @@ public class PricePackage implements Serializable {
     public void setActive(Boolean active) {
         this.active = active;
     }
+    
+    public Boolean getMonthly() {
+		return monthly;
+	}
+    
+    public void setMonthly(Boolean monthly) {
+		this.monthly = monthly;
+	}
+    
+    public String getExternalPackageId() {
+		return externalPackageId;
+	}
+    
+    public void setExternalPackageId(String externalPackageId) {
+		this.externalPackageId = externalPackageId;
+	}
+    
+    @Override
+    public String toString() {
+        return "name=" + name;
+    }
+   
 }

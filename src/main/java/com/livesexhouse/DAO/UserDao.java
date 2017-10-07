@@ -5,7 +5,6 @@
  */
 package com.livesexhouse.DAO;
 
-import com.livesexhouse.model.UserM2m;
 import com.livesexhouse.model.UserRoles;
 import com.livesexhouse.model.Users;
 import javax.persistence.Query;
@@ -53,7 +52,7 @@ public class UserDao {
      catch(Exception e){}
      return i;
     }
- 
+
  public void saveRola(UserRoles u) {
      try{
         Session session = sessionFactory.getCurrentSession();
@@ -77,7 +76,12 @@ public class UserDao {
         return b;
     }
  
- 
+ public Users findByEpochMemberId(String memberId) {
+	 Query query = sessionFactory.getCurrentSession()
+			 .createQuery("SELECT * FROM users WHERE epoch_member_id = :memberId");
+	 query.setParameter("memberId", memberId);
+	 return (Users) query.getSingleResult();
+ }
  
     
 }

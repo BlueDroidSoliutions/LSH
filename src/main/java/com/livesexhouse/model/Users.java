@@ -10,6 +10,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -67,10 +70,10 @@ public class Users implements Serializable {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "epoch_member_id")
-    private String epochMemberId;
+    @Column(name = "epoch_cam_charge_member_id")
+    private String epochCamChargeMemberId;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Column(name = "user_id")
     private List<Membership> memberships;
 
@@ -147,12 +150,12 @@ public class Users implements Serializable {
         this.email = email;
     }
 
-    public String getEpochMemberId() {
-        return epochMemberId;
+    public String getEpochCamChargeMemberId() {
+        return epochCamChargeMemberId;
     }
 
-    public void setEpochMemberId(String epochMemberId) {
-        this.epochMemberId = epochMemberId;
+    public void setEpochCamChargeMemberId(String epochCamChargeMemberId) {
+        this.epochCamChargeMemberId = epochCamChargeMemberId;
     }
 
     public List<Membership> getMemberships() {
@@ -161,6 +164,18 @@ public class Users implements Serializable {
 
     public void setMemberships(List<Membership> memberships) {
         this.memberships = memberships;
+    }
+    
+    public void addMembership(String externalMembershipId) {
+    	if (this.memberships == null) {
+    		this.memberships = new ArrayList<>();
+    	}
+    	Membership membership = new Membership();
+    	membership.setActive(Boolean.TRUE);
+    	membership.setStartDate(new Date());
+    	Date endDate = Date.from(LocalDateTime.now().plusDays(30).atZone(ZoneId.systemDefault()).toInstant());
+    	membership.setEndDate(endDate);
+    	this.memberships.add(membership);
     }
 
     @Override
