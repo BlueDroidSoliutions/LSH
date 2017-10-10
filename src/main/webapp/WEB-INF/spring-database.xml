@@ -8,7 +8,11 @@
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> branch 'master' of https://roller01285@bitbucket.org/roller01285/www.livesexhouse.com.git
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource"
           p:driverClassName="${jdbc.driverClassName}"
@@ -16,7 +20,11 @@
           p:username="${jdbc.username}"
           p:password="${jdbc.password}"
     />
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> branch 'master' of https://roller01285@bitbucket.org/roller01285/www.livesexhouse.com.git
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" /> 
         <property name="annotatedClasses">
@@ -65,16 +73,22 @@
                 <prop key="hibernate.search.default.directory_provider">filesystem</prop>
                 <prop key="hibernate.search.default.indexBase">"/var/lucene/indexes"/</prop>
             </props>
-        </property> 
-        
+        </property>
     </bean>
 
+<<<<<<< HEAD
     
       <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
     <property name="sessionFactory" ref="sessionFactory" />
     
     </bean> 
     
+=======
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+      <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+>>>>>>> branch 'master' of https://roller01285@bitbucket.org/roller01285/www.livesexhouse.com.git
     <tx:annotation-driven />
     <tx:advice id="txAdvice" >
         <tx:attributes>
@@ -83,6 +97,7 @@
             <tx:method name="*" />
         </tx:attributes>
     </tx:advice>
+<<<<<<< HEAD
     
     
     
@@ -131,4 +146,26 @@
           
     
     
+=======
+
+    <bean id="contactDao" class="com.livesexhouse.DAO.ContactDao" />
+    <bean id="userDao" class="com.livesexhouse.DAO.UserDao" />
+    <bean id="setupDao" class="com.livesexhouse.DAO.SetupDao" />
+    <bean id="setup" class="com.livesexhouse.controller.Setup" />
+    <bean id="videoDao" class="com.livesexhouse.DAO.VideoDao" />
+    <bean id="videoM2mDao" class="com.livesexhouse.DAO.VideoM2mDao" />
+    <bean id="videoRoomDao" class="com.livesexhouse.DAO.VideoRoomDao" />
+    <bean id="videoCategoryCountClipDao" class="com.livesexhouse.DAO.VideoCategoryCountClipDao" />
+    <bean id="memberHouseDao" class="com.livesexhouse.DAO.MemberHouseDao" />
+    <bean id="pagination" class="com.livesexhouse.controller.Pagination" />
+    <bean id="videoCategoryDao" class="com.livesexhouse.DAO.VideoCategoryDao" />
+    <bean id="comparator" class="com.livesexhouse.controller.Comparator" />
+    <bean id="nameGenerator" class="com.livesexhouse.controller.NameGenerator" />
+    <bean id="videoFileNameDao" class="com.livesexhouse.DAO.VideoFileNameDao" />
+    <bean id="frameGrabberDao" class="com.livesexhouse.controller.FrameGrabberDao" />
+    <bean id="saveVideoFile" class="com.livesexhouse.controller.SaveVideoFile" />
+    <bean id="params" class="com.livesexhouse.controller.Params" />
+    <bean id="redirect" class="com.livesexhouse.controller.Redirect" />
+
+>>>>>>> branch 'master' of https://roller01285@bitbucket.org/roller01285/www.livesexhouse.com.git
 </beans>

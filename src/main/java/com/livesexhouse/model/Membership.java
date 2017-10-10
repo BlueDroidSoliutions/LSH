@@ -28,6 +28,9 @@ public class Membership implements Serializable {
 	@Column(name = "active", nullable = false)
 	private Boolean active;
 	
+	@Column(name = "external_membership_id")
+	private String externalMembershipId;
+	
 	public Long getId() {
 		return id;
 	}
@@ -58,6 +61,14 @@ public class Membership implements Serializable {
 	
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+	
+	public String getExternalMembershipId() {
+		return externalMembershipId;
+	}
+	
+	public void setExternalMembershipId(String externalMembershipId) {
+		this.externalMembershipId = externalMembershipId;
 	}
 
 }

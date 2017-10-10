@@ -10,9 +10,7 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
 
-    
     <context:component-scan base-package="com.livesexhouse.controller" />
-
     <context:component-scan base-package="com.livesexhouse.service" />
     <context:component-scan base-package="com.livesexhouse.DAO" />
     <context:component-scan base-package="com.livesexhouse.chat" />
@@ -38,8 +36,11 @@
     <bean id="filterMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="-1" />
     </bean>
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> branch 'master' of https://roller01285@bitbucket.org/roller01285/www.livesexhouse.com.git
     
     <!--    produkcija-->
     <bean id="propertyConfigurer"
