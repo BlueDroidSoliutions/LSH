@@ -5,10 +5,7 @@
  */
 package com.livesexhouse.DAO;
 
-<<<<<<< HEAD
 import com.livesexhouse.controller.Checker;
-=======
->>>>>>> branch 'master' of https://roller01285@bitbucket.org/roller01285/www.livesexhouse.com.git
 import com.livesexhouse.model.UserRoles;
 import com.livesexhouse.model.Users;
 import java.util.ArrayList;
@@ -61,7 +58,6 @@ public class UserDao {
 
     }
 
-<<<<<<< HEAD
     public Users findById(int id) {
 
         Users u = new Users();
@@ -77,14 +73,6 @@ public class UserDao {
         } catch (HibernateException e) {
         }
         return u;
-=======
- public void saveRola(UserRoles u) {
-     try{
-        Session session = sessionFactory.getCurrentSession();
-        session.save(u);
-     }
-     catch(Exception e){}
->>>>>>> branch 'master' of https://roller01285@bitbucket.org/roller01285/www.livesexhouse.com.git
     }
 
     public Integer save(Users c) {
@@ -121,7 +109,6 @@ public class UserDao {
         }
         return b;
     }
-<<<<<<< HEAD
 
     public boolean existEmail(String email) {
         boolean b = false;
@@ -167,15 +154,4 @@ public class UserDao {
 
     }
 
-=======
- 
- public Users findByEpochMemberId(String memberId) {
-	 Query query = sessionFactory.getCurrentSession()
-			 .createQuery("SELECT * FROM users WHERE epoch_member_id = :memberId");
-	 query.setParameter("memberId", memberId);
-	 return (Users) query.getSingleResult();
- }
- 
-    
->>>>>>> branch 'master' of https://roller01285@bitbucket.org/roller01285/www.livesexhouse.com.git
 }

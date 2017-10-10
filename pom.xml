@@ -274,7 +274,6 @@
             <artifactId>commons-io</artifactId>
             <version>2.5</version>
         </dependency>
-<<<<<<< HEAD
          
         <dependency>
             <groupId>commons-codec</groupId>
@@ -289,23 +288,6 @@
 		</dependency>
          
         <dependency>
-=======
-
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>1.10</version>
-        </dependency>
-        
-        <dependency>
-		    <groupId>commons-lang</groupId>
-		    <artifactId>commons-lang</artifactId>
-		    <version>2.6</version>
-		</dependency>
-
-
-		<dependency>
->>>>>>> branch 'master' of https://roller01285@bitbucket.org/roller01285/www.livesexhouse.com.git
 		    <groupId>com.fasterxml.jackson.core</groupId>
 		    <artifactId>jackson-core</artifactId>
 		    <version>2.9.1</version>

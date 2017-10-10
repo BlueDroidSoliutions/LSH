@@ -2,7 +2,6 @@ package com.livesexhouse.controller;
 
 import com.google.common.collect.Sets;
 import com.livesexhouse.DAO.*;
-<<<<<<< HEAD
 import com.livesexhouse.model.Contact;
 import com.livesexhouse.model.Girls;
 import com.livesexhouse.model.MemberHouse;
@@ -31,11 +30,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-=======
-import com.livesexhouse.chat.ActiveUserService;
-import com.livesexhouse.model.*;
-import com.livesexhouse.service.PricePackageService;
->>>>>>> branch 'master' of https://roller01285@bitbucket.org/roller01285/www.livesexhouse.com.git
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,29 +39,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-<<<<<<< HEAD
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-=======
-import org.springframework.web.bind.annotation.*;
->>>>>>> branch 'master' of https://roller01285@bitbucket.org/roller01285/www.livesexhouse.com.git
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.security.Principal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.StringJoiner;
 
 @Controller
 
@@ -126,9 +106,6 @@ public class SiteController {
 
     @Autowired
     Redirect redirect;
-
-    @Autowired
-    private PricePackageService pricePackageService;
 
     @Autowired
     UserM2mDAO userM2mDAO;
@@ -678,7 +655,6 @@ public class SiteController {
         }
         return "uploadMulti";
     }
-
 
     @RequestMapping(value = "/uploadMulti", method = RequestMethod.POST)
     public String multiFileUpload(
@@ -1579,13 +1555,9 @@ public class SiteController {
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("mh", mh);
             model.addAttribute("location", setupDao.getLocation());
-<<<<<<< HEAD
             model.addAttribute("bck", "");
             model.addAttribute("pricePackages", pricePackageService.findAllActive());
 
-=======
-            model.addAttribute("pricePackages", pricePackageService.findAllActive());
->>>>>>> branch 'master' of https://roller01285@bitbucket.org/roller01285/www.livesexhouse.com.git
         } catch (Exception ex) {
         }
         return "vote";

@@ -16,31 +16,31 @@ public abstract class AbstractGenericService<E extends Serializable> implements 
     @Override
     @Transactional(readOnly = true)
     public E findById(Long id) {
-        return getEntityDao().findById(id);
+        return null;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<E> findAll() {
-        return getEntityDao().findAll();
+        return null;
     }
 
     @Override
     @Transactional
     public void save(E entity) {
-        getEntityDao().save(entity);
+
     }
 
     @Override
     @Transactional
     public void update(E entity) {
-        getEntityDao().update(entity);
+
     }
 
     @Override
     @Transactional
     public void delete(E entity) {
-        getEntityDao().delete(entity);
+
     }
 
     protected abstract GenericDao<E> getEntityDao();

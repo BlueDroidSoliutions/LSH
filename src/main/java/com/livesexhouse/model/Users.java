@@ -151,7 +151,6 @@ public class Users implements Serializable {
     }
 
     public String getEpochCamChargeMemberId() {
-<<<<<<< HEAD
     	return epochCamChargeMemberId;
     }
     
@@ -167,23 +166,6 @@ public class Users implements Serializable {
         this.memberships = memberships;
     }
 
-=======
-        return epochCamChargeMemberId;
-    }
-
-    public void setEpochCamChargeMemberId(String epochCamChargeMemberId) {
-        this.epochCamChargeMemberId = epochCamChargeMemberId;
-    }
-
-    public List<Membership> getMemberships() {
-        return memberships;
-    }
-
-    public void setMemberships(List<Membership> memberships) {
-        this.memberships = memberships;
-    }
-    
->>>>>>> branch 'master' of https://roller01285@bitbucket.org/roller01285/www.livesexhouse.com.git
     public void addMembership(String externalMembershipId) {
     	if (this.memberships == null) {
     		this.memberships = new ArrayList<>();
