@@ -4,23 +4,11 @@
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
-       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
-       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
-       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
   
-    
-    
-    <!--    produkcija-->
-    <bean id="propertyConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-          p:location="./WEB-INF/jdbc.properties" />
-
-
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource"
           p:driverClassName="${jdbc.driverClassName}"
@@ -62,6 +50,13 @@
                 <value>com.livesexhouse.model.UsersBlacklist</value>
                 <value>com.livesexhouse.model.UsersActivate</value>
                 <value>com.livesexhouse.model.Online</value>
+                <value>com.livesexhouse.model.ChatMembers</value>
+                <value>com.livesexhouse.model.MembersRank</value>
+                <value>com.livesexhouse.model.Order</value>
+                <value>com.livesexhouse.model.OrderPayment</value>
+                <value>com.livesexhouse.model.Membership</value>
+                <value>com.livesexhouse.model.PricePackage</value>
+                
             </list>
         </property>
         <property name="hibernateProperties">
@@ -80,13 +75,8 @@
     
     </bean> 
     
-    
-    
-    
-    
-    
-    <tx:annotation-driven transaction-manager="transactionManager" />
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+    <tx:annotation-driven />
+    <tx:advice id="txAdvice" >
         <tx:attributes>
             <tx:method name="get*" read-only="true" />
             <tx:method name="find*" read-only="true" />
@@ -114,6 +104,7 @@
         <bean id="nameGenerator" class="com.livesexhouse.controller.NameGenerator" />
         <bean id="videoFileNameDao" class="com.livesexhouse.DAO.VideoFileNameDao" />
         <bean id="frameGrabberDao" class="com.livesexhouse.controller.FrameGrabberDao" />
+        <bean id="checker" class="com.livesexhouse.controller.Checker" />
         <bean id="saveVideoFile" class="com.livesexhouse.controller.SaveVideoFile" />
         <bean id="params" class="com.livesexhouse.controller.Params" />
         <bean id="redirect" class="com.livesexhouse.controller.Redirect" />
@@ -121,13 +112,23 @@
         <bean id="usersBlacklistDAO" class="com.livesexhouse.DAO.UsersBlacklistDAO" />
         <bean id="usersActivateDAO" class="com.livesexhouse.DAO.UsersActivateDAO" />
         <bean id="girlDao" class="com.livesexhouse.DAO.GirlDao" />
+        <bean id="chatDAO" class="com.livesexhouse.DAO.ChatDAO" />
+        <bean id="chatMembersDao" class="com.livesexhouse.DAO.ChatMembersDao" />
+        <bean id="onlineDao" class="com.livesexhouse.DAO.OnlineDao" />
+        <bean id="memberRankDao" class="com.livesexhouse.DAO.MemberRankDao" />
+        <bean id="googleMail" class="com.livesexhouse.controller.GoogleMail" />
         
-<!--        <bean id="activeUserService" class="com.livesexhouse.chat.ActiveUserService" />-->
-<!--        <bean id="activeUserPinger" class="com.livesexhouse.chat.ActiveUserPinger" />-->
-<!--        <bean id="taskScheduler" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler" />-->
         
-<!--        <bean id="template" class="org.springframework.messaging.simp.SimpMessagingTemplate" />-->
         
+        <!--<bean id="orderService" class="com.livesexhouse.service.OrderService" />-->
+        <!--<bean id="orderPaymentService" class="com.livesexhouse.service.OrderPaymentService" />-->
+        
+        
+<!--       <bean id="pricePackageService" class="com.livesexhouse.service.PricePackageService;" />-->
+        
+        
+
+          
     
     
 </beans>

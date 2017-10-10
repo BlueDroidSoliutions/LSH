@@ -5,6 +5,7 @@ import com.livesexhouse.DAO.*;
 import com.livesexhouse.model.Contact;
 import com.livesexhouse.model.Girls;
 import com.livesexhouse.model.MemberHouse;
+import com.livesexhouse.model.MembersRank;
 import com.livesexhouse.model.UserM2m;
 import com.livesexhouse.model.UserRoles;
 import com.livesexhouse.model.Users;
@@ -15,20 +16,22 @@ import com.livesexhouse.model.VideoClip;
 import com.livesexhouse.model.VideoFileName;
 import com.livesexhouse.model.VideoM2m;
 import com.livesexhouse.model.VideoRoom;
+import com.livesexhouse.service.PricePackageService;
+import java.io.IOException;
 import java.security.Principal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.StringJoiner;
-import javax.persistence.Query;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -109,11 +112,87 @@ public class SiteController {
 
     @Autowired
     UsersActivateDAO usersActivateDAO;
+    
+    @Autowired
+    GoogleMail googleMail;
 
     @Autowired
     GirlDao girlDao;
+
+    @Autowired
+    OnlineDao onlineDao;
     
-    
+    @Autowired
+    MemberRankDao memberRankDao;
+
+
+    @Autowired
+    private PricePackageService pricePackageService;
+
+    @RequestMapping(value = "/girlSetup", method = RequestMethod.POST)
+    public String girlSetup(
+            ModelMap model,
+            HttpServletResponse response, RedirectAttributes redirectAttributes,
+            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
+            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
+            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
+            Principal principal,
+            HttpServletRequest request) throws Exception {
+        int id = 0;
+        try {
+
+            if (cookieTrust != null) {
+                model.addAttribute("trustedUser", true);
+            } else {
+                if (cookieSigned != null) {
+                    model.addAttribute("alredySigned", true);
+                } else {
+                    if (cookieMail != null) {
+                        model.addAttribute("checkEmail", true);
+                    }
+                }
+            }
+            if (principal != null && request.isUserInRole("ROLE_GIRL")) {
+
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
+                id = u.getId();
+                Girls g = new Girls();
+                g = girlDao.findById(u.getId());
+
+                String groupMinPerson = "";
+                String groupTariff = "";
+                String privateTariff = "";
+
+                groupMinPerson = request.getParameter("groupMinPerson");
+                groupTariff = request.getParameter("groupTariff");
+                privateTariff = request.getParameter("privateTariff");
+
+                if (!groupMinPerson.isEmpty()) {
+                    g.setGroupMinPerson(Integer.valueOf(request.getParameter("groupMinPerson")));
+                }
+                if (!groupTariff.isEmpty()) {
+                    g.setGroupTariff(Integer.valueOf(request.getParameter("groupTariff")));
+                }
+                if (!privateTariff.isEmpty()) {
+                    g.setPrivateTariff(Integer.valueOf(request.getParameter("privateTariff")));
+                }
+
+                girlDao.updateGirl(g);
+
+            }
+
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("bck", "");
+            model.addAttribute("location", setupDao.getLocation());
+
+        } catch (Exception ex) {
+        }
+        return "redirect:/webcam/" + id;
+    }
+
     @RequestMapping("/webcam/{id}")
     public String webcam(
             Principal principal, RedirectAttributes redirectAttributes,
@@ -151,7 +230,7 @@ public class SiteController {
                 model.addAttribute("g", g);
 
                 String onl = "";
-                onl = girlDao.onlineNow();
+                onl = onlineDao.onlineNow();
                 model.addAttribute("onlineNow", onl);
 
             } else {
@@ -167,8 +246,8 @@ public class SiteController {
         }
         return ret;
     }
-    
-     @RequestMapping("/webcam")
+
+    @RequestMapping("/webcam")
     public String webcam(
             Principal principal, RedirectAttributes redirectAttributes,
             ModelMap model,
@@ -199,10 +278,11 @@ public class SiteController {
 
             List<Girls> l = new ArrayList<>();
             l = girlDao.findGirls();
+
             model.addAttribute("girl", l);
 
             String onl = "";
-            onl = girlDao.onlineNow();
+            onl = onlineDao.onlineNow();
             model.addAttribute("onlineNow", onl);
 
             model.addAttribute("path", setupDao.getPath());
@@ -214,257 +294,11 @@ public class SiteController {
         return "webcam";
     }
 
-    @RequestMapping("/chatting")
-    public String chatting(
-            Principal principal, RedirectAttributes redirectAttributes,
-            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
-            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
-            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
-            ModelMap model,
-            HttpServletResponse response,
-            HttpServletRequest request) throws Exception {
-        String path = "";
-        String loc = "";
-
-        try {
-            path = setupDao.getPath();
-            loc = setupDao.getLocation();
-
-            if (cookieTrust != null) {
-                model.addAttribute("trustedUser", true);
-            } else {
-                if (cookieSigned != null) {
-                    model.addAttribute("alredySigned", true);
-                } else {
-                    if (cookieMail != null) {
-                        model.addAttribute("checkEmail", true);
-                    }
-                }
-            }
-
-        } catch (Exception ex) {
-        }
-
-        model.addAttribute("path", path);
-        model.addAttribute("location", loc);
-        model.addAttribute("bck", "");
-
-        return "chat";
-
-//        return redirect.re(request.getHeader("referer"));
-    }
-
-    @RequestMapping(value = {"/activeGirl/{name}"}, method = RequestMethod.GET)
-    public String activeGirls(Principal principal,
-            HttpServletResponse response,
-            @PathVariable String name,
-            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
-            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
-            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
-            RedirectAttributes redirectAttributes,
-            HttpServletRequest req,
-            ModelMap model
-    ) {
-
-        String girl = "";
-
-        if (principal != null) {
-            Users u = new Users();
-            u = userDao.findByUsername(principal.getName());
-
-            redirectAttributes.addFlashAttribute("userName", principal.getName());
-            redirectAttributes.addFlashAttribute("user", u);
-
-        }
-
-        redirectAttributes.addFlashAttribute("path", setupDao.getPath());
-        redirectAttributes.addFlashAttribute("location", setupDao.getLocation());
-        girl = name;
-        redirectAttributes.addFlashAttribute("girl", name);
-
-//        return "index";
-        return "redirect:/chatWithGirl";
-    }
-
-    @RequestMapping(value = {"/chatWithGirl"}, method = RequestMethod.GET)
-    public String chatWithGirls(Principal principal,
-            HttpServletResponse response,
-            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
-            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
-            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
-            RedirectAttributes redirectAttributes,
-            HttpServletRequest req,
-            ModelMap model
-    ) {
-        model.addAttribute("path", setupDao.getPath());
-        model.addAttribute("location", setupDao.getLocation());
-        if (principal != null) {
-            Users u = new Users();
-            u = userDao.findByUsername(principal.getName());
-
-            model.addAttribute("userName", principal.getName());
-            model.addAttribute("user", u);
-//            return "chatWelcome";
-        }
-
-        return "chatWithGirl";
-    }
-
-    @RequestMapping(value = {"/chatWithUsers"}, method = RequestMethod.GET)
-    public String chatWithUsers(Principal principal,
-            HttpServletResponse response,
-            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
-            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
-            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
-            RedirectAttributes redirectAttributes,
-            HttpServletRequest req,
-            ModelMap model
-    ) {
-        model.addAttribute("path", setupDao.getPath());
-        model.addAttribute("location", setupDao.getLocation());
-        if (principal != null) {
-            Users u = new Users();
-            u = userDao.findByUsername(principal.getName());
-
-            model.addAttribute("userName", principal.getName());
-            model.addAttribute("user", u);
-//            return "chatWelcome";
-        }
-
-        return "chatWithUsers";
-    }
-
-    @RequestMapping(value = {"/chatWithUserPr"}, method = RequestMethod.GET)
-    public String chatWithUserspr(Principal principal,
-            HttpServletResponse response,
-            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
-            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
-            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
-            RedirectAttributes redirectAttributes,
-            HttpServletRequest req,
-            ModelMap model
-    ) {
-        model.addAttribute("path", setupDao.getPath());
-        model.addAttribute("location", setupDao.getLocation());
-        if (principal != null) {
-            Users u = new Users();
-            u = userDao.findByUsername(principal.getName());
-
-            model.addAttribute("userName", principal.getName());
-            model.addAttribute("user", u);
-//            return "chatWelcome";
-        }
-
-        return "chatWithUsersPrivate";
-    }
-
-    @RequestMapping(value = {"/chatWithUsersPrivate/{name}"}, method = RequestMethod.GET)
-    public String chatWithUsersPrivate(Principal principal,
-            HttpServletResponse response,
-            @PathVariable String name,
-            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
-            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
-            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
-            RedirectAttributes redirectAttributes,
-            HttpServletRequest req,
-            ModelMap model
-    ) {
-        String girl = name;
-        System.out.println(girl);
-        redirectAttributes.addFlashAttribute("path", setupDao.getPath());
-        redirectAttributes.addFlashAttribute("location", setupDao.getLocation());
-        if (principal != null) {
-            Users u = new Users();
-            u = userDao.findByUsername(principal.getName());
-
-            redirectAttributes.addFlashAttribute("userName", principal.getName());
-            redirectAttributes.addFlashAttribute("user", u);
-            redirectAttributes.addFlashAttribute("privateU", name);
-//            return "chatWelcome";
-        }
-
-        return "redirect:/chatWithUserPr";
-    }
-
-    @RequestMapping(value = {"/chatWithGirlPr"}, method = RequestMethod.GET)
-    public String chatWithGirlPr(Principal principal,
-            HttpServletResponse response,
-            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
-            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
-            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
-            RedirectAttributes redirectAttributes,
-            HttpServletRequest req,
-            ModelMap model
-    ) {
-        model.addAttribute("path", setupDao.getPath());
-        model.addAttribute("location", setupDao.getLocation());
-        if (principal != null) {
-            Users u = new Users();
-            u = userDao.findByUsername(principal.getName());
-
-            model.addAttribute("userName", principal.getName());
-            model.addAttribute("user", u);
-//            return "chatWelcome";
-        }
-
-        return "chatWithGirlPrivate";
-    }
-
-    @RequestMapping(value = {"/chatWithGirlPrivate/{name}"}, method = RequestMethod.GET)
-    public String chatWithGirlPrivate(Principal principal,
-            HttpServletResponse response,
-            @PathVariable String name,
-            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
-            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
-            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
-            RedirectAttributes redirectAttributes,
-            HttpServletRequest req,
-            ModelMap model
-    ) {
-        String girl = name;
-        System.out.println(girl);
-        redirectAttributes.addFlashAttribute("path", setupDao.getPath());
-        redirectAttributes.addFlashAttribute("location", setupDao.getLocation());
-        if (principal != null) {
-            Users u = new Users();
-            u = userDao.findByUsername(principal.getName());
-
-            redirectAttributes.addFlashAttribute("userName", principal.getName());
-            redirectAttributes.addFlashAttribute("user", u);
-            redirectAttributes.addFlashAttribute("privateG", name);
-//            return "chatWelcome";
-        }
-
-        return "redirect:/chatWithGirlPr";
-    }
-
-    @RequestMapping(value = {"/chatActiveGirls"}, method = RequestMethod.GET)
-    public String test(Principal principal,
-            HttpServletResponse response,
-            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
-            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
-            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
-            RedirectAttributes redirectAttributes,
-            HttpServletRequest req,
-            ModelMap model
-    ) {
-        model.addAttribute("path", setupDao.getPath());
-        model.addAttribute("location", setupDao.getLocation());
-        if (principal != null) {
-            Users u = new Users();
-            u = userDao.findByUsername(principal.getName());
-
-            model.addAttribute("userName", principal.getName());
-            model.addAttribute("user", u);
-//            return "chatWelcome";
-        }
-        return "chatActiveGirls";
-    }
+   
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String signup(
             ModelMap model,
-            
             HttpServletResponse response, RedirectAttributes redirectAttributes,
             HttpServletRequest request) throws Exception {
         Boolean alredySigned = false;
@@ -535,6 +369,13 @@ public class SiteController {
                     ua.setUserId(userId);
                     ua.setUserKey(gn);
                     usersActivateDAO.save(ua);
+                    
+                    
+                    GoogleMail gm = new GoogleMail();
+                    gm.send(email,gn,username);
+                    
+                    
+                    
 
                 } else {
 
@@ -562,7 +403,8 @@ public class SiteController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(@RequestParam(value = "error", required = false) String error, @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust, HttpServletRequest request, HttpServletResponse response, ModelMap model, RedirectAttributes redirectAttributes, Principal principal, Authentication au
     ) {
-        Boolean loginError = false;
+         try{
+             Boolean loginError = false;
         Boolean signinChecker = false;
 
         if (error != null) {
@@ -580,21 +422,26 @@ public class SiteController {
             if (request.isUserInRole("ROLE_GIRL")) {
                 Users u = new Users();
                 u = userDao.findByUsername(principal.getName());
-                u.setEnabled((short) 4);
-                userDao.update(u);
+//                u.setEnabled((short) 4);
+//                userDao.update(u);
+                onlineDao.setOnline(u.getId());
             }
 
             if (request.isUserInRole("ROLE_HOUSE")) {
                 Users u = new Users();
                 u = userDao.findByUsername(principal.getName());
-                u.setEnabled((short) 5);
-                userDao.update(u);
+//                u.setEnabled((short) 5);
+//                userDao.update(u);
             }
 
         }
         redirectAttributes.addFlashAttribute("loginError", loginError);
         redirectAttributes.addFlashAttribute("signinChecker", signinChecker);
         redirectAttributes.addFlashAttribute("bck", "");
+        } catch (Exception e) {
+            
+        }
+       
 
         return redirect.re(request.getHeader("referer"));
     }
@@ -614,6 +461,7 @@ public class SiteController {
         try {
             path = setupDao.getPath();
             loc = setupDao.getLocation();
+            key.trim();
 
             Object[] tmp = usersActivateDAO.findByKey(key);
             Boolean b = (boolean) tmp[0];
@@ -659,9 +507,9 @@ public class SiteController {
             RedirectAttributes redirectAttributes,
             HttpServletRequest req
     ) {
-
         ModelAndView model = new ModelAndView();
-
+ try{
+            
         //    serverOffMsg
 //        String serverOffMsg = "serverrrrrr offffff";
         if (cookieTrust != null) {
@@ -682,15 +530,40 @@ public class SiteController {
             model.addObject("userName", principal.getName());
             model.addObject("user", u);
         }
+        
+         List<MembersRank> mh = new ArrayList<>();
+            
+            mh = memberRankDao.findTop4();
+            
+            model.addObject("mh", mh);
+            
+            
+            
+            Set<Integer> active = Sets.newTreeSet();
+            
+            active = onlineDao.onlineGirls();
+            
+            System.out.println("********* " + active.size());
+            
+            model.addObject("active", active);
+            
+            List<Girls> l = new ArrayList<>();
+            l = girlDao.findGirls();
+
+            model.addObject("girl", l);
 
 //        model.addObject("serverOffMsg", serverOffMsg);
 //        model.addObject("serverOff", true);
         model.addObject("path", setupDao.getPath());
         model.addObject("location", setupDao.getLocation());
         model.addObject("bck", "");
-
         model.setViewName("index");
 
+        
+        } catch (Exception e) {
+            
+        }
+       
         return model;
 
     }
@@ -703,15 +576,16 @@ public class SiteController {
             if (request.isUserInRole("ROLE_GIRL")) {
                 Users u = new Users();
                 u = userDao.findByUsername(principal.getName());
-                u.setEnabled((short) 2);
-                userDao.update(u);
+//                u.setEnabled((short) 2);
+//                userDao.update(u);
+                onlineDao.setOffline(u.getId());
             }
 
             if (request.isUserInRole("ROLE_HOUSE")) {
                 Users u = new Users();
                 u = userDao.findByUsername(principal.getName());
-                u.setEnabled((short) 3);
-                userDao.update(u);
+//                u.setEnabled((short) 3);
+//                userDao.update(u);
             }
 
             HttpSession session = request.getSession(false);
@@ -732,8 +606,9 @@ public class SiteController {
     //for 403 access denied page
     @RequestMapping(value = "/403", method = RequestMethod.GET)
     public ModelAndView accesssDenied() {
-
-        ModelAndView model = new ModelAndView();
+ ModelAndView model = new ModelAndView();
+         try{
+           
 
         //check if user is login
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -742,7 +617,11 @@ public class SiteController {
             model.addObject("username", userDetail.getUsername());
         }
 
-        model.setViewName("403");
+        model.setViewName("403"); 
+        } catch (Exception e) {
+            
+        }
+       
         return model;
 
     }
@@ -778,19 +657,22 @@ public class SiteController {
     }
 
     @RequestMapping(value = "/uploadMulti", method = RequestMethod.POST)
-
     public String multiFileUpload(
             @RequestParam("file") MultipartFile[] files,
             @RequestParam("name") String[] names,
             @RequestParam("tag") String[] tags,
             HttpServletRequest request,
-            @RequestParam("season") Integer[] season,
+//            @RequestParam("season") Integer[] season,
             RedirectAttributes redirectAttributes,
             Principal principal) {
 
         System.setProperty("org.bytedeco.javacpp.maxphysicalbytes", "0");
         System.setProperty("org.bytedeco.javacpp.maxbytes", "0");
 
+        
+       
+        
+        
         boolean successClipHdd = true;
         StringJoiner failFileSaveMsg = new StringJoiner(" </br>");
 
@@ -866,36 +748,29 @@ public class SiteController {
 
             if (countFile == countName) { // ako svi fajlovi imaju ime
                 // cuva se file.mp4
-
                 for (int i = 0; i < files.length; i++) {
-
+                    int ii = i;
                     try {
                         String name = names[i];
                         String tag = tags[i];
                         if (files[i].isEmpty()) {
                             continue;
                         }
-
                         String generatedName = nameGenerator.nextKey();
                         while (videoFileNameDao.exist(generatedName)) {
                             generatedName = nameGenerator.nextKey();
                         }
-
                         videoName2save = videosUploadLocation + generatedName + files[i].getOriginalFilename().substring(files[i].getOriginalFilename().length() - 4, files[i].getOriginalFilename().length());
-
                         //
                         boolean successSave = saveVideoFile.save(files[i].getBytes(), videoName2save);
-
                         if (successSave) { // ako je sacuvan fajl
                             // grebuju se slike
-
                             Object[] tmp = frameGrabberDao.grab(videoName2save, imgSaveLocation + generatedName);
 
                             boolean succsGrab = (boolean) tmp[0];
 
                             if (succsGrab) { // ako su grebovane sve slike
                                 // cuva se video klip u bazi
-
                                 videoClip.setTag(tag);
                                 videoClip.setUploadDate(date);
                                 videoClip.setViewCount(0);
@@ -909,7 +784,6 @@ public class SiteController {
 
                                 if (clipId != 0) { // ako je sacuvan klip u bazi
                                     // cuva se fileName u bazi
-
                                     videoFileName.setClipId(clipId);
 
                                     videoFileName.setFileName(generatedName);
@@ -918,18 +792,16 @@ public class SiteController {
 
                                     if (videoFileNameB) { // ako je sacuvan fileName u bazi
                                         // cuva se 1 m2m u bazi
-
-                                        videoM2m.setSeason(season[i]);
+                                        
+                                        videoM2m.setSeason(1);
                                         videoM2m.setClipId(clipId);
                                         videoM2mRoom.setClipId(clipId);
                                         videoM2mCategory.setClipId(clipId);
                                         videoM2mMember.setClipId(clipId);
                                         Object[] temp = videoM2mDao.save(videoM2m);
                                         boolean videoM2mB = (boolean) temp[0];
-//videoM2mB=false;
                                         if (videoM2mB) { // ako je sacuvan video M2m u bazi
                                             // cuvaju se mnogobrojni m2m parametri u bazi
-
                                             for (int vr = 0; vr < videoRooms.size(); vr++) {
                                                 if (request.getParameter("videoRoom" + i + videoRooms.get(vr).getId()) != null && allCheck) {
                                                     videoM2mRoom.setRoom(Integer.parseInt(request.getParameter("videoRoom" + i + videoRooms.get(vr).getId())));
@@ -997,7 +869,6 @@ public class SiteController {
                                             }
 
                                             if (allCheck) {
-
                                                 //ako je sve ok rinejmuje se klip i slike i vraca bul
                                                 boolean rename = saveVideoFile.rename(imgSaveLocation, videosUploadLocation, generatedName, clipId);
 
@@ -1078,7 +949,7 @@ public class SiteController {
 
                         }
 
-                    } catch (Exception e) {
+                    } catch (IOException | NumberFormatException e) {
                     }
                 }
 
@@ -1675,18 +1546,120 @@ public class SiteController {
                 model.addAttribute("userName", principal.getName());
                 model.addAttribute("user", u);
             }
+            
+            List<MembersRank> mh = new ArrayList<>();
+            
+            mh = memberRankDao.find();
+            
+            
             model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("mh", mh);
             model.addAttribute("location", setupDao.getLocation());
             model.addAttribute("bck", "");
+            model.addAttribute("pricePackages", pricePackageService.findAllActive());
 
         } catch (Exception ex) {
         }
         return "vote";
     }
+    
+    
+    
+     @RequestMapping("/voteFromIndex/{id}")
+    public String voteFromIndex(
+            Principal principal, RedirectAttributes redirectAttributes,
+            ModelMap model,
+             @PathVariable int id,
+            
+                   
+            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
+            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
+            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+        Boolean alredySigned = false;
+        try {
+            if (cookieTrust != null) {
+                model.addAttribute("trustedUser", true);
+            } else {
+                if (cookieSigned != null) {
+                    model.addAttribute("alredySigned", true);
+                } else {
+                    if (cookieMail != null) {
+                        model.addAttribute("checkEmail", true);
+                    }
+                }
+            }
+            if (principal != null) {
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
+            }
+            
+            List<MembersRank> mh = new ArrayList<>();
+            
+            mh = memberRankDao.find();
+            
+             redirectAttributes.addFlashAttribute("idFromIndex", id);
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("mh", mh);
+            model.addAttribute("location", setupDao.getLocation());
+            model.addAttribute("bck", "");
+            model.addAttribute("pricePackages", pricePackageService.findAllActive());
 
-   
+        } catch (Exception ex) {
+        }
+        return "redirect:/vote";
+    }
+    
+    
+    @RequestMapping("/vote/{mhid}")
+    public String votee(
+            Principal principal, RedirectAttributes redirectAttributes,
+            ModelMap model,
+             @PathVariable int mhid,
+            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
+            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
+            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+        Boolean alredySigned = false;
+        try {
+            if (cookieTrust != null) {
+                model.addAttribute("trustedUser", true);
+            } else {
+                if (cookieSigned != null) {
+                    model.addAttribute("alredySigned", true);
+                } else {
+                    if (cookieMail != null) {
+                        model.addAttribute("checkEmail", true);
+                    }
+                }
+            }
+            if (principal != null) {
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
+                memberHouseDao.updateUserMinus1token(u);
+                memberHouseDao.updateMemberPlus1Vote(mhid);
+                
+            }
+            
+           
+            
+            
+            model.addAttribute("path", setupDao.getPath());
+            
+            model.addAttribute("location", setupDao.getLocation());
+            model.addAttribute("bck", "");
+            model.addAttribute("pricePackages", pricePackageService.findAllActive());
 
-   
+        } catch (Exception ex) {
+        }
+        return "redirect:/vote";
+    }
 
     @RequestMapping("/wish")
     public String wish(
@@ -1725,6 +1698,18 @@ public class SiteController {
         }
         return "wish";
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     @RequestMapping(value = "/video", method = RequestMethod.GET)
     public String videos(
@@ -1938,7 +1923,7 @@ public class SiteController {
             model.addAttribute("params", allParams);
             model.addAttribute("bck", "");
 
-        } catch (Exception ex) {
+        } catch (ParseException ex) {
         }
         return "video-archive";
     }
@@ -2002,7 +1987,8 @@ public class SiteController {
 
             if (!string.isEmpty()) {
 
-                String[] parts = string.split(" ");
+                String[] parts;
+                parts = string.split(" ");
                 individualPar.add("Search: " + string + ",10=0");
             }
 
@@ -2092,7 +2078,6 @@ public class SiteController {
         model.addAttribute("bck", ".");
         model.addAttribute("path", path);
         model.addAttribute("location", loc);
-        System.out.println("reff: " + request.getHeader("referer"));
         return "redirect:/video/" + id;
 
 //        return redirect.re(request.getHeader("referer"));
@@ -2438,8 +2423,8 @@ public class SiteController {
 
 //        return redirect.re(request.getHeader("referer"));
     }
-    
-      @RequestMapping("/privacyPolicy")
+
+    @RequestMapping("/privacyPolicy")
     public String tp1(
             Principal principal, RedirectAttributes redirectAttributes,
             @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
@@ -2478,8 +2463,10 @@ public class SiteController {
 
 //        return redirect.re(request.getHeader("referer"));
     }
+
     
-      @RequestMapping("/termsOfUse")
+                    
+    @RequestMapping("/termsOfUse")
     public String tp2(
             Principal principal, RedirectAttributes redirectAttributes,
             @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
@@ -2518,8 +2505,8 @@ public class SiteController {
 
 //        return redirect.re(request.getHeader("referer"));
     }
-    
-      @RequestMapping("/2257")
+
+    @RequestMapping("/2257")
     public String tp3(
             Principal principal, RedirectAttributes redirectAttributes,
             @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
@@ -2558,6 +2545,5 @@ public class SiteController {
 
 //        return redirect.re(request.getHeader("referer"));
     }
-    
-    
+
 }

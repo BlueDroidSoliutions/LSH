@@ -18,6 +18,26 @@
         
         
         
+        
+        
+        
+        <dependency>
+    <groupId>commons-codec</groupId>
+    <artifactId>commons-codec</artifactId>
+    <version>1.10</version>
+</dependency>
+
+
+
+<dependency>
+    <groupId>commons-lang</groupId>
+    <artifactId>commons-lang</artifactId>
+    <version>2.2</version>
+</dependency>
+
+
+
+    <!--   ////////////////////     samo za GF ///////////////////-->    
         <dependency>
     <groupId>org.glassfish.tyrus</groupId>
     <artifactId>tyrus-core</artifactId>
@@ -68,9 +88,15 @@
     <version>1.13.1</version>
 </dependency>
 
+<!--   ////////////////////     samo za GF ///////////////////-->
+
+
+
+
+
         
         
-        
+<!--   ////////////////////     samo za tomCat ///////////////////-->
         
 <!--        <dependency>
     <groupId>org.apache.tomcat</groupId>
@@ -78,7 +104,7 @@
     <version>9.0.0.M26</version>
 </dependency>-->
         
-        
+<!--   ////////////////////     samo za tomCat ///////////////////-->        
         
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -249,6 +275,36 @@
             <version>2.5</version>
         </dependency>
          
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.10</version>
+        </dependency>
+        
+        <dependency>
+		    <groupId>commons-lang</groupId>
+		    <artifactId>commons-lang</artifactId>
+		    <version>2.6</version>
+		</dependency>
+         
+        <dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-core</artifactId>
+		    <version>2.9.1</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.9.1</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-annotations</artifactId>
+		    <version>2.9.1</version>
+		</dependency>
+         
          
         <dependency>
             <groupId>org.bytedeco</groupId>
@@ -394,6 +450,26 @@
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
+        
+        <dependency>
+    <groupId>com.sun.mail</groupId>
+    <artifactId>smtp</artifactId>
+    <version>1.6.0</version>
+</dependency>
+        
+        <dependency>
+    <groupId>javax.mail</groupId>
+    <artifactId>mail</artifactId>
+    <version>1.4.7</version>
+</dependency>
+        
+        
+        <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.6</version>
+    </dependency>
+        
     </dependencies>
 
     <build>
@@ -403,8 +479,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <compilerArguments>
                         <endorseddirs>${endorsed.dir}</endorseddirs>
                     </compilerArguments>

@@ -10,6 +10,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,14 +29,6 @@ import java.util.List;
     , @NamedQuery(name = "Users.findByUsername", query = "SELECT u FROM Users u WHERE u.username = :username")
     , @NamedQuery(name = "Users.findByPassword", query = "SELECT u FROM Users u WHERE u.password = :password")
     , @NamedQuery(name = "Users.findByEnabled", query = "SELECT u FROM Users u WHERE u.enabled = :enabled")
-    , @NamedQuery(name = "Users.findGirls", query = "SELECT u.username FROM Users u WHERE u.enabled = 2 OR u.enabled = 4 OR u.enabled = 6")
-    , @NamedQuery(name = "Users.findByEnabled2", query = "SELECT u.username FROM Users u WHERE u.enabled = 2")
-    , @NamedQuery(name = "Users.findByEnabled3", query = "SELECT u.username FROM Users u WHERE u.enabled = 3")
-    , @NamedQuery(name = "Users.findByEnabled4", query = "SELECT u.username FROM Users u WHERE u.enabled = 4")
-    , @NamedQuery(name = "Users.findByEnabled5", query = "SELECT u.username FROM Users u WHERE u.enabled = 5")
-    , @NamedQuery(name = "Users.findByEnabled6", query = "SELECT u.username FROM Users u WHERE u.enabled = 6")
-    , @NamedQuery(name = "Users.findByEnabled7", query = "SELECT u.username FROM Users u WHERE u.enabled = 7")
-        
     , @NamedQuery(name = "Users.findByTokens", query = "SELECT u FROM Users u WHERE u.tokens = :tokens")
     , @NamedQuery(name = "Users.findByMemberfrom", query = "SELECT u FROM Users u WHERE u.memberfrom = :memberfrom")
     , @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email")})
@@ -75,7 +70,10 @@ public class Users implements Serializable {
     @Column(name = "email")
     private String email;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @Column(name = "epoch_cam_charge_member_id")
+    private String epochCamChargeMemberId;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Column(name = "user_id")
     private List<Membership> memberships;
 
@@ -152,6 +150,34 @@ public class Users implements Serializable {
         this.email = email;
     }
 
+    public String getEpochCamChargeMemberId() {
+    	return epochCamChargeMemberId;
+    }
+    
+    public void setEpochCamChargeMemberId(String epochCamChargeMemberId) {
+    	this.epochCamChargeMemberId = epochCamChargeMemberId;
+    }
+
+    public List<Membership> getMemberships() {
+        return memberships;
+    }
+
+    public void setMemberships(List<Membership> memberships) {
+        this.memberships = memberships;
+    }
+
+    public void addMembership(String externalMembershipId) {
+    	if (this.memberships == null) {
+    		this.memberships = new ArrayList<>();
+    	}
+    	Membership membership = new Membership();
+    	membership.setActive(Boolean.TRUE);
+    	membership.setStartDate(new Date());
+    	Date endDate = Date.from(LocalDateTime.now().plusDays(30).atZone(ZoneId.systemDefault()).toInstant());
+    	membership.setEndDate(endDate);
+    	this.memberships.add(membership);
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -176,5 +202,5 @@ public class Users implements Serializable {
     public String toString() {
         return "com.livesexhouse.model.Users[ id=" + id + " ]";
     }
-
+    
 }

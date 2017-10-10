@@ -5,7 +5,7 @@
  */
 package com.livesexhouse.DAO;
 
-import com.livesexhouse.model.UserM2m;
+import com.livesexhouse.controller.Checker;
 import com.livesexhouse.model.UserRoles;
 import com.livesexhouse.model.Users;
 import java.util.ArrayList;
@@ -27,6 +27,9 @@ public class UserDao {
 
     @Autowired
     SessionFactory sessionFactory;
+    
+    @Autowired
+    Checker checker;
 
     public Users findByUsername(String username) {
 
@@ -41,21 +44,19 @@ public class UserDao {
         }
         return u;
     }
-    
-    
-     public List<String> findGirls() {
+
+    public List<String> findGirls() {
         List<String> l = new ArrayList<>();
         try {
             Session session = sessionFactory.getCurrentSession();
             Query q = sessionFactory.getCurrentSession().getNamedQuery("Users.findByEnabled2");
             l = q.getResultList();
 
-        } catch (Exception e) {
+        } catch (HibernateException e) {
         }
         return l;
 
     }
-    
 
     public Users findById(int id) {
 
@@ -63,9 +64,12 @@ public class UserDao {
 
         try {
             Session session = sessionFactory.getCurrentSession();
-            Query query = session.getNamedQuery("Users.findById");
-            query.setParameter("id", id);
-            u = (Users) query.getSingleResult();
+            Query q = session.getNamedQuery("Users.findById");
+            q.setParameter("id", id);
+            if (!q.getResultList().isEmpty()) {
+                u = (Users) q.getSingleResult();
+            }
+
         } catch (HibernateException e) {
         }
         return u;
@@ -76,7 +80,7 @@ public class UserDao {
         try {
             Session session = sessionFactory.getCurrentSession();
             i = (Integer) session.save(c);
-        } catch (Exception e) {
+        } catch (HibernateException e) {
         }
         return i;
     }
@@ -85,20 +89,23 @@ public class UserDao {
         try {
             Session session = sessionFactory.getCurrentSession();
             session.save(u);
-        } catch (Exception e) {
+        } catch (HibernateException e) {
         }
     }
 
     public boolean existUserName(String username) {
         boolean b = false;
-
+        
         try {
             Session session = sessionFactory.getCurrentSession();
+            if(checker.check(username)){
             Query q = session.createNativeQuery("SELECT * FROM users WHERE username = '" + username + "';");
-            if (q.getResultList().size() != 0) {
+            if (!q.getResultList().isEmpty()) {
                 b = true;
             }
-        } catch (Exception e) {
+        }
+            
+        } catch (HibernateException e) {
         }
         return b;
     }
@@ -108,11 +115,12 @@ public class UserDao {
 
         try {
             Session session = sessionFactory.getCurrentSession();
+            if(checker.checkEmail(email)){
             Query q = session.createNativeQuery("SELECT * FROM users WHERE email = '" + email + "';");
-            if (q.getResultList().size() != 0) {
+            if (!q.getResultList().isEmpty()) {
                 b = true;
-            }
-        } catch (Exception e) {
+            }}
+        } catch (HibernateException e) {
         }
         return b;
     }
@@ -121,7 +129,6 @@ public class UserDao {
 
         try {
             Session session = sessionFactory.getCurrentSession();
-//        session.delete(c);
 
             Query query = session.createNativeQuery("DELETE FROM users WHERE id = " + c.getId() + ";");
             query.executeUpdate();
@@ -132,16 +139,19 @@ public class UserDao {
             query = session.createNativeQuery("DELETE FROM user_bck_data WHERE id = " + c.getId() + ";");
             query.executeUpdate();
 
-        } catch (Exception e) {
+        } catch (HibernateException e) {
         }
 
     }
 
     public void update(Users u) {
-        Session session = sessionFactory.getCurrentSession();
-        session.update(u);
-    }
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            session.update(u);
+        } catch (HibernateException e) {
 
-   
+        }
+
+    }
 
 }
