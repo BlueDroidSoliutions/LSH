@@ -11,7 +11,9 @@ import java.io.Serializable;
 @Table(name = "price_package")
 public class PricePackage implements Serializable {
     
-    @Id
+	private static final long serialVersionUID = 1500860025200682563L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
@@ -19,16 +21,20 @@ public class PricePackage implements Serializable {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "credits", nullable = false, unique = true)
-    private Integer credits;
+    @Column(name = "tokens", nullable = false)
+    private Integer tokens;
     
-    @Column(name = "amount", nullable = false, unique = true)
+    @Column(name = "amount", nullable = false)
     private Double amount;
 
-    @Override
-    public String toString() {
-        return "name=" + name;
-    }
+    @Column(name = "active", nullable = false)
+    private Boolean active;
+    
+    @Column(name = "monthly", nullable = false)
+    private Boolean monthly;
+    
+    @Column(name = "external_package_id")
+    private String externalPackageId;
 
     public Long getId() {
         return id;
@@ -46,12 +52,12 @@ public class PricePackage implements Serializable {
         this.name = name;
     }
 
-    public Integer getCredits() {
-        return credits;
+    public Integer getTokens() {
+        return tokens;
     }
 
-    public void setCredits(Integer credits) {
-        this.credits = credits;
+    public void setTokens(Integer credits) {
+        this.tokens = credits;
     }
 
     public Double getAmount() {
@@ -61,5 +67,34 @@ public class PricePackage implements Serializable {
     public void setAmount(Double amount) {
         this.amount = amount;
     }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
     
+    public Boolean getMonthly() {
+		return monthly;
+	}
+    
+    public void setMonthly(Boolean monthly) {
+		this.monthly = monthly;
+	}
+    
+    public String getExternalPackageId() {
+		return externalPackageId;
+	}
+    
+    public void setExternalPackageId(String externalPackageId) {
+		this.externalPackageId = externalPackageId;
+	}
+    
+    @Override
+    public String toString() {
+        return "name=" + name;
+    }
+   
 }

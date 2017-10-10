@@ -1,5 +1,10 @@
 package com.livesexhouse.controller.epoch.response;
 
+/**
+ * 
+ * @author nemanja
+ *
+ */
 public class CheckoutResponse {
 
 	private Boolean success;

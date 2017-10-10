@@ -7,6 +7,7 @@ import com.livesexhouse.model.OrderPayment;
 import com.livesexhouse.service.OrderPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -21,6 +22,7 @@ public class OrderPaymentServiceImpl extends AbstractGenericService<OrderPayment
     private OrderPaymentDao orderPaymentDao;
 
     @Override
+    @Transactional
     public OrderPayment create(Order order, String transactionId) {
         OrderPayment orderPayment = new OrderPayment();
         orderPayment.setOrder(order);
@@ -28,6 +30,12 @@ public class OrderPaymentServiceImpl extends AbstractGenericService<OrderPayment
         orderPayment.setCreatedDate(new Date());
         getOrderPaymentDao().save(orderPayment);
         return orderPayment;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public OrderPayment findByTransactionId(String transactionId) {
+        return getOrderPaymentDao().findByTransactionId(transactionId);
     }
 
     @Override

@@ -151,11 +151,11 @@ public class Users implements Serializable {
     }
 
     public String getEpochCamChargeMemberId() {
-    	return epochCamChargeMemberId;
+        return epochCamChargeMemberId;
     }
-    
+
     public void setEpochCamChargeMemberId(String epochCamChargeMemberId) {
-    	this.epochCamChargeMemberId = epochCamChargeMemberId;
+        this.epochCamChargeMemberId = epochCamChargeMemberId;
     }
 
     public List<Membership> getMemberships() {
@@ -165,7 +165,7 @@ public class Users implements Serializable {
     public void setMemberships(List<Membership> memberships) {
         this.memberships = memberships;
     }
-
+    
     public void addMembership(String externalMembershipId) {
     	if (this.memberships == null) {
     		this.memberships = new ArrayList<>();

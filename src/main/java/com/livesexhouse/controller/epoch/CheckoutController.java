@@ -1,4 +1,5 @@
 package com.livesexhouse.controller.epoch;
+
 import com.livesexhouse.DAO.UserDao;
 import com.livesexhouse.controller.epoch.response.CheckoutResponse;
 import com.livesexhouse.model.Order;
@@ -23,11 +24,15 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * 
+ * @author nemanja
+ *
+ */
 @RestController
 @RequestMapping(value = "checkout", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CheckoutController {
 
-     
 	/**
 	 * Logger for this class.
 	 */
@@ -48,21 +53,15 @@ public class CheckoutController {
 	@Autowired
 	private OrderService orderService;
 
-//	@Value("${billing.epoch.url}")
+	@Value("${billing.epoch.url}")
 	private String epochUrl;
 
-//	@Value("${billing.epoch.pi.code}")
-	private String epochPiCode;
-
-//	@Value("${billing.epoch.postback.url}")
+	@Value("${billing.epoch.postback.url}")
 	private String postbackUrl;
 
-//	@Value("${billing.epoch.secret.key}")
+	@Value("${billing.epoch.secret.key}")
 	private String secretKey;
 
-        
-        
-        
 	/**
 	 * POST /checkout -> calling when buying tokens
 	 *
@@ -73,14 +72,13 @@ public class CheckoutController {
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody CheckoutResponse submit(Principal principal, @RequestParam Long pricePackageId) {
 		CheckoutResponse response = new CheckoutResponse();
-                
 		if (principal == null) {
 		    response.setMessage("You must be logged in to buy tokens.");
 		    response.setSuccess(Boolean.FALSE);
 		    return response;
         }
 		Users user = getUserDao().findByUsername(principal.getName());
-		if (user == null && user.getEnabled() == 1) {
+		if (user == null || user.getEnabled() == 1) {
 			response.setSuccess(Boolean.FALSE);
 			response.setMessage("You don't have permissions to buy tokens!");
 			return response;
@@ -94,11 +92,45 @@ public class CheckoutController {
 			return response;
 		}
 		Order order = getOrderService().create(user, pricePackage);
-		if (StringUtils.isEmpty(user.getEpochMemberId())) {
+		if (StringUtils.isEmpty(user.getEpochCamChargeMemberId())) {
 			buildJoinResponse(response, user, order);
 		} else {
 			buildCamChargeResponse(response, user, order);
 		}
+		return response;
+	}
+	
+	/**
+	 * POST /checkout/vip -> calling when buying vip membership
+	 *
+     * @param principal
+	 * @param pricePackageId
+	 * @return {@link CheckoutResponse} object
+	 */
+	@RequestMapping(method = RequestMethod.POST)
+	public @ResponseBody CheckoutResponse submitVipMembership(Principal principal, @RequestParam Long pricePackageId) {
+		CheckoutResponse response = new CheckoutResponse();
+		if (principal == null) {
+		    response.setMessage("You must be logged in to buy vip membership.");
+		    response.setSuccess(Boolean.FALSE);
+		    return response;
+        }
+		Users user = getUserDao().findByUsername(principal.getName());
+		if (user == null || user.getEnabled() == 1) {
+			response.setSuccess(Boolean.FALSE);
+			response.setMessage("You don't have permissions to buy vip membership!");
+			return response;
+		}
+		PricePackage pricePackage = getPricePackageService().findById(pricePackageId);
+		if (pricePackage == null || !pricePackage.getMonthly()) {
+			response.setSuccess(Boolean.FALSE);
+			response.setMessage("Error has occurred during buying vip membership.");
+			LOGGER.error("User with username: {} is trying to buy vip membership without selecting price package.",
+					user.getUsername());
+			return response;
+		}
+		Order order = getOrderService().create(user, pricePackage);
+		buildJoinResponse(response, user, order);
 		return response;
 	}
 
@@ -107,8 +139,7 @@ public class CheckoutController {
 		Map<String, String> params = new LinkedHashMap<>();
 		// Required parameters
 		params.put("api", "join");
-		params.put("action", "authandclose");
-		params.put("pi_code", getEpochPiCode());
+		params.put("pi_code", order.getPricePackage().getExternalPackageId());
 		params.put("reseller", "a");
 		// Optional parameters
 		params.put("auth_amount", order.getPricePackage().getAmount().toString());
@@ -139,7 +170,7 @@ public class CheckoutController {
 		params.put("api", "camcharge");
 		params.put("action", "authandclose");
 		params.put("description", order.getPricePackage().getName());
-		params.put("member_id", user.getEpochMemberId());
+		params.put("member_id", user.getEpochCamChargeMemberId());
 		// Optional parameters
 		params.put("auth_amount", order.getPricePackage().getAmount().toString());
 		params.put("pburl", getPostbackUrl());
@@ -183,10 +214,6 @@ public class CheckoutController {
 
 	private String getEpochUrl() {
 		return epochUrl;
-	}
-
-	private String getEpochPiCode() {
-		return epochPiCode;
 	}
 
 	private String getPostbackUrl() {
