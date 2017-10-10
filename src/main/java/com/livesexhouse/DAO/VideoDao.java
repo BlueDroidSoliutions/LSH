@@ -1,19 +1,11 @@
 package com.livesexhouse.DAO;
 
+import com.livesexhouse.controller.Checker;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.HibernateException;
 
-import org.hibernate.search.FullTextSession;
-import org.hibernate.search.Search;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
-
-import org.hibernate.search.jpa.FullTextEntityManager;
-import org.hibernate.search.query.dsl.QueryBuilder;
 
 import com.livesexhouse.model.VideoClip;
 import org.hibernate.Session;
@@ -21,33 +13,59 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.apache.commons.lang.StringUtils;
+
 
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 public class VideoDao {
 
     @Autowired
     SessionFactory sessionFactory;
+    
+    @Autowired
+    Checker checker;
 
     public void save(VideoClip k) {
-        Session session = sessionFactory.getCurrentSession();
-        session.save(k);
+
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            session.save(k);
+        } catch (HibernateException e) {
+
+        }
+
     }
 
     public void update(VideoClip k) {
-        Session session = sessionFactory.getCurrentSession();
-        session.update(k);
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            session.update(k);
+
+        } catch (HibernateException e) {
+
+        }
     }
 
     public Integer saveR(VideoClip k) {
-        Session session = sessionFactory.getCurrentSession();
-        Integer id = (Integer) session.save(k);
+        Integer id = 0;
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            id = (Integer) session.save(k);
+        } catch (HibernateException e) {
+
+        }
 
         return id;
     }
 
     public void delete(VideoClip vc) {
-        Session session = sessionFactory.getCurrentSession();
-        session.delete(vc);
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            session.delete(vc);
+        } catch (HibernateException e) {
+
+        }
+
     }
 
     public VideoClip findById(int id) {
@@ -79,81 +97,6 @@ public class VideoDao {
         return v;
     }
 
-//    public Object[] search(String input) {
-//
-//        List<VideoClip> result = new ArrayList();
-//        int numVideos = 0;
-//        try {
-//            Session session = sessionFactory.getCurrentSession();
-////            Criteria cr = session.createCriteria(VideoClip.class);
-////            numVideos = cr.list().size();
-////            
-////            result = cr.list();
-//
-////            EntityManagerFactory emf = Persistence.createEntityManagerFactory("persistenceUnit");
-////            EntityManager em = emf.createEntityManager();
-////
-////            FullTextEntityManager fullTextEntityManager
-////                    = org.hibernate.search.jpa.Search.getFullTextEntityManager(em);
-////            em.getTransaction().begin();
-////
-////            QueryBuilder qb = fullTextEntityManager.getSearchFactory()
-////                    .buildQueryBuilder().forEntity(VideoClip.class).get();
-////            org.apache.lucene.search.Query luceneQuery = qb
-////                    .keyword()
-////                    .onFields("name", "tag")
-////                    .matching(input)
-////                    .createQuery();
-////
-////            javax.persistence.Query jpaQuery
-////                    = fullTextEntityManager.createFullTextQuery(luceneQuery, VideoClip.class);
-////
-//////  search
-////            result = jpaQuery.getResultList();
-////            numVideos = result.size();
-////
-////            em.getTransaction().commit();
-////            em.close();
-//            EntityManagerFactory emf = Persistence.createEntityManagerFactory("persistence-unit");
-//
-//            EntityManager em = emf.createEntityManager();
-//            FullTextEntityManager fullTextEntityManager
-//                    = org.hibernate.search.jpa.Search.getFullTextEntityManager(em);
-//            em.getTransaction().begin();
-//
-//            QueryBuilder qb = fullTextEntityManager.getSearchFactory()
-//                    .buildQueryBuilder().forEntity(VideoClip.class).get();
-//            org.apache.lucene.search.Query luceneQuery = qb
-//                    .keyword()
-//                    .onFields("name", "tag")
-//                    .matching(input)
-//                    .createQuery();
-//
-//// wrap Lucene query in a javax.persistence.Query
-//            javax.persistence.Query jpaQuery
-//                    = fullTextEntityManager.createFullTextQuery(luceneQuery, VideoClip.class);
-//
-//// execute search
-//            result = jpaQuery.getResultList();
-//
-//            em.getTransaction().commit();
-//            em.close();
-//
-//        } catch (HibernateException e) {
-//        }
-//        return new Object[]{result, numVideos};
-//
-//    }
-//    public void update() throws InterruptedException {
-//        try {
-//            Session session = sessionFactory.getCurrentSession();
-//            FullTextSession fullTextSession = Search.getFullTextSession(session);
-//            fullTextSession.createIndexer().startAndWait();
-//
-//        } catch (InterruptedException | HibernateException e) {
-//        }
-//
-//    }
     public Object[] findAll(int maxVideoPerPage, int firstResult) {
         List<VideoClip> result = new ArrayList();
         int numVideos = 0;
@@ -172,16 +115,24 @@ public class VideoDao {
         return new Object[]{result, numVideos};
     }
 
-    public Object[] find(int maxVideoPerPage, int firstResult, int sort, String dateFilterr, int[] roomFilterr, int[] seasonFilterr, int[] durationFilterr,
-            int[] memberFilterr, int[] categoryFilterr, String search) {
+    public Object[] find(int maxVideoPerPage, int firstResult, int sort, String dateFilterr, int[] roomFilterr, int[] seasonFilterr, int[] durationFilterr, int[] memberFilterr, int[] categoryFilterr, String search) {
+        
+        
+        
+        
         search = search.trim();
         search = search.replace('-', ' ');
+
         
         List<VideoClip> result = new ArrayList();
         int numVideos = 0;
         int videoNumTotal = 0;
         try {
-
+            
+            
+            
+           if(checker.check(search))  {
+               
             List seasonList = new ArrayList();
             List memberList = new ArrayList();
             List roomList = new ArrayList();
@@ -288,14 +239,10 @@ public class VideoDao {
                     memberB = true;
                 }
 
-              
-                
-                
-                
                 if (!search.equals("0")) {
                     Query searchQ = sessionFactory.getCurrentSession().createQuery("SELECT v.id FROM VideoClip v WHERE v.tag LIKE :searchKeyword or v.name LIKE :searchKeyword");
-                    searchQ.setParameter("searchKeyword", search+"%");
-                    
+                    searchQ.setParameter("searchKeyword", search + "%");
+
                     searchList = searchQ.getResultList();
                     if (searchList.isEmpty()) {
                         customQuery = false;
@@ -379,7 +326,6 @@ public class VideoDao {
                     query = query + sortStr;
 
                     Query q2 = sessionFactory.getCurrentSession().createQuery(query);
-                    
 
                     if (memberB) {
                         q2.setParameter("memberList", memberList);
@@ -451,10 +397,10 @@ public class VideoDao {
                         seasonFilterrB = false;
                     }
                 }
-                
+
                 Boolean searchFilterB = true;
                 if (search.equals("0")) {
-                        searchFilterB = false;
+                    searchFilterB = false;
                 }
 
                 Boolean durationFilterrB = true;
@@ -483,14 +429,11 @@ public class VideoDao {
                     }
                 }
 
-                
                 if (searchFilterB) {
-                            stringSearch = stringSearch + "(SELECT id as clip_id FROM video_clip  WHERE tag LIKE '%" + search + "%' or name LIKE '%" + search + "%') t" + count + "," + "";
-                            count++;
+                    stringSearch = stringSearch + "(SELECT id as clip_id FROM video_clip  WHERE tag LIKE '%" + search + "%' or name LIKE '%" + search + "%') t" + count + "," + "";
+                    count++;
                 }
-                
-                
-                
+
                 ///////////
                 if (memberFilterrB) {
                     for (int i = 0; i < memberFilterr.length; i++) {
@@ -544,9 +487,9 @@ public class VideoDao {
                 }
 
                 /////////
-                String mid = stringCategory + stringRoom +
-                        stringSearch + 
-                        stringDate + stringMember + stringSeason + stringDuration;
+                String mid = stringCategory + stringRoom
+                        + stringSearch
+                        + stringDate + stringMember + stringSeason + stringDuration;
                 ////////
 
                 mid = mid.substring(0, mid.length() - 1);
@@ -586,7 +529,9 @@ public class VideoDao {
                     result = q5.getResultList();
                 }
             }
-
+        } else {
+               System.out.println("errr sql injection");
+           }
         } catch (HibernateException e) {
         }
         return new Object[]{result, numVideos, videoNumTotal};
@@ -599,6 +544,7 @@ public class VideoDao {
         String percent = "";
         try {
             search = search.trim();
+              if(checker.check(search))  {
 
             Query videoNumTotalQ = sessionFactory.getCurrentSession().createQuery("SELECT v.id FROM VideoClip v WHERE enabled = 1");
             videoNumTotal = (int) videoNumTotalQ.getResultList().size();
@@ -607,9 +553,9 @@ public class VideoDao {
             query = "SELECT v FROM VideoClip v WHERE v.tag LIKE '%" + search + "%' or v.name LIKE '%" + search + "%'";
             Query q2 = sessionFactory.getCurrentSession().createQuery(query);
             String[] parts = search.split(" ");
-             for (String s : parts) {
-                    percent = percent + s + "-";
-                }
+            for (String s : parts) {
+                percent = percent + s + "-";
+            }
             if (q2.getResultList().size() < 1) {
                 String m = "";
                 for (String s : parts) {
@@ -621,11 +567,14 @@ public class VideoDao {
             }
 
             percent = "&&10=" + percent;
-                percent = percent.substring(0, percent.length() - 1);
+            percent = percent.substring(0, percent.length() - 1);
             numVideos = q2.getResultList().size();
             q2.setMaxResults(maxVideoPerPage);
             result = q2.getResultList();
-
+             }
+             else {
+                 System.out.println("err mysql injection");
+             }
         } catch (HibernateException e) {
         }
         return new Object[]{result, numVideos, videoNumTotal, percent};

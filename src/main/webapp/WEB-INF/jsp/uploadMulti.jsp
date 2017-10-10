@@ -31,14 +31,14 @@
         </div>
 
 
-        <div style="display: inline-block; padding-right: 30px;">
+<!--        <div style="display: inline-block; padding-right: 30px;">
             <p>SEASON</p>
             <select name="season" multiple="true">
                 <c:forEach begin="1" end="${totalSeasons}" var="s" >
                     <option value="${s}" style="width:55px;">${s}</option>
                 </c:forEach>
             </select>
-        </div>
+        </div>-->
 
          <div style="display: inline-block; padding-right: 30px;">
             <p>ROOM:</p>  

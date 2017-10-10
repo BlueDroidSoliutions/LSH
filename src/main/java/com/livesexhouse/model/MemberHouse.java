@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -29,7 +30,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "MemberHouse.findAll", query = "SELECT m FROM MemberHouse m")
     , @NamedQuery(name = "MemberHouse.findById", query = "SELECT m FROM MemberHouse m WHERE m.id = :id")
-    , @NamedQuery(name = "MemberHouse.findByName", query = "SELECT m FROM MemberHouse m WHERE m.name = :name")})
+    , @NamedQuery(name = "MemberHouse.findByName", query = "SELECT m FROM MemberHouse m WHERE m.name = :name")
+    , @NamedQuery(name = "MemberHouse.findByTxt", query = "SELECT m FROM MemberHouse m WHERE m.txt = :txt")
+    , @NamedQuery(name = "MemberHouse.findByVote", query = "SELECT m FROM MemberHouse m WHERE m.vote = :vote")})
 public class MemberHouse implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,6 +46,15 @@ public class MemberHouse implements Serializable {
     @Size(min = 1, max = 64)
     @Column(name = "name")
     private String name;
+    @Size(max = 255)
+    @Column(name = "txt")
+    private String txt;
+    @Column(name = "vote")
+    private Integer vote;
+    
+    @Transient
+    private int rank;
+    
 
     public MemberHouse() {
     }
@@ -72,6 +84,22 @@ public class MemberHouse implements Serializable {
         this.name = name;
     }
 
+    public String getTxt() {
+        return txt;
+    }
+
+    public void setTxt(String txt) {
+        this.txt = txt;
+    }
+
+    public Integer getVote() {
+        return vote;
+    }
+
+    public void setVote(Integer vote) {
+        this.vote = vote;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -95,6 +123,20 @@ public class MemberHouse implements Serializable {
     @Override
     public String toString() {
         return "com.livesexhouse.model.MemberHouse[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the rank
+     */
+    public int getRank() {
+        return rank;
+    }
+
+    /**
+     * @param rank the rank to set
+     */
+    public void setRank(int rank) {
+        this.rank = rank;
     }
     
 }

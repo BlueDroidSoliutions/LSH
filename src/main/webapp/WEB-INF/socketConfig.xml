@@ -9,7 +9,7 @@
         http://www.springframework.org/schema/websocket/spring-websocket.xsd">
 
     <websocket:message-broker application-destination-prefix="/www.livesexhouse.com">
-        <websocket:stomp-endpoint path="/chat, /activeUsers, /group, /liveStream, /service">  
+        <websocket:stomp-endpoint path="/chat, /activeUsers, /group, /liveStream, /service, /private, /public, /team">  
             <websocket:sockjs/>
         </websocket:stomp-endpoint>
         <websocket:simple-broker prefix="/topic, /queue"/>

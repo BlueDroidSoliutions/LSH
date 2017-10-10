@@ -1,4 +1,3 @@
-
 package com.livesexhouse.DAO;
 
 import com.livesexhouse.model.UsersActivate;
@@ -16,8 +15,7 @@ public class UsersActivateDAO {
     @Autowired
     SessionFactory sessionFactory;
 
-    
-  public boolean exist(String key) {
+    public boolean exist(String key) {
         boolean b = false;
         try {
             Session session = sessionFactory.getCurrentSession();
@@ -32,49 +30,44 @@ public class UsersActivateDAO {
         }
         return b;
     }
-  
-  public void delete(UsersActivate vc){
-        Session session = sessionFactory.getCurrentSession();
-        session.delete(vc);
+
+    public void delete(UsersActivate vc) {
+
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            session.delete(vc);
+        } catch (HibernateException e) {
+
+        }
+
     }
-    
-        
-        
-        
-     public void save(UsersActivate k){
-         try{
-        Session session = sessionFactory.getCurrentSession();
-        session.save(k);
-         } catch (Exception e){
-         }
-         
-    } 
-    
-    
-     
-     
-     public Object[] findByKey(String key) {
-        
-    UsersActivate v = new UsersActivate();
-       boolean b = false;
+
+    public void save(UsersActivate k) {
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            session.save(k);
+        } catch (HibernateException e) {
+        }
+
+    }
+
+    public Object[] findByKey(String key) {
+
+        UsersActivate v = new UsersActivate();
+        boolean b = false;
         try {
             Session session = sessionFactory.getCurrentSession();
             Query query = session.getNamedQuery("UsersActivate.findByUserKey");
-            query.setParameter("userKey",key);
-            v = (UsersActivate)query.getSingleResult();
+            query.setParameter("userKey", key);
+            v = (UsersActivate) query.getSingleResult();
 
-            if (v!=null)
-                b=true; 
+            if (v != null) {
+                b = true;
+            }
 
         } catch (HibernateException e) {
         }
-            return new Object[]{b,v};
+        return new Object[]{b, v};
     }
-     
-     
-     
-    
-   
- 
- 
+
 }

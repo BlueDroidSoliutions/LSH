@@ -261,12 +261,12 @@
                                                                     </g>
                                                                 </svg>
                                                             </a>
-                                                            <ul>
+<!--                                                            <ul>
                                                                 <li><a href="javascript:;">Subitem</a></li>
                                                                 <li><a href="javascript:;">Subitem</a></li>
                                                                 <li><a href="javascript:;">Subitem</a></li>
                                                                 <li><a href="javascript:;">Subitem</a></li>
-                                                            </ul>
+                                                            </ul>-->
                                                         </li>
                                                         <li><a href="${bck}./vote">Vote</a></li>
                                                         <li><a href="${bck}./contact">Contact</a></li>

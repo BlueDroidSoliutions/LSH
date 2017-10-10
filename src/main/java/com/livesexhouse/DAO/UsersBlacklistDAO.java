@@ -1,10 +1,7 @@
-
-
 package com.livesexhouse.DAO;
 
 import com.livesexhouse.model.Contact;
-import com.livesexhouse.model.VideoClip;
-import com.livesexhouse.model.VideoFileName;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +14,15 @@ public class UsersBlacklistDAO {
     @Autowired
     SessionFactory sessionFactory;
 
-    
- public void saveContact(Contact c) {
-        Session session = sessionFactory.getCurrentSession();
-        session.save(c);
+    public void saveContact(Contact c) {
+
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            session.save(c);
+        } catch (HibernateException e) {
+
+        }
+
     }
-   
- 
- 
+
 }

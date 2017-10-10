@@ -55,7 +55,7 @@ In order to enter the site you must state that you are 18 by clicking a button t
 
 
 </p><h3>
-      REQUIRED AGE.                              
+      REQUIRED AGE                              
                                     
                                 </h3><p>
 
@@ -63,7 +63,7 @@ There is required age In order to visit our website or become a Member of our we
 
 
 </p><h3>
-       MEMBERSHIP                             
+       MEMBERSHIP                          
                                     
                                 </h3><p>
 
@@ -123,9 +123,7 @@ If we do not receive payment via your payment method for Your use of the Service
 </br>
 You agree to be billed for and to pay any outstanding balance in the event of cancellation or termination of Your account. Unless You notify us of any discrepancies within thirty (30) days after they first appear on Your account statement, they will be deemed acceptable by You for all purposes, including resolution of inquiries made by Your card issuer or bank. You release us and all our representatives from all liabilities and claims of loss resulting from any error or discrepancy that is not reported to us within thirty (30) days of its publication.
 </br>
-WE RESERVE THE RIGHT, AT ANY TIME, TO CHANGE OUR FEES AND BILLING METHODS, INCLUDING THE ADDITION OF SUPPLEMENTAL FEES OR SEPARATE CHARGES FOR ONLINE AREAS, CONTENT, PREMIUM MEMBERSHIPS, OR SERVICES PROVIDED BY US OR OUR AFFILIATES. WE MAY ALSO ELECT, IN OUR SOLE DISCRETION, TO PROVIDE NOTICE OF BILLING CHARGES THROUGH POP-UPS, EMAIL, MEMBER INBOX ON SITE, U.S. MAIL TO THE ACCOUNT HOLDER, OR BY ANY OTHER MEANS DEEMED REASONABLE BY US. If any such change is unacceptable to You, You may terminate Your
-</br>
-Membership as provided below. Your continued use of our website following the effective date of any such change shall constitute Your acceptance of any such change.
+WE RESERVE THE RIGHT, AT ANY TIME, TO CHANGE OUR FEES AND BILLING METHODS, INCLUDING THE ADDITION OF SUPPLEMENTAL FEES OR SEPARATE CHARGES FOR ONLINE AREAS, CONTENT, PREMIUM MEMBERSHIPS, OR SERVICES PROVIDED BY US OR OUR AFFILIATES. WE MAY ALSO ELECT, IN OUR SOLE DISCRETION, TO PROVIDE NOTICE OF BILLING CHARGES THROUGH POP-UPS, EMAIL, MEMBER INBOX ON SITE, U.S. MAIL TO THE ACCOUNT HOLDER, OR BY ANY OTHER MEANS DEEMED REASONABLE BY US. If any such change is unacceptable to You, You may terminate Your Membership as provided below. Your continued use of our website following the effective date of any such change shall constitute Your acceptance of any such change.
 
 
 </p><h3>
@@ -133,7 +131,7 @@ Membership as provided below. Your continued use of our website following the ef
    REFUND POLICY                                 
                                 </h3><p>
 
-All sales are final. We have a "no refunds" policy. In our sole discretion and in extraordinary circumstances, we may provide credits in the form of free time or provide discounts in the event You experience technical difficulties that You demonstrate to have made a sincere effort to resolve. We do not provide cash refunds, unless we determine in our sole discretion that extraordinary circumstances apply. Discount rates posted on the website can be changed in our sole discretion and without prior notice by us to You. Any such discount will be based on the rates posted on the website at the time of purchase.
+In our sole discretion and in extraordinary circumstances, we may provide credits in the form of free time or provide discounts in the event You experience technical difficulties that You demonstrate to have made a sincere effort to resolve. We do provide cash refunds, unless we determine in our sole discretion that extraordinary circumstances apply. Discount rates posted on the website can be changed in our sole discretion and without prior notice by us to You. Any such discount will be based on the rates posted on the website at the time of purchase.
 
 
 </p><h3>
@@ -173,7 +171,7 @@ You agree to use our website only for lawful purposes. You shall not use the Ser
 </br>
 a. Depict or in any way promote any activity which in any way involves sexual conduct involving minors;
 </br>
-b. Harrass, stalk, abuse, or threaten any of the performers or models associated with our website;
+b. Harass, stalk, abuse, or threaten any of the performers or models associated with our website;
 </br>
 c. Provide any of Your personal contact information to any performer or model associated with our website (and in the event that You do, You agree we have no liability for any results or events which occur because You did so);
 </br>
@@ -207,9 +205,7 @@ n. Spread or distribute any spam, viruses, bugs of any type whatsoever, junk ema
 
 YOU AGREE YOUR USE OF THE SERVICE SHALL BE AT YOUR SOLE RISK. WE PROVIDE THE SERVICE ON AN "AS IS" AND "AS AVAILABLE" BASIS FOR YOUR PERSONAL USE. TO THE FULLEST EXTENT PERMITTED BY LAW, WE AND OUR OFFICERS, DIRECTORS, EMPLOYEES, AFFILIATES, RELATED COMPANIES, AGENTS, AND OTHER REPRESENTATIVES DISCLAIM ALL WARRANTIES, EXPRESS OR IMPLIED, IN CONNECTION WITH THE SERVICE AND YOUR USE OF THE SERVICE (INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, TITLE, FITNESS FOR A PARTICULAR PURPOSE, SECURITY, NON-INFRINGEMENT OF INTELLECTUAL PROPERTY, AND OTHERS). OUR SERVICE IS PROVIDED ON A COMMERCIALLY REASONABLE BASIS. WE DO NOT GUARANTEE THAT A MEMBER WILL BE ABLE TO ACCESS THE SERVICE AT A TIME OR LOCATION OF MEMBER'S CHOOSING.
 </br>
-WE MAKE NO WARRANTIES OR REPRESENTATIONS ABOUT THE ACCURACY OR COMPLETENESS OF OUR WEBSITE'S CONTENT OR THE CONTENT OF ANY WEBSITES LINKED TO OUR WEBSITE. WE ASSUME NO LIABILITY OR RESPONSIBILITY FOR ANY: (1) ERRORS, MISTAKES, OR INACCURACIES OF CONTENT; (2) PERSONAL INJURY OR PROPERTY DAMAGE OF ANY NATURE WHATSOEVER RESULTING FROM YOUR ACCESS TO AND USE OF OUR SERVICE; (3) ANY UNAUTHORIZED ACCESS TO OR USE OF OUR SECURE SERVERS AND/OR ANY AND ALL PERSONAL INFORMATION AND/OR FINANCIAL INFORMATION STORED THEREIN; (4) ANY INTERRUPTION OR CESSATION OF
-</br>
-TRANSMISSION TO OR FROM OUR SERVICE; (5) ANY BUGS, VIRUSES, TROJAN HORSES, OR THE LIKE WHICH MAY BE TRANSMITTED TO OR THROUGH OUR SERVICE BY ANY THIRD PARTY; AND/OR (6) ANY ERRORS OR OMISSIONS BY US OR FOR ANY LOSS OR DAMAGE OF ANY KIND INCURRED BY MEMBER OR ANY THIRD-PARTY AS A RESULT OF THE USE OF THE SERVICE OR ANY CONTENT POSTED, EMAILED, TRANSMITTED, OR OTHERWISE MADE AVAILABLE VIA THE SERVICE.
+WE MAKE NO WARRANTIES OR REPRESENTATIONS ABOUT THE ACCURACY OR COMPLETENESS OF OUR WEBSITE'S CONTENT OR THE CONTENT OF ANY WEBSITES LINKED TO OUR WEBSITE. WE ASSUME NO LIABILITY OR RESPONSIBILITY FOR ANY: (1) ERRORS, MISTAKES, OR INACCURACIES OF CONTENT; (2) PERSONAL INJURY OR PROPERTY DAMAGE OF ANY NATURE WHATSOEVER RESULTING FROM YOUR ACCESS TO AND USE OF OUR SERVICE; (3) ANY UNAUTHORIZED ACCESS TO OR USE OF OUR SECURE SERVERS AND/OR ANY AND ALL PERSONAL INFORMATION AND/OR FINANCIAL INFORMATION STORED THEREIN; (4) ANY INTERRUPTION OR CESSATION OF TRANSMISSION TO OR FROM OUR SERVICE; (5) ANY BUGS, VIRUSES, TROJAN HORSES, OR THE LIKE WHICH MAY BE TRANSMITTED TO OR THROUGH OUR SERVICE BY ANY THIRD PARTY; AND/OR (6) ANY ERRORS OR OMISSIONS BY US OR FOR ANY LOSS OR DAMAGE OF ANY KIND INCURRED BY MEMBER OR ANY THIRD-PARTY AS A RESULT OF THE USE OF THE SERVICE OR ANY CONTENT POSTED, EMAILED, TRANSMITTED, OR OTHERWISE MADE AVAILABLE VIA THE SERVICE.
 </br>
 WE DO NOT WARRANT, ENDORSE, GUARANTEE, OR ASSUME RESPONSIBILITY FOR ANY PRODUCT OR SERVICE ADVERTISED OR OFFERED BY A THIRD PARTY THROUGH THE SERVICE OR APPEARING ON OUR WEBSITE IN ANY ADVERTISING OR OTHERWISE. WE WILL NOT BE A PARTY TO OR IN ANY WAY RESPONSIBLE FOR MONITORING ANY TRANSACTION BETWEEN YOU AND THIRD PARTY PROVIDERS OF PRODUCTS OR SERVICES. AS WITH THE PURCHASE OF A PRODUCT OR SERVICE THROUGH ANY MEDIUM OR IN ANY ENVIRONMENT, YOU SHOULD USE YOUR BEST JUDGMENT AND EXERCISE CAUTION WHERE APPROPRIATE.
 
@@ -253,9 +249,7 @@ You agree to abide by U.S. and other applicable export control laws and not to t
 
 These Terms and Conditions shall constitute the entire agreement between You and us, superseding any prior agreements, writings, or communications between You and us with respect to the subject matters discussed in these Terms and Conditions. If any part or portion of these Terms and Conditions is held invalid or unenforceable, that part or portion shall be construed consistent with applicable law to reflect, as nearly as possible, the original intentions of the parties, and the remaining parts and portions shall remain in full force and effect.
 </br>
-The rights and liabilities under these Terms and Conditions may not be transferred or assigned by You, although our rights and liabilities under these Terms and Conditions may be transferred or assigned by us in our sole discretion. No waiver or failure to enforce by us of any term or provision contained in these Terms and Conditions shall be deemed a further or continuing waiver of such term
-</br>
-or any other term, and our failure to assert any right or provision under these Terms and Conditions shall not constitute a waiver of such right or provision in any way.
+The rights and liabilities under these Terms and Conditions may not be transferred or assigned by You, although our rights and liabilities under these Terms and Conditions may be transferred or assigned by us in our sole discretion. No waiver or failure to enforce by us of any term or provision contained in these Terms and Conditions shall be deemed a further or continuing waiver of such term or any other term, and our failure to assert any right or provision under these Terms and Conditions shall not constitute a waiver of such right or provision in any way.
 </br>
 You also agree and accept that as we make available any new products on or through our website, Your use of these products is subject to these Terms and Conditions. In addition to Content and services provided by us, our affiliates, and ICPs, other entities may offer Content, software or other services to Members with their own terms and conditions and usage policies relating to Your use. Failure to abide by these terms and conditions may result in termination of Your Membership to our website. Third party trademarks referenced in or in any way related to the Service are the property of their respective owners.
 </br>

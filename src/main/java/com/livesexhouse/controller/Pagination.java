@@ -181,7 +181,7 @@ public class Pagination {
                             + "\"id=\"active\">" + i + "</a></li>";
                 } else {
                     s = s + "<li><a href=\"" + pth + "./" + kategorija + "?"
-                            +  allParameter + "&&"
+                            + allParameter + "&&"
                             + "1="
                             + ((i * brProizPoStr) - brProizPoStr)
                             + "\">" + i + "</a></li> ";
@@ -192,7 +192,7 @@ public class Pagination {
                 for (int i = 1; i < 5; i++) {
                     if (i == stranicaTrenutna) {
                         s = s + "<li><a href=\"" + pth + "./" + kategorija + "?"
-                                +allParameter+ "&&"
+                                + allParameter + "&&"
                                 + "1="
                                 + ((i * brProizPoStr) - brProizPoStr)
                                 + "\" id=\"active\">" + i + "</a></li>";
@@ -210,7 +210,7 @@ public class Pagination {
                 for (int i = stranicaTrenutna - 1; i < stranicaTrenutna + 2; i++) {
                     if (i == stranicaTrenutna) {
                         s = s + "<li><a href=\"" + pth + "./" + kategorija + "?"
-                                + allParameter+ "&&"
+                                + allParameter + "&&"
                                 + "1="
                                 + ((i * brProizPoStr) - brProizPoStr)
                                 + "\" id=\"active\">" + i + "</a></li>";
@@ -235,7 +235,7 @@ public class Pagination {
                                     + "\" id=\"active\">" + i + "</a></li>";
                         } else {
                             s = s + "<li><a href=\"" + pth + "./" + kategorija + "?"
-                                     + allParameter + "&&"
+                                    + allParameter + "&&"
                                     + "1="
                                     + ((i * brProizPoStr) - brProizPoStr)
                                     + "\">" + i + "</a></li>";
@@ -251,7 +251,7 @@ public class Pagination {
                                     + "\" id=\"active\">" + i + "</a></li>";
                         } else {
                             s = s + " <li><a href=\"" + pth + "./" + kategorija + "?"
-                                     + allParameter + "&&"
+                                    + allParameter + "&&"
                                     + "1="
                                     + ((i * brProizPoStr) - brProizPoStr)
                                     + "\">" + i + "</a></li>";
@@ -267,7 +267,7 @@ public class Pagination {
                                     + "\" id=\"active\">" + i + "</a></li>";
                         } else {
                             s = s + "<li><a href=\"" + pth + "./" + kategorija + "?"
-                                     + allParameter + "&&"
+                                    + allParameter + "&&"
                                     + "1="
                                     + ((i * brProizPoStr) - brProizPoStr)
                                     + "\">" + i + "</a></li>";

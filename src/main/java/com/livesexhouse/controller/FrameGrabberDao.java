@@ -23,7 +23,7 @@ public class FrameGrabberDao {
         try {
 
             FrameGrabber frameGrabber = new FFmpegFrameGrabber(videoLocation);
-            
+
             Frame frame = new Frame();
 
             Java2DFrameConverter j2fc = new Java2DFrameConverter();
@@ -35,11 +35,10 @@ public class FrameGrabberDao {
             int part = 4;
             int step = max / part;
             double frameRate = frameGrabber.getFrameRate();
-        
-             timeSec = max / frameRate;
-            
+
+            timeSec = max / frameRate;
+
             boolean next = false;
-            
 
             for (int i = 1; i < frameGrabber.getLengthInFrames(); i++) {
                 frame = frameGrabber.grab();
@@ -47,8 +46,7 @@ public class FrameGrabberDao {
                 if (i == 1 || i == step || i == step * 2 || i == step * 3 || i == step * 4 - 30 || next) {
 
                     bi = j2fc.getBufferedImage(frame);
-                    
-                    
+
                     f = new File(imgSaveLocation + count + ".jpg");
                     if (bi != null) {
                         bi = Thumbnails.of(bi).size(400, 266).asBufferedImage();
@@ -67,11 +65,11 @@ public class FrameGrabberDao {
         } catch (IOException e) {
             b = false;
         }
-       
-        if (count != 6){
+
+        if (count != 6) {
             b = false;
         }
-        return new Object[]{b,timeSec};
+        return new Object[]{b, timeSec};
     }
 
 }

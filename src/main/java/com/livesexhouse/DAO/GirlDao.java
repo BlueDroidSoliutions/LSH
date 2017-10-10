@@ -5,8 +5,8 @@
  */
 package com.livesexhouse.DAO;
 
+import com.livesexhouse.controller.Checker;
 import com.livesexhouse.model.Girls;
-import com.livesexhouse.model.UserM2m;
 import com.livesexhouse.model.UserRoles;
 import com.livesexhouse.model.Users;
 import java.util.ArrayList;
@@ -28,6 +28,9 @@ public class GirlDao {
 
     @Autowired
     SessionFactory sessionFactory;
+    
+    @Autowired
+    Checker checker;
 
     public Girls findByUsername(String username) {
 
@@ -35,43 +38,79 @@ public class GirlDao {
 
         try {
             Session session = sessionFactory.getCurrentSession();
-            Query query = session.getNamedQuery("Girls.findByUserName");
-            query.setParameter("username", username);
+            Query query = session.getNamedQuery("Girls.findByName");
+            query.setParameter("name", username);
             u = (Girls) query.getSingleResult();
         } catch (HibernateException e) {
         }
         return u;
     }
-    
-    
-     public List<Girls> findGirls() {
+
+    public List<Girls> findGirls() {
         List<Girls> l = new ArrayList<>();
         try {
             Session session = sessionFactory.getCurrentSession();
             Query q = sessionFactory.getCurrentSession().getNamedQuery("Girls.findByEnabled");
             l = q.getResultList();
 
-        } catch (Exception e) {
+        } catch (HibernateException e) {
         }
         return l;
 
     }
-     
-     public String onlineNow() {
-       String num = "";
+
+    public String pricePrivate(String userName) {
+        String num = "";
+        String id = "";
         try {
+            if(checker.check(userName)){
+                
             
             Session session = sessionFactory.getCurrentSession();
-            Query q = sessionFactory.getCurrentSession().createNativeQuery("SELECT COUNT(*) FROM online where status = 2 or status = 4;");
-             num =  q.getSingleResult().toString();
-            
-            
-        } catch (Exception e) {
+            Query q = sessionFactory.getCurrentSession().createNativeQuery("SELECT id FROM girls where name='" + userName + "';");
+            id = q.getSingleResult().toString();
+            q = sessionFactory.getCurrentSession().createNativeQuery("SELECT private_tariff FROM girls where id=" + id + ";");
+            num = q.getSingleResult().toString();
+}
+        } catch (HibernateException e) {
         }
         return num;
 
     }
-    
+
+    public String priceGroup(String userName) {
+        String num = "";
+        String id = "";
+        try {
+if(checker.check(userName)){
+            Session session = sessionFactory.getCurrentSession();
+            Query q = sessionFactory.getCurrentSession().createNativeQuery("SELECT id FROM girls where name='" + userName + "';");
+            id = q.getSingleResult().toString();
+            q = sessionFactory.getCurrentSession().createNativeQuery("SELECT group_tariff FROM girls where id=" + id + ";");
+            num = q.getSingleResult().toString();
+}
+        } catch (HibernateException e) {
+        }
+        return num;
+
+    }
+
+    public String minPersons(String userName) {
+        String num = "";
+        String id = "";
+        try {
+if(checker.check(userName)){
+            Session session = sessionFactory.getCurrentSession();
+            Query q = sessionFactory.getCurrentSession().createNativeQuery("SELECT id FROM girls where name='" + userName + "';");
+            id = q.getSingleResult().toString();
+            q = sessionFactory.getCurrentSession().createNativeQuery("SELECT group_min_person FROM girls where id=" + id + ";");
+            num = q.getSingleResult().toString();
+}
+        } catch (HibernateException e) {
+        }
+        return num;
+
+    }
 
     public Girls findById(int id) {
 
@@ -92,7 +131,7 @@ public class GirlDao {
         try {
             Session session = sessionFactory.getCurrentSession();
             i = (Integer) session.save(c);
-        } catch (Exception e) {
+        } catch (HibernateException e) {
         }
         return i;
     }
@@ -101,37 +140,12 @@ public class GirlDao {
         try {
             Session session = sessionFactory.getCurrentSession();
             session.save(u);
-        } catch (Exception e) {
+        } catch (HibernateException e) {
         }
     }
 
-    public boolean existUserName(String username) {
-        boolean b = false;
+  
 
-        try {
-            Session session = sessionFactory.getCurrentSession();
-            Query q = session.createNativeQuery("SELECT * FROM users WHERE username = '" + username + "';");
-            if (q.getResultList().size() != 0) {
-                b = true;
-            }
-        } catch (Exception e) {
-        }
-        return b;
-    }
-
-    public boolean existEmail(String email) {
-        boolean b = false;
-
-        try {
-            Session session = sessionFactory.getCurrentSession();
-            Query q = session.createNativeQuery("SELECT * FROM users WHERE email = '" + email + "';");
-            if (q.getResultList().size() != 0) {
-                b = true;
-            }
-        } catch (Exception e) {
-        }
-        return b;
-    }
 
     public void delete(Users c) {
 
@@ -148,16 +162,34 @@ public class GirlDao {
             query = session.createNativeQuery("DELETE FROM user_bck_data WHERE id = " + c.getId() + ";");
             query.executeUpdate();
 
-        } catch (Exception e) {
+        } catch (HibernateException e) {
         }
 
     }
 
     public void update(Users u) {
-        Session session = sessionFactory.getCurrentSession();
-        session.update(u);
+
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            session.update(u);
+        } catch (HibernateException e) {
+
+        }
+
     }
 
-   
+    public void updateGirl(Girls g) {
+
+        try {
+            Session session = sessionFactory.getCurrentSession();
+
+            Query query = session.createNativeQuery("update girls set private_tariff=" + g.getPrivateTariff() + ",group_tariff=" + g.getGroupTariff() + ",group_min_person=" + g.getGroupMinPerson() + " where id = " + g.getId() + ";");
+
+            query.executeUpdate();
+        } catch (HibernateException e) {
+
+        }
+
+    }
 
 }

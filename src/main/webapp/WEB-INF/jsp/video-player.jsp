@@ -37,7 +37,7 @@
 								<video id="my_video_1" class="video-js vjs-default-skin" width="640px" height="267px"
 								      controls preload="none"
 								      data-setup='{ "aspectRatio":"640:267", "playbackRates": [1, 1.5, 2] }'>
-			  <source src="http://www.custom-design.org/lsh/${video.id}.mp4" type='video/mp4' 
+<!--			  <source src="./ext/video/${video.id}.mp4" type='video/mp4' -->
               <!--<source src="http://67.227.214.241:1935/live/test videa.stream/playlist.m3u8" type='video/mp4'-->
                                                                            
   </video>

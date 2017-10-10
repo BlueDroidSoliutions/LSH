@@ -6,6 +6,7 @@
 package com.livesexhouse.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -31,7 +34,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Chat.findById", query = "SELECT c FROM Chat c WHERE c.id = :id")
     , @NamedQuery(name = "Chat.findByFromUser", query = "SELECT c FROM Chat c WHERE c.fromUser = :fromUser")
     , @NamedQuery(name = "Chat.findByToUser", query = "SELECT c FROM Chat c WHERE c.toUser = :toUser")
-    , @NamedQuery(name = "Chat.findByMsg", query = "SELECT c FROM Chat c WHERE c.msg = :msg")})
+    , @NamedQuery(name = "Chat.findByMsg", query = "SELECT c FROM Chat c WHERE c.msg = :msg")
+    , @NamedQuery(name = "Chat.findByDate", query = "SELECT c FROM Chat c WHERE c.date = :date")
+    , @NamedQuery(name = "Chat.findByService", query = "SELECT c FROM Chat c WHERE c.service = :service")})
 public class Chat implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,17 +47,24 @@ public class Chat implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "from_user")
-    private int fromUser;
+    private String fromUser;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "to_user")
-    private int toUser;
+    private String toUser;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "msg")
     private String msg;
+    @Column(name = "date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
+    @Column(name = "service")
+    private Integer service;
 
     public Chat() {
     }
@@ -61,7 +73,7 @@ public class Chat implements Serializable {
         this.id = id;
     }
 
-    public Chat(Integer id, int fromUser, int toUser, String msg) {
+    public Chat(Integer id, String fromUser, String toUser, String msg) {
         this.id = id;
         this.fromUser = fromUser;
         this.toUser = toUser;
@@ -76,19 +88,19 @@ public class Chat implements Serializable {
         this.id = id;
     }
 
-    public int getFromUser() {
+    public String getFromUser() {
         return fromUser;
     }
 
-    public void setFromUser(int fromUser) {
+    public void setFromUser(String fromUser) {
         this.fromUser = fromUser;
     }
 
-    public int getToUser() {
+    public String getToUser() {
         return toUser;
     }
 
-    public void setToUser(int toUser) {
+    public void setToUser(String toUser) {
         this.toUser = toUser;
     }
 
@@ -98,6 +110,22 @@ public class Chat implements Serializable {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Integer getService() {
+        return service;
+    }
+
+    public void setService(Integer service) {
+        this.service = service;
     }
 
     @Override

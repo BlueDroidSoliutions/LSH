@@ -1,15 +1,12 @@
 package com.livesexhouse.DAO;
 
 import com.livesexhouse.model.GirlsHair;
-import com.livesexhouse.model.GirlsHair;
-import com.livesexhouse.model.MemberHouse;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
-import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,12 +18,18 @@ public class GirlsHairDao {
     SessionFactory sessionFactory;
 
     public List<GirlsHair> find() {
-      Session session = sessionFactory.getCurrentSession();
-        Query query = session.getNamedQuery("GirlsHair.findAll");
-        List<GirlsHair> result = query.getResultList();
+        List<GirlsHair> result = new ArrayList<>();
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            Query query = session.getNamedQuery("GirlsHair.findAll");
+            result = query.getResultList();
+
+        } catch (HibernateException e) {
+
+        }
+
         return result;
+
     }
-    
-   
-    
+
 }

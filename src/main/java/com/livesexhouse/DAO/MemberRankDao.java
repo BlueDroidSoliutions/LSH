@@ -1,7 +1,11 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.livesexhouse.DAO;
 
-import com.livesexhouse.model.MemberHouse;
-import com.livesexhouse.model.Users;
+import com.livesexhouse.model.MembersRank;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
@@ -12,19 +16,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ *
+ * @author roller
+ */
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-public class MemberHouseDao {
+public class MemberRankDao {
 
     @Autowired
     SessionFactory sessionFactory;
 
-    public List<MemberHouse> find() {
+   
+    public List<MembersRank> find() {
 
-        List<MemberHouse> result = new ArrayList<>();
+        List<MembersRank> result = new ArrayList<>();
 
         try {
             Session session = sessionFactory.getCurrentSession();
-            Query query = session.getNamedQuery("MemberHouse.findAll");
+            Query query = session.getNamedQuery("MembersRank.findAll");
             result = query.getResultList();
         } catch (HibernateException e) {
 
@@ -33,28 +42,36 @@ public class MemberHouseDao {
         return result;
     }
     
-    
-  
-     public void updateUserMinus1token(Users u) {
+    public List<MembersRank> findTop4() {
+
+        List<MembersRank> result = new ArrayList<>();
+
         try {
             Session session = sessionFactory.getCurrentSession();
-//           Users u = (Users) session.get(Users.class, id);
-           if(u.getTokens()>0)
-            u.setTokens(u.getTokens()-1);
-           session.update(u);
+            Query query = session.getNamedQuery("MembersRank.findAll");
+            query.setMaxResults(4);
+            result = query.getResultList();
         } catch (HibernateException e) {
+
         }
+
+        return result;
     }
     
-     public void updateMemberPlus1Vote(int id) {
+     public List<MembersRank> findTop5() {
+
+        List<MembersRank> result = new ArrayList<>();
+
         try {
             Session session = sessionFactory.getCurrentSession();
-           MemberHouse u = (MemberHouse) session.get(MemberHouse.class, id);
-           u.setVote(u.getVote()+1);
-           session.update(u);
+            Query query = session.getNamedQuery("MembersRank.findAll");
+            query.setMaxResults(5);
+            result = query.getResultList();
         } catch (HibernateException e) {
+
         }
+
+        return result;
     }
-     
 
 }

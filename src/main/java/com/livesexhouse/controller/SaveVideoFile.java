@@ -11,8 +11,6 @@ public class SaveVideoFile {
 
     public boolean rename(String pthPics, String pthClip, String name, int id) {
 
-        
-
         String idS = Integer.toString(id);
 
         boolean renameClip = true;

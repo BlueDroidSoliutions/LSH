@@ -1,15 +1,11 @@
 package com.livesexhouse.DAO;
 
 import com.livesexhouse.controller.Setup;
-import com.livesexhouse.controller.Setup;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,21 +19,15 @@ public class SetupDao {
 
     @Autowired
     Setup setup;
-    
-    public List<Setup> getSetups(){
-        List <Setup> setups = new ArrayList<>();
+
+    public List<Setup> getSetups() {
+        List<Setup> setups = new ArrayList<>();
         try {
-            
-            
-             Query query = sessionFactory.getCurrentSession().getNamedQuery("Setup.findAll");
-            
-            
+
+            Query query = sessionFactory.getCurrentSession().getNamedQuery("Setup.findAll");
+
             setups = query.getResultList();
-            
-            
-            
-            
-            
+
         } catch (HibernateException e) {
         }
         return setups;
@@ -83,7 +73,7 @@ public class SetupDao {
     public String getMethodLocation() {
         String r = "";
         try {
-           Query q = sessionFactory.getCurrentSession().getNamedQuery("Setup.findById");
+            Query q = sessionFactory.getCurrentSession().getNamedQuery("Setup.findById");
             q.setParameter("id", 4);
             setup = (Setup) q.getSingleResult();
             r = setup.getValueString();
@@ -91,12 +81,11 @@ public class SetupDao {
         }
         return r;
     }
-    
-    
-    public int maxVideoPerPage(){
-        int r =0;
+
+    public int maxVideoPerPage() {
+        int r = 0;
         try {
-           Query q = sessionFactory.getCurrentSession().getNamedQuery("Setup.findById");
+            Query q = sessionFactory.getCurrentSession().getNamedQuery("Setup.findById");
             q.setParameter("id", 3);
             setup = (Setup) q.getSingleResult();
             r = setup.getValueInt();
@@ -104,11 +93,11 @@ public class SetupDao {
         }
         return r;
     }
-    
-    public int getTotalSeason(){
-        int r =0;
+
+    public int getTotalSeason() {
+        int r = 0;
         try {
-           Query q = sessionFactory.getCurrentSession().getNamedQuery("Setup.findById");
+            Query q = sessionFactory.getCurrentSession().getNamedQuery("Setup.findById");
             q.setParameter("id", 6);
             setup = (Setup) q.getSingleResult();
             r = setup.getValueInt();

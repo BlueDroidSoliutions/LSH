@@ -94,7 +94,7 @@
                         <c:forEach items="${girl}" var="g">
 
                             <li class="webcam-video" id="li${g.id}">
-                                <a href="webcam/${g.id}">
+                                <a id="lnk${g.id}" href="javascript:;">
                                     <div class="thumbnail" id="tt${g.id}">
                                         <img id="im${g.id}" src="ext/girlImg/${g.name}.jpg" alt="" />
                                     </div>
@@ -222,6 +222,7 @@
                     $("#og" + items[i]).remove();
                     $("#sp" + items[i]).remove();
                     $("#st" + items[i]).append('<span id="sp' + items[i] + '" style="color:#ccc;">Offline</span>');
+                    $('#lnk'+ items[i]).attr('href','javascript:;');
                 }
             }
 
@@ -230,6 +231,8 @@
                     $("#sp" + actMem[i]).remove();
                     $("#tt" + actMem[i]).append('<p id="og' + actMem[i] + '" class="onlineG">ONLINE</p>');
                     $("#st" + actMem[i]).append('<span id="sp' + actMem[i] + '" style="color:green;">available</span>');
+                    $('#lnk'+ actMem[i]).attr('href','webcam/'+actMem[i]);
+                    
                 }
             }
 
@@ -238,7 +241,7 @@
                     $("#sp" + actMem[i]).remove();
                     $("#tt" + actMem[i]).append('<p id="og' + actMem[i] + '" class="onlineG">online</p>');
                     $("#st" + actMem[i]).append('<span id="sp' + actMem[i] + '" style="color:red;">in private chat</span>');
-
+                    $('#lnk'+ actMem[i]).attr('href','javascript:;');
 
                 }
             }

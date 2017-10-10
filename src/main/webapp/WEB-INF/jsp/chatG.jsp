@@ -98,17 +98,17 @@
                                     <a href="javascript:;">Tip</a>
                                 </form>
                             </div>
-                            <div class="video-tab"><a href="javascript:;">PRIVATE</a></div>
-                            <div class="video-tab"><a href="javascript:;">Group chat</a></div>
-                            <div class="video-tab tip-btn">
+                            <div class="video-tab" id="privateTab"><a href="javascript:;" id="privateLink" onclick="leavePrivate()" >LEAVE PRIVATE</a></div>
+                            <div class="video-tab" id="groupTab"><a href="javascript:;" id="groupLink" onclick="inviteGroup()">Invite to group</a></div>
+                            <!--  <div class="video-tab tip-btn">
                                 <a href="javascript:;">
-                                    TIP ME 
-                                    <span><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.88 24.88"><defs>
-                                        <style>.cls-1{fill:#fff;}.cls-2{fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:1.53px;}</style>
-                                        </defs><title>token</title><ellipse class="cls-1" cx="12.42" cy="7.56" rx="5.68" ry="2.05"/><path class="cls-1" d="M7.3,10.47v2.6a12.19,12.19,0,0,0,11.35,0V10.41S13.95,13.66,7.3,10.47Z" transform="translate(-0.56 -0.06)"/><path class="cls-1" d="M7.3,15.31v2.6a12.19,12.19,0,0,0,11.35,0V15.25S13.95,18.5,7.3,15.31Z" transform="translate(-0.56 -0.06)"/><circle class="cls-2" cx="12.44" cy="12.44" r="11.68"/></svg>
-                                    </span>
-                                </a>
-                            </div>
+                                     TIP ME 
+                                     <span><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.88 24.88"><defs>
+                                         <style>.cls-1{fill:#fff;}.cls-2{fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:1.53px;}</style>
+                                         </defs><title>token</title><ellipse class="cls-1" cx="12.42" cy="7.56" rx="5.68" ry="2.05"/><path class="cls-1" d="M7.3,10.47v2.6a12.19,12.19,0,0,0,11.35,0V10.41S13.95,13.66,7.3,10.47Z" transform="translate(-0.56 -0.06)"/><path class="cls-1" d="M7.3,15.31v2.6a12.19,12.19,0,0,0,11.35,0V15.25S13.95,18.5,7.3,15.31Z" transform="translate(-0.56 -0.06)"/><circle class="cls-2" cx="12.44" cy="12.44" r="11.68"/></svg>
+                                     </span>
+                                 </a>
+                             </div>-->
                         </div>
                     </div>
                     <div class="bottom">
@@ -224,25 +224,34 @@
                             <span>Show less</span>
                             <i class="ico"></i>
                         </a>
-                        <!-- <div class="more-info more-box-holder">
-                                <p>In Private Chat, I'm willing to perform:</p>
-                                <p><strong>
-                                        Anal sex, Cameltoe, Close up, Dancing, Dildo, Fingering, Live orgasm, Oil, Roleplay, Squirt, Striptease, Shaved, Piercing, Tattoo
-                                </strong></p>
-                                <p>Special places:</p>
-                                <p><strong>Office</strong></p>
-                                <div class="fans">
-                                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                 width="23.583px" height="22.417px" viewBox="0 0 23.583 22.417" enable-background="new 0 0 23.583 22.417" xml:space="preserve">
-                                        <polygon fill="#C1282D" points="11.8,17.815 18.732,22 16.892,14.114 23.018,8.809 14.952,8.125 11.8,0.688 8.648,8.125 
-                                                0.584,8.809 6.708,14.114 4.868,22 "/>
-                                        </svg>
-                                        <span>
-                                                fans: <br>
-                                                526
-                                        </span>
-                                </div>
-                        </div> -->
+
+
+
+
+                        <!--                                    
+                                                 <div class="more-info more-box-holder">
+                                                        <p>In Private Chat, I'm willing to perform:</p>
+                                                        <p><strong>
+                                                                Anal sex, Cameltoe, Close up, Dancing, Dildo, Fingering, Live orgasm, Oil, Roleplay, Squirt, Striptease, Shaved, Piercing, Tattoo
+                                                        </strong></p>
+                                                        <p>Special places:</p>
+                                                        <p><strong>Office</strong></p>
+                                                        <div class="fans">
+                                                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                                         width="23.583px" height="22.417px" viewBox="0 0 23.583 22.417" enable-background="new 0 0 23.583 22.417" xml:space="preserve">
+                                                                <polygon fill="#C1282D" points="11.8,17.815 18.732,22 16.892,14.114 23.018,8.809 14.952,8.125 11.8,0.688 8.648,8.125 
+                                                                        0.584,8.809 6.708,14.114 4.868,22 "/>
+                                                                </svg>
+                                                                <span>
+                                                                        fans: <br>
+                                                                        526
+                                                                </span>
+                                                        </div>
+                                                </div> 
+                        -->
+
+
+
 
                         <div class="more-details more-info more-box-holder">
                             <p>In Private Chat, I'm willing to perform:</p>
@@ -274,15 +283,22 @@
                 <!-- Right block -->
                 <div class="right-container">
                     <div class="top">
-                        <!--                        <ul class="tabs clearfix">
-                                                    <li class="tab-link current" data-tab="tab-1">Chat</li>
-                                                    <li class="tab-link" data-tab="tab-2">Users</li>
-                                                </ul>-->
+
+
+
+                        <!--                                                <ul class="tabs clearfix">
+                                                                            <li class="tab-link current" data-tab="tab-1">Chat</li>
+                                                                            <li class="tab-link" data-tab="tab-2">Users</li>
+                                                                        </ul>-->
                         <div class="chat-box">
-                            <!--                            <div class="chat-box-top">
-                                                            <p>Highest tip : User 334</p>
-                                                            <p>Latest tip recieved : User 344</p>
-                                                        </div>-->
+                            <!--                                                       <div class="chat-box-top">
+                                                                                        <p>Highest tip : User 334</p>
+                                                                                        <p>Latest tip recieved : User 344</p>
+                                                                                    </div>-->
+
+
+
+
                             <div class="chat-box-middle">
                                 <div class="fakeScroll">
                                     <div id="tab-1" class="tab-content current">
@@ -693,36 +709,31 @@
                             </div>
 
 
+                            <form id="setup" method="post" action="../girlSetup" name="forma" accept-charset="UTF-8">
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+                                <div>
+                                    <p>privateTariff</p>
+                                    <input type="text" id="privateTariff" name="privateTariff" placeholder="${g.privateTariff}">
+                                </div>
+                                <div>
+                                    <p>groupTariff</p>
+                                    <input type="text" id="groupTariff" name="groupTariff" placeholder="${g.groupTariff}">
+                                </div>
+                                <div>
+                                    <p>groupMinPerson</p>
+                                    <input type="text" id="groupMinPerson" name="groupMinPerson" placeholder="${g.groupMinPerson}">
+                                </div>
+
+
+                                <input type="submit" value="Update" class="btn">
+                                <!--					    <button type="submit" class="btn">Submit</button>-->
+                            </form>
 
 
                         </div>
                     </div>
-                    <div class="right-bottom">
-                        <h3>Next model</h3>
-                        <div class="flexslider">
-                            <div class="custom-navigation custom-navigation-left">
-                                <a href="#" class="flex-prev">
-                                    <img src="${bck}${location}/assets/img/arrow_left.png" alt="" />
-                                </a>
-                            </div>
-                            <ul class="slides">
-                                <li>
-                                    <img src="${bck}${location}/assets/img/content/slider-small.png" />
-                                </li>
-                                <li>
-                                    <img src="${bck}${location}/assets/img/content/slider-small.png" />
-                                </li>
-                                <li>
-                                    <img src="${bck}${location}/assets/img/content/slider-small.png" />
-                                </li>
-                            </ul>
-                            <div class="custom-navigation custom-navigation-right">
-                                <a href="#" class="flex-next">
-                                    <img src="${bck}${location}/assets/img/arrow_right.png" alt="" />
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+
                     <!-- End of right block -->
                 </div>
             </div>
@@ -757,9 +768,16 @@
    <![endif]-->
 
     <script>
-                                        var selectedGirl = '<c:out value="${g.id}"/>';
-                                        var whoami = '<c:out value="${g.name}"/>';
+                                    var selectedGirl = '<c:out value="${g.id}"/>';
+                                    var whoami = '<c:out value="${g.name}"/>';
     </script>
+
+
+
+    <!--    <div class="video-tab" id="privateTab"><a href="javascript:;" id="privateLink" onclick="leavePrivate()" >LEAVE PRIVATE</a></div>
+            <div class="video-tab" id="groupTab"><a href="javascript:;" id="groupLink" onclick="inviteGroup()">Invite to group</a></div>
+                           
+    -->
 
     <script type="text/javascript">
 
@@ -776,17 +794,22 @@
         var socket = null;
         var stompClient2 = null;
         var socket2 = null;
-        
+
         var sentToUser = null;
         var channel = null;
         var msg = null;
+        var privateUser = null;
+        var groupInvited = false;
+        var groupStarted = false;
 
 
 
-        function connectGroup() {
-            channel = '/www.livesexhouse.com/group';
+        function connectPublic() {
+            $('#privateTab').css({'opacity': 0.0});
+            channel = '/www.livesexhouse.com/public';
             sentToUser = selectedGirl;
-            socket = new SockJS('/www.livesexhouse.com/group');
+            groupStarted = false;
+            socket = new SockJS('/www.livesexhouse.com/public');
             stompClient = Stomp.over(socket);
             stompClient.connect('', '', function (frame) {
                 console.log('Connected: ' + frame);
@@ -795,14 +818,20 @@
                 });
 
             });
+            $("#newP").empty();
+                    msg = "YOU ARE IN PUBLIC CHAT";
+                    insertStatus(msg);
         }
-        
+
         function connectPrivate() {
+            $('#groupTab').css({'opacity': 0.0});
+            $('#privateTab').css({'opacity': 1});
             channel = null;
-            channel = '/www.livesexhouse.com/chat';
+            channel = '/www.livesexhouse.com/private';
             stompClient = null;
             socket = null;
-            socket = new SockJS('/www.livesexhouse.com/chat');
+            groupStarted = false;
+            socket = new SockJS('/www.livesexhouse.com/private');
             stompClient = Stomp.over(socket);
             stompClient.connect('', '', function (frame) {
                 console.log('Connected PRIVATE: ' + frame);
@@ -812,6 +841,32 @@
 
             });
         }
+        
+        
+        
+       function connectGroup() {
+//            $('#groupTab').css({'opacity': 0.0});
+//            $('#privateTab').css({'opacity': 1});
+            channel = null;
+            channel = '/www.livesexhouse.com/group';
+            stompClient = null;
+            sentToUser = whoami;
+            groupStarted = true;
+            stomp2 = null;
+            socket2 = null;
+            socket = null;
+            socket = new SockJS('/www.livesexhouse.com/group');
+            stompClient = Stomp.over(socket);
+            stompClient.connect('', '', function (frame) {
+                console.log('Connected PRIVATE: ' + frame);
+                stompClient.subscribe('/user/queue/messages', function (message) {
+                    showMessageGroup(JSON.parse(message.body));
+                });
+
+            });
+        }
+        
+        
 
 
         function connectService() {
@@ -820,68 +875,195 @@
             stompClient2.connect('', '', function (frame) {
                 console.log('Connected: ' + frame);
                 stompClient2.subscribe('/user/queue/messages', function (message) {
-                    showInvite(JSON.parse(message.body));
+                    showService(JSON.parse(message.body));
                 });
             });
         }
 
 
 
-        function showInvite(message) {
+  function disconnect() {
+            stompClient.disconnect();
+        }
+        
+        
+
+        function leavePrivate() {
+            if (confirm("Are you sure to leave this private chat") === true) {
+
+                stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
+                    'recipient': sentToUser,
+                    'message': "leavePrivate"
+                }));
+                stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
+                        'recipient': whoami,
+                        'message': "onlineNow"
+                    }));
+                location.reload();
+                
+
+            } else {
+
+            }
+        }
+
+function inviteGroup() {
+    
+                if(!groupInvited){
+    
+            if (confirm("Are you sure to invite group chat") === true) {
+                groupInvited = true;
+                stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
+                        'recipient': whoami,
+                        'message': "inviteGroup"
+                    }));
+                $('a#groupLink').text('group invited');
+                
+            } else { }
+        }
             
-            if (message.message.indexOf('invite') >= 0) { 
+            
+            
+            
+        }
+
+
+
+
+
+
+function showMessageGroup(message) {
+            if (message.sender === whoami) {
+                insertStatus(message.message);
+            } 
+        }
+
+
+
+
+
+        function showMessage(message) {
+            if (message.sender === whoami) {
+                insertP('me', message.message);
+            } else {
+                if(privateUser === null){
+                    insertP(message.sender, message.message);
+                } else {
+                    if(message.sender === privateUser){
+                        insertP(message.sender, message.message);
+                    }
+                }
                 
-            if (confirm(message.sender+ " want private chat. \nDo you want to accept?") === true) {
-///////////////// PRIHVATA
+            }
+
+        }
+
+
+
+
+
+        function showService(message) {
+            
+            
+           
+            
+            
+             if (message.message.indexOf('groupChatIsReady') >= 0) {
+             
+               $('a#groupLink').text('leave group');
+               $("#newP").empty();
+               insertStatus('GROUP CHAT STARTED');
+               disconnect();
+               connectGroup();
+               
+            }
+            
+            
+            
+            if (message.message.indexOf('invitePrivate') >= 0 && privateUser===null) {
                 
+                if (confirm(message.sender + " want private chat. \nDo you want to accept?") === true) {
+///////////////// kada dobije zahtev od usera i PRIHVATA
                     disconnect(); // sa njenog kanala
                     stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
-                                                'recipient': message.sender,
-                                                'message': "yes"
-                                            }));
-                                            sentToUser = null ;
-                                            sentToUser = message.sender;
-                                            channel = null;
-                                            channel = '/www.livesexhouse.com/chat';
-                    connectPrivate();  
+                        'recipient': message.sender,
+                        'message': "yes"
+                    }));
+                    stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
+                        'recipient': message.sender,
+                        'message': "privateNow"
+                    }));
+                    sentToUser = null;
+                    sentToUser = message.sender;
+                    channel = null;
+                    channel = '/www.livesexhouse.com/chat';
+                    connectPrivate();
                     $("#newP").empty();
                     msg = "YOU ARE IN PRIVATE CHAT WITH " + sentToUser;
                     insertStatus(msg);
                     msg = null;
-                                            
-                    
-            } else {
-                
-                stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
-                                                'recipient': message.sender,
-                                                'message': "no"
-                                            }));
+                    privateUser = message.sender;
+                } else {
+                    stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
+                        'recipient': message.sender,
+                        'message': "no"
+                    }));
+                }
             }
-        } else {
-//            alert('poruka nije invite');
+            
+ 
+            
+            if (message.message.indexOf('leave') >= 0 && privateUser!==null) {
+                alert('user leave your private chat');
+                stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
+                        'recipient': message.sender,
+                        'message': "onlineNow"
+                    }));
+                    privateUser = null;
+            } else {
+            }
+
+
+
+
+if (message.message.indexOf('Users for group chat') >= 0 ) {
+               insertStatus(message.message);
+            } 
+            
+            
+            
+           
+            
+            
+            
+            
+if (message.message.indexOf('sent invitation for group chat to you.') >= 0 && message.message.indexOf('iAcceptGroupFromUser') < 0) {
+              if (confirm(message.message ) === true) {
+//                  alert("prihvatila sam");
+$('a#groupLink').text('wait for users');
+                  groupInvited = true;
+                    stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
+                        'recipient': whoami,
+                        'message': "iAcceptGroupFromUser "+ message.message
+                    }));
+              }
+            } 
+            
+            
+            
         }
-
-
-        }
-
-
-
-
-
 
 
 
         function insertP(user, msg) {
             $("#newP").append("<p>" + user + ": " + msg + "</p>");
         }
-        
+
         function insertStatus(msg) {
-            $("#newP").append(msg);
+            $("#newP").append("<p>"+msg+"</p>");
         }
 
-        function disconnect() {
-            stompClient.disconnect();
-        }
+       
 //
         function sendMessage() {
             var chatInput = '#input-chat';
@@ -889,16 +1071,18 @@
             if (!message.length) {
                 return;
             }
-            alert('testaaa');
             stompClient.send(channel, {}, JSON.stringify({
                 'recipient': sentToUser,
                 'message': message
             }));
             
-           
+            if(groupStarted){
+                insertStatus('me: ' + message.message);
+            }
+
             $(chatInput).val('');
             $(chatInput).focus();
-            
+
         }
 
 
@@ -922,125 +1106,22 @@
 
 
 
-        function showMessage(message) {
-            if (message.sender === whoami) {
-                insertP('me', message.message);
-            } else {
-                insertP(message.sender, message.message);
-            }
 
-        }
+
+
+
+
+
 
 
         $(document).ready(function () {
-            connectGroup();
+            connectPublic();
             connectService();
+            
+            
         });
 
-        //////////////////////////////  PRIVATE CHAT
-//
-//                                        var stompClient = null;
-//                                        var socket = null;
-//                                        var stompClient2 = null;
-//                                        var socket2 = null;
-//                                        var whoami = "g1";
-//
-//                                           
-//
-////                                        function connect() {
-////                                            socket = new SockJS('/www.livesexhouse.com/group');
-////                                            stompClient = Stomp.over(socket);
-////                                            stompClient.connect('', '', function (frame) {
-////                                                whoami = frame.headers['user-name'];
-////
-////                                                console.log('Connected: ' + frame);
-////                                                stompClient.subscribe('/queue/messages/' + selectedGirl, function (message) {
-////                                                    showMessage(JSON.parse(message.body));
-////                                                });
-////                                            });
-////                                        }
-//                                        
-//                                        
-//                                         function connect() {
-////                                            socket = new SockJS('/www.livesexhouse.com/group');
-//                                            socket = new SockJS('/www.livesexhouse.com/chat');
-//                                            stompClient = Stomp.over(socket);
-//                                            stompClient.connect('', '', function (frame) {
-////                                                whoami = frame.headers['user-name'];
-//alert(whoami);
-//                                                console.log('Connected: ' + frame);
-//                                                  stompClient.subscribe('/user/queue/messages', function(message) {
-//                                                    showMessage(JSON.parse(message.body));
-//                                                });
-//                                            });
-//                                        }
-//                                        
-//                                        
-//
-//
-//                                        function insertP(user, msg) {
-//                                            $("#newP").append("<p>" + user + ": " + msg + "</p>");
-//                                        }
-//
-//                                        function disconnect() {
-//                                            stompClient.disconnect();
-//                                            console.log("Disconnected");
-//                                        }
-////
-//                                        function sendMessage() {
-//                                            var chatInput = '#input-chat';
-//                                            var message = $(chatInput).val();
-//                                            if (!message.length) {
-//                                                return;
-//                                            }
-////                                            stompClient.send('/www.livesexhouse.com/group', {}, JSON.stringify({
-//                                                stompClient.send('/www.livesexhouse.com/chat', {}, JSON.stringify({
-//                                                'recipient': 'u1',
-//                                                'message': message
-//                                            }));
-//                                            $(chatInput).val('');
-//                                            $(chatInput).focus();
-//                                        }
-//
-//
-//                                        function getChatWindow() {
-//
-//                                            var chatSubmit = $('<button>', {id: 'submit-chat', type: 'submit', class: 'chat-submit'})
-//                                            chatSubmit.html('Send');
-//
-//                                            chatSubmit.click(function (event) {
-//                                                sendMessage();
-//                                            });
-//
-//                                        }
-//
-//                                         function handle(e) {
-//                                                if (e.keyCode === 13) {
-//                                                    e.preventDefault();
-//
-//                                                    sendMessage();
-//                                                }
-//                                            }
-//
-//
-//
-//                                        function showMessage(message) {
-//
-//                                            if (message.sender === whoami) {
-//                                                insertP('me', message.message);
-//                                                console.log(message.message);
-//                                            } else {
-//                                                insertP(message.sender, message.message);
-//                                                console.log(message.message);
-//                                            }
-//
-//                                        }
-//
-//
-//                                        $(document).ready(function () {
-//                                            connect();
-////                                            connectService();
-//                                        });
+
     </script>
 
 

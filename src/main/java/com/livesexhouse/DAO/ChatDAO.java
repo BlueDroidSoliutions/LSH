@@ -1,9 +1,11 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.livesexhouse.DAO;
 
-import com.livesexhouse.model.VideoRoom;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.Query;
+import com.livesexhouse.model.Chat;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,23 +13,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-public class VideoRoomDao {
+/**
+ *
+ * @author roller
+ */
+@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+public class ChatDAO {
 
     @Autowired
     SessionFactory sessionFactory;
 
-    public List<VideoRoom> find() {
-        List<VideoRoom> result = new ArrayList<>();
+    public void save(Chat c) {
         try {
             Session session = sessionFactory.getCurrentSession();
-            Query query = session.getNamedQuery("VideoRoom.findAll");
-            result = query.getResultList();
+            session.save(c);
         } catch (HibernateException e) {
-
         }
-
-        return result;
     }
 
 }

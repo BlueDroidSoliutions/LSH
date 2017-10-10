@@ -37,46 +37,23 @@
 							<h3>Vote rate</h3>
 							<p>Top 4</p>
 							<ul class="vote-list">
-								<li>
-									<span class="curent-state">87</span>
-									<a href="javascript:;">
+                                                            
+                                                             <c:forEach items="${mh}" var="mh">
+                                                                <li>
+									<span class="curent-state">${mh.vote}</span>
+									<a href="./voteFromIndex/${mh.id}">
 										<div class="img-wrapper">
 											<div class="overlay">Vote</div>
 											<img src="${location}/assets/img/content/profile-s.png" alt="" />
 										</div>
 									</a>
-									<span class="name">Christine</span>
+									<span class="name">${mh.name}</span>
 								</li>
-								<li>
-									<span class="curent-state">87</span>
-									<a href="javascript:;">
-										<div class="img-wrapper">
-											<div class="overlay">Vote</div>
-											<img src="${location}/assets/img/content/profile-s.png" alt="" />
-										</div>
-									</a>
-									<span class="name">Christine</span>
-								</li>
-								<li>
-									<span class="curent-state">87</span>
-									<a href="javascript:;">
-										<div class="img-wrapper">
-											<div class="overlay">Vote</div>
-											<img src="${location}/assets/img/content/profile-s.png" alt="" />
-										</div>
-									</a>
-									<span class="name">Christine</span>
-								</li>
-								<li>
-									<span class="curent-state">87</span>
-									<a href="javascript:;">
-										<div class="img-wrapper">
-											<div class="overlay">Vote</div>
-											<img src="${location}/assets/img/content/profile-s.png" alt="" />
-										</div>
-									</a>
-									<span class="name">Christine</span>
-								</li>
+                                                            </c:forEach>
+                                                            
+                                                            
+                                                            
+								
 							</ul>
 						</div>
 						
@@ -113,22 +90,38 @@
 									<img src="" alt="" />
 								</a>
 							</div>
-							<div class="owl-carousel">
-							    <div class="item">
-							    	<img src="${location}/assets/img/content/slider-1.png" alt="" />
-							    </div>
-							    <div class="item"><img src="${location}/assets/img/content/slider-1.png" alt="" /></div>
-							    <div class="item"><img src="${location}/assets/img/content/slider-1.png" alt="" /></div>
-							    <div class="item"><img src="${location}/assets/img/content/slider-1.png" alt="" /></div>
-							    <div class="item"><img src="${location}/assets/img/content/slider-1.png" alt="" /></div>
-							    <div class="item"><img src="${location}/assets/img/content/slider-1.png" alt="" /></div>
-							    <div class="item"><img src="${location}/assets/img/content/slider-1.png" alt="" /></div>
-							    <div class="item"><img src="${location}/assets/img/content/slider-1.png" alt="" /></div>
-							    <div class="item"><img src="${location}/assets/img/content/slider-1.png" alt="" /></div>
-							    <div class="item"><img src="${location}/assets/img/content/slider-1.png" alt="" /></div>
-							    <div class="item"><img src="${location}/assets/img/content/slider-1.png" alt="" /></div>
-							    <div class="item"><img src="${location}/assets/img/content/slider-1.png" alt="" /></div>
-							</div>
+                                                    
+                                                    
+                                                    <style>
+                                                        .onlineGirl{position: absolute; padding-top: 10px; padding-left: 5px; color: greenyellow;}
+                                                        #i001{display: none;}
+                                                    </style>
+
+                                                    <div class="owl-carousel">
+                                                        
+                                                    
+                                                       
+                                                        
+                                                        <c:forEach items="${girl}" var="girl" varStatus="status">
+                                                        
+                                                            <c:if test="${statuss.first}">
+                                                                <script>
+                                                                    var first = 
+                                                                </script>
+                                                            </c:if>
+                                                            
+                                                            <div class="item" id="i${girl.id}" >
+                                                            <p class="onlineGirl">ONLINE</p> 
+                                                            <a href="javascript:;">  <img src="ext/girlImg/${girl.name}.jpg" alt="" /> </a>
+                                                            </div>
+                                                                
+                                                         </c:forEach>       
+                                                                
+                                                        
+                                                    </div>
+
+  
+                                                            
 						</div>
 					</div>
 				</div>

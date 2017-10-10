@@ -43,7 +43,16 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Girls.findByToy", query = "SELECT g FROM Girls g WHERE g.toy = :toy")
     , @NamedQuery(name = "Girls.findByStory", query = "SELECT g FROM Girls g WHERE g.story = :story")
     , @NamedQuery(name = "Girls.findByEnabled", query = "SELECT g FROM Girls g WHERE g.enabled = 1")
-    , @NamedQuery(name = "Girls.findByTarifa", query = "SELECT g FROM Girls g WHERE g.tarifa = :tarifa")})
+    , @NamedQuery(name = "Girls.findByPrivateTariff", query = "SELECT g FROM Girls g WHERE g.privateTariff = :privateTariff")
+    , @NamedQuery(name = "Girls.findByGroupTariff", query = "SELECT g FROM Girls g WHERE g.groupTariff = :groupTariff")
+        
+        
+//    , @NamedQuery(name = "Girls.findByGroupTariff", query = "SELECT g FROM Girls g WHERE g.groupTariff = :groupTariff")    
+        
+        
+        
+        
+    , @NamedQuery(name = "Girls.findByGroupMinPerson", query = "SELECT g FROM Girls g WHERE g.groupMinPerson = :groupMinPerson")})
 public class Girls implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -92,8 +101,12 @@ public class Girls implements Serializable {
     private String story;
     @Column(name = "enabled")
     private Boolean enabled;
-    @Column(name = "tarifa")
-    private Integer tarifa;
+    @Column(name = "private_tariff")
+    private Integer privateTariff;
+    @Column(name = "group_tariff")
+    private Integer groupTariff;
+    @Column(name = "group_min_person")
+    private Integer groupMinPerson;
 
     public Girls() {
     }
@@ -238,12 +251,28 @@ public class Girls implements Serializable {
         this.enabled = enabled;
     }
 
-    public Integer getTarifa() {
-        return tarifa;
+    public Integer getPrivateTariff() {
+        return privateTariff;
     }
 
-    public void setTarifa(Integer tarifa) {
-        this.tarifa = tarifa;
+    public void setPrivateTariff(Integer privateTariff) {
+        this.privateTariff = privateTariff;
+    }
+
+    public Integer getGroupTariff() {
+        return groupTariff;
+    }
+
+    public void setGroupTariff(Integer groupTariff) {
+        this.groupTariff = groupTariff;
+    }
+
+    public Integer getGroupMinPerson() {
+        return groupMinPerson;
+    }
+
+    public void setGroupMinPerson(Integer groupMinPerson) {
+        this.groupMinPerson = groupMinPerson;
     }
 
     @Override
