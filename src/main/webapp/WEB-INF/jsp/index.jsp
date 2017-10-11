@@ -106,7 +106,7 @@
                                                         
                                                             <c:if test="${statuss.first}">
                                                                 <script>
-                                                                    var first = 
+                                                                    var first = '<c:out value="${girl.id}"/>';
                                                                 </script>
                                                             </c:if>
                                                             
@@ -144,6 +144,20 @@
 	<script type="text/javascript" src="${location}/assets/scripts/libs/jcf.checkbox.js"></script>
 	<script type="text/javascript" src="${location}/assets/scripts/libs/jQuery.fakeScroll.js"></script>
 	<script type="text/javascript" src="${location}/assets/scripts/main/default.js"></script>
+        
+        
+        <p>$script</p>
+        
+        <script>
+            
+            
+            
+            
+            
+            
+        </script>
+        
+        
         
         
         
