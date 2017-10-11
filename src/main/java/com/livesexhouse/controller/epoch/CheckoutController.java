@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  *
  */
 @RestController
-@RequestMapping(value = "checkout", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class CheckoutController {
 
 	/**
@@ -69,7 +69,7 @@ public class CheckoutController {
 	 * @param pricePackageId
 	 * @return {@link CheckoutResponse} object
 	 */
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value = "checkout", method = RequestMethod.POST)
 	public @ResponseBody CheckoutResponse submit(Principal principal, @RequestParam Long pricePackageId) {
 		CheckoutResponse response = new CheckoutResponse();
 		if (principal == null) {
@@ -107,7 +107,7 @@ public class CheckoutController {
 	 * @param pricePackageId
 	 * @return {@link CheckoutResponse} object
 	 */
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value = "checkout/vipMembership", method = RequestMethod.POST)
 	public @ResponseBody CheckoutResponse submitVipMembership(Principal principal, @RequestParam Long pricePackageId) {
 		CheckoutResponse response = new CheckoutResponse();
 		if (principal == null) {
