@@ -30,6 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
         , @NamedQuery(name = "Online.findGirlOP", query = "SELECT o.id FROM Online o WHERE o.status = 6")
         , @NamedQuery(name = "Online.findGirlM", query = "SELECT o.id FROM Online o WHERE o.status = 3")
         , @NamedQuery(name = "Online.findGirlMP", query = "SELECT o.id FROM Online o WHERE o.status = 5")
+        , @NamedQuery(name = "Online.findMemberOnline", query = "SELECT o.id FROM Online o WHERE o.status = 5")
+        , @NamedQuery(name = "Online.findAllOnline", query = "SELECT o.id FROM Online o WHERE o.status = 2 OR o.status = 3 OR o.status = 4")
     , @NamedQuery(name = "Online.findByStatus", query = "SELECT o.id FROM Online o WHERE o.status = :status")})
 public class Online implements Serializable {
 

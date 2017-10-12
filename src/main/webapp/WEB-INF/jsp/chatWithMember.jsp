@@ -26,10 +26,10 @@
 
 
     <script>
-        var selectedGirl = '<c:out value="${g.id}"/>';
+        var selectedGirl = '<c:out value="${idM}"/>';
     </script>
 
-    <p style="font-size: 30px;  color: white;">${g.userName}</p>
+    <p style="font-size: 30px;  color: white;">${nameM}</p>
 
     <div id="page-wrap" class="page-chat">
         <div class="wrapper ">
@@ -141,7 +141,7 @@
                                     </div>
                                 </li>
                                 <li class="become-fan">
-                                    <a href="../addtofan/${g.id}">
+                                    <a href="javascript:;">
                                         Become <br />a fan
                                     </a>
                                 </li>
@@ -756,8 +756,8 @@
    <![endif]-->
 
     <script>
-                                    var selectedGirl = '<c:out value="${g.id}"/>';
-                                    var inviteGirl = '<c:out value="${g.name}"/>';
+                                    var selectedGirl = '<c:out value="${idM}"/>';
+                                    var inviteGirl = '<c:out value="${nameM}"/>';
                                     var whoami = '<c:out value="${userName}"/>';
                                     var whoamiId = '<c:out value="${u.id}"/>';
     </script>

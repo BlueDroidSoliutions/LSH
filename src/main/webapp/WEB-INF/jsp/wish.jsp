@@ -24,7 +24,7 @@
     </c:otherwise>
 </c:choose>
 
-<div id="page-wrap">
+<div id="page-wrap" class="page-wish">
 			<div class="wish-container clearfix">
 				<div class="box-left">
 					<div class="form-holder clearfix">

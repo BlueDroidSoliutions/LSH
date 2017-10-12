@@ -37,8 +37,10 @@
 								<video id="my_video_1" class="video-js vjs-default-skin" width="640px" height="267px"
 								      controls preload="none"
 								      data-setup='{ "aspectRatio":"640:267", "playbackRates": [1, 1.5, 2] }'>
-<!--			  <source src="./ext/video/${video.id}.mp4" type='video/mp4' -->
-              <!--<source src="http://67.227.214.241:1935/live/test videa.stream/playlist.m3u8" type='video/mp4'-->
+			  <source src="../ext/video/${video.id}.mp4" type='video/mp4' 
+              <!--<source src="http://192.168.1.7:1935/live/myStream_360p/manifest.mpd" type='video/mp4'-->
+                      
+                      
                                                                            
   </video>
 							</div>
@@ -185,7 +187,7 @@
 													</div>
 												</div>
 											</div>
-											<img src="${location}/assets/img/content/slider-1.png" />
+											<img src=".${location}/assets/img/content/slider-1.png" />
 										</a>
 									</li>
 									<li>
@@ -208,7 +210,7 @@
 													</div>
 												</div>
 											</div>
-											<img src="${location}/assets/img/content/slider-1.png" />
+											<img src=".${location}/assets/img/content/slider-1.png" />
 										</a>
 									</li>
 									<li>
@@ -231,7 +233,7 @@
 													</div>
 												</div>
 											</div>
-											<img src="${location}/assets/img/content/slider-1.png" />
+											<img src=".${location}/assets/img/content/slider-1.png" />
 										</a>
 									</li>
 									<li>
@@ -254,7 +256,7 @@
 													</div>
 												</div>
 											</div>
-											<img src="${location}/assets/img/content/slider-1.png" />
+											<img src=".${location}/assets/img/content/slider-1.png" />
 										</a>
 									</li>
 									<li>
@@ -277,7 +279,7 @@
 													</div>
 												</div>
 											</div>
-											<img src="${location}/assets/img/content/slider-1.png" />
+											<img src=".${location}/assets/img/content/slider-1.png" />
 										</a>
 										
 									</li>
@@ -301,13 +303,13 @@
 													</div>
 												</div>
 											</div>
-											<img src="${location}/assets/img/content/slider-1.png" />
+											<img src=".${location}/assets/img/content/slider-1.png" />
 										</a>
 									</li>
 								</ul>
 							</div>
 							<a href="javascript:;" class="o-right-container">
-								<img src="${location}/assets/img/o3.jpg" alt="" />
+								<img src="../resources/assets/img/o3.jpg" alt="" />
 							</a>
 						</div>
 						<!-- End of right block -->
@@ -322,15 +324,15 @@
 
 	<!-- javascript -->
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-	<script type="text/javascript">window.jQuery || document.write("<script src='assets/scripts/main/jquery-1.8.3.min.js'>\x3C/script>")</script>
-	<script type="text/javascript" src="${location}/assets/scripts/libs/jquery.flexslider-min.js"></script>
-	<script type="text/javascript" src="${location}/assets/scripts/libs/jQuery.fakeScroll.js"></script>
+	<script type="text/javascript">window.jQuery || document.write("<script src='../resources/assets/scripts/main/jquery-1.8.3.min.js'>\x3C/script>")</script>
+	<script type="text/javascript" src="../resources/assets/scripts/libs/jquery.flexslider-min.js"></script>
+	<script type="text/javascript" src="../resources/assets/scripts/libs/jQuery.fakeScroll.js"></script>
 	
-	<script type="text/javascript" src="${location}/assets/scripts/libs/jcf.js"></script>
-	<script type="text/javascript" src="${location}/assets/scripts/libs/jcf.checkbox.js"></script>
+	<script type="text/javascript" src="../resources/assets/scripts/libs/jcf.js"></script>
+	<script type="text/javascript" src="../resources/assets/scripts/libs/jcf.checkbox.js"></script>
 	
 
-	<script type="text/javascript" src="${location}/assets/scripts/main/default.js"></script>
+	<script type="text/javascript" src="../resources/assets/scripts/main/default.js"></script>
 
 	<link href="//vjs.zencdn.net/5.19/video-js.min.css" rel="stylesheet">
 	<script src="//vjs.zencdn.net/5.19/video.min.js"></script>

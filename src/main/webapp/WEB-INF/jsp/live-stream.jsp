@@ -136,54 +136,30 @@
                             <img src="${location}/assets/img/content/stream-preview.jpg" alt="Preview">
                             <a class="overlay" href="javascript:;"></a>
                         </div>
-                        <a href="javascript:;" class="sex-cam">Live Sex Cam <span>with housemates</span></a>
+                        <a href="./webcammember/${onlineMember}" class="sex-cam">Live Sex Cam <span>with housemates</span></a>
                         <div class="vote-section">
                             <div class="inner">
                                 <div class="heading">
                                     <h3>Vote rate</h3>
-                                    <p>Top 4</p>
+                                    <p>Top 5</p>
                                 </div>
                                 <ul class="vote-list">
+                                    
+                                     <c:forEach items="${mh}" var="mh">
+                                    
                                     <li>
-                                        <span class="number-of-votes">87</span>
-                                        <a href="javascript:;">
+                                        <span class="number-of-votes">${mh.vote}</span>
+                                       <a href="./voteFromIndex/${mh.id}">
                                             <span class="vote"><span>Vote</span></span>
                                             <img src="${location}/assets/img/content/profile-s.png" alt="">
                                         </a>
-                                        <span class="name">Christine</span>
+                                        <span class="name">${mh.name}</span>
                                     </li>
-                                    <li>
-                                        <span class="number-of-votes">87</span>
-                                        <a href="javascript:;">
-                                            <span class="vote"><span>Vote</span></span>
-                                            <img src="${location}/assets/img/content/profile-s.png" alt="">
-                                        </a>
-                                        <span class="name">Christine</span>
-                                    </li>
-                                    <li>
-                                        <span class="number-of-votes">87</span>
-                                        <a href="javascript:;">
-                                            <span class="vote"><span>Vote</span></span>
-                                            <img src="${location}/assets/img/content/profile-s.png" alt="">
-                                        </a>
-                                        <span class="name">Christine</span>
-                                    </li>
-                                    <li>
-                                        <span class="number-of-votes">87</span>
-                                        <a href="javascript:;">
-                                            <span class="vote"><span>Vote</span></span>
-                                            <img src="${location}/assets/img/content/profile-s.png" alt="">
-                                        </a>
-                                        <span class="name">Christine</span>
-                                    </li>
-                                    <li>
-                                        <span class="number-of-votes">87</span>
-                                        <a href="javascript:;">
-                                            <span class="vote"><span>Vote</span></span>
-                                            <img src="${location}/assets/img/content/profile-s.png" alt="">
-                                        </a>
-                                        <span class="name">Christine</span>
-                                    </li>
+                                     </c:forEach>
+                                    
+                                    
+                                    
+                                    
                                 </ul>
                             </div>
                         </div>
@@ -225,7 +201,7 @@
                             </div>
                         </div>
                         <div class="live-web-chat">
-                            <a href="javascript:;">Live Now Web Chat <span>View all</span></a>
+                            <a href="./webcam">Live Now Web Chat <span>View all</span></a>
                             <img src="${location}/assets/img/content/live-chat.png" alt="live chat">
                         </div>
                     </div>

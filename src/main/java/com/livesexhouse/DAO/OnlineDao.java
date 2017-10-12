@@ -60,25 +60,47 @@ public class OnlineDao {
     public Set<Integer> onlineGirls() {
         List<Integer> users = new ArrayList<>();
             Set<Integer> active = Sets.newTreeSet();
-
         try {
-            
-           
             Session session = sessionFactory.getCurrentSession();
             Query q = session.getNamedQuery("Online.findByStatus");
-            
             q.setParameter("status", 2);
-            
             users = q.getResultList();
             for (int s : users) {
                 active.add(s);
             }
+        } catch (HibernateException e) {
+        }
+        return active;
+    }
+    
+    public int onlineMember() {
+            int active = 0;
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            Query q = session.getNamedQuery("Online.findMemberOnline");
+            active = (int)q.getSingleResult();
            
+        } catch (HibernateException e) {
+        }
+        return active;
+    }
+    
+    
+    public List<Integer> allOnlineGirls() {
+        List<Integer> users = new ArrayList<>();
+            List<Integer> active = new ArrayList<>();
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            Query q = session.getNamedQuery("Online.findAllOnline");
+            active = q.getResultList();
             
         } catch (HibernateException e) {
         }
         return active;
     }
+    
+    
+    
 
     public void setPrivate(int id) {
         try {
@@ -112,6 +134,28 @@ public class OnlineDao {
         }
 
     }
+    
+    public void setOnlineMember(int id) {
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            Query query = session.createNativeQuery("update online set status=" + 5 + " where id = " + id + ";");
+            query.executeUpdate();
+        } catch (HibernateException e) {
+
+        }
+
+    }
+    public void setOfflineMember(int id) {
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            Query query = session.createNativeQuery("update online set status=" + 0 + " where id = " + id + ";");
+            query.executeUpdate();
+        } catch (HibernateException e) {
+
+        }
+
+    }
+
 
     public void setOffline(int id) {
         try {

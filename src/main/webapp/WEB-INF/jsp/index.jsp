@@ -94,7 +94,7 @@
                                                     
                                                     <style>
                                                         .onlineGirl{position: absolute; padding-top: 10px; padding-left: 5px; color: greenyellow;}
-                                                        #i001{display: none;}
+                                                       
                                                     </style>
 
                                                     <div class="owl-carousel">
@@ -102,22 +102,32 @@
                                                     
                                                        
                                                         
-                                                        <c:forEach items="${girl}" var="girl" varStatus="status">
                                                         
-                                                            <c:if test="${statuss.first}">
-                                                                <script>
-                                                                    var first = '<c:out value="${girl.id}"/>';
-                                                                </script>
-                                                            </c:if>
-                                                            
-                                                            <div class="item" id="i${girl.id}" >
+                                                        <c:forEach items="${activeG}" var="girl" varStatus="status">
+                                                         <div class="item">
                                                             <p class="onlineGirl">ONLINE</p> 
                                                             <a href="javascript:;">  <img src="ext/girlImg/${girl.name}.jpg" alt="" /> </a>
                                                             </div>
-                                                                
-                                                         </c:forEach>       
-                                                                
+                                                               </c:forEach>    
                                                         
+                                                        <c:forEach items="${inactiveG}" var="girl" varStatus="status">
+                                                         <div class="item" >
+<!--                                                            <p class="onlineGirl">ONLINE</p> -->
+                                                            <a href="javascript:;">  <img src="ext/girlImg/${girl.name}.jpg" alt="" /> </a>
+                                                            </div>
+                                                               </c:forEach>    
+                                                        
+                                                        
+                                                        
+                                         
+                                                        
+                                                        
+                                                                
+                                                                
+                                                            
+                                                                
+                                                                
+                                                                
                                                     </div>
 
   
@@ -127,13 +137,25 @@
 				</div>
 			</div>
 
+                                                                       
+                                                                        
+                                                                       
+                                                                        
+                                                                        
+                                                                        
 			 <%@include file="footer.jsp" %>
+                         
+                          
 		</div>
-			
+		
+                         
+                         
+                         
+                         
+                         
 	</div>
 
-	<!-- javascript -->
-
+	
         
         
         
@@ -146,18 +168,15 @@
 	<script type="text/javascript" src="${location}/assets/scripts/main/default.js"></script>
         
         
-        <p>$script</p>
-        
-        <script>
-            
-            
-            
-            
-            
-            
-        </script>
         
         
+        
+         
+        
+
+
+
+
         
         
         

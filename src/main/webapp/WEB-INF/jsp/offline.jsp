@@ -25,7 +25,7 @@
 </c:choose>
 
 
-		<main>
+    <main class="page-offline">
 			<div class="offline-container clearfix">
 					<div class="employee-cover" href="javascript:;"><img src="${location}/assets/img/content/offline_big.jpg" alt=""></div>
 				<div class="stat-wrapper">
@@ -155,7 +155,10 @@
 			
 	</div>
 
-	<%@include file="jsScript.jsp" %>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script type="text/javascript">window.jQuery || document.write("<script src='${location}/assets/scripts/main/jquery-1.8.3.min.js'>\x3C/script>")</script>
+	<script type="text/javascript" src="${location}/assets/scripts/libs/owl.carousel.min.js"></script>
+	<script type="text/javascript" src="${location}/assets/scripts/main/default.js"></script>
 
 </body>
 </html>

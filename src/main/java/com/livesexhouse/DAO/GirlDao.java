@@ -11,6 +11,7 @@ import com.livesexhouse.model.UserRoles;
 import com.livesexhouse.model.Users;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Query;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -28,9 +29,76 @@ public class GirlDao {
 
     @Autowired
     SessionFactory sessionFactory;
-    
+
     @Autowired
     Checker checker;
+
+    @Autowired
+    OnlineDao onlineDao;
+
+
+    public List<Girls> findGirlsInactive() {
+        List<Girls> activeGirls = new ArrayList<>();
+        List<Integer> ac = new ArrayList<>();
+        List<Girls> allGirls = new ArrayList<>();
+        List<Girls> inactiveGirls = new ArrayList<>();
+
+        try {
+            ac = onlineDao.allOnlineGirls();
+            
+            if(!ac.isEmpty()){
+            
+            Session session = sessionFactory.getCurrentSession();
+            Query q2 = session.createQuery("SELECT g FROM Girls g WHERE g.id IN :ac");
+            q2.setParameter("ac", ac);
+            activeGirls = q2.getResultList();
+
+            Query q = session.getNamedQuery("Girls.findByEnabled");
+            allGirls = q.getResultList();
+            inactiveGirls = q.getResultList();
+            
+            for ( int i = 0 ; i < inactiveGirls.size() ; i++) {
+                for (Girls s : activeGirls) {
+                    if (inactiveGirls.get(i).getId() == s.getId()) {
+                        inactiveGirls.remove(i);
+                    }
+                }
+
+            }
+            } else {
+                Session session = sessionFactory.getCurrentSession();
+                Query q = session.getNamedQuery("Girls.findByEnabled");
+            allGirls = q.getResultList();
+            inactiveGirls = allGirls;
+            }
+           
+
+        } catch (HibernateException e) {
+        }
+        return  inactiveGirls;
+
+    }
+    
+    public List<Girls> findGirlsActive() {
+        List<Girls> activeGirls = new ArrayList<>();
+        List<Integer> ac = new ArrayList<>();
+       
+
+        try {
+            ac = onlineDao.allOnlineGirls();
+            if(!ac.isEmpty()){
+            Session session = sessionFactory.getCurrentSession();
+            Query q2 = session.createQuery("SELECT v FROM Girls v WHERE v.id IN :ac");
+            q2.setParameter("ac", ac);
+            activeGirls = q2.getResultList();
+
+            }
+           
+        } catch (HibernateException e) {
+        }
+        return activeGirls;
+
+    }
 
     public Girls findByUsername(String username) {
 
@@ -63,15 +131,14 @@ public class GirlDao {
         String num = "";
         String id = "";
         try {
-            if(checker.check(userName)){
-                
-            
-            Session session = sessionFactory.getCurrentSession();
-            Query q = sessionFactory.getCurrentSession().createNativeQuery("SELECT id FROM girls where name='" + userName + "';");
-            id = q.getSingleResult().toString();
-            q = sessionFactory.getCurrentSession().createNativeQuery("SELECT private_tariff FROM girls where id=" + id + ";");
-            num = q.getSingleResult().toString();
-}
+            if (checker.check(userName)) {
+
+                Session session = sessionFactory.getCurrentSession();
+                Query q = sessionFactory.getCurrentSession().createNativeQuery("SELECT id FROM girls where name='" + userName + "';");
+                id = q.getSingleResult().toString();
+                q = sessionFactory.getCurrentSession().createNativeQuery("SELECT private_tariff FROM girls where id=" + id + ";");
+                num = q.getSingleResult().toString();
+            }
         } catch (HibernateException e) {
         }
         return num;
@@ -82,13 +149,13 @@ public class GirlDao {
         String num = "";
         String id = "";
         try {
-if(checker.check(userName)){
-            Session session = sessionFactory.getCurrentSession();
-            Query q = sessionFactory.getCurrentSession().createNativeQuery("SELECT id FROM girls where name='" + userName + "';");
-            id = q.getSingleResult().toString();
-            q = sessionFactory.getCurrentSession().createNativeQuery("SELECT group_tariff FROM girls where id=" + id + ";");
-            num = q.getSingleResult().toString();
-}
+            if (checker.check(userName)) {
+                Session session = sessionFactory.getCurrentSession();
+                Query q = sessionFactory.getCurrentSession().createNativeQuery("SELECT id FROM girls where name='" + userName + "';");
+                id = q.getSingleResult().toString();
+                q = sessionFactory.getCurrentSession().createNativeQuery("SELECT group_tariff FROM girls where id=" + id + ";");
+                num = q.getSingleResult().toString();
+            }
         } catch (HibernateException e) {
         }
         return num;
@@ -99,13 +166,13 @@ if(checker.check(userName)){
         String num = "";
         String id = "";
         try {
-if(checker.check(userName)){
-            Session session = sessionFactory.getCurrentSession();
-            Query q = sessionFactory.getCurrentSession().createNativeQuery("SELECT id FROM girls where name='" + userName + "';");
-            id = q.getSingleResult().toString();
-            q = sessionFactory.getCurrentSession().createNativeQuery("SELECT group_min_person FROM girls where id=" + id + ";");
-            num = q.getSingleResult().toString();
-}
+            if (checker.check(userName)) {
+                Session session = sessionFactory.getCurrentSession();
+                Query q = sessionFactory.getCurrentSession().createNativeQuery("SELECT id FROM girls where name='" + userName + "';");
+                id = q.getSingleResult().toString();
+                q = sessionFactory.getCurrentSession().createNativeQuery("SELECT group_min_person FROM girls where id=" + id + ";");
+                num = q.getSingleResult().toString();
+            }
         } catch (HibernateException e) {
         }
         return num;
@@ -143,9 +210,6 @@ if(checker.check(userName)){
         } catch (HibernateException e) {
         }
     }
-
-  
-
 
     public void delete(Users c) {
 

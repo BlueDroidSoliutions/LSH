@@ -312,7 +312,7 @@ public class MessageController {
                     }
                 }
 
-                chatDAO.save(chat);
+//                chatDAO.save(chat);
 
 //              
                 if (b) {
@@ -366,7 +366,7 @@ public class MessageController {
                 chat.setToUser(chatMessage.getRecipient());
 
                 chat.setDate(date);
-                chatDAO.save(chat);
+//                chatDAO.save(chat);
             }
         } catch (MessagingException e) {
 
@@ -407,7 +407,7 @@ public class MessageController {
                 chat.setService(3);
                 chat.setToUser(chatMessage.getRecipient());
                 chat.setDate(date);
-                chatDAO.save(chat);
+//                chatDAO.save(chat);
 
             }
         } catch (MessagingException e) {
@@ -446,7 +446,7 @@ public class MessageController {
                 chat.setToUser(chatMessage.getRecipient());
 
                 chat.setDate(date);
-                chatDAO.save(chat);
+//                chatDAO.save(chat);
 
             }
         } catch (MessagingException e) {
@@ -526,7 +526,7 @@ public class MessageController {
                 chat.setToUser(chatMessage.getRecipient());
 
                 chat.setDate(date);
-                chatDAO.save(chat);
+//                chatDAO.save(chat);
             }
         } catch (MessagingException e) {
 

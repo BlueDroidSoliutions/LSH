@@ -224,6 +224,9 @@ public class SiteController {
                 if (request.isUserInRole("ROLE_GIRL")) {
                     ret = "chatG";
                 }
+                if (request.isUserInRole("ROLE_MEMBER")) {
+                    ret = "chatMH";
+                }
 
                 Girls g = new Girls();
                 g = girlDao.findById(id);
@@ -232,6 +235,69 @@ public class SiteController {
                 String onl = "";
                 onl = onlineDao.onlineNow();
                 model.addAttribute("onlineNow", onl);
+
+            } else {
+
+                // you must be loged in
+            }
+
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("location", setupDao.getLocation());
+            model.addAttribute("bck", ".");
+
+        } catch (Exception ex) {
+        }
+        return ret;
+    }
+    
+    
+    @RequestMapping("/webcammember/{id}")
+    public String webcammember(
+            Principal principal, RedirectAttributes redirectAttributes,
+            ModelMap model, @PathVariable int id,
+            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
+            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
+            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+        Boolean alredySigned = false;
+        String ret = "chatWithMember";
+        Users m = new Users();
+        try {
+            if (cookieTrust != null) {
+                model.addAttribute("trustedUser", true);
+            } else {
+                if (cookieSigned != null) {
+                    model.addAttribute("alredySigned", true);
+                } else {
+                    if (cookieMail != null) {
+                        model.addAttribute("checkEmail", true);
+                    }
+                }
+            }
+            if (principal != null) {
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
+                
+                if (request.isUserInRole("ROLE_MEMBER")) {
+                    ret = "chatMH";
+                }
+
+                
+                String nameM = "";
+                int idM = 0;
+                
+                m = userDao.findById(id);
+                
+                nameM = m.getUsername();
+                idM = m.getId();
+                
+                model.addAttribute("nameM", nameM);
+                model.addAttribute("idM", idM);
+
+                
 
             } else {
 
@@ -427,11 +493,11 @@ public class SiteController {
                 onlineDao.setOnline(u.getId());
             }
 
-            if (request.isUserInRole("ROLE_HOUSE")) {
+            if (request.isUserInRole("ROLE_MEMBER")) {
                 Users u = new Users();
                 u = userDao.findByUsername(principal.getName());
-//                u.setEnabled((short) 5);
-//                userDao.update(u);
+
+                onlineDao.setOnlineMember(u.getId());
             }
 
         }
@@ -508,6 +574,8 @@ public class SiteController {
             HttpServletRequest req
     ) {
         ModelAndView model = new ModelAndView();
+         List<Girls> activeG = new ArrayList<>();
+        List<Girls> inactiveG = new ArrayList<>();
  try{
             
         //    serverOffMsg
@@ -537,20 +605,14 @@ public class SiteController {
             
             model.addObject("mh", mh);
             
+                
+             
+             inactiveG = girlDao.findGirlsInactive();
+             activeG = girlDao.findGirlsActive();
+             model.addObject("activeG", activeG);
+             model.addObject("inactiveG", inactiveG);
             
-            
-            Set<Integer> active = Sets.newTreeSet();
-            
-            active = onlineDao.onlineGirls();
-            
-            System.out.println("********* " + active.size());
-            
-            model.addObject("active", active);
-            
-            List<Girls> l = new ArrayList<>();
-            l = girlDao.findGirls();
-
-            model.addObject("girl", l);
+          
 
 //        model.addObject("serverOffMsg", serverOffMsg);
 //        model.addObject("serverOff", true);
@@ -581,11 +643,11 @@ public class SiteController {
                 onlineDao.setOffline(u.getId());
             }
 
-            if (request.isUserInRole("ROLE_HOUSE")) {
+            if (request.isUserInRole("ROLE_MEMBER")) {
                 Users u = new Users();
                 u = userDao.findByUsername(principal.getName());
-//                u.setEnabled((short) 3);
-//                userDao.update(u);
+
+                onlineDao.setOfflineMember(u.getId());
             }
 
             HttpSession session = request.getSession(false);
@@ -1157,8 +1219,10 @@ public class SiteController {
 
     }
 
-    @RequestMapping("/video/{id}")
-    public String video(
+   
+    
+     @RequestMapping("/video/{id}")
+    public String video2(
             @PathVariable int id,
             ModelMap model,
             HttpServletResponse response, RedirectAttributes redirectAttributes,
@@ -1222,8 +1286,8 @@ public class SiteController {
             model.addAttribute("member", memberHouse);
             model.addAttribute("videoRoom", videoRoom);
             model.addAttribute("videoCategories", videoCategories);
-            model.addAttribute("path", "." + path);
-            model.addAttribute("location", "." + location);
+            model.addAttribute("path", path);
+            model.addAttribute("location",  location);
             model.addAttribute("totalSeasons", totalSeasons);
             model.addAttribute("videoCategoryCountClips", videoCategoryCountClips);
             model.addAttribute("vm2m", vm2m);
@@ -1236,6 +1300,8 @@ public class SiteController {
         }
         return "video-player";
     }
+    
+   
 
     @RequestMapping(value = "/contactpost", method = RequestMethod.POST)
     public String contactpost(
@@ -1356,7 +1422,16 @@ public class SiteController {
                 model.addAttribute("userName", principal.getName());
                 model.addAttribute("user", u);
             }
-
+            
+             List<MembersRank> mh = new ArrayList<>();
+            
+            mh = memberRankDao.findTop5();
+            
+            model.addAttribute("mh", mh);
+            
+            int onlineMember = onlineDao.onlineMember();
+            model.addAttribute("onlineMember", onlineMember);
+            
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("bck", "");
             model.addAttribute("location", setupDao.getLocation());
@@ -1698,13 +1773,6 @@ public class SiteController {
         }
         return "wish";
     }
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -2079,6 +2147,59 @@ public class SiteController {
         model.addAttribute("path", path);
         model.addAttribute("location", loc);
         return "redirect:/video/" + id;
+
+//        return redirect.re(request.getHeader("referer"));
+    }
+    
+     @RequestMapping("/addtofan/{id}")
+    public String addtofan(
+            @PathVariable int id,
+            Principal principal,
+            ModelMap model, RedirectAttributes redirectAttributes,
+            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
+            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
+            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+
+        String path = "";
+        String loc = "";
+        Boolean alredySigned = false;
+        try {
+            path = setupDao.getPath();
+            loc = setupDao.getLocation();
+
+            if (principal != null) {
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
+                UserM2m um = new UserM2m();
+                int userId = u.getId();
+                um.setUserId(userId);
+                um.setFavGirl(id);
+
+                userM2mDAO.save(um);
+            }
+
+            if (cookieTrust != null) {
+                model.addAttribute("trustedUser", true);
+            } else {
+                if (cookieSigned != null) {
+                    model.addAttribute("alredySigned", true);
+                } else {
+                    if (cookieMail != null) {
+                        model.addAttribute("checkEmail", true);
+                    }
+                }
+            }
+
+        } catch (Exception ex) {
+        }
+        model.addAttribute("bck", ".");
+        model.addAttribute("path", path);
+        model.addAttribute("location", loc);
+        return "redirect:/chat/" + id;
 
 //        return redirect.re(request.getHeader("referer"));
     }
