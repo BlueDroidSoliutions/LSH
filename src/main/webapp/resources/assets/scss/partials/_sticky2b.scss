@@ -448,6 +448,7 @@
 			text-indent: -9999px;
 			width: 30px;
 			height: 30px;
+			padding: 0;
 			position: absolute;
 			top: 9px;
 			right: 5px;
@@ -856,7 +857,7 @@
 		left: 0;
 		bottom: 0;
 		width: 100%;
-		padding: 10px 20px 8px;
+		padding: 10px 10px 8px;
 		transition: 0.4s ease-out;
 		background: #1a1a1a;
 		.description {
@@ -865,7 +866,7 @@
 		}
 		h5 {
 			font-family: $font-q;
-			font-size: 16px;
+			font-size: 15px;
 			color: $white;
 			line-height: 1;
 			float: left;
@@ -878,9 +879,9 @@
 		clear: both;
 	}
 	.access-link {
-		width: 34px;
-		height: 34px;
-		margin-top: -2px;
+		width: 30px;
+		height: 30px;
+		margin-top: -1px;
 		background: url('../img/access-icon.png') center center no-repeat;
 		background-size: 100% auto;
 		text-indent: -9999px;
@@ -889,8 +890,8 @@
 	.video-duration {
 		position: absolute;
 		top: 14px;
-		right: 20px;
-		font-size: 18px;
+		right: 10px;
+		font-size: 16px;
 		color: $white;
 		float: left;
 	}
@@ -961,6 +962,9 @@
 				}
 				.video-thumbs {
 					display: block;
+				}
+				img {
+					min-height: 100%;
 				}
 			}
 		}

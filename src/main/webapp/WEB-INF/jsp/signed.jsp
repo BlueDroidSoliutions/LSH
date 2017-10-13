@@ -150,7 +150,7 @@
                                                             </svg>
                                                         </span>
                                                         <div class="info-content">
-                                                            <a href="javascript:;">My favourite models</a>
+                                                            <a href="${bck}./userFan">My favourite models</a>
                                                         </div>
                                                     </div>
                                                     <div class="info-box">

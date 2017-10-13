@@ -66,7 +66,12 @@
 								<div class="overlay">
 									<h2>Live stream</h2>
 								</div>
-								<iframe width="420" height="345" src="https://www.youtube.com/embed/LIMYj5mpMM4" frameborder="0" ></iframe>
+								<video autoplay id="my_video_1" class="video-js vjs-default-skin" width="640px" height="267px"
+								      controls preload="none" poster='http://video-js.zencoder.com/oceans-clip.jpg'
+								      data-setup='{ "aspectRatio":"640:267", "playbackRates": [1, 1.5, 2] }'>
+								    <source src="http://www.html5videoplayer.net/videos/toystory.mp4" type='video/mp4' />
+								    <source src="http://www.html5videoplayer.net/videos/toystory.mp4" type='video/webm' />
+								</video>
 							</div>
 							<aside class="video-aside">
 								<a href="./video" class="one-half widget">

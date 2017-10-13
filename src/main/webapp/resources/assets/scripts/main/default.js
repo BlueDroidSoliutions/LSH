@@ -338,7 +338,7 @@ function iframeDimensions() {
         $("#"+tab_id).addClass('current');
 
         localStorage.setItem('activeTab', $(e.target).attr('data-tab'));
-    });
+    })
 
     var activeTab = localStorage.getItem('activeTab');
     console.log(activeTab);
@@ -428,22 +428,26 @@ function iframeDimensions() {
 
     });
 
+    $('.room-navigation a').click(function () {
+        var linkValue = $(this).attr("data-link");
+        console.log(linkValue);
+        $(".stream-video video source").addClass('red').attr("src", linkValue);
 
-  
-  
-    
+    });
+
+
     // LOGIN / SIGN IN
-//        var loginChecker = false;
-//        var signinChecker = false;
-//        var emailTaken = false;
-//        var usernameTaken = false;
-//        var wrongPassword = false;
-//        var wrongUsername = false;
-//        var checkEmail = false;
-//        var alredySigned = false;
-//        var thanksReg = false;
-//        var serverOff = false;
-//        var emptyField = false;
+//       var loginChecker = false;
+//       var signinChecker = false;
+//       var emailTaken = false;
+//       var usernameTaken = false;
+//       var wrongPassword = false;
+//       var wrongUsername = false;
+//       var checkEmail = false;
+//       var alredySigned = false;
+//       var thanksReg = false;
+//       var serverOff = false;
+//       var emptyField = false;
 //        
 //        var serverOffMsg = "server vill be.. bla bla bla";
 
@@ -550,24 +554,5 @@ function iframeDimensions() {
         $('.main-popup').removeClass('active');
     });
 
-    // TEST links 
-    var roomItems = $('.room-navigation > li');
-
-    $(".room-links a").click(function () {
-        var theID  = $(this).data("id");
-        var selectedRoom = $(this).text();
-
-        $('.selected-room').text(selectedRoom);
-
-        roomItems.removeClass('active');
-        roomItems.filter(function() {
-            return $(this).data('room') === theID;
-        }).addClass('active');
-
-    });
-
-    
-    $(".btn-settings").click(function () {
-        $(this).next().slideToggle();
-    });
+        
 }

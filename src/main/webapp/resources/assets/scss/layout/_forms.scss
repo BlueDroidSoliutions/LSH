@@ -41,6 +41,9 @@ textarea {
 	max-width: 1600px;
 	margin: auto;
 	padding: 0 20px;
+	@include breakpoint(phone){
+		padding: 0;
+	}
 }
 .form-block {
 	background: rgba(63, 0, 0, 0.85);
@@ -118,6 +121,7 @@ textarea {
 		}
 	}
 	@include breakpoint(phone){
+		padding: 30px 12px;
 		h2 {
 			width: 100%;
 		}

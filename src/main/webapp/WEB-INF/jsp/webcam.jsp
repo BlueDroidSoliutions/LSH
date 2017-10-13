@@ -84,12 +84,6 @@
 
 
 
-                        <li class="webcam-video" id="li001">
-
-                        </li>
-
-
-
 
                         <c:forEach items="${girl}" var="g">
 
@@ -123,9 +117,27 @@
 
 </div>
 
+
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">window.jQuery || document.write("<script src='${location}/assets/scripts/main/jquery-1.8.3.min.js'>\x3C/script>")</script>
+	
+	<script type="text/javascript" src="${location}/assets/scripts/main/default.js"></script>
+        <script type="text/javascript" src="${location}/assets/scripts/libs/jquery.flexslider-min.js"></script>
+        <script type="text/javascript" src="${location}/assets/scripts/libs/jQuery.fakeScroll.js"></script>
+
+
+
+
+
+
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
 <script src="./resources/st2/sockjs.js"></script>
+
+
+
 
 
 

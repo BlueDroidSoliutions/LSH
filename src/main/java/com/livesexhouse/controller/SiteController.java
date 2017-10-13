@@ -2199,7 +2199,7 @@ public class SiteController {
         model.addAttribute("bck", ".");
         model.addAttribute("path", path);
         model.addAttribute("location", loc);
-        return "redirect:/chat/" + id;
+        return "redirect:/webcam/" + id;
 
 //        return redirect.re(request.getHeader("referer"));
     }
@@ -2384,6 +2384,61 @@ public class SiteController {
         model.addAttribute("bck", "");
 
         return "videoFav";
+
+//        return redirect.re(request.getHeader("referer"));
+    }
+    
+     @RequestMapping("/userFan")
+    public String userFan(
+            Principal principal, RedirectAttributes redirectAttributes,
+            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
+            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
+            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
+            ModelMap model,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+        String path = "";
+        String loc = "";
+        List<Girls> girls = new ArrayList<>();
+        String noVideoFound = "";
+        Boolean alredySigned = false;
+        try {
+            path = setupDao.getPath();
+            loc = setupDao.getLocation();
+
+            if (cookieTrust != null) {
+                model.addAttribute("trustedUser", true);
+            } else {
+                if (cookieSigned != null) {
+                    model.addAttribute("alredySigned", true);
+                } else {
+                    if (cookieMail != null) {
+                        model.addAttribute("checkEmail", true);
+                    }
+                }
+            }
+
+            if (principal != null) {
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
+                girls = userM2mDAO.findFavGirlByUser(u.getId());
+                if (girls.size() < 1) {
+                    noVideoFound = "no result";
+                }
+            }
+
+        } catch (Exception ex) {
+        }
+
+        model.addAttribute("girls", girls);
+        model.addAttribute("noVideoFound", noVideoFound);
+        model.addAttribute("path", path);
+        model.addAttribute("location", loc);
+        model.addAttribute("bck", "");
+
+        return "girlsFav";
 
 //        return redirect.re(request.getHeader("referer"));
     }
