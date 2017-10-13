@@ -78,7 +78,7 @@ public class CheckoutController {
 		    return response;
         }
 		Users user = getUserDao().findByUsername(principal.getName());
-		if (user == null || user.getEnabled() == 1) {
+		if (user == null || user.getEnabled() == 0) {
 			response.setSuccess(Boolean.FALSE);
 			response.setMessage("You don't have permissions to buy tokens!");
 			return response;
@@ -116,7 +116,7 @@ public class CheckoutController {
 		    return response;
         }
 		Users user = getUserDao().findByUsername(principal.getName());
-		if (user == null || user.getEnabled() == 1) {
+		if (user == null || user.getEnabled() == 0) {
 			response.setSuccess(Boolean.FALSE);
 			response.setMessage("You don't have permissions to buy vip membership!");
 			return response;
