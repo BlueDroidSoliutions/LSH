@@ -45,14 +45,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Girls.findByEnabled", query = "SELECT g FROM Girls g WHERE g.enabled = 1")
     , @NamedQuery(name = "Girls.findByPrivateTariff", query = "SELECT g FROM Girls g WHERE g.privateTariff = :privateTariff")
     , @NamedQuery(name = "Girls.findByGroupTariff", query = "SELECT g FROM Girls g WHERE g.groupTariff = :groupTariff")
-        
-        
-//    , @NamedQuery(name = "Girls.findByGroupTariff", query = "SELECT g FROM Girls g WHERE g.groupTariff = :groupTariff")    
-        
-        
-        
-        
-    , @NamedQuery(name = "Girls.findByGroupMinPerson", query = "SELECT g FROM Girls g WHERE g.groupMinPerson = :groupMinPerson")})
+    , @NamedQuery(name = "Girls.findByGroupMinPerson", query = "SELECT g FROM Girls g WHERE g.groupMinPerson = :groupMinPerson")
+    , @NamedQuery(name = "Girls.findByLnk", query = "SELECT g FROM Girls g WHERE g.lnk = :lnk")})
+
 public class Girls implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -107,6 +102,9 @@ public class Girls implements Serializable {
     private Integer groupTariff;
     @Column(name = "group_min_person")
     private Integer groupMinPerson;
+    @Size(max = 64)
+    @Column(name = "lnk")
+    private String lnk;
 
     public Girls() {
     }
@@ -275,6 +273,14 @@ public class Girls implements Serializable {
         this.groupMinPerson = groupMinPerson;
     }
 
+    public String getLnk() {
+        return lnk;
+    }
+
+    public void setLnk(String lnk) {
+        this.lnk = lnk;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -299,5 +305,5 @@ public class Girls implements Serializable {
     public String toString() {
         return "com.livesexhouse.model.Girls[ id=" + id + " ]";
     }
-    
+
 }

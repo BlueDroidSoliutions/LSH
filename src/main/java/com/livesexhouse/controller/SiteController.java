@@ -6,6 +6,7 @@ import com.livesexhouse.model.Contact;
 import com.livesexhouse.model.Girls;
 import com.livesexhouse.model.MemberHouse;
 import com.livesexhouse.model.MembersRank;
+import com.livesexhouse.model.Participant;
 import com.livesexhouse.model.UserM2m;
 import com.livesexhouse.model.UserRoles;
 import com.livesexhouse.model.Users;
@@ -16,6 +17,9 @@ import com.livesexhouse.model.VideoClip;
 import com.livesexhouse.model.VideoFileName;
 import com.livesexhouse.model.VideoM2m;
 import com.livesexhouse.model.VideoRoom;
+import com.livesexhouse.model.YourWish;
+import com.livesexhouse.model.YourWishAction;
+import com.livesexhouse.model.YourWishExtra;
 import com.livesexhouse.service.PricePackageService;
 import java.io.IOException;
 import java.security.Principal;
@@ -112,7 +116,7 @@ public class SiteController {
 
     @Autowired
     UsersActivateDAO usersActivateDAO;
-    
+
     @Autowired
     GoogleMail googleMail;
 
@@ -121,13 +125,26 @@ public class SiteController {
 
     @Autowired
     OnlineDao onlineDao;
-    
+
     @Autowired
     MemberRankDao memberRankDao;
 
+    @Autowired
+    YourWishDao yourWishDao;
+
+    @Autowired
+    YourWishExtraDao yourWishExtraDao;
+
+    @Autowired
+    YourWishActionDao yourWishActionDao;
+    
+    @Autowired
+    ParticipantDao participantDao;
 
     @Autowired
     private PricePackageService pricePackageService;
+    
+   
 
     @RequestMapping(value = "/girlSetup", method = RequestMethod.POST)
     public String girlSetup(
@@ -249,8 +266,7 @@ public class SiteController {
         }
         return ret;
     }
-    
-    
+
     @RequestMapping("/webcammember/{id}")
     public String webcammember(
             Principal principal, RedirectAttributes redirectAttributes,
@@ -280,24 +296,21 @@ public class SiteController {
                 u = userDao.findByUsername(principal.getName());
                 model.addAttribute("userName", principal.getName());
                 model.addAttribute("user", u);
-                
+
                 if (request.isUserInRole("ROLE_MEMBER")) {
                     ret = "chatMH";
                 }
 
-                
                 String nameM = "";
                 int idM = 0;
-                
+
                 m = userDao.findById(id);
-                
+
                 nameM = m.getUsername();
                 idM = m.getId();
-                
+
                 model.addAttribute("nameM", nameM);
                 model.addAttribute("idM", idM);
-
-                
 
             } else {
 
@@ -359,8 +372,6 @@ public class SiteController {
         }
         return "webcam";
     }
-
-   
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String signup(
@@ -435,13 +446,9 @@ public class SiteController {
                     ua.setUserId(userId);
                     ua.setUserKey(gn);
                     usersActivateDAO.save(ua);
-                    
-                    
+
                     GoogleMail gm = new GoogleMail();
-                    gm.send(email,gn,username);
-                    
-                    
-                    
+                    gm.send(email, gn, username);
 
                 } else {
 
@@ -469,45 +476,44 @@ public class SiteController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(@RequestParam(value = "error", required = false) String error, @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust, HttpServletRequest request, HttpServletResponse response, ModelMap model, RedirectAttributes redirectAttributes, Principal principal, Authentication au
     ) {
-         try{
-             Boolean loginError = false;
-        Boolean signinChecker = false;
+        try {
+            Boolean loginError = false;
+            Boolean signinChecker = false;
 
-        if (error != null) {
-            loginError = true;
-            signinChecker = true;
-        } else {
-            if (cookieTrust == null) {
-                Cookie newCookie = new Cookie("livesexhouseTrust", "true");
-                newCookie.setPath("/");
-                newCookie.setMaxAge(0x3b9ac9ff);
-                response.addCookie(newCookie);
-            }
+            if (error != null) {
+                loginError = true;
+                signinChecker = true;
+            } else {
+                if (cookieTrust == null) {
+                    Cookie newCookie = new Cookie("livesexhouseTrust", "true");
+                    newCookie.setPath("/");
+                    newCookie.setMaxAge(0x3b9ac9ff);
+                    response.addCookie(newCookie);
+                }
 //            
 
-            if (request.isUserInRole("ROLE_GIRL")) {
-                Users u = new Users();
-                u = userDao.findByUsername(principal.getName());
+                if (request.isUserInRole("ROLE_GIRL")) {
+                    Users u = new Users();
+                    u = userDao.findByUsername(principal.getName());
 //                u.setEnabled((short) 4);
 //                userDao.update(u);
-                onlineDao.setOnline(u.getId());
+                    onlineDao.setOnline(u.getId());
+                }
+
+                if (request.isUserInRole("ROLE_MEMBER")) {
+                    Users u = new Users();
+                    u = userDao.findByUsername(principal.getName());
+
+                    onlineDao.setOnlineMember(u.getId());
+                }
+
             }
-
-            if (request.isUserInRole("ROLE_MEMBER")) {
-                Users u = new Users();
-                u = userDao.findByUsername(principal.getName());
-
-                onlineDao.setOnlineMember(u.getId());
-            }
-
-        }
-        redirectAttributes.addFlashAttribute("loginError", loginError);
-        redirectAttributes.addFlashAttribute("signinChecker", signinChecker);
-        redirectAttributes.addFlashAttribute("bck", "");
+            redirectAttributes.addFlashAttribute("loginError", loginError);
+            redirectAttributes.addFlashAttribute("signinChecker", signinChecker);
+            redirectAttributes.addFlashAttribute("bck", "");
         } catch (Exception e) {
-            
+
         }
-       
 
         return redirect.re(request.getHeader("referer"));
     }
@@ -574,58 +580,53 @@ public class SiteController {
             HttpServletRequest req
     ) {
         ModelAndView model = new ModelAndView();
-         List<Girls> activeG = new ArrayList<>();
+        List<Girls> activeG = new ArrayList<>();
         List<Girls> inactiveG = new ArrayList<>();
- try{
-            
-        //    serverOffMsg
+        try {
+
+            //    serverOffMsg
 //        String serverOffMsg = "serverrrrrr offffff";
-        if (cookieTrust != null) {
-            model.addObject("trustedUser", true);
-        } else {
-            if (cookieSigned != null) {
-                model.addObject("alredySigned", true);
+            if (cookieTrust != null) {
+                model.addObject("trustedUser", true);
             } else {
-                if (cookieMail != null) {
-                    model.addObject("checkEmail", true);
+                if (cookieSigned != null) {
+                    model.addObject("alredySigned", true);
+                } else {
+                    if (cookieMail != null) {
+                        model.addObject("checkEmail", true);
+                    }
                 }
             }
-        }
-        if (principal != null) {
-            Users u = new Users();
-            u = userDao.findByUsername(principal.getName());
+            if (principal != null) {
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
 
-            model.addObject("userName", principal.getName());
-            model.addObject("user", u);
-        }
-        
-         List<MembersRank> mh = new ArrayList<>();
-            
+                model.addObject("userName", principal.getName());
+                model.addObject("user", u);
+            }
+
+            List<MembersRank> mh = new ArrayList<>();
+
             mh = memberRankDao.findTop4();
-            
+
             model.addObject("mh", mh);
-            
-                
-             
-             inactiveG = girlDao.findGirlsInactive();
-             activeG = girlDao.findGirlsActive();
-             model.addObject("activeG", activeG);
-             model.addObject("inactiveG", inactiveG);
-            
-          
+
+            inactiveG = girlDao.findGirlsInactive();
+            activeG = girlDao.findGirlsActive();
+            model.addObject("activeG", activeG);
+            model.addObject("inactiveG", inactiveG);
 
 //        model.addObject("serverOffMsg", serverOffMsg);
 //        model.addObject("serverOff", true);
-        model.addObject("path", setupDao.getPath());
-        model.addObject("location", setupDao.getLocation());
-        model.addObject("bck", "");
-        model.setViewName("index");
+            model.addObject("path", setupDao.getPath());
+            model.addObject("location", setupDao.getLocation());
+            model.addObject("bck", "");
+            model.setViewName("index");
 
-        
         } catch (Exception e) {
-            
+
         }
-       
+
         return model;
 
     }
@@ -668,22 +669,21 @@ public class SiteController {
     //for 403 access denied page
     @RequestMapping(value = "/403", method = RequestMethod.GET)
     public ModelAndView accesssDenied() {
- ModelAndView model = new ModelAndView();
-         try{
-           
+        ModelAndView model = new ModelAndView();
+        try {
 
-        //check if user is login
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            UserDetails userDetail = (UserDetails) auth.getPrincipal();
-            model.addObject("username", userDetail.getUsername());
-        }
+            //check if user is login
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (!(auth instanceof AnonymousAuthenticationToken)) {
+                UserDetails userDetail = (UserDetails) auth.getPrincipal();
+                model.addObject("username", userDetail.getUsername());
+            }
 
-        model.setViewName("403"); 
+            model.setViewName("403");
         } catch (Exception e) {
-            
+
         }
-       
+
         return model;
 
     }
@@ -717,6 +717,56 @@ public class SiteController {
         }
         return "uploadMulti";
     }
+    
+    
+    
+      @RequestMapping(value = "/becomeaparticipant", method = RequestMethod.POST)
+    public String becomeaparticipant(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("name") String name,
+            @RequestParam("email") String email,
+            @RequestParam("birth") String birth,
+            @RequestParam("state") String state,
+            @RequestParam("city") String city,
+            @RequestParam("msg") String msg,
+            HttpServletRequest request,
+            ModelMap model,
+            RedirectAttributes redirectAttributes
+            ) {
+        
+        try{
+            List<Setup> setups = setupDao.getSetups();
+            String videosUploadLocation = setups.get(12).getValueString();
+            
+            String  picSave = videosUploadLocation  + file.getOriginalFilename().substring(file.getOriginalFilename().length() - 4, file.getOriginalFilename().length());
+            
+            boolean successSave = saveVideoFile.save(file.getBytes(), picSave);
+            
+            Participant p = new Participant();
+            Date date = new Date();
+            p.setBirth(birth);
+            p.setCity(city);
+            p.setDate(date);
+            p.setEmail(email);
+            p.setMsg(msg);
+            p.setName(name);
+            p.setState(state);
+            
+            participantDao.saveParticipant(p);
+            
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("location", setupDao.getLocation());
+           
+            
+        } catch (Exception e) {
+            
+        }
+        
+        
+        return "redirect:index";
+    }
+    
+    
 
     @RequestMapping(value = "/uploadMulti", method = RequestMethod.POST)
     public String multiFileUpload(
@@ -724,17 +774,13 @@ public class SiteController {
             @RequestParam("name") String[] names,
             @RequestParam("tag") String[] tags,
             HttpServletRequest request,
-//            @RequestParam("season") Integer[] season,
+            //            @RequestParam("season") Integer[] season,
             RedirectAttributes redirectAttributes,
             Principal principal) {
 
         System.setProperty("org.bytedeco.javacpp.maxphysicalbytes", "0");
         System.setProperty("org.bytedeco.javacpp.maxbytes", "0");
 
-        
-       
-        
-        
         boolean successClipHdd = true;
         StringJoiner failFileSaveMsg = new StringJoiner(" </br>");
 
@@ -854,7 +900,7 @@ public class SiteController {
 
                                     if (videoFileNameB) { // ako je sacuvan fileName u bazi
                                         // cuva se 1 m2m u bazi
-                                        
+
                                         videoM2m.setSeason(1);
                                         videoM2m.setClipId(clipId);
                                         videoM2mRoom.setClipId(clipId);
@@ -1219,9 +1265,7 @@ public class SiteController {
 
     }
 
-   
-    
-     @RequestMapping("/video/{id}")
+    @RequestMapping("/video/{id}")
     public String video2(
             @PathVariable int id,
             ModelMap model,
@@ -1287,7 +1331,7 @@ public class SiteController {
             model.addAttribute("videoRoom", videoRoom);
             model.addAttribute("videoCategories", videoCategories);
             model.addAttribute("path", path);
-            model.addAttribute("location",  location);
+            model.addAttribute("location", location);
             model.addAttribute("totalSeasons", totalSeasons);
             model.addAttribute("videoCategoryCountClips", videoCategoryCountClips);
             model.addAttribute("vm2m", vm2m);
@@ -1300,8 +1344,6 @@ public class SiteController {
         }
         return "video-player";
     }
-    
-   
 
     @RequestMapping(value = "/contactpost", method = RequestMethod.POST)
     public String contactpost(
@@ -1354,6 +1396,58 @@ public class SiteController {
         } catch (Exception ex) {
         }
         return "index";
+    }
+
+    @RequestMapping(value = "/formWish", method = RequestMethod.POST)
+    public String formWish(
+            ModelMap model,
+            HttpServletResponse response, RedirectAttributes redirectAttributes,
+            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
+            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
+            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
+            Principal principal,
+            HttpServletRequest request) throws Exception {
+        Boolean alredySigned = false;
+        try {
+
+            if (cookieTrust != null) {
+                model.addAttribute("trustedUser", true);
+            } else {
+                if (cookieSigned != null) {
+                    model.addAttribute("alredySigned", true);
+                } else {
+                    if (cookieMail != null) {
+                        model.addAttribute("checkEmail", true);
+                    }
+                }
+            }
+            if (principal != null) {
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
+
+                YourWish yw = new YourWish();
+                Date date = new Date();
+
+                yw.setAction(request.getParameter("action"));
+                yw.setExtra(request.getParameter("extra"));
+                yw.setLocation(request.getParameter("location"));
+                yw.setParticipant1(request.getParameter("participant1"));
+                yw.setParticipant2(request.getParameter("participant2"));
+                yw.setUserId(u.getId());
+
+                yourWishDao.saveWish(yw);
+
+            }
+
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("bck", "");
+            model.addAttribute("location", setupDao.getLocation());
+
+        } catch (Exception ex) {
+        }
+        return "redirect:index";
     }
 
     @RequestMapping("/contact")
@@ -1422,16 +1516,16 @@ public class SiteController {
                 model.addAttribute("userName", principal.getName());
                 model.addAttribute("user", u);
             }
-            
-             List<MembersRank> mh = new ArrayList<>();
-            
+
+            List<MembersRank> mh = new ArrayList<>();
+
             mh = memberRankDao.findTop5();
-            
+
             model.addAttribute("mh", mh);
-            
+
             int onlineMember = onlineDao.onlineMember();
             model.addAttribute("onlineMember", onlineMember);
-            
+
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("bck", "");
             model.addAttribute("location", setupDao.getLocation());
@@ -1621,12 +1715,11 @@ public class SiteController {
                 model.addAttribute("userName", principal.getName());
                 model.addAttribute("user", u);
             }
-            
+
             List<MembersRank> mh = new ArrayList<>();
-            
+
             mh = memberRankDao.find();
-            
-            
+
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("mh", mh);
             model.addAttribute("location", setupDao.getLocation());
@@ -1637,16 +1730,12 @@ public class SiteController {
         }
         return "vote";
     }
-    
-    
-    
-     @RequestMapping("/voteFromIndex/{id}")
+
+    @RequestMapping("/voteFromIndex/{id}")
     public String voteFromIndex(
             Principal principal, RedirectAttributes redirectAttributes,
             ModelMap model,
-             @PathVariable int id,
-            
-                   
+            @PathVariable int id,
             @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
             @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
             @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
@@ -1671,12 +1760,12 @@ public class SiteController {
                 model.addAttribute("userName", principal.getName());
                 model.addAttribute("user", u);
             }
-            
+
             List<MembersRank> mh = new ArrayList<>();
-            
+
             mh = memberRankDao.find();
-            
-             redirectAttributes.addFlashAttribute("idFromIndex", id);
+
+            redirectAttributes.addFlashAttribute("idFromIndex", id);
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("mh", mh);
             model.addAttribute("location", setupDao.getLocation());
@@ -1687,13 +1776,12 @@ public class SiteController {
         }
         return "redirect:/vote";
     }
-    
-    
+
     @RequestMapping("/vote/{mhid}")
     public String votee(
             Principal principal, RedirectAttributes redirectAttributes,
             ModelMap model,
-             @PathVariable int mhid,
+            @PathVariable int mhid,
             @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
             @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
             @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
@@ -1719,14 +1807,11 @@ public class SiteController {
                 model.addAttribute("user", u);
                 memberHouseDao.updateUserMinus1token(u);
                 memberHouseDao.updateMemberPlus1Vote(mhid);
-                
+
             }
-            
-           
-            
-            
+
             model.addAttribute("path", setupDao.getPath());
-            
+
             model.addAttribute("location", setupDao.getLocation());
             model.addAttribute("bck", "");
             model.addAttribute("pricePackages", pricePackageService.findAllActive());
@@ -1746,6 +1831,7 @@ public class SiteController {
             HttpServletResponse response,
             HttpServletRequest request) throws Exception {
         Boolean alredySigned = false;
+
         try {
             if (cookieTrust != null) {
                 model.addAttribute("trustedUser", true);
@@ -1758,26 +1844,38 @@ public class SiteController {
                     }
                 }
             }
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("location", setupDao.getLocation());
+            model.addAttribute("bck", "");
+
             if (principal != null) {
                 Users u = new Users();
                 u = userDao.findByUsername(principal.getName());
                 model.addAttribute("userName", principal.getName());
                 model.addAttribute("user", u);
-            }
 
-            model.addAttribute("path", setupDao.getPath());
-            model.addAttribute("location", setupDao.getLocation());
-            model.addAttribute("bck", "");
+                List<VideoRoom> videoRoom = new ArrayList<>();
+                videoRoom = videoRoomDao.find();
+                model.addAttribute("videoRoom", videoRoom);
+
+                List<YourWishExtra> extra = new ArrayList<>();
+                extra = yourWishExtraDao.find();
+                model.addAttribute("extra", extra);
+
+                List<YourWishAction> action = new ArrayList<>();
+                action = yourWishActionDao.find();
+                model.addAttribute("action", action);
+
+                List<MemberHouse> members = new ArrayList<>();
+                members = memberHouseDao.find();
+                model.addAttribute("participant", members);
+
+            }
 
         } catch (Exception ex) {
         }
         return "wish";
     }
-    
-    
-    
-    
-    
 
     @RequestMapping(value = "/video", method = RequestMethod.GET)
     public String videos(
@@ -2150,8 +2248,8 @@ public class SiteController {
 
 //        return redirect.re(request.getHeader("referer"));
     }
-    
-     @RequestMapping("/addtofan/{id}")
+
+    @RequestMapping("/addtofan/{id}")
     public String addtofan(
             @PathVariable int id,
             Principal principal,
@@ -2387,8 +2485,8 @@ public class SiteController {
 
 //        return redirect.re(request.getHeader("referer"));
     }
-    
-     @RequestMapping("/userFan")
+
+    @RequestMapping("/userFan")
     public String userFan(
             Principal principal, RedirectAttributes redirectAttributes,
             @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
@@ -2640,8 +2738,6 @@ public class SiteController {
 //        return redirect.re(request.getHeader("referer"));
     }
 
-    
-                    
     @RequestMapping("/termsOfUse")
     public String tp2(
             Principal principal, RedirectAttributes redirectAttributes,

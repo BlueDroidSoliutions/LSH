@@ -37,11 +37,21 @@
 								</p>
 							</div>
 							<div class="form-holder">
+                                                            
+                                                            
+<form method="POST" role="form" action="${pageContext.request.contextPath}/uploadMulti" enctype="multipart/form-data">
+
+ <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+ 
+ 
+                                                            
+                                                            
+                                                            
 								<div class="clearfix">
 									<div class="one-third clearfix">
 										<div class="field-wrapper">
 											<span class="field-label">Your full name</span>
-											<input id="fullName" type="text">
+											<input name="name" id="fullName" type="text">
 										</div>
 										<div class="field-wrapper required-holder">
 											<span class="field-label">Email address</span>
@@ -80,6 +90,8 @@
 									<label class="chack required-holder"><input type="checkbox" name="checkboxAccept" value="value">I accept <a href="javascript:;">terms and conditions</a><span class="required-f r-terms">Required<br>field</span></label>
 									<input type="submit" value="Submit" class="btn-submit">
 								</div>	
+ 
+ </form>
 							</div>
 						</div>
 					</div>

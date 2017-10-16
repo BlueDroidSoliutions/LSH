@@ -51,6 +51,13 @@
                 <value>com.livesexhouse.model.UsersActivate</value>
                 <value>com.livesexhouse.model.Online</value>
                 <value>com.livesexhouse.model.ChatMembers</value>
+                <value>com.livesexhouse.model.Participant</value>
+                
+                
+                <value>com.livesexhouse.model.YourWish</value>
+                <value>com.livesexhouse.model.YourWishAction</value>
+                <value>com.livesexhouse.model.YourWishExtra</value>
+                
                 <value>com.livesexhouse.model.MembersRank</value>
                 <value>com.livesexhouse.model.Order</value>
                 <value>com.livesexhouse.model.OrderPayment</value>
@@ -116,6 +123,10 @@
         <bean id="chatMembersDao" class="com.livesexhouse.DAO.ChatMembersDao" />
         <bean id="onlineDao" class="com.livesexhouse.DAO.OnlineDao" />
         <bean id="memberRankDao" class="com.livesexhouse.DAO.MemberRankDao" />
+        <bean id="yourWishExtraDao" class="com.livesexhouse.DAO.YourWishExtraDao" />
+        <bean id="yourWishActionDao" class="com.livesexhouse.DAO.YourWishActionDao" />
+        <bean id="yourWishDao" class="com.livesexhouse.DAO.YourWishDao" />
+        <bean id="participantDao" class="com.livesexhouse.DAO.ParticipantDao" />
         <bean id="googleMail" class="com.livesexhouse.controller.GoogleMail" />
         
         
