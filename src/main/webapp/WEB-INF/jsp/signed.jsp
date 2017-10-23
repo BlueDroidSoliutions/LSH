@@ -212,13 +212,14 @@
                                                         <a href="${bck}./delete" class="delete-account">Delete account</a>
                                                     </div>
                                                 </div>
-                                                <div class="vip-member">
-                                                    <p><a href="javascript:;">Become a V.I.P. memeber</a></p>
-                                                    <a href="javascript:;">
-                                                        <img src="${bck}${location}/assets/img/vip-member-icon.png" alt="" />
-                                                    </a>
-
-                                                </div>
+                                                <c:if test="${!user.isVipMember}">
+	                                                <div class="vip-member">
+	                                                    <p><a href="javascript:;">Become a V.I.P. memeber</a></p>
+	                                                    <a href="javascript:;">
+	                                                        <img src="${bck}${location}/assets/img/vip-member-icon.png" alt="" />
+	                                                    </a>
+	                                                </div>
+                                        		</c:if>
                                             </div>
                                         </div>
 
