@@ -7,6 +7,9 @@ import com.livesexhouse.model.OrderStatus;
 import com.livesexhouse.model.PricePackage;
 import com.livesexhouse.model.Users;
 import com.livesexhouse.service.OrderService;
+
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +31,7 @@ public class OrderServiceImpl extends AbstractGenericService<Order> implements O
         order.setUser(user);
         order.setPricePackage(pricePackage);
         order.setStatus(OrderStatus.INITIALIZED);
+        order.setCreatedDate(new Date());
         getEntityDao().save(order);
         return order;
     }
