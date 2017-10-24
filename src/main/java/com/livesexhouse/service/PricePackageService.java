@@ -11,5 +11,7 @@ import java.util.List;
 public interface PricePackageService extends GenericService<PricePackage> {
 
     List<PricePackage> findAllActive();
-
+    
+    PricePackage findVipMembershipPackage();
+    
 }

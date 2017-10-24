@@ -30,4 +30,16 @@ public class PricePackageDaoImpl extends AbstractGenericDao<PricePackage> implem
         TypedQuery<PricePackage> allQuery = getCurrentSession().createQuery(selectAllQuery);
         return allQuery.getResultList();
     }
+
+	@Override
+	public PricePackage findVipMembershipPackage() {
+		CriteriaBuilder criteriaBuilder = getCurrentSession().getCriteriaBuilder();
+        CriteriaQuery<PricePackage> criteriaQuery = criteriaBuilder.createQuery(getEntityType());
+        Root<PricePackage> root = criteriaQuery.from(getEntityType());
+        CriteriaQuery<PricePackage> selectAllQuery = criteriaQuery.select(root).
+                where(criteriaBuilder.equal(root.get("active"), Boolean.TRUE)).
+                where(criteriaBuilder.equal(root.get("monthly"), Boolean.TRUE));
+        TypedQuery<PricePackage> allQuery = getCurrentSession().createQuery(selectAllQuery);
+        return allQuery.getResultList().stream().findFirst().orElse(null);
+	}
 }

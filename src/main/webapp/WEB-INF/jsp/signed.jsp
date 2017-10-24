@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="${bck}${location}/assets/css/style.css">
 
                                     <script type="text/javascript" src="${bck}${location}/assets/scripts/libs/modernizr.2.8.3.min.js"></script>
+                                    <script type="text/javascript" src="${bck}${location}/assets/scripts/pages/signed.js"></script>
                                     <script src="https://use.fontawesome.com/48b7d32ec9.js"></script>
 
                                     </head>
@@ -214,8 +215,8 @@
                                                 </div>
                                                 <c:if test="${!user.isVipMember}">
 	                                                <div class="vip-member">
-	                                                    <p><a href="javascript:;">Become a V.I.P. memeber</a></p>
-	                                                    <a href="javascript:;">
+	                                                    <p><a href="javascript:;" onclick="buyVipMembership('${_csrf.token}')">Become a V.I.P. memeber</a></p>
+	                                                    <a href="javascript:;" onclick="buyVipMembership('${_csrf.token}')">
 	                                                        <img src="${bck}${location}/assets/img/vip-member-icon.png" alt="" />
 	                                                    </a>
 	                                                </div>
