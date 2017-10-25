@@ -36,13 +36,18 @@ public class ChatMembersDao {
         int count = 0;
         try {
             Session session = sessionFactory.getCurrentSession();
-            Query q = session.getNamedQuery("ChatMembers.count");
-            q.setParameter("girlId", girlId);
+            Query q = session.createNativeQuery("select count(*) from ChatMembers where girl_id = " + girlId + ";");
             
-            if (q.getResultList().size() > 0) {
-                count = Integer.valueOf(q.getSingleResult().toString());
+            String num = "";
+            num = q.getSingleResult().toString();
+            
+            
+            if (!num.equals("0")) {
+                
+                count = Integer.valueOf(num);
+                
             }
-
+            
         } catch (HibernateException e) {
 
         }
@@ -51,13 +56,26 @@ public class ChatMembersDao {
 
     public void setUser(int userId, int girlId) {
         try {
+            Session session = sessionFactory.getCurrentSession();
             
-            ChatMembers c = new ChatMembers();
+            Query q = session.createNativeQuery("select * from chatMembers where user_id=" + userId + " and girl_id=" + girlId + ";");
+            
+            List<ChatMembers> cml = new ArrayList<>();
+            
+            cml= q.getResultList();
+            
+            if(cml.isEmpty()){
+               ChatMembers c = new ChatMembers();
             c.setGirlId(girlId);
             c.setUserId(userId);
 
-             Session session = sessionFactory.getCurrentSession();
-            session.save(c);
+             
+            session.save(c); 
+            }
+            
+            
+            
+            
             
             
         } catch (HibernateException e) {
@@ -68,11 +86,12 @@ public class ChatMembersDao {
     public void deleteFromUser(int userId) {
         try {
             Session session = sessionFactory.getCurrentSession();
-//            Query q = sessionFactory.getCurrentSession().createNativeQuery("delete from chatMembers where user_id=" + userId + ";");
-            Query query = session.getNamedQuery("ChatMembers.findByUserId");
-            query.setParameter("userId", userId);
-            ChatMembers cm = (ChatMembers) query.getSingleResult();
-            session.delete(cm);
+            Query q = sessionFactory.getCurrentSession().createNativeQuery("delete from chatMembers where user_id=" + userId + ";");
+//            Query query = session.getNamedQuery("ChatMembers.findByUserId");
+//            query.setParameter("userId", userId);
+//            ChatMembers cm = (ChatMembers) query.getSingleResult();
+//            session.delete(cm);
+q.executeUpdate();
             
         } catch (HibernateException e) {
         }
@@ -81,11 +100,12 @@ public class ChatMembersDao {
     public void deleteFromGirl(int girlId) {
         try {
             Session session = sessionFactory.getCurrentSession();
-//            Query q = sessionFactory.getCurrentSession().createNativeQuery("delete from chatMembers where girl_id=" + girlId + ";");
-           Query query = session.getNamedQuery("ChatMembers.findByGirlId");
-            query.setParameter("girlId", girlId);
-            ChatMembers cm = (ChatMembers) query.getSingleResult();
-            session.delete(cm);
+            Query query = sessionFactory.getCurrentSession().createNativeQuery("delete from chatMembers where girl_id=" + girlId + ";");
+//           Query query = session.getNamedQuery("ChatMembers.findByGirlId");
+//            query.setParameter("girlId", girlId);
+//            ChatMembers cm = (ChatMembers) query.getSingleResult();
+//            session.delete(cm);
+            query.executeUpdate();
         } catch (HibernateException e) {
         }
     }
@@ -113,5 +133,25 @@ public class ChatMembersDao {
         }
         return fusers;
     }
+    
+    
+    public List<Integer> selectAllUsersById(int girlId) {
+        List<Integer> users = new ArrayList<>();
+        
+        Users u = new Users();
+        try {
+            Session session = sessionFactory.getCurrentSession();
+             Query q = session.getNamedQuery("ChatMembers.selectAllUsers");
+            q.setParameter("girlId", girlId);
+            users = q.getResultList();
+
+           
+
+        } catch (HibernateException e) {
+        }
+        return users;
+    }
+    
+    
 
 }

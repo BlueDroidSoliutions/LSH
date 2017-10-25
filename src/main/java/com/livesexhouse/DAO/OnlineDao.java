@@ -57,6 +57,21 @@ public class OnlineDao {
         return num;
     }
     
+     public int getStatus(int id) {
+        int num = 0;
+
+        try {
+       
+            Session session = sessionFactory.getCurrentSession();
+            Query q = session.createNativeQuery("SELECT status FROM online WHERE id = '" + id + "';");
+            if (!q.getResultList().isEmpty()) {
+                num = (Integer) q.getSingleResult();
+            }
+        } catch (HibernateException e) {
+        }
+        return num;
+    }
+    
     public Set<Integer> onlineGirls() {
         List<Integer> users = new ArrayList<>();
             Set<Integer> active = Sets.newTreeSet();

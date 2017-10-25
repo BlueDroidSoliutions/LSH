@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import com.livesexhouse.DAO.*;
 import com.livesexhouse.model.Contact;
 import com.livesexhouse.model.Girls;
+import com.livesexhouse.model.Heartbeat;
 import com.livesexhouse.model.MemberHouse;
 import com.livesexhouse.model.MembersRank;
 import com.livesexhouse.model.Participant;
@@ -140,6 +141,13 @@ public class SiteController {
     
     @Autowired
     ParticipantDao participantDao;
+    
+    @Autowired
+    ChatMembersDao chatMembersDao;
+    
+    @Autowired
+    HeartbeatDao heartbeatDao;
+
 
     @Autowired
     private PricePackageService pricePackageService;
@@ -238,19 +246,28 @@ public class SiteController {
                 u = userDao.findByUsername(principal.getName());
                 model.addAttribute("userName", principal.getName());
                 model.addAttribute("user", u);
+                
+                Girls g = new Girls();
+                g = girlDao.findById(id);
+                model.addAttribute("g", g);
+                
+               
+                
                 if (request.isUserInRole("ROLE_GIRL")) {
                     ret = "chatG";
+                    int myOnlineStatus = onlineDao.onlineStatus(g.getId().toString());
+                    model.addAttribute("myOnlineStatus", myOnlineStatus);
+                    
                 }
                 if (request.isUserInRole("ROLE_MEMBER")) {
                     ret = "chatMH";
                 }
 
-                Girls g = new Girls();
-                g = girlDao.findById(id);
-                model.addAttribute("g", g);
+                int status = onlineDao.getStatus(id);
 
                 String onl = "";
                 onl = onlineDao.onlineNow();
+                model.addAttribute("status", status);
                 model.addAttribute("onlineNow", onl);
 
             } else {
@@ -498,6 +515,7 @@ public class SiteController {
 //                u.setEnabled((short) 4);
 //                userDao.update(u);
                     onlineDao.setOnline(u.getId());
+                    chatMembersDao.deleteFromGirl(u.getId());
                 }
 
                 if (request.isUserInRole("ROLE_MEMBER")) {
@@ -642,6 +660,7 @@ public class SiteController {
 //                u.setEnabled((short) 2);
 //                userDao.update(u);
                 onlineDao.setOffline(u.getId());
+                chatMembersDao.deleteFromGirl(u.getId());
             }
 
             if (request.isUserInRole("ROLE_MEMBER")) {
@@ -651,6 +670,21 @@ public class SiteController {
                 onlineDao.setOfflineMember(u.getId());
             }
 
+            
+            if (request.isUserInRole("ROLE_USER")) {
+                 Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                chatMembersDao.deleteFromUser(u.getId());
+               
+            }
+            
+
+
+        } catch (Exception e) {
+            
+        }
+        
+        try{
             HttpSession session = request.getSession(false);
             SecurityContextHolder.clearContext();
             session = request.getSession(false);
@@ -660,8 +694,8 @@ public class SiteController {
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("bck", "");
             model.addAttribute("location", setupDao.getLocation());
-
-        } catch (Exception e) {
+        } catch (Exception ex) {
+            
         }
         return redirect.re(request.getHeader("referer"));
     }
@@ -2814,6 +2848,58 @@ public class SiteController {
         model.addAttribute("bck", "");
 
         return "2257";
+
+//        return redirect.re(request.getHeader("referer"));
+    }
+    
+     @RequestMapping("/test")
+    public String wwe(
+            Principal principal, RedirectAttributes redirectAttributes,
+            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
+            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
+            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
+            ModelMap model,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+        String path = "";
+        String loc = "";
+
+        try {
+            path = setupDao.getPath();
+            loc = setupDao.getLocation();
+
+            if (cookieTrust != null) {
+                model.addAttribute("trustedUser", true);
+            } else {
+                if (cookieSigned != null) {
+                    model.addAttribute("alredySigned", true);
+                } else {
+                    if (cookieMail != null) {
+                        model.addAttribute("checkEmail", true);
+                    }
+                }
+            }
+            
+//            HeartBeatCTRL hb = new HeartBeatCTRL();
+            
+//            System.out.println(hb.i);
+
+//List<Heartbeat> l = new ArrayList<>();
+//l = heartbeatDao.findByStatus(2);
+
+//for(Heartbeat h : l){
+//    System.out.println(h.getPrice());
+//}
+
+
+        } catch (Exception ex) {
+        }
+
+        model.addAttribute("path", path);
+        model.addAttribute("location", loc);
+        model.addAttribute("bck", "");
+
+        return "index";
 
 //        return redirect.re(request.getHeader("referer"));
     }

@@ -127,18 +127,20 @@ public class GirlDao {
 
     }
 
-    public String pricePrivate(String userName) {
+    public String pricePrivate(int id) {
         String num = "";
-        String id = "";
+        
         try {
-            if (checker.check(userName)) {
+          
 
                 Session session = sessionFactory.getCurrentSession();
-                Query q = sessionFactory.getCurrentSession().createNativeQuery("SELECT id FROM girls where name='" + userName + "';");
-                id = q.getSingleResult().toString();
-                q = sessionFactory.getCurrentSession().createNativeQuery("SELECT private_tariff FROM girls where id=" + id + ";");
+                Query q = 
+//                        sessionFactory.getCurrentSession().createNativeQuery("SELECT id FROM girls where name='" + userName + "';");
+//                id = q.getSingleResult().toString();
+//                q = 
+                        sessionFactory.getCurrentSession().createNativeQuery("SELECT private_tariff FROM girls where id=" + id + ";");
                 num = q.getSingleResult().toString();
-            }
+           
         } catch (HibernateException e) {
         }
         return num;

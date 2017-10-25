@@ -29,7 +29,7 @@
         var selectedGirl = '<c:out value="${g.id}"/>';
     </script>
 
-    <p style="font-size: 30px;  color: white;">${g.userName}</p>
+    <p style="font-size: 30px;  color: white;">${user.username} + ${g.userName}</p>
 
     <div id="page-wrap" class="page-chat">
         <div class="wrapper ">
@@ -52,10 +52,17 @@
                 <!-- left blocl -->
                 <div class="left-container">
                     <div class="main-video-block">
-                        <iframe id="main_frame" src="https://www.youtube.com/embed/LIMYj5mpMM4" frameborder="0" ></iframe>
-                        <div class="overflow-box private-only">
-                            <p>In private chat now</p>
-                        </div>
+
+
+
+
+
+                        <video id="my_video_1" class="video-js vjs-default-skin" controls autoplay data-setup='{ "aspectRatio":"16:9", "autoplay": true }'> <source id="ttt222" src=""  type='video/mp4' />  </video>
+
+
+                        <!--                        <div class="overflow-box private-only">
+                                                    <p>In private chat now</p>
+                                                </div>-->
                         <ul class="iframe-menu">
                             <li>
                                 <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.86 21.96" ><defs><style>.cls-1{fill:#fff;}.cls-2{fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:1.16px;}</style></defs><title>profile info</title><path class="cls-1" d="M14,13.8V15H0V13.8c0-2.33,4.67-3.61,7-3.61S14,11.47,14,13.8Z" transform="translate(0 -1)"/><circle class="cls-1" cx="6.98" cy="3.49" r="3.49"/><circle class="cls-1" cx="6.98" cy="3.49" r="3.49"/><rect class="cls-1" x="15" y="12" width="2" height="7"/><rect class="cls-1" x="15" y="8" width="2" height="2"/><circle class="cls-2" cx="15.99" cy="13.09" r="8.29"/></svg>
@@ -755,11 +762,16 @@
        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
    <![endif]-->
 
+
+
     <script>
                                     var selectedGirl = '<c:out value="${g.id}"/>';
                                     var inviteGirl = '<c:out value="${g.name}"/>';
                                     var whoami = '<c:out value="${userName}"/>';
                                     var whoamiId = '<c:out value="${u.id}"/>';
+                                    var lnk = '<c:out value="${g.lnk}"/>';
+                                    var status = '<c:out value="${status}"/>';
+
     </script>
 
     <!--    <div class="video-tab" id="tabPr"><a href="javascript:;" onclick="invitePrivate()" id="inv">PRIVATE</a></div>
@@ -767,6 +779,7 @@
     -->
 
     <script type="text/javascript">
+
 
         var stompClient = null;
         var socket = null;
@@ -788,6 +801,14 @@
         var iSentInvitationGroup = false;
         var grStarted = false;
 
+        var socketToken = null;
+        var stompToken = null;
+
+        var again = false;
+
+        var girlAcceptedGroupFromMe = false;
+
+        var groupAlredyStarted = false;
 
 
 
@@ -802,11 +823,15 @@
                 console.log('Connected: ' + frame);
                 stompClient.subscribe('/queue/messages/' + selectedGirl, function (message) {
                     showMessage(JSON.parse(message.body));
+//                    insertService("________________________1_____" + (JSON.parse(message.body).message));
+
                 });
             });
         }
 
         function connectPrivate() {
+            socketToken = new SockJS('/www.livesexhouse.com/token');
+            stompToken = Stomp.over(socketToken);
             inviteI = true;
             channel = null;
             channel = '/www.livesexhouse.com/private';
@@ -819,11 +844,14 @@
                 console.log('Connected: ' + frame);
                 stompClient.subscribe('/user/queue/messages', function (message) {
                     showMessage(JSON.parse(message.body));
+//                    insertService("________________________2_____" + (JSON.parse(message.body).message));
                 });
             });
         }
 
         function connectGroup() {
+            socketToken = new SockJS('/www.livesexhouse.com/token');
+            stompToken = Stomp.over(socketToken);
             inviteI = true;
             channel = null;
             channel = '/www.livesexhouse.com/group';
@@ -838,7 +866,7 @@
                 stompClient.subscribe('/user/queue/messages', function (message) {
                     showMessageGroup(JSON.parse(message.body));
                     // napravi drugi show funkciju da se vidi samo od devojke a tamo stavi ko salje: pa poruku da se ne vidi ako posalje uljez
-
+//                    insertService("________________________3_____" + (JSON.parse(message.body).message));
                 });
             });
         }
@@ -851,6 +879,7 @@
                 console.log('Connected: ' + frame);
                 stompClient2.subscribe('/user/queue/messages', function (message) {
                     showMessageService(JSON.parse(message.body));
+//                    insertService("________________________4_____" + (JSON.parse(message.body).message));
                 });
             });
             stompClient3 = Stomp.over(socket3);
@@ -858,6 +887,7 @@
                 console.log('Connected: ' + frame);
                 stompClient3.subscribe('/queue/messages/' + inviteGirl, function (message) {
                     showMessageService(JSON.parse(message.body));
+//                    insertService("________________________5_____" + (JSON.parse(message.body).message));
                 });
             });
         }
@@ -896,6 +926,8 @@
             grStarted = false;
             connectPublic();
             connectService();
+            socketToken = null;
+            stompToken = null;
 
         }
         function disconnectGroup() {
@@ -921,6 +953,8 @@
             grStarted = false;
             connectPublic();
             connectService();
+            socketToken = null;
+            stompToken = null;
         }
 
 
@@ -935,7 +969,31 @@
 //                    insertP(message.sender, message.message);
 //                }
 //            
-            insertService(message.message);
+
+
+
+            if (message.message.indexOf('nemateDovoljnoKesa###@@@') >= 0) {
+                if (message.sender === whoami) {
+
+                    window.location.replace("../webcam");
+                    alert("U don't have enought tokens");
+
+                }
+            } else if (message.message.indexOf('Girl#(^Leave@@^((Group$$&))') >= 0) {
+                if (message.sender === inviteGirl) {
+                    alert('Girl leave group chat');
+                    location.reload();
+                }
+
+            } else {
+                if (message.sender === inviteGirl) {
+                    insertService(message.message);
+                }
+            }
+
+
+
+
 
         }
 
@@ -945,7 +1003,20 @@
         function showMessage(message) {
             if (privateStarted) {
                 if (message.sender === whoami) {
-                    insertP('me', message.message);
+
+
+
+
+
+                    if (message.message.indexOf('&#@%he5re@+^') >= 0) {
+
+                    } else {
+                        insertP('me', message.message);
+                    }
+
+
+
+
                 }
                 if (message.sender === inviteGirl) {
                     insertP(message.sender, message.message);
@@ -954,7 +1025,26 @@
                 if (message.sender === whoami) {
                     insertP('me', message.message);
                 } else {
-                    insertP(message.sender, message.message);
+
+                    if (message.sender === inviteGirl) {
+
+
+                        insertP(message.sender, message.message);
+
+
+
+
+                    } else {
+                        insertP(message.sender, message.message);
+                    }
+
+
+
+
+
+
+
+
                 }
             }
         }
@@ -962,11 +1052,76 @@
 
 
         function showMessageService(message) {
-if (message.sender === inviteGirl) {
-    if (message.message.indexOf('You do not have enough tokens, try a smaller amount') >= 0) {
-        alert('You do not have enough tokens, try a smaller amount');
-    }
-}
+
+            if (message.message.indexOf('I accepted invitation from you.') >= 0) {
+                if (message.sender === inviteGirl) {
+                    alert('Girl accepted group invitation from you, please wait for other users..');
+                    girlAcceptedGroupFromMe = true;
+                    stompClient.send('/www.livesexhouse.com/service', {}, JSON.stringify({
+                        'recipient': inviteGirl,
+                        'message': "acceptGroupFromUser"
+                    }));
+                    $('a#gr').text('please wait..');
+                }
+
+            }
+
+
+
+            if (message.message.indexOf('@@#$#$&ut$^@%Of*%@Ussers#@#%#*!^') >= 0 && grStarted) {
+                if (message.sender === inviteGirl) {
+                    alert('group chat is closed, not enought users in group');
+                    location.reload();
+                }
+
+            }
+
+            if (message.message.indexOf('Girl#(^Leave@@^((Group$$&))') >= 0) {
+                if (message.sender === inviteGirl) {
+                    alert('group chat is closed, girl leave');
+                    location.reload();
+                }
+
+            }
+
+
+            if (message.message.indexOf('@@#$&ut$^Of*%@Ussers##*#@%$!^') >= 0 && grStarted) {
+                if (message.sender === inviteGirl) {
+                    alert('group chat is closed, not enought users in group');
+                    location.reload();
+                }
+            }
+
+
+            if (message.sender === inviteGirl) {
+                if (message.message.indexOf('tt$ii^pp^*') >= 0) {
+                    insertService(message.message.substring(9));
+                }
+                if (message.message.indexOf('Group chat not available now') >= 0) {
+                    alert("Group chat not available now");
+                }
+
+
+            }
+
+
+            if (message.sender === whoami) {
+                if (message.message.indexOf('&#@%he5re@+^') >= 0) {
+
+                    stompToken.send('/www.livesexhouse.com/token', {}, JSON.stringify({
+                        'recipient': whoami,
+                        'message': message.message
+                    }));
+
+                }
+            }
+
+
+            if (message.sender === inviteGirl) {
+                if (message.message.indexOf('You do not have enough tokens, try a smaller amount') >= 0) {
+                    alert('You do not have enough tokens, try a smaller amount');
+                }
+            }
 
 
 
@@ -975,6 +1130,7 @@ if (message.sender === inviteGirl) {
 
                 if (message.sender === inviteGirl) {
                     if (message.message.indexOf('yes') >= 0) {
+                        alert('sss yes');
                         $('a#inv').text('girl accepted');
                         setTimeout(function () {
                             $('a#inv').text('leave private');
@@ -986,12 +1142,14 @@ if (message.sender === inviteGirl) {
                         groupAccepted = false;
                     }
                     if (message.message.indexOf('no') >= 0) {
-                        $('a#inv').text('girl not accepted');
-                        setTimeout(function () {
-                            $('a#inv').text('private');
-                        }, 300000);
+//                        alert('sss no');
+//                        $('a#inv').text('girl not accepted');
+//                        setTimeout(function () {
+//                            $('a#inv').text('private');
+//                        }, 300000);
                     }
                     if (message.message.indexOf('noGroup') >= 0) {
+                        alert('sss noGroup');
                         $('a#gr').text('girl not accepted');
                         setTimeout(function () {
                             $('a#gr').text('group chat');
@@ -1005,8 +1163,9 @@ if (message.sender === inviteGirl) {
 
                         insertService("YOU ARE IN PUBLIC CHAT WITH " + inviteGirl);
                     }
-                    if (message.message.indexOf('leavePrivate') >= 0) {
+                    if (message.message.indexOf('lea%(vePri()@#vate') >= 0) {
                         alert('girl leave your private chat');
+                        location.reload();
                         disconnectPrivate();
                         connectPublic();
                         $("#newP").empty();
@@ -1033,6 +1192,15 @@ if (message.sender === inviteGirl) {
                 }
 
                 if (message.sender === whoami) {
+
+                    if (message.message.indexOf('nemateDovoljnoKesa###@@@') >= 0) {
+                        window.location.replace("../webcam");
+                        alert("U don't have enought tokens");
+                    }
+
+
+
+
 
 
 
@@ -1073,8 +1241,30 @@ if (message.sender === inviteGirl) {
                             }, 300000);
                         }
                     }
+
+
+
+
+
+
                     if (message.message.indexOf('Are you sure you want to invite this girl to group chat?') >= 0) {
-                        if (!inviteGirlBGroup) {
+                        if (groupAlredyStarted && !inviteGirlBGroup) {
+                            var msgOrigin = message.message;
+                            var newMsg = msgOrigin.replace("Are you sure you want to invite this girl to group chat?", "Are you sure you want to join this group chat?");
+                            if (confirm(newMsg) === true) {
+                                inviteGirlBGroup = true;
+                                stompClient.send('/www.livesexhouse.com/service', {}, JSON.stringify({
+                                    'recipient': inviteGirl,
+                                    'message': "acceptGroupFromUser"
+                                }));
+                                $('a#gr').text('Leave group');
+                                alert('poceo');
+                            } else {
+                            }
+                        } 
+                        
+                        
+                      else if (!inviteGirlBGroup && !groupAlredyStarted) {
                             if (confirm(message.message) === true) {
                                 inviteGirlBGroup = true;
 
@@ -1086,14 +1276,34 @@ if (message.sender === inviteGirl) {
 
                             } else {
                             }
-                        } else {
-                            alert('you must wait 5 minutes');
-                            setTimeout(function () {
-                                alert('now you can invite this girl to group chat again');
-                                inviteGirlBGroup = false;
-                            }, 300000);
+                        }
+                        
+                    
+                    else {
+                            if (!inviteGirlBGroup) {
+                            } else {
+                                alert('you must wait 5 minutes');
+                                setTimeout(function () {
+                                    alert('now you can invite this girl to group chat again');
+                                    inviteGirlBGroup = false;
+                                }, 300000);
+                            }
                         }
                     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                     if (message.message.indexOf('Are you sure you want to join this group chat?') >= 0) {
 
@@ -1147,7 +1357,21 @@ if (message.sender === inviteGirl) {
                     }
                 }
 
+                if (message.sender === inviteGirl && inviteGirlBGroup === true && !girlAcceptedGroupFromMe) {
+                    if (message.message.indexOf('want group chat, to accept click join group chat') >= 0) {
+                        alert('opet');
+                        inviteGirlB = false;
+                        $('a#gr').text('Join group');
+                        girlSentInvite = true;
+                        again = true;
+                        insertService(message.message);
+
+                    }
+                }
+
+
             }
+
         }
 
 
@@ -1162,8 +1386,9 @@ if (message.sender === inviteGirl) {
                 if (confirm('Are you sure to leave this private chat') === true) {
                     stompClient.send('/www.livesexhouse.com/service', {}, JSON.stringify({
                         'recipient': inviteGirl,
-                        'message': "leave"
+                        'message': "leave*#^Private@#&$"
                     }));
+                    location.reload();
                     privateStarted = false;
                     inviteGirlB = false;
                     $('a#inv').text('private');
@@ -1186,11 +1411,11 @@ if (message.sender === inviteGirl) {
 
 
         function inviteGroup() {
-            if (groupStarted) {
-                if (confirm('Are you sure to leave this group chat') === true) {
-                    stompClient.send('/www.livesexhouse.com/group', {}, JSON.stringify({
+            if (groupStarted || grStarted) {
+                if (confirm('Are you sure to leave this group chat?') === true) {
+                    stompClient.send('/www.livesexhouse.com/service', {}, JSON.stringify({
                         'recipient': inviteGirl,
-                        'message': "leaveGroupFromUser"
+                        'message': "leave#$^Group#$%^From&#!User"
                     }));
                     groupStarted = false;
                     inviteGirlBGroup = false;
@@ -1200,11 +1425,12 @@ if (message.sender === inviteGirl) {
                     $("#newP").empty();
 
                     insertService("YOU ARE IN PUBLIC CHAT WITH " + inviteGirl);
+                    location.reload();
                 } else {
                 }
             } else if (girlSentInvite && !acceptedGroupInvitation) {
-
                 //ako je poslala zahtev za joinGroup
+                alert('ttt');
                 stompClient.send('/www.livesexhouse.com/service', {}, JSON.stringify({
                     'recipient': inviteGirl,
                     'message': "inviteGroupPriceJoin"
@@ -1212,14 +1438,21 @@ if (message.sender === inviteGirl) {
 
 
             } else if (!acceptedGroupInvitation) {
-
                 stompClient.send('/www.livesexhouse.com/service', {}, JSON.stringify({
                     'recipient': inviteGirl,
                     'message': "inviteGroupPrice"
                 }));
-            } else if (grStarted) {
+            } else if (again) {
+                alert('ooo');
+                stompClient.send('/www.livesexhouse.com/service', {}, JSON.stringify({
+                    'recipient': inviteGirl,
+                    'message': "inviteGroupPriceJoin"
+                }));
+
+
 
             }
+
         }
 
 
@@ -1251,7 +1484,7 @@ if (message.sender === inviteGirl) {
             $('.tip-popup').removeClass('tip-open');
             stompClient.send('/www.livesexhouse.com/service', {}, JSON.stringify({
                 'recipient': selectedGirl,
-                'message': "ttiipp " + e
+                'message': "tt$ii^pp* " + e
             }));
 
         }
@@ -1285,9 +1518,59 @@ if (message.sender === inviteGirl) {
 
 
 
+
+        function ttt111() {
+            var video = document.getElementById('my_video_1');
+            var source = document.getElementById('ttt222');
+            video.pause();
+            source.setAttribute('src', lnk);
+            video.load();
+            video.play();
+        }
+
+
+        function closeVideo() {
+            var video = document.getElementById('my_video_1');
+            var source = document.getElementById('ttt222');
+            video.pause();
+            source.setAttribute('src', "");
+            video.load();
+            video.play();
+        }
+
+        function openVideo() {
+            var video = document.getElementById('my_video_1');
+            var source = document.getElementById('ttt222');
+            video.pause();
+            source.setAttribute('src', lnk);
+            video.load();
+            video.play();
+        }
+
+        function joinGroup() {
+
+            if (status === '3') {
+
+                $('a#gr').text('join group');
+                groupAlredyStarted = true;
+
+            }
+        }
+
+
+
+
         $(document).ready(function () {
+////            connectPublic();
+//            connectService();
+//
+////            disconnectPublic();
+//            connectGroup();
+
             connectPublic();
             connectService();
+            joinGroup();
+
 
         });
 
@@ -1295,5 +1578,16 @@ if (message.sender === inviteGirl) {
     </script>
 
 
+
+</script>
+
+<c:choose>
+    <c:when test="${status == 2}">
+        <script>  openVideo();</script>
+    </c:when>
+    <c:otherwise>
+        <script>  closeVideo();</script>
+    </c:otherwise>
+</c:choose>
 </body>
 </html>

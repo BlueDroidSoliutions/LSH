@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "ChatMembers.findById", query = "SELECT c FROM ChatMembers c WHERE c.id = :id")
     , @NamedQuery(name = "ChatMembers.findByGirlId", query = "SELECT c FROM ChatMembers c WHERE c.girlId = :girlId")
 
-    , @NamedQuery(name = "ChatMembers.count", query = "SELECT c FROM ChatMembers c WHERE c.girlId = :girlId")
+    , @NamedQuery(name = "ChatMembers.count", query = "SELECT count(*) FROM ChatMembers c WHERE c.girlId = :girlId")
 
     , @NamedQuery(name = "ChatMembers.selectAllUsers", query = "SELECT c.userId FROM ChatMembers c WHERE c.girlId = :girlId")
 

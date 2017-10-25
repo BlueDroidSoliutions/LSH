@@ -3,11 +3,13 @@ package com.livesexhouse.controller;
 import com.livesexhouse.DAO.ChatDAO;
 import com.livesexhouse.DAO.ChatMembersDao;
 import com.livesexhouse.DAO.GirlDao;
+import com.livesexhouse.DAO.HeartbeatDao;
 import com.livesexhouse.DAO.OnlineDao;
 import com.livesexhouse.DAO.UserDao;
 import com.livesexhouse.chat.ChatMessage;
 import com.livesexhouse.model.Chat;
 import com.livesexhouse.model.Girls;
+import com.livesexhouse.model.Heartbeat;
 import com.livesexhouse.model.Users;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -47,6 +49,9 @@ public class MessageController {
 
     @Autowired
     ChatMembersDao chatMembersDao;
+    
+    @Autowired
+    HeartbeatDao heartbeatDao;
 
     private Chat chat = new Chat();
     private Date date = new Date();
@@ -75,12 +80,96 @@ public class MessageController {
 
                 
                 
+                // user napusta grupni
+                if (chatMessage.getMessage().equals("leave#$^Group#$%^From&#!User")) {
+                     Users u = new Users();
+                    
+                    
+                    
+                    u=userDao.findByUsername(principal.getName());
+                    
+                    chatMembersDao.deleteFromUser(u.getId());
+                    heartbeatDao.deleteFromUser(u.getId());
+                    
+                }
+              
+                
+                // devojka napusta grupni 
+                if (chatMessage.getMessage().equals("@@#$&ut$^Of*%@Ussers##*!^")) {
+                     Users uG = new Users();
+                    
+                    
+                    
+                    uG=userDao.findByUsername(principal.getName());
+                    
+//                    List<Heartbeat> hbL = new ArrayList<>();
+//                    hbL = heartbeatDao.findByGirl(uG.getId());
+//                    
+//                    
+                    
+                    
+                    chatMembersDao.deleteFromGirl(uG.getId());
+                    heartbeatDao.deleteFromGirl(uG.getId());
+                    onlineDao.setOnline(uG.getId());
+                    
+                    chatMessage.setMessage("@@#$#$&ut$^@%Of*%@Ussers#@#%#*!^");
+                            chatMessage.setRecipient(uG.getUsername());
+                            chatMessage.setSender(uG.getUsername());
+                           
+                            template.convertAndSend("/queue/messages/" + uG.getUsername(), chatMessage);
+                    
+                }
+                
+                
+                // devojka napusta grupni 
+                if (chatMessage.getMessage().equals("Girl#(^Leave@@^((Group$$&))")) {
+                     Users uG = new Users();
+                    
+                    
+                    
+                    uG=userDao.findByUsername(principal.getName());
+                    
+//                    List<Heartbeat> hbL = new ArrayList<>();
+//                    hbL = heartbeatDao.findByGirl(uG.getId());
+//                    
+//                    
+                    
+                    
+                    chatMembersDao.deleteFromGirl(uG.getId());
+                    heartbeatDao.deleteFromGirl(uG.getId());
+                    onlineDao.setOnline(uG.getId());
+                    
+                    chatMessage.setMessage("Girl#(^Leave@@^((Group$$&))");
+                            chatMessage.setRecipient(uG.getUsername());
+                            chatMessage.setSender(uG.getUsername());
+                           
+                            template.convertAndSend("/queue/messages/" + uG.getUsername(), chatMessage);
+                    
+                }
+                
+                
+                if (chatMessage.getMessage().contains("leave*#^Private@#&$")) {
+                  
+                    System.out.println("qqqwww1 od usera");
+                    
+                    
+
+                    
+                    
+                    
+                    
+                    
+                }
+                if (chatMessage.getMessage().contains("lea%(vePri()@#vate")) {
+                  
+                    System.out.println("qqqwww1 od devojke");
+                }
                 
                 
                 
                 
                 
-                if (chatMessage.getMessage().contains("ttiipp")) {
+                if (chatMessage.getMessage().contains("tt$ii^pp*")) {
                     System.out.println("t1");
                     
                     String[] parts = chatMessage.getMessage().split(" ");
@@ -111,10 +200,14 @@ public class MessageController {
                             
                             ug.setTokens(ug.getTokens()+tip);
                             girlDao.update(ug);
-                            chatMessage.setMessage("You have new "+tip+" token from "+u.getUsername());
+                            chatMessage.setMessage("tt$ii^pp* You have new "+tip+" token from "+u.getUsername());
                             chatMessage.setRecipient(ug.getUsername());
                             chatMessage.setSender(ug.getUsername());
-                            template.convertAndSendToUser(principal.getName(), "/queue/messages", chatMessage);
+                            template.convertAndSendToUser(ug.getUsername(), "/queue/messages", chatMessage);
+                            chatMessage.setMessage("tt$ii^pp^* User "+u.getUsername()+" give "+tip+" token to "+ug.getUsername());
+
+                            template.convertAndSend("/queue/messages/" + ug.getUsername(), chatMessage);
+                            
                         }
                     }
                     
@@ -123,7 +216,20 @@ public class MessageController {
                 
                 
                 
-                
+                if (chatMessage.getMessage().equals("@@#$&ut$^Of*%@Ussers##*!^")) {
+                    Users u = new Users();
+                   
+                    
+                    
+                    u=userDao.findByUsername(principal.getName());
+                    
+                    
+                    chatMessage.setMessage("@@#$&ut$^Of*%@Ussers##*#@%$!^");
+                            chatMessage.setRecipient(principal.getName());
+                            chatMessage.setSender(u.getUsername());
+                            template.convertAndSend("/queue/messages/" + u.getUsername(), chatMessage);
+                    
+                }
                 
                 
                 
@@ -131,7 +237,7 @@ public class MessageController {
                 
                 
                 if (chatMessage.getMessage().equals("invitePrivatePrice")) {
-                    chatMessage.setMessage("Are you sure you want to invite this girl to private chat?\nHer tariff is " + girlDao.pricePrivate(chatMessage.getRecipient()) + " tokens per minute.");
+                    chatMessage.setMessage("Are you sure you want to invite this girl to private chat?\nHer tariff is " + girlDao.pricePrivate(Integer.valueOf(chatMessage.getRecipient()) )+ " tokens per minute.");
                     chat.setToUser(principal.getName());
                     recipient = principal.getName();
                 }
@@ -215,9 +321,21 @@ public class MessageController {
                 }
 
                 // ako devojka prihvati private u tom trenutku salje da je u privatnom
-                if (chatMessage.getMessage().equals("privateNow")) {
+                if (chatMessage.getMessage().contains("private(#*@)!Now ")) {
+                    String[] s = chatMessage.getMessage().split(" ");
+                    
                     Users u = new Users();
+                    Users uTargetUser = new Users();
                     u = userDao.findByUsername(principal.getName());
+                    uTargetUser = userDao.findByUsername(s[1]);
+                    
+                    Girls g = new Girls();
+                    g = girlDao.findByUsername(u.getUsername());
+                    
+                    heartbeatDao.setUser(uTargetUser.getId(), 9, g.getPrivateTariff(), g.getId());
+                    
+                    
+                    
                     if (u.getEnabled() == 2) {
                         onlineDao.setPrivate(u.getId());
                         b = false;
@@ -253,6 +371,9 @@ public class MessageController {
                     } else {
                         int girlMinPersons = g.getGroupMinPerson();
                         chatMembersDao.setUser(u.getId(), g.getId());
+                        
+                        heartbeatDao.setUser(u.getId(), 8, g.getGroupTariff(), g.getId());
+                        
                         int activeUsersInGroup = chatMembersDao.count(g.getId());
 
                         if (girlMinPersons <= activeUsersInGroup) {
@@ -260,12 +381,17 @@ public class MessageController {
                             System.out.println("############# spreman");
                             chatMessage.setSender(g.getName());
                             chatMessage.setMessage("groupChatIsReady");
+                            List<Integer> activeusers = chatMembersDao.selectAllUsersById(g.getId());
+                            activeusers.add(u.getId());
                             chatMembersDao.setUser(g.getId(), g.getId());
                             template.convertAndSend("/queue/messages/" + g.getName(), chatMessage);
-//                        template.convertAndSendToUser(g.getId().toString(), "/queue/messages", chatMessage);
-//                        chatMessage.setRecipient(g.getName());
-//                        template.convertAndSendToUser(g.getName(), "/queue/messages", chatMessage);
-
+                            
+                            for(Integer i : activeusers){
+                                heartbeatDao.setStatus(i, 9);
+                            }
+                            
+                            
+                            
                             chatMessage.setMessage("groupChatIsReady");
                             chatMessage.setRecipient(g.getName());
                             chatMessage.setSender(g.getName());
@@ -288,13 +414,18 @@ public class MessageController {
                 }
 
                 // kada devojka izadje iz privatnog
-                if (chatMessage.getMessage().equals("onlineNow")) {
+                if (chatMessage.getMessage().equals("on(T%li$@neNo@!w")) {
                     Users u = new Users();
                     u = userDao.findByUsername(principal.getName());
                     if (u.getEnabled() == 2) {
                         onlineDao.setOnline(u.getId());
                         b = false;
                     }
+                    
+                 heartbeatDao.deleteFromGirlPrivateOut(u.getId());
+                    
+                    
+                    
                 }
 
                 
@@ -307,12 +438,16 @@ public class MessageController {
                         chatMessage.setSender(u.getUsername());
 
                         chatMessage.setMessage(u.getUsername() + " want group chat, to accept click join group chat");
+                        chatMembersDao.deleteFromGirl(u.getId());
+                        heartbeatDao.deleteFromGirl(u.getId());
                         template.convertAndSend("/queue/messages/" + principal.getName(), chatMessage);
 
+                        
+                        
                     }
                 }
 
-//                chatDAO.save(chat);
+                chatDAO.save(chat);
 
 //              
                 if (b) {
@@ -366,7 +501,7 @@ public class MessageController {
                 chat.setToUser(chatMessage.getRecipient());
 
                 chat.setDate(date);
-//                chatDAO.save(chat);
+                chatDAO.save(chat);
             }
         } catch (MessagingException e) {
 
@@ -407,7 +542,7 @@ public class MessageController {
                 chat.setService(3);
                 chat.setToUser(chatMessage.getRecipient());
                 chat.setDate(date);
-//                chatDAO.save(chat);
+                chatDAO.save(chat);
 
             }
         } catch (MessagingException e) {
@@ -446,7 +581,7 @@ public class MessageController {
                 chat.setToUser(chatMessage.getRecipient());
 
                 chat.setDate(date);
-//                chatDAO.save(chat);
+                chatDAO.save(chat);
 
             }
         } catch (MessagingException e) {
@@ -479,7 +614,7 @@ public class MessageController {
                 u = userDao.findByUsername(principal.getName());
                 g = girlDao.findByUsername(chatMessage.getRecipient());
                 int girlMinPersons = g.getGroupMinPerson();
-                chatMembersDao.setUser(u.getId(), g.getId());
+//                chatMembersDao.setUser(u.getId(), g.getId());
                 int activeUsersInGroup = chatMembersDao.count(g.getId());
 
                 chatMessage.setMessage(principal.getName() + ": " + chatMessage.getMessage());
@@ -510,7 +645,7 @@ public class MessageController {
 
                 }
 
-                template.convertAndSendToUser(recipient, "/queue/messages", chatMessage);
+//                template.convertAndSendToUser(recipient, "/queue/messages", chatMessage);
                 System.out.println("*****************");
                 System.out.println("group");
                 System.out.println("FROM: " + authedSender);
@@ -526,12 +661,43 @@ public class MessageController {
                 chat.setToUser(chatMessage.getRecipient());
 
                 chat.setDate(date);
-//                chatDAO.save(chat);
+                chatDAO.save(chat);
             }
         } catch (MessagingException e) {
 
         }
 
     }
+    
+     @MessageMapping("/token")
+    public void token(Message<Object> message, @Payload ChatMessage chatMessage) throws Exception {
+
+        try {
+            if (message.getHeaders().get(SimpMessageHeaderAccessor.USER_HEADER, Principal.class) != null) {
+
+                Principal principal = message.getHeaders().get(SimpMessageHeaderAccessor.USER_HEADER, Principal.class);
+
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+
+                if(u!=null){
+                    
+                    heartbeatDao.setStatusMinus10(u.getId(), Integer.valueOf(chatMessage.getMessage().substring(12)));
+                }
+               
+               
+                
+            }
+        } catch (MessagingException e) {
+
+        }
+
+    }
+    
+    
+    
+    
+    
+    
 
 }

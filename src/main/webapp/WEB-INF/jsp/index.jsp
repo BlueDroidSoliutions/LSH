@@ -66,12 +66,20 @@
 								<div class="overlay">
 									<h2>Live stream</h2>
 								</div>
-								<video autoplay id="my_video_1" class="video-js vjs-default-skin" width="640px" height="267px"
-								      controls preload="none" poster='http://video-js.zencoder.com/oceans-clip.jpg'
+<!--								<video autoplay id="my_video_1" class="video-js vjs-default-skin" width="640px" height="267px"
+								      controls preload="none" loop="true" poster='http://video-js.zencoder.com/oceans-clip.jpg'
 								      data-setup='{ "aspectRatio":"640:267", "playbackRates": [1, 1.5, 2] }'>
-								    <source src="http://www.html5videoplayer.net/videos/toystory.mp4" type='video/mp4' />
-								    <source src="http://www.html5videoplayer.net/videos/toystory.mp4" type='video/webm' />
-								</video>
+								    <source src="./ext/video/4.mp4" type='video/mp4' />
+								    <source src="./ext/video/4.mp4" type='video/webm' />
+								</video>-->
+                                                            
+                                                            
+                                                             <video id="my_video_1" class="video-js vjs-default-skin" controls autoplay data-setup='{ "aspectRatio":"16:9", "autoplay": true }'>
+            <source src="http://67.227.214.241:1935/live/test_videa.stream/playlist.m3u8"  type='video/mp4' />
+ </video>
+                                                            
+                                                            
+                                                            
 							</div>
 							<aside class="video-aside">
 								<a href="./video" class="one-half widget">

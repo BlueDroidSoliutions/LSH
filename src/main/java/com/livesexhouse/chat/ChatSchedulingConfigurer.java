@@ -1,5 +1,6 @@
 package com.livesexhouse.chat;
 
+import com.livesexhouse.controller.HeartBeatCTRL;
 import javax.inject.Inject;
 
 import org.springframework.context.annotation.Bean;
@@ -27,6 +28,12 @@ public class ChatSchedulingConfigurer implements SchedulingConfigurer {
     @Inject
     public ActiveUserPinger activeUserPinger(SimpMessagingTemplate template) {
         return new ActiveUserPinger(template);
+    }
+    
+    @Bean
+    @Inject
+    public HeartBeatCTRL heartBeat() {
+        return new HeartBeatCTRL();
     }
 
     @Override

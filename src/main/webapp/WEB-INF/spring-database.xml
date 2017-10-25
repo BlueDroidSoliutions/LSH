@@ -52,6 +52,7 @@
                 <value>com.livesexhouse.model.Online</value>
                 <value>com.livesexhouse.model.ChatMembers</value>
                 <value>com.livesexhouse.model.Participant</value>
+                <value>com.livesexhouse.model.Heartbeat</value>
                 
                 
                 <value>com.livesexhouse.model.YourWish</value>
@@ -128,7 +129,7 @@
         <bean id="yourWishDao" class="com.livesexhouse.DAO.YourWishDao" />
         <bean id="participantDao" class="com.livesexhouse.DAO.ParticipantDao" />
         <bean id="googleMail" class="com.livesexhouse.controller.GoogleMail" />
-        
+        <bean id="heartbeatDao" class="com.livesexhouse.DAO.HeartbeatDao" />
         
         
         <!--<bean id="orderService" class="com.livesexhouse.service.OrderService" />-->
