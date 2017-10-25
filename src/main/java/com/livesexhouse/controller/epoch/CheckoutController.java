@@ -104,11 +104,10 @@ public class CheckoutController {
 	 * POST /checkout/vip -> calling when buying vip membership
 	 *
      * @param principal
-	 * @param pricePackageId
 	 * @return {@link CheckoutResponse} object
 	 */
 	@RequestMapping(value = "checkout/vipMembership", method = RequestMethod.POST)
-	public @ResponseBody CheckoutResponse submitVipMembership(Principal principal, @RequestParam Long pricePackageId) {
+	public @ResponseBody CheckoutResponse submitVipMembership(Principal principal) {
 		CheckoutResponse response = new CheckoutResponse();
 		if (principal == null) {
 		    response.setMessage("You must be logged in to buy vip membership.");
@@ -121,8 +120,8 @@ public class CheckoutController {
 			response.setMessage("You don't have permissions to buy vip membership!");
 			return response;
 		}
-		PricePackage pricePackage = getPricePackageService().findById(pricePackageId);
-		if (pricePackage == null || !pricePackage.getMonthly()) {
+		PricePackage pricePackage = getPricePackageService().findVipMembershipPackage();
+		if (pricePackage == null) {
 			response.setSuccess(Boolean.FALSE);
 			response.setMessage("Error has occurred during buying vip membership.");
 			LOGGER.error("User with username: {} is trying to buy vip membership without selecting price package.",

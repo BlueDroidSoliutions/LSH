@@ -169,8 +169,9 @@ public class EpochController {
 			Order order = orderPayment.getOrder();
 			Users user = order.getUser();
 			if (order.getPricePackage().getMonthly()) {
-				user.getMemberships().stream().max((m1, m2) -> m1.getStartDate().compareTo(m2.getStartDate())).get()
-						.setActive(Boolean.FALSE);
+				user.getMemberships().forEach(m -> {
+					m.setActive(Boolean.FALSE);
+				});
 			} else {
 				user.setTokens(user.getTokens() - order.getPricePackage().getTokens());
 			}

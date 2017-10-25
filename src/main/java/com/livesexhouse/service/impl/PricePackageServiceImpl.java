@@ -34,4 +34,10 @@ public class PricePackageServiceImpl extends AbstractGenericService<PricePackage
     private PricePackageDao getPricePackageDao() {
         return pricePackageDao;
     }
+
+	@Override
+	@Transactional(readOnly = true)
+	public PricePackage findVipMembershipPackage() {
+		return getPricePackageDao().findVipMembershipPackage();
+	}
 }

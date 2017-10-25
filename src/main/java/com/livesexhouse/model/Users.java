@@ -76,6 +76,9 @@ public class Users implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Column(name = "user_id")
     private List<Membership> memberships;
+    
+    @Transient
+    private final Boolean isVipMember = isVipMember();
 
     public Users() {
     }
@@ -176,6 +179,14 @@ public class Users implements Serializable {
     	Date endDate = Date.from(LocalDateTime.now().plusDays(30).atZone(ZoneId.systemDefault()).toInstant());
     	membership.setEndDate(endDate);
     	this.memberships.add(membership);
+    }
+    
+    public Boolean isVipMember() {
+    	if (memberships == null || memberships.isEmpty()) {
+    		return Boolean.FALSE;
+    	}
+    	Date now = new Date();
+    	return memberships.stream().filter(m -> m.getActive() && m.getStartDate().before(now) && m.getEndDate().after(now)).findFirst().isPresent();
     }
 
     @Override
