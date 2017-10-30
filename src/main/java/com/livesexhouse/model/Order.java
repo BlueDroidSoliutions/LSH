@@ -20,11 +20,11 @@ public class Order implements Serializable {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "user_id", nullable = false, updatable = false)
 	private Users user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "price_package_id", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "price_package_id", nullable = false, updatable = false)
 	private PricePackage pricePackage;
 
 	@Enumerated(EnumType.STRING)
@@ -38,7 +38,7 @@ public class Order implements Serializable {
 	private String ipAddress;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "payment_id", insertable = false, updatable = false)
+	@JoinColumn(name = "payment_id", updatable = false)
 	private OrderPayment payment;
 
 	public Long getId() {

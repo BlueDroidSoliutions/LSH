@@ -20,7 +20,7 @@ public class OrderPayment implements Serializable {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "order_id", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "order_id", nullable = false, updatable = false)
 	private Order order;
 
 	@Column(name = "transaction_id", nullable = false, length = 128)

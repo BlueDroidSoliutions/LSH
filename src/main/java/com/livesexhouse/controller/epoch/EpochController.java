@@ -3,6 +3,7 @@ package com.livesexhouse.controller.epoch;
 import com.livesexhouse.DAO.UserDao;
 import com.livesexhouse.model.Order;
 import com.livesexhouse.model.OrderPayment;
+import com.livesexhouse.model.OrderStatus;
 import com.livesexhouse.model.Users;
 import com.livesexhouse.service.OrderPaymentService;
 import com.livesexhouse.service.OrderService;
@@ -99,7 +100,10 @@ public class EpochController {
 				user.setTokens(user.getTokens() + order.getPricePackage().getTokens());
 			}
 			getUserDao().save(user);
-			getOrderPaymentService().create(order, transactionId);
+			OrderPayment orderPayment = getOrderPaymentService().create(order, transactionId);
+			order.setStatus(OrderStatus.PAID);
+			order.setPayment(orderPayment);
+			getOrderService().save(order);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
