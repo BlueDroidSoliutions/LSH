@@ -4,12 +4,14 @@ import com.livesexhouse.DAO.ChatDAO;
 import com.livesexhouse.DAO.ChatMembersDao;
 import com.livesexhouse.DAO.GirlDao;
 import com.livesexhouse.DAO.HeartbeatDao;
+import com.livesexhouse.DAO.KingRoomDao;
 import com.livesexhouse.DAO.OnlineDao;
 import com.livesexhouse.DAO.UserDao;
 import com.livesexhouse.chat.ChatMessage;
 import com.livesexhouse.model.Chat;
 import com.livesexhouse.model.Girls;
 import com.livesexhouse.model.Heartbeat;
+import com.livesexhouse.model.KingRoom;
 import com.livesexhouse.model.Users;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -52,9 +54,13 @@ public class MessageController {
     
     @Autowired
     HeartbeatDao heartbeatDao;
+    
+    @Autowired
+    KingRoomDao kingRoomDao;
 
     private Chat chat = new Chat();
     private Date date = new Date();
+    
 
     // 1. servisni za rekvestove
     @MessageMapping("/service")
@@ -78,6 +84,29 @@ public class MessageController {
                 chatMessage.setSender(principal.getName());
                 String recipient = chatMessage.getRecipient();
 
+                
+                
+                
+                if (chatMessage.getMessage().equals("I#(^am$$(%READY##%&")) {
+                     Users u = new Users();
+                    
+                    System.out.println("SIGLA READY");
+                     
+                    u=userDao.findByUsername(principal.getName());
+                    
+                    chatMembersDao.deleteFromGirl(u.getId());
+                    heartbeatDao.deleteFromGirl(u.getId());
+                    onlineDao.setOnline(u.getId());
+                    
+                    chatMessage.setMessage("##%Girl*$&Reset");
+                            chatMessage.setRecipient(u.getUsername());
+                            chatMessage.setSender(u.getUsername());
+                           
+                            template.convertAndSend("/queue/messages/" + u.getUsername(), chatMessage);
+//                            template.convertAndSend("/queue/messages/" + u.getId(), chatMessage);
+                    
+                }
+                
                 
                 
                 // user napusta grupni
@@ -170,13 +199,11 @@ public class MessageController {
                 
                 
                 if (chatMessage.getMessage().contains("tt$ii^pp*")) {
-                    System.out.println("t1");
                     
                     String[] parts = chatMessage.getMessage().split(" ");
                     String part = parts[1];
                     int tip = Integer.valueOf(part);
                     
-                    System.out.println("tip"+tip);
                     
                     Users u = new Users();
                     Users ug = new Users();
@@ -207,6 +234,36 @@ public class MessageController {
                             chatMessage.setMessage("tt$ii^pp^* User "+u.getUsername()+" give "+tip+" token to "+ug.getUsername());
 
                             template.convertAndSend("/queue/messages/" + ug.getUsername(), chatMessage);
+                            
+                            KingRoom k = new KingRoom();
+                            
+                            k = kingRoomDao.findKing(ug.getId());
+                            
+                            if (k.getGirl() != 0){
+                                if(k.getToken()<tip){
+                                    k.setToken(tip);
+                                    k.setUser(u.getId());
+                                    kingRoomDao.update(k);
+                                    chatMessage.setMessage("tt$ii^pp^King "+u.getUsername());
+
+                            template.convertAndSend("/queue/messages/" + ug.getUsername(), chatMessage);
+                            
+                                }
+                                
+                                
+                            } else {
+                                
+                                k.setGirl(ug.getId());
+                                k.setToken(tip);
+                                k.setUser(u.getId());
+                                kingRoomDao.save(k);
+                                
+                               chatMessage.setMessage("tt$ii^pp^King "+u.getUsername());
+
+                            template.convertAndSend("/queue/messages/" + ug.getUsername(), chatMessage);
+                                
+                            }
+                            
                             
                         }
                     }
@@ -329,6 +386,9 @@ public class MessageController {
                     u = userDao.findByUsername(principal.getName());
                     uTargetUser = userDao.findByUsername(s[1]);
                     
+                    heartbeatDao.deleteFromGirl(u.getId());
+                    chatMembersDao.deleteFromGirl(u.getId());
+                    
                     Girls g = new Girls();
                     g = girlDao.findByUsername(u.getUsername());
                     
@@ -355,7 +415,8 @@ public class MessageController {
                         b = false;
                     }
                 }
-
+                
+                // ako user prihvati grupni
                 if (chatMessage.getMessage().equals("acceptGroupFromUser")) {
                     Users u = new Users();
                     Girls g = new Girls();
@@ -386,11 +447,12 @@ public class MessageController {
                             chatMembersDao.setUser(g.getId(), g.getId());
                             template.convertAndSend("/queue/messages/" + g.getName(), chatMessage);
                             
+                            
                             for(Integer i : activeusers){
                                 heartbeatDao.setStatus(i, 9);
                             }
                             
-                            
+                            onlineDao.setGroup(g.getId());
                             
                             chatMessage.setMessage("groupChatIsReady");
                             chatMessage.setRecipient(g.getName());

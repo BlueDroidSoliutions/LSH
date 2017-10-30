@@ -708,11 +708,8 @@
                                 <button id="submit-chat" type="submit" class="chat-submit" onclick="sendMessage()">Send</button>
                             </div>
 
-                                                <p style="color:greenyellow" id="myStatus">MY STATUS: 
-                                                    <c:if test="${myOnlineStatus == 0}">offline</c:if>
-                                                    <c:if test="${myOnlineStatus == 2}">online</c:if>
-                                                    <c:if test="${myOnlineStatus == 3}">group</c:if>
-                                                    <c:if test="${myOnlineStatus == 4}">private</c:if>
+                                                <p style="color:greenyellow" id="myStatus"> 
+                                                   IMPORTANT!!! If u refresh page, you are automatically in public chat and all group invitations will be canceled!
                                                 
                                                 </p>
                                                 
@@ -808,6 +805,7 @@
         var privateUser = null;
         var groupInvited = false;
         var groupStarted = false;
+        var confimPrivate = false;
 
 
 
@@ -900,7 +898,7 @@
         
 
         function leavePrivate() {
-            if (confirm("Are you sure to leave this private chat") === true) {
+            if (confirm("Are you sure to leave this private chat?") === true) {
 
                 stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
                     'recipient': sentToUser,
@@ -923,7 +921,7 @@ function inviteGroup() {
     
                 if(!groupInvited){
     
-            if (confirm("Are you sure to invite group chat") === true) {
+            if (confirm("Are you sure to invite group chat?") === true) {
                 groupInvited = true;
                 stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
                         'recipient': whoami,
@@ -935,7 +933,7 @@ function inviteGroup() {
         }
             
             if(groupStarted) {
-                if (confirm("Are you sure to leave group chat") === true) {
+                if (confirm("Are you sure to leave group chat?") === true) {
                 stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
                         'recipient': whoami,
                         'message': "Girl#(^Leave@@^((Group$$&))"
@@ -960,7 +958,10 @@ function showMessageGroup(message) {
                 
                  if (message.message.indexOf('tt$ii^pp*') >= 0) {
                      
-                 } else {
+                 } else if (message.message.indexOf('@*%REL)#$%OAD') >= 0){
+                     alert('not enought users')
+                     location.reload();
+                 }else {
                 
                 
                 
@@ -972,6 +973,9 @@ function showMessageGroup(message) {
                 } else {
                     insertStatus(message.message);
                 }
+                
+                
+                
                 
             }
                 
@@ -993,14 +997,20 @@ function showMessageGroup(message) {
             
             
             if (message.sender === whoami) {
-                
-                if (message.message.indexOf('tt$ii^pp^*') >= 0 || message.message.indexOf('tt$ii^pp*') >= 0) { 
+                if (message.message.indexOf('tt$ii^pp^*') >= 0 || message.message.indexOf('tt$ii^pp*') >= 0 ) { 
                     
                 } else {
-                    insertP('me', message.message);
+                    if (message.message.indexOf('##%Girl*$&Reset') >= 0){
+                        
+                    } else {
+                        insertP('me', message.message);
+                    }
+                    
+                    
+                    
+                    
                 }
             } else {
-                
                 
                 
                 if(privateUser === null){
@@ -1015,7 +1025,6 @@ function showMessageGroup(message) {
                     if (message.message.indexOf('leave*#^Private@#&$') >= 0){
                         
                     } else {
-                    
                     if(message.sender === privateUser){
                         insertP(message.sender, message.message);
                     }
@@ -1068,14 +1077,15 @@ function showMessageGroup(message) {
             
             
             
-            if (message.message.indexOf('invitePrivate') >= 0 && privateUser===null) {
+            if (message.message.indexOf('invitePrivate') >= 0 && privateUser===null && confimPrivate===false) {
                 
                 if (confirm(message.sender + " want private chat. \nDo you want to accept?") === true) {
 ///////////////// kada dobije zahtev od usera i PRIHVATA
+                    confimPrivate = true;
                     disconnect(); // sa njenog kanala
                     stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
                         'recipient': message.sender,
-                        'message': "yes"
+                        'message': "yes%%#*^Private##%&("
                     }));
                     stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
                         'recipient': message.sender,
@@ -1094,7 +1104,7 @@ function showMessageGroup(message) {
                 } else {
                     stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
                         'recipient': message.sender,
-                        'message': "no"
+                        'message': "@#$&#@$6no*$%*$22"
                     }));
                 }
             }
@@ -1126,10 +1136,9 @@ if (message.message.indexOf('Users for group chat') >= 0 ) {
             
             
             
-if (message.message.indexOf('sent invitation for group chat to you.') >= 0 && message.message.indexOf('iAcceptGroupFromUser') < 0) {
+if (message.message.indexOf('sent invitation for group chat to you.') >= 0 && message.message.indexOf('iAcceptGroupFromUser') < 0 && confimPrivate===false) {
               if (confirm(message.message ) === true) {
-//                  alert("prihvatila sam");
-$('a#groupLink').text('wait for users');
+                  $('a#groupLink').text('wait for users');
                   groupInvited = true;
                     
                     // prihvatam grupni inviteGroup
@@ -1217,7 +1226,23 @@ $('a#groupLink').text('wait for users');
 
 
 
+function ready() {
 
+
+
+
+setTimeout(function () {
+                               stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
+                        'recipient': whoami,
+                        'message': "I#(^am$$(%READY##%&"
+                    }));
+                            }, 1000);
+
+
+      
+     
+
+        }
 
 
 
@@ -1234,6 +1259,7 @@ $('a#groupLink').text('wait for users');
             
             connectPublic();
             connectService();
+            ready();
         });
 
 

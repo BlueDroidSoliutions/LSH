@@ -10,6 +10,7 @@ import com.livesexhouse.model.ChatMembers;
 import com.livesexhouse.model.Users;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Query;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -154,4 +155,24 @@ q.executeUpdate();
     
     
 
+    public void deleteAloneGirls(List<Integer> lista){
+        try{
+            Session session = sessionFactory.getCurrentSession();
+        Query qq = session.createQuery("SELECT c from ChatMembers c WHERE c.girlId IN :ids");
+           
+                qq.setParameter("ids", lista);
+                
+            List<ChatMembers> lcm = new ArrayList<>();
+            lcm = qq.getResultList();
+            
+            for(ChatMembers c : lcm){
+                session.delete(c);
+            }
+        } catch (Exception e ) {
+            
+        }
+    }
+    
+    
+    
 }

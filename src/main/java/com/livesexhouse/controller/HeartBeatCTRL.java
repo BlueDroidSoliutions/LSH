@@ -33,7 +33,7 @@ public class HeartBeatCTRL {
 
     }
 
-    @Scheduled(fixedDelay = 2000)
+    @Scheduled(fixedDelay = 10000)
     public void pingUsers() {
 
         try {
@@ -46,7 +46,7 @@ public class HeartBeatCTRL {
             
             i++;
             if (i == 6)   i = 0;
-            System.out.println("&&&&&&&&& " + i);
+//            System.out.println("&&&&&&&&& " + i);
             
             
             // brisemo korisnike sa statusom 7 , izasli su iz ceta
@@ -65,6 +65,8 @@ public class HeartBeatCTRL {
             heartbeatDao.check(i);
             
             heartbeatDao.checkGroupGirlUser(i);
+            
+            heartbeatDao.checkAloneGirls();
             
             
         } catch (HibernateException | MessagingException e) {

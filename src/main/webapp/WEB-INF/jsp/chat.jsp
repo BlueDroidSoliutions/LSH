@@ -30,6 +30,7 @@
     </script>
 
     <p style="font-size: 30px;  color: white;">${user.username} + ${g.userName}</p>
+    
 
     <div id="page-wrap" class="page-chat">
         <div class="wrapper ">
@@ -53,11 +54,11 @@
                 <div class="left-container">
                     <div class="main-video-block">
 
+                        
+                                <p style="color:white; font-size:100px;" id="test8"></p>
 
 
-
-
-                        <video id="my_video_1" class="video-js vjs-default-skin" controls autoplay data-setup='{ "aspectRatio":"16:9", "autoplay": true }'> <source id="ttt222" src=""  type='video/mp4' />  </video>
+                        <video id="my_video_1" class="video-js vjs-default-skin" controls autoplay data-setup='{ "aspectRatio":"16:9", "autoplay": true }'> <source id="ttt222" src=""  type='video/mp43' />  </video>
 
 
                         <!--                        <div class="overflow-box private-only">
@@ -341,31 +342,11 @@
                                                                                         <p><span class="person-name">Person two :</span> Lorem ipsum dolor amet sum hogno akverila bilde opsum ivei.</p>
                                                                                         <p><span class="person-name">Person one :</span> Text chat lorem ipsum</p>
                                                                                         <p><span class="person-name">Person two :</span> Lorem ipsum dolor amet sum hogno akverila bilde opsum ivei.</p>-->
-                                            <!--                                            <div class="notice-box">
-                                                                                            <p>
-                                                                                                User 214 is now 
-                                                                                                <span class="svg-notice">
-                                                                                                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                                                                         width="26.75px" height="18.542px" viewBox="0.667 0 26.75 18.542" enable-background="new 0.667 0 26.75 18.542"
-                                                                                                         xml:space="preserve">
-                                                                                                    <path fill="#FFFFFF" d="M24.126,6.357c-0.183-0.369-0.335-0.592-0.405-0.84c-0.212-0.73,0.047-1.326,0.694-1.676
-                                                                                                          c0.642-0.347,1.29-0.256,1.788,0.314c0.49,0.563,0.629,1.307,0.078,1.787c-0.754,0.658-0.859,1.502-1.073,2.346
-                                                                                                          c-0.34,1.339-0.701,2.675-0.993,4.023c-0.181,0.834-0.559,1.207-1.471,1.207c-5.834-0.011-11.667,0.021-17.5,0.068
-                                                                                                          c-0.876,0.007-1.32-0.313-1.503-1.181C3.45,11.023,3.062,9.66,2.726,8.286c-0.209-0.851-0.328-1.685-1.098-2.33
-                                                                                                          c-0.56-0.47-0.441-1.218,0.05-1.785C2.204,3.57,2.874,3.479,3.543,3.886c0.635,0.384,0.955,1.044,0.58,1.69
-                                                                                                          c-0.414,0.713-0.096,1.053,0.369,1.47c0.466,0.417,0.87,0.905,1.347,1.308c1.127,0.953,2.678,0.912,3.635-0.209
-                                                                                                          c1.111-1.302,2.11-2.699,3.119-4.082c0.128-0.176,0.082-0.537,0.016-0.785c-0.191-0.694-0.151-1.312,0.46-1.777
-                                                                                                          c0.565-0.43,1.163-0.438,1.736-0.018c0.616,0.453,0.659,1.064,0.502,1.77c-0.066,0.295-0.033,0.709,0.133,0.943
-                                                                                                          c0.869,1.24,1.77,2.463,2.711,3.649c1.174,1.481,2.822,1.563,4.197,0.255C22.941,7.533,23.52,6.952,24.126,6.357"/>
-                                                                                                    <path fill="#FFFFFF" d="M13.926,18.19c-2.862,0-5.726,0.004-8.589-0.002c-1.135-0.002-1.252-0.147-1.256-1.461
-                                                                                                          c-0.005-1.49,0.115-1.666,1.269-1.666c5.759-0.008,11.518,0.008,17.275-0.016c0.949-0.004,1.338,0.369,1.241,1.297
-                                                                                                          c-0.024,0.229-0.019,0.463-0.001,0.689c0.068,0.845-0.297,1.178-1.153,1.17C19.785,18.172,16.855,18.19,13.926,18.19"/>
-                                                                                                    </svg>
-                                                                                                </span>
-                                                                                                king of the room.
-                                                                                            <p class="token-notice">User 214 tipped 27 tokens.</p>
-                                                                                            </p>
-                                                                                        </div>-->
+                                            
+                                            
+                                            
+                                            
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -773,6 +754,12 @@
                                     var status = '<c:out value="${status}"/>';
 
     </script>
+    <script>
+                                                var notice1 = '<div class="notice-box"> <p>  User ';
+                                                var notice2 = ' is now  <span class="svg-notice"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="26.75px" height="18.542px" viewBox="0.667 0 26.75 18.542" enable-background="new 0.667 0 26.75 18.542" xml:space="preserve"> <path fill="#FFFFFF" d="M24.126,6.357c-0.183-0.369-0.335-0.592-0.405-0.84c-0.212-0.73,0.047-1.326,0.694-1.676 c0.642-0.347,1.29-0.256,1.788,0.314c0.49,0.563,0.629,1.307,0.078,1.787c-0.754,0.658-0.859,1.502-1.073,2.346 c-0.34,1.339-0.701,2.675-0.993,4.023c-0.181,0.834-0.559,1.207-1.471,1.207c-5.834-0.011-11.667,0.021-17.5,0.068  c-0.876,0.007-1.32-0.313-1.503-1.181C3.45,11.023,3.062,9.66,2.726,8.286c-0.209-0.851-0.328-1.685-1.098-2.33 c-0.56-0.47-0.441-1.218,0.05-1.785C2.204,3.57,2.874,3.479,3.543,3.886c0.635,0.384,0.955,1.044,0.58,1.69 c-0.414,0.713-0.096,1.053,0.369,1.47c0.466,0.417,0.87,0.905,1.347,1.308c1.127,0.953,2.678,0.912,3.635-0.209 c1.111-1.302,2.11-2.699,3.119-4.082c0.128-0.176,0.082-0.537,0.016-0.785c-0.191-0.694-0.151-1.312,0.46-1.777 c0.565-0.43,1.163-0.438,1.736-0.018c0.616,0.453,0.659,1.064,0.502,1.77c-0.066,0.295-0.033,0.709,0.133,0.943 c0.869,1.24,1.77,2.463,2.711,3.649c1.174,1.481,2.822,1.563,4.197,0.255C22.941,7.533,23.52,6.952,24.126,6.357"/>  <path fill="#FFFFFF" d="M13.926,18.19c-2.862,0-5.726,0.004-8.589-0.002c-1.135-0.002-1.252-0.147-1.256-1.461 c-0.005-1.49,0.115-1.666,1.269-1.666c5.759-0.008,11.518,0.008,17.275-0.016c0.949-0.004,1.338,0.369,1.241,1.297 c-0.024,0.229-0.019,0.463-0.001,0.689c0.068,0.845-0.297,1.178-1.153,1.17C19.785,18.172,16.855,18.19,13.926,18.19"/> </svg> </span> king of the room.  </p>  </div>'
+                                                
+                                                
+                                            </script>
 
     <!--    <div class="video-tab" id="tabPr"><a href="javascript:;" onclick="invitePrivate()" id="inv">PRIVATE</a></div>
         <div class="video-tab" id="tabGr"><a href="javascript:;" onclick="inviteGroup()" id="gr">Group chat</a></div>
@@ -809,6 +796,13 @@
         var girlAcceptedGroupFromMe = false;
 
         var groupAlredyStarted = false;
+        
+        var iAcceptedGroup = false;
+        
+        var grStrt = false;
+        var newBool = false;
+        
+        var nowPrivateGirl = false;
 
 
 
@@ -818,7 +812,10 @@
             sentToUser = selectedGirl;
             socket = new SockJS('/www.livesexhouse.com/public');
             stompClient = Stomp.over(socket);
-            insertService("YOU ARE IN PUBLIC CHAT WITH " + inviteGirl);
+            if(status === '2' ){
+                insertService("YOU ARE IN PUBLIC CHAT WITH " + inviteGirl);
+            }
+            
             stompClient.connect('', '', function (frame) {
                 console.log('Connected: ' + frame);
                 stompClient.subscribe('/queue/messages/' + selectedGirl, function (message) {
@@ -857,6 +854,7 @@
             channel = '/www.livesexhouse.com/group';
             $("#newP").empty();
             sentToUser = inviteGirl;
+            grStrt = true;
             grStarted = true;
             insertService("YOU ARE IN GROUP CHAT WITH " + inviteGirl);
             socket = new SockJS('/www.livesexhouse.com/group');
@@ -979,13 +977,21 @@
                     alert("U don't have enought tokens");
 
                 }
-            } else if (message.message.indexOf('Girl#(^Leave@@^((Group$$&))') >= 0) {
+            } 
+            else if (message.message.indexOf('Girl#(^Leave@@^((Group$$&))') >= 0) {
                 if (message.sender === inviteGirl) {
                     alert('Girl leave group chat');
                     location.reload();
                 }
 
-            } else {
+            } 
+            else if (message.message.indexOf('@#$&#@$6no*$%*$22') >= 0) {
+               
+
+            } 
+        
+        
+        else {
                 if (message.sender === inviteGirl) {
                     insertService(message.message);
                 }
@@ -1001,6 +1007,8 @@
 
 
         function showMessage(message) {
+            
+            
             if (privateStarted) {
                 if (message.sender === whoami) {
 
@@ -1052,6 +1060,62 @@
 
 
         function showMessageService(message) {
+            
+            
+            
+            
+            if (message.message.indexOf('@#$&#@$6no*$%*$22') >= 0 && grStarted) {
+                if(message.sender === inviteGirl){
+                        alert('private chat is not available now');
+//                        $('a#inv').text('girl not accepted');
+                        setTimeout(function () {
+                            $('a#inv').text('private');
+                        }, 300000);
+                    }
+                }
+            
+            
+            if (grStarted) {
+            if (message.message.indexOf('Are you sure you want to invite this girl to private chat') >= 0) {
+                
+                 if (message.sender === whoami) {
+                      if (confirm(message.message) === true) {
+                                inviteGirlB = true;
+newBool = true;
+                                stompClient.send('/www.livesexhouse.com/service', {}, JSON.stringify({
+                                    'recipient': inviteGirl,
+                                    'message': "invitePrivate"
+                                }));
+                                $('a#inv').text('please wait..');
+
+                            } else {
+                            }
+                 }
+                 
+                 
+            } 
+        }
+            
+            
+if (message.message.indexOf('The girl is in private mode') >= 0 && grStrt && !inviteGirlB && !newBool) {
+    alert('The girl is in private mode');
+    location.reload();
+}
+            
+            
+            
+            
+
+
+if (message.message.indexOf('##%Girl*$&Reset') >= 0) {
+                if (message.sender === inviteGirl) {
+                   location.reload();
+                }
+
+            }
+
+
+
 
             if (message.message.indexOf('I accepted invitation from you.') >= 0) {
                 if (message.sender === inviteGirl) {
@@ -1062,6 +1126,7 @@
                         'message': "acceptGroupFromUser"
                     }));
                     $('a#gr').text('please wait..');
+                    iAcceptedGroup = true;
                 }
 
             }
@@ -1097,6 +1162,16 @@
                 if (message.message.indexOf('tt$ii^pp^*') >= 0) {
                     insertService(message.message.substring(9));
                 }
+                
+                 if (message.message.indexOf('tt$ii^pp^King') >= 0) {
+                    
+                    var newKing = message.message.substring(14);
+                    insertKing(message.message.substring(14));
+                    
+                    
+                }
+                
+                
                 if (message.message.indexOf('Group chat not available now') >= 0) {
                     alert("Group chat not available now");
                 }
@@ -1125,13 +1200,10 @@
 
 
 
-            if (!grStarted) {
 
-
-                if (message.sender === inviteGirl) {
-                    if (message.message.indexOf('yes') >= 0) {
-                        alert('sss yes');
-                        $('a#inv').text('girl accepted');
+if (message.sender === inviteGirl) {
+                    if (message.message.indexOf('yes%%#*^Private##%&(') >= 0) {
+                                               $('a#inv').text('girl accepted');
                         setTimeout(function () {
                             $('a#inv').text('leave private');
                         }, 2000);
@@ -1140,13 +1212,35 @@
                         connectPrivate();
                         girlAccepted = true;
                         groupAccepted = false;
+                        openVideo();
+                        
                     }
-                    if (message.message.indexOf('no') >= 0) {
-//                        alert('sss no');
+                }
+
+
+            if (!grStarted) {
+
+
+                if (message.sender === inviteGirl) {
+                    if (message.message.indexOf('yes%%#*^Private##%&(') >= 0) {
+                                               $('a#inv').text('girl accepted');
+                        setTimeout(function () {
+                            $('a#inv').text('leave private');
+                        }, 2000);
+                        privateStarted = true;
+                        disconnectPublic();
+                        connectPrivate();
+                        girlAccepted = true;
+                        groupAccepted = false;
+                        openVideo();
+                        
+                    }
+                    if (message.message.indexOf('@#$&#@$6no*$%*$22') >= 0) {
+                        alert('private chat is not available now');
 //                        $('a#inv').text('girl not accepted');
-//                        setTimeout(function () {
-//                            $('a#inv').text('private');
-//                        }, 300000);
+                        setTimeout(function () {
+                            $('a#inv').text('private');
+                        }, 300000);
                     }
                     if (message.message.indexOf('noGroup') >= 0) {
                         alert('sss noGroup');
@@ -1160,8 +1254,9 @@
                         disconnectGroup();
                         connectPublic();
                         $("#newP").empty();
-
-                        insertService("YOU ARE IN PUBLIC CHAT WITH " + inviteGirl);
+if(status !== 3 || status !== 4){
+                insertService("YOU ARE IN PUBLIC CHAT WITH " + inviteGirl);
+            }
                     }
                     if (message.message.indexOf('lea%(vePri()@#vate') >= 0) {
                         alert('girl leave your private chat');
@@ -1175,11 +1270,19 @@
 
                     if (message.message.indexOf('groupChatIsReady') >= 0) {
                         // krece grupni
-
+                        if(iAcceptedGroup){
                         $('a#gr').text('leave group');
 
                         disconnectPublic();
-                        connectGroup();
+                        connectGroup();}
+                    else {
+                        setTimeout(function () {
+                                location.reload();
+                                
+                            }, 1000);
+                        
+                    }
+                        
                     }
 
 
@@ -1222,6 +1325,7 @@
 
 
                     if (message.message.indexOf('Are you sure you want to invite this girl to private chat') >= 0) {
+                       
                         if (!inviteGirlB) {
                             if (confirm(message.message) === true) {
                                 inviteGirlB = true;
@@ -1258,6 +1362,7 @@
                                     'message': "acceptGroupFromUser"
                                 }));
                                 $('a#gr').text('Leave group');
+                                iAcceptedGroup = true;
                                 alert('poceo');
                             } else {
                             }
@@ -1315,7 +1420,7 @@
                                 'message': "acceptGroupFromUser"
                             }));
                             $('a#gr').text('please wait..');
-
+                            iAcceptedGroup = true;
 
 
                         } else {
@@ -1333,8 +1438,7 @@
 
 
 
-
-                if (message.sender === inviteGirl && inviteI === false) {
+                if (message.sender === inviteGirl && inviteI === false && !inviteGirlB) {
                     if (message.message.indexOf('The girl is in private mode') >= 0) {
                         alert('The girl is in private mode');
                         window.location.replace("../webcam");
@@ -1400,7 +1504,6 @@
                 } else {
                 }
             } else {
-
                 stompClient.send('/www.livesexhouse.com/service', {}, JSON.stringify({
                     'recipient': selectedGirl,
                     'message': "invitePrivatePrice"
@@ -1430,7 +1533,6 @@
                 }
             } else if (girlSentInvite && !acceptedGroupInvitation) {
                 //ako je poslala zahtev za joinGroup
-                alert('ttt');
                 stompClient.send('/www.livesexhouse.com/service', {}, JSON.stringify({
                     'recipient': inviteGirl,
                     'message': "inviteGroupPriceJoin"
@@ -1516,7 +1618,9 @@
             $("#newP").append("<p>" + msg + "</p>");
         }
 
-
+        function insertKing(user){
+            $("#newP").append(notice1 + user + notice2);
+        }
 
 
         function ttt111() {
@@ -1536,6 +1640,7 @@
             source.setAttribute('src', "");
             video.load();
             video.play();
+            $('p#test8').text('>>>> video OFF');
         }
 
         function openVideo() {
@@ -1545,16 +1650,33 @@
             source.setAttribute('src', lnk);
             video.load();
             video.play();
+            $('p#test8').text('>>>> video ON');
         }
 
-        function joinGroup() {
+        function videoStatus() {
 
             if (status === '3') {
-
                 $('a#gr').text('join group');
                 groupAlredyStarted = true;
-
+                insertService("Girl is in group chat , to join her group click 'JOIN GROUP'" );
+                closeVideo();
             }
+            
+            if (status === '2') {
+                
+//                insertService("Girl is in group chat , to join her group click 'JOIN GROUP'" );
+                openVideo();
+            }
+            
+            if (status === '4') {
+                
+//                insertService("Girl is in group chat , to join her group click 'JOIN GROUP'" );
+                closeVideo();
+            }
+            
+            
+            
+            
         }
 
 
@@ -1569,7 +1691,7 @@
 
             connectPublic();
             connectService();
-            joinGroup();
+            videoStatus();
 
 
         });
@@ -1581,13 +1703,6 @@
 
 </script>
 
-<c:choose>
-    <c:when test="${status == 2}">
-        <script>  openVideo();</script>
-    </c:when>
-    <c:otherwise>
-        <script>  closeVideo();</script>
-    </c:otherwise>
-</c:choose>
+
 </body>
 </html>

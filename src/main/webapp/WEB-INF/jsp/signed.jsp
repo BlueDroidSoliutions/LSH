@@ -213,13 +213,15 @@
                                                         <a href="${bck}./delete" class="delete-account">Delete account</a>
                                                     </div>
                                                 </div>
-                                                <c:if test="${!user.isVipMember}">
-	                                                <div class="vip-member">
+                                                <c:if test="
+                                                      <%--!user.isVipMember--%>
+                                                      ">
+<!--	                                                <div class="vip-member">
 	                                                    <p><a href="javascript:;" onclick="buyVipMembership('${_csrf.token}')">Become a V.I.P. memeber</a></p>
 	                                                    <a href="javascript:;" onclick="buyVipMembership('${_csrf.token}')">
 	                                                        <img src="${bck}${location}/assets/img/vip-member-icon.png" alt="" />
 	                                                    </a>
-	                                                </div>
+	                                                </div>-->
                                         		</c:if>
                                             </div>
                                         </div>

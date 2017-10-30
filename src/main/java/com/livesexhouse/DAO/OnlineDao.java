@@ -88,6 +88,26 @@ public class OnlineDao {
         return active;
     }
     
+    
+    public Set<Integer> privateGirls() {
+        List<Integer> users = new ArrayList<>();
+            Set<Integer> active = Sets.newTreeSet();
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            Query q = session.getNamedQuery("Online.findByStatus");
+            q.setParameter("status", 4);
+            users = q.getResultList();
+            for (int s : users) {
+                active.add(s);
+            }
+        } catch (HibernateException e) {
+        }
+        
+        return active;
+    }
+    
+    
+    
     public int onlineMember() {
             int active = 0;
         try {
