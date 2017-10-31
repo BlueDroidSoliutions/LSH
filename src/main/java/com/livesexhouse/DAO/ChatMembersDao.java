@@ -153,6 +153,26 @@ q.executeUpdate();
         return users;
     }
     
+    public Integer findByGirl(int girlId) {
+       
+        
+        ChatMembers cm = new ChatMembers();
+        Integer i = 0;
+        try {
+            Session session = sessionFactory.getCurrentSession();
+             Query q = session.getNamedQuery("ChatMembers.findIntUserByGirlId");
+            q.setParameter("girlId", girlId);
+            System.out.println(q.getResultList().size() + " size");
+            
+            i = q.getFirstResult();
+
+           
+
+        } catch (HibernateException e) {
+        }
+        return i;
+    }
+    
     
 
     public void deleteAloneGirls(List<Integer> lista){

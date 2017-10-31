@@ -138,21 +138,18 @@ public class SiteController {
 
     @Autowired
     YourWishActionDao yourWishActionDao;
-    
+
     @Autowired
     ParticipantDao participantDao;
-    
+
     @Autowired
     ChatMembersDao chatMembersDao;
-    
+
     @Autowired
     HeartbeatDao heartbeatDao;
 
-
     @Autowired
     private PricePackageService pricePackageService;
-    
-   
 
     @RequestMapping(value = "/girlSetup", method = RequestMethod.POST)
     public String girlSetup(
@@ -246,18 +243,16 @@ public class SiteController {
                 u = userDao.findByUsername(principal.getName());
                 model.addAttribute("userName", principal.getName());
                 model.addAttribute("user", u);
-                
+
                 Girls g = new Girls();
                 g = girlDao.findById(id);
                 model.addAttribute("g", g);
-                
-               
-                
+
                 if (request.isUserInRole("ROLE_GIRL")) {
                     ret = "chatG";
                     int myOnlineStatus = onlineDao.onlineStatus(g.getId().toString());
                     model.addAttribute("myOnlineStatus", myOnlineStatus);
-                    
+
                 }
                 if (request.isUserInRole("ROLE_MEMBER")) {
                     ret = "chatMH";
@@ -353,6 +348,7 @@ public class SiteController {
             HttpServletResponse response,
             HttpServletRequest request) throws Exception {
         Boolean alredySigned = false;
+        String ret = "webcam";
         try {
             if (cookieTrust != null) {
                 model.addAttribute("trustedUser", true);
@@ -370,6 +366,17 @@ public class SiteController {
                 u = userDao.findByUsername(principal.getName());
                 model.addAttribute("userName", principal.getName());
                 model.addAttribute("user", u);
+
+                if (request.isUserInRole("ROLE_GIRL")) {
+                    ret = "redirect:webcam/" + u.getId();
+
+                    Girls g = new Girls();
+                    g = girlDao.findById(u.getId());
+                    model.addAttribute("g", g);
+                    int myOnlineStatus = onlineDao.onlineStatus(g.getId().toString());
+                    model.addAttribute("myOnlineStatus", myOnlineStatus);
+                }
+
             }
 
             List<Girls> l = new ArrayList<>();
@@ -387,7 +394,7 @@ public class SiteController {
 
         } catch (Exception ex) {
         }
-        return "webcam";
+        return ret;
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
@@ -670,21 +677,18 @@ public class SiteController {
                 onlineDao.setOfflineMember(u.getId());
             }
 
-            
             if (request.isUserInRole("ROLE_USER")) {
-                 Users u = new Users();
+                Users u = new Users();
                 u = userDao.findByUsername(principal.getName());
                 chatMembersDao.deleteFromUser(u.getId());
-               
-            }
-            
 
+            }
 
         } catch (Exception e) {
-            
+
         }
-        
-        try{
+
+        try {
             HttpSession session = request.getSession(false);
             SecurityContextHolder.clearContext();
             session = request.getSession(false);
@@ -695,7 +699,7 @@ public class SiteController {
             model.addAttribute("bck", "");
             model.addAttribute("location", setupDao.getLocation());
         } catch (Exception ex) {
-            
+
         }
         return redirect.re(request.getHeader("referer"));
     }
@@ -751,10 +755,8 @@ public class SiteController {
         }
         return "uploadMulti";
     }
-    
-    
-    
-      @RequestMapping(value = "/becomeaparticipant", method = RequestMethod.POST)
+
+    @RequestMapping(value = "/becomeaparticipant", method = RequestMethod.POST)
     public String becomeaparticipant(
             @RequestParam("file") MultipartFile file,
             @RequestParam("name") String name,
@@ -766,16 +768,16 @@ public class SiteController {
             HttpServletRequest request,
             ModelMap model,
             RedirectAttributes redirectAttributes
-            ) {
-        
-        try{
+    ) {
+
+        try {
             List<Setup> setups = setupDao.getSetups();
             String videosUploadLocation = setups.get(12).getValueString();
-            
-            String  picSave = videosUploadLocation  + file.getOriginalFilename().substring(file.getOriginalFilename().length() - 4, file.getOriginalFilename().length());
-            
+
+            String picSave = videosUploadLocation + file.getOriginalFilename().substring(file.getOriginalFilename().length() - 4, file.getOriginalFilename().length());
+
             boolean successSave = saveVideoFile.save(file.getBytes(), picSave);
-            
+
             Participant p = new Participant();
             Date date = new Date();
             p.setBirth(birth);
@@ -785,22 +787,18 @@ public class SiteController {
             p.setMsg(msg);
             p.setName(name);
             p.setState(state);
-            
+
             participantDao.saveParticipant(p);
-            
+
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("location", setupDao.getLocation());
-           
-            
+
         } catch (Exception e) {
-            
+
         }
-        
-        
+
         return "redirect:index";
     }
-    
-    
 
     @RequestMapping(value = "/uploadMulti", method = RequestMethod.POST)
     public String multiFileUpload(
@@ -2851,57 +2849,52 @@ public class SiteController {
 
 //        return redirect.re(request.getHeader("referer"));
     }
-    
-     @RequestMapping("/test")
-    public String wwe(
-            Principal principal, RedirectAttributes redirectAttributes,
-            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
-            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
-            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
-            ModelMap model,
-            HttpServletResponse response,
-            HttpServletRequest request) throws Exception {
-        String path = "";
-        String loc = "";
 
-        try {
-            path = setupDao.getPath();
-            loc = setupDao.getLocation();
+//    @RequestMapping("/test")
+//    public String wwe(
+//            Principal principal, RedirectAttributes redirectAttributes,
+//            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
+//            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
+//            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
+//            ModelMap model,
+//            HttpServletResponse response,
+//            HttpServletRequest request) throws Exception {
+//        String path = "";
+//        String loc = "";
+//
+//        try {
+//            path = setupDao.getPath();
+//            loc = setupDao.getLocation();
+//
+//            if (cookieTrust != null) {
+//                model.addAttribute("trustedUser", true);
+//            } else {
+//                if (cookieSigned != null) {
+//                    model.addAttribute("alredySigned", true);
+//                } else {
+//                    if (cookieMail != null) {
+//                        model.addAttribute("checkEmail", true);
+//                    }
+//                }
+//            }
 
-            if (cookieTrust != null) {
-                model.addAttribute("trustedUser", true);
-            } else {
-                if (cookieSigned != null) {
-                    model.addAttribute("alredySigned", true);
-                } else {
-                    if (cookieMail != null) {
-                        model.addAttribute("checkEmail", true);
-                    }
-                }
-            }
-            
 //            HeartBeatCTRL hb = new HeartBeatCTRL();
-            
 //            System.out.println(hb.i);
-
 //List<Heartbeat> l = new ArrayList<>();
 //l = heartbeatDao.findByStatus(2);
-
 //for(Heartbeat h : l){
 //    System.out.println(h.getPrice());
-//}
-
-
-        } catch (Exception ex) {
-        }
-
-        model.addAttribute("path", path);
-        model.addAttribute("location", loc);
-        model.addAttribute("bck", "");
-
-        return "index";
-
-//        return redirect.re(request.getHeader("referer"));
-    }
+////}
+//        } catch (Exception ex) {
+//        }
+//
+//        model.addAttribute("path", path);
+//        model.addAttribute("location", loc);
+//        model.addAttribute("bck", "");
+//
+//        return "index";
+//
+////        return redirect.re(request.getHeader("referer"));
+//    }
 
 }

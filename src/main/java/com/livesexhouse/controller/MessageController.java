@@ -9,6 +9,7 @@ import com.livesexhouse.DAO.OnlineDao;
 import com.livesexhouse.DAO.UserDao;
 import com.livesexhouse.chat.ChatMessage;
 import com.livesexhouse.model.Chat;
+import com.livesexhouse.model.ChatMembers;
 import com.livesexhouse.model.Girls;
 import com.livesexhouse.model.Heartbeat;
 import com.livesexhouse.model.KingRoom;
@@ -55,6 +56,7 @@ public class MessageController {
     @Autowired
     HeartbeatDao heartbeatDao;
     
+    
     @Autowired
     KingRoomDao kingRoomDao;
 
@@ -88,23 +90,58 @@ public class MessageController {
                 
                 
                 if (chatMessage.getMessage().equals("I#(^am$$(%READY##%&")) {
-                     Users u = new Users();
-                    
-                    System.out.println("SIGLA READY");
+                     Users ug = new Users();
                      
-                    u=userDao.findByUsername(principal.getName());
                     
-                    chatMembersDao.deleteFromGirl(u.getId());
-                    heartbeatDao.deleteFromGirl(u.getId());
-                    onlineDao.setOnline(u.getId());
+                     
+                    ug=userDao.findByUsername(principal.getName());
                     
-                    chatMessage.setMessage("##%Girl*$&Reset");
-                            chatMessage.setRecipient(u.getUsername());
-                            chatMessage.setSender(u.getUsername());
+                    int st = onlineDao.getStatus(ug.getId());
+                    // pr 4    gr 3
+                    if(st==4){
+                        Users u = new Users();
+                        int uId = 0;
+                        
+                        List<Heartbeat> hbl = new ArrayList<>();
+                        hbl = heartbeatDao.findByGirl(ug.getId());
+                        
+                        uId = hbl.get(0).getUser();
+                        
+                        if(uId != 0){
+                        u = userDao.findById(uId);
+                            chatMessage.setMessage("lea%(vePri()@#vate");
+                        chatMessage.setRecipient(u.getUsername());
+                        chatMessage.setSender(ug.getUsername());
                            
-                            template.convertAndSend("/queue/messages/" + u.getUsername(), chatMessage);
-//                            template.convertAndSend("/queue/messages/" + u.getId(), chatMessage);
+                            template.convertAndSendToUser(u.getUsername(), "/queue/messages", chatMessage);
+                        } 
+                    }
                     
+                    if(st==3){
+                        
+                        chatMessage.setMessage("@Girl_#(^Leave@@^((Group$$&))__");
+                            chatMessage.setRecipient(ug.getUsername());
+                            chatMessage.setSender(ug.getUsername());
+                           
+                            template.convertAndSend("/queue/messages/" + ug.getUsername(), chatMessage);
+                        
+                    }
+                    
+                    
+                    
+                    chatMembersDao.deleteFromGirl(ug.getId());
+                    heartbeatDao.deleteFromGirl(ug.getId());
+                    onlineDao.setOnline(ug.getId());
+                    
+                    
+                    if(st!=4 && st!=3){
+                        System.out.println("ttt3");
+                    chatMessage.setMessage("##%Girl*$&Reset");
+                            chatMessage.setRecipient(ug.getUsername());
+                            chatMessage.setSender(ug.getUsername());
+                           
+                            template.convertAndSend("/queue/messages/" + ug.getUsername(), chatMessage);
+                    }
                 }
                 
                 

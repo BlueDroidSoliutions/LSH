@@ -801,6 +801,7 @@
         var privateUser = null;
         var groupInvited = false;
         var groupStarted = false;
+        var confimPrivate = false;
 
 
 
@@ -815,6 +816,7 @@
                 console.log('Connected: ' + frame);
                 stompClient.subscribe('/queue/messages/' + selectedGirl, function (message) {
                     showMessage(JSON.parse(message.body));
+//                   insertStatus("________________________G1_____" + (JSON.parse(message.body).message));
                 });
 
             });
@@ -837,6 +839,7 @@
                 console.log('Connected PRIVATE: ' + frame);
                 stompClient.subscribe('/user/queue/messages', function (message) {
                     showMessage(JSON.parse(message.body));
+//                    insertStatus("________________________G2_____" + (JSON.parse(message.body).message));
                 });
 
             });
@@ -861,6 +864,7 @@
                 console.log('Connected PRIVATE: ' + frame);
                 stompClient.subscribe('/user/queue/messages', function (message) {
                     showMessageGroup(JSON.parse(message.body));
+//                    insertStatus("________________________G3_____" + (JSON.parse(message.body).message));
                 });
 
             });
@@ -876,6 +880,7 @@
                 console.log('Connected: ' + frame);
                 stompClient2.subscribe('/user/queue/messages', function (message) {
                     showService(JSON.parse(message.body));
+//                    insertStatus("________________________G4_____" + (JSON.parse(message.body).message));
                 });
             });
         }
@@ -889,17 +894,18 @@
         
 
         function leavePrivate() {
-            if (confirm("Are you sure to leave this private chat") === true) {
+            if (confirm("Are you sure to leave this private chat?") === true) {
 
                 stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
                     'recipient': sentToUser,
-                    'message': "leavePrivate"
+                    'message': "lea%(vePri()@#vate"
                 }));
                 stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
                         'recipient': whoami,
-                        'message': "onlineNow"
+                        'message': "on(T%li$@neNo@!w"
                     }));
                 location.reload();
+                
                 
 
             } else {
@@ -911,7 +917,7 @@ function inviteGroup() {
     
                 if(!groupInvited){
     
-            if (confirm("Are you sure to invite group chat") === true) {
+            if (confirm("Are you sure to invite group chat?") === true) {
                 groupInvited = true;
                 stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
                         'recipient': whoami,
@@ -922,7 +928,16 @@ function inviteGroup() {
             } else { }
         }
             
-            
+            if(groupStarted) {
+                if (confirm("Are you sure to leave group chat?") === true) {
+                stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
+                        'recipient': whoami,
+                        'message': "Girl#(^Leave@@^((Group$$&))"
+                    }));
+                location.reload();
+                
+            } else { }
+            }
             
             
         }
@@ -933,9 +948,39 @@ function inviteGroup() {
 
 
 function showMessageGroup(message) {
+    
             if (message.sender === whoami) {
-                insertStatus(message.message);
-            } 
+                
+                
+                 if (message.message.indexOf('tt$ii^pp*') >= 0) {
+                     
+                 } else if (message.message.indexOf('@*%REL)#$%OAD') >= 0){
+                     alert('not enought users')
+                     location.reload();
+                 }else {
+                
+                
+                
+                if (message.message.indexOf(whoami + ':') >= 0) {
+                    var me = whoami + ':';
+                    var msg = message.message;
+                    var res = msg.replace(me, "me:");
+                    insertStatus(res);
+                } else {
+                    insertStatus(message.message);
+                }
+                
+                
+                
+                
+            }
+                
+                
+                
+                
+            }  else {
+                insertStatus(message.sender + ' leave group');
+            }
         }
 
 
@@ -943,16 +988,47 @@ function showMessageGroup(message) {
 
 
         function showMessage(message) {
+            
+            
+            
+            
             if (message.sender === whoami) {
-                insertP('me', message.message);
-            } else {
-                if(privateUser === null){
-                    insertP(message.sender, message.message);
+                if (message.message.indexOf('tt$ii^pp^*') >= 0 || message.message.indexOf('tt$ii^pp*') >= 0 ) { 
+                    
                 } else {
+                    if (message.message.indexOf('##%Girl*$&Reset') >= 0){
+                        
+                    } else {
+                        insertP('me', message.message);
+                    }
+                    
+                    
+                    
+                    
+                }
+            } else {
+                
+                
+                if(privateUser === null){
+                    if (message.message.indexOf('leave*#^Private@#&$') >= 0){
+                        
+                    }else {
+                    
+                    insertP(message.sender, message.message);
+                }
+                } else {
+                    
+                    if (message.message.indexOf('leave*#^Private@#&$') >= 0){
+                        
+                    } else {
                     if(message.sender === privateUser){
                         insertP(message.sender, message.message);
                     }
                 }
+                }
+                
+                
+                
                 
             }
 
@@ -967,6 +1043,23 @@ function showMessageGroup(message) {
             
            
             
+            if (message.message.indexOf('@&$Out$^Of*%@Ussers') >= 0 &&  message.sender === whoami) {
+                stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
+                        'recipient': message.sender,
+                        'message': "@@#$&ut$^Of*%@Ussers##*!^"
+                    }));
+                    
+                alert('group chat is closed, not enought users'); 
+                location.reload();
+            }
+           
+                   
+                   if (message.message.indexOf('tt$ii^pp*') >= 0) {
+                       var m = message.message;
+                       
+                       insertStatus(m.substring(8));
+           }
+            
             
              if (message.message.indexOf('groupChatIsReady') >= 0) {
              
@@ -980,18 +1073,19 @@ function showMessageGroup(message) {
             
             
             
-            if (message.message.indexOf('invitePrivate') >= 0 && privateUser===null) {
+            if (message.message.indexOf('invitePrivate') >= 0 && privateUser===null && confimPrivate===false) {
                 
                 if (confirm(message.sender + " want private chat. \nDo you want to accept?") === true) {
 ///////////////// kada dobije zahtev od usera i PRIHVATA
+                    confimPrivate = true;
                     disconnect(); // sa njenog kanala
                     stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
                         'recipient': message.sender,
-                        'message': "yes"
+                        'message': "yes%%#*^Private##%&("
                     }));
                     stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
                         'recipient': message.sender,
-                        'message': "privateNow"
+                        'message': "private(#*@)!Now "+ message.sender
                     }));
                     sentToUser = null;
                     sentToUser = message.sender;
@@ -1006,20 +1100,21 @@ function showMessageGroup(message) {
                 } else {
                     stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
                         'recipient': message.sender,
-                        'message': "no"
+                        'message': "@#$&#@$6no*$%*$22"
                     }));
                 }
             }
             
  
             
-            if (message.message.indexOf('leave') >= 0 && privateUser!==null) {
+            if (message.message.indexOf('leave*#^Private@#&$') >= 0 && privateUser!==null) {
                 alert('user leave your private chat');
                 stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
                         'recipient': message.sender,
-                        'message': "onlineNow"
+                        'message': "on(T%li$@neNo@!w"
                     }));
                     privateUser = null;
+                    location.reload();
             } else {
             }
 
@@ -1037,23 +1132,43 @@ if (message.message.indexOf('Users for group chat') >= 0 ) {
             
             
             
-if (message.message.indexOf('sent invitation for group chat to you.') >= 0 && message.message.indexOf('iAcceptGroupFromUser') < 0) {
+if (message.message.indexOf('sent invitation for group chat to you.') >= 0 && message.message.indexOf('iAcceptGroupFromUser') < 0 && confimPrivate===false) {
               if (confirm(message.message ) === true) {
-//                  alert("prihvatila sam");
-$('a#groupLink').text('wait for users');
+                  $('a#groupLink').text('wait for users');
                   groupInvited = true;
+                    
+                    // prihvatam grupni inviteGroup
+                    
+                    var str1 = message.message.split(' ');
+                  var namee = str1[0];
                     stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
-                        'recipient': whoami,
-                        'message': "iAcceptGroupFromUser "+ message.message
+                        'recipient': namee,
+                        'message': "I accepted invitation from you."
                     }));
-              }
-            } 
+                    
+                    groupInvited = true;
+                stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
+                        'recipient': whoami,
+                        'message': "inviteGroup"
+                    }));
+                $('a#groupLink').text('group invited');
+ 
+              } 
+              else {
+                    var str1 = message.message.split(' ');
+                  var namee = str1[0];
+                    stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
+                        'recipient': namee,
+                        'message': "Group chat not available now"
+                    }));
+                }
+   
             
             
-            
+        
+
         }
-
-
+    }
 
         function insertP(user, msg) {
             $("#newP").append("<p>" + user + ": " + msg + "</p>");
@@ -1077,7 +1192,7 @@ $('a#groupLink').text('wait for users');
             }));
             
             if(groupStarted){
-                insertStatus('me: ' + message.message);
+                insertStatus('me: ' + message);
             }
 
             $(chatInput).val('');
@@ -1107,7 +1222,23 @@ $('a#groupLink').text('wait for users');
 
 
 
+function ready() {
 
+
+
+
+setTimeout(function () {
+                               stompClient2.send('/www.livesexhouse.com/service', {}, JSON.stringify({
+                        'recipient': whoami,
+                        'message': "I#(^am$$(%READY##%&"
+                    }));
+                            }, 1000);
+
+
+      
+     
+
+        }
 
 
 
@@ -1115,10 +1246,16 @@ $('a#groupLink').text('wait for users');
 
 
         $(document).ready(function () {
+////            connectPublic();
+//            connectService();
+//            
+//            
+////            disconnect();
+//               connectGroup();
+            
             connectPublic();
             connectService();
-            
-            
+            ready();
         });
 
 
