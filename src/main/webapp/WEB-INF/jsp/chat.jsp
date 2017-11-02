@@ -689,6 +689,9 @@
 
                         </div>
                     </div>
+                                             
+                                    
+                                    
                     <div class="right-bottom">
                         <h3>Next model</h3>
                         <div class="flexslider">
@@ -697,16 +700,24 @@
                                     <img src="${bck}${location}/assets/img/arrow_left.png" alt="" />
                                 </a>
                             </div>
+                                
+                                
+                               
+                                
+                                
                             <ul class="slides">
-                                <li>
-                                    <img src="${bck}${location}/assets/img/content/slider-small.png" />
+                                
+                                <c:forEach items="${girlsOnline}" var="g">
+                                     <li>
+                                         <a href="../webcam/${g.id}">
+                                    <img src="../ext/girlImg/${g.name}.jpg" />
+                                         </a>
                                 </li>
-                                <li>
-                                    <img src="${bck}${location}/assets/img/content/slider-small.png" />
-                                </li>
-                                <li>
-                                    <img src="${bck}${location}/assets/img/content/slider-small.png" />
-                                </li>
+                                </c:forEach>
+                                
+                                
+                               
+                                
                             </ul>
                             <div class="custom-navigation custom-navigation-right">
                                 <a href="#" class="flex-next">
@@ -820,7 +831,7 @@
                 console.log('Connected: ' + frame);
                 stompClient.subscribe('/queue/messages/' + selectedGirl, function (message) {
                     showMessage(JSON.parse(message.body));
-                    insertService("________________________1_____" + (JSON.parse(message.body).message));
+//                    insertService("________________________1_____" + (JSON.parse(message.body).message));
 
                 });
             });
@@ -841,7 +852,7 @@
                 console.log('Connected: ' + frame);
                 stompClient.subscribe('/user/queue/messages', function (message) {
                     showMessage(JSON.parse(message.body));
-                    insertService("________________________2_____" + (JSON.parse(message.body).message));
+//                    insertService("________________________2_____" + (JSON.parse(message.body).message));
                 });
             });
         }
@@ -864,7 +875,7 @@
                 stompClient.subscribe('/user/queue/messages', function (message) {
                     showMessageGroup(JSON.parse(message.body));
                     // napravi drugi show funkciju da se vidi samo od devojke a tamo stavi ko salje: pa poruku da se ne vidi ako posalje uljez
-                    insertService("________________________3_____" + (JSON.parse(message.body).message));
+//                    insertService("________________________3_____" + (JSON.parse(message.body).message));
                 });
             });
         }
@@ -877,7 +888,7 @@
                 console.log('Connected: ' + frame);
                 stompClient2.subscribe('/user/queue/messages', function (message) {
                     showMessageService(JSON.parse(message.body));
-                    insertService("________________________4_____" + (JSON.parse(message.body).message));
+//                    insertService("________________________4_____" + (JSON.parse(message.body).message));
                 });
             });
             stompClient3 = Stomp.over(socket3);
@@ -885,7 +896,7 @@
                 console.log('Connected: ' + frame);
                 stompClient3.subscribe('/queue/messages/' + inviteGirl, function (message) {
                     showMessageService(JSON.parse(message.body));
-                    insertService("________________________5_____" + (JSON.parse(message.body).message));
+//                    insertService("________________________5_____" + (JSON.parse(message.body).message));
                 });
             });
         }
@@ -1070,7 +1081,9 @@
 //                        $('a#inv').text('girl not accepted');
                         setTimeout(function () {
                             $('a#inv').text('private');
+                            alert('t1');
                         }, 300000);
+//                        }, 1000);
                     }
                 }
             
@@ -1182,6 +1195,22 @@ if (message.message.indexOf('##%Girl*$&Reset') >= 0) {
                 
                 if (message.message.indexOf('Group chat not available now') >= 0) {
                     alert("Group chat not available now");
+                    $('a#gr').text('group chat');
+                    $('a#gr').css("color", 'gray');
+                    
+                    
+                    
+                    setTimeout(function () {
+//                                    alert('now you can invite this girl to group chat again');
+                                    inviteGirlBGroup = false;
+                                    $('a#gr').css("color", 'white');
+//                                    alert('t5');
+                                }, 300000);
+//                                }, 3000);
+                    
+                    
+                    
+                    
                 }
 
 
@@ -1246,15 +1275,26 @@ if (message.sender === inviteGirl) {
                     if (message.message.indexOf('@#$&#@$6no*$%*$22') >= 0) {
                         alert('private chat is not available now');
 //                        $('a#inv').text('girl not accepted');
+$('a#inv').css("color", 'gray');
+$('a#inv').text('private');
                         setTimeout(function () {
-                            $('a#inv').text('private');
+                            
+                             $('a#inv').css("color", 'white');
+                            
+                            
+                            
+                            inviteGirlB = false;
+                            
+                            
                         }, 300000);
+//                        }, 1000);
                     }
                     if (message.message.indexOf('noGroup') >= 0) {
 //                        alert('sss noGroup');
                         $('a#gr').text('girl not accepted');
                         setTimeout(function () {
                             $('a#gr').text('group chat');
+                            alert('t3');
                         }, 2000);
                     }
                     if (message.message.indexOf('leaveGroup') >= 0) {
@@ -1348,7 +1388,9 @@ if(status !== 3 || status !== 4){
                             setTimeout(function () {
                                 alert('now you can invite this girl to private chat again');
                                 inviteGirlB = false;
+                                $('a#inv').css("color", 'white');
                             }, 300000);
+//                            }, 5000);
                         }
                     }
 
@@ -1397,7 +1439,10 @@ if(status !== 3 || status !== 4){
                                 setTimeout(function () {
                                     alert('now you can invite this girl to group chat again');
                                     inviteGirlBGroup = false;
+                                    $('a#gr').css("color", 'white');
+//                                    alert('t5');
                                 }, 300000);
+//                                }, 1000);
                             }
                         }
                     }
@@ -1495,9 +1540,10 @@ function initBlink()
         {
             if(blink){
             state = !state;
-            var color = (state?'white':'greenyellow');
-            $("a#gr").css("color", color);} else {
-            $("a#gr").css("color", 'white');
+            var color = (state?'#920000':'greenyellow');
+            $("#tabGr").css("background-color", color);}
+        else {
+            $("#tabGr").css("background-color", color);
             }
         }, 500);
 }

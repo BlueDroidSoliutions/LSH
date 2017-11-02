@@ -133,7 +133,18 @@ public class OnlineDao {
         }
         return active;
     }
-    
+     public List<Integer> allOnlineGirls23() {
+        List<Integer> users = new ArrayList<>();
+            List<Integer> active = new ArrayList<>();
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            Query q = session.getNamedQuery("Online.findAllOnline23");
+            active = q.getResultList();
+            
+        } catch (HibernateException e) {
+        }
+        return active;
+    }
     
     
 

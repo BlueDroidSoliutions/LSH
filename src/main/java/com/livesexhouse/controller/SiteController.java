@@ -259,7 +259,16 @@ public class SiteController {
                 }
 
                 int status = onlineDao.getStatus(id);
-
+                
+                
+                
+                List<Girls> l = new ArrayList<>();
+                l = girlDao.findGirlsActive23(id);
+                
+                
+                
+        model.addAttribute("girlsOnline", l);
+                
                 String onl = "";
                 onl = onlineDao.onlineNow();
                 model.addAttribute("status", status);

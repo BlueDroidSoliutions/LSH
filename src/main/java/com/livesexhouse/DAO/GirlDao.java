@@ -99,6 +99,69 @@ public class GirlDao {
         return activeGirls;
 
     }
+    
+     public List<Girls> findGirlsActive23(int id) {
+        List<Girls> activeGirls = new ArrayList<>();
+        List<Girls> activeGirlsF = new ArrayList<>();
+        List<Integer> ac = new ArrayList<>();
+       
+
+        try {
+            ac = onlineDao.allOnlineGirls23();
+            if(!ac.isEmpty()){
+            Session session = sessionFactory.getCurrentSession();
+            Query q2 = session.createQuery("SELECT v FROM Girls v WHERE v.id IN :ac");
+            q2.setParameter("ac", ac);
+            activeGirls = q2.getResultList();
+            
+            for(Girls gg : activeGirls){
+                if(gg.getId()!=id){
+                    activeGirlsF.add(gg);
+                }
+            }
+            
+            
+            if(activeGirlsF.isEmpty()){
+                  q2 = session.getNamedQuery("Girls.findAll");
+            q2.setMaxResults(4);
+            activeGirls = q2.getResultList();
+            for(Girls gg : activeGirls){
+                if(gg.getId()!=id){
+                    activeGirlsF.add(gg);
+                }
+            }
+            
+            activeGirlsF.size();
+            if(activeGirlsF.size()==4){
+                activeGirlsF.remove(3);
+            }
+            
+            }
+
+            } else {
+                Session session = sessionFactory.getCurrentSession();
+            Query q2 = session.getNamedQuery("Girls.findAll");
+            q2.setMaxResults(4);
+            activeGirls = q2.getResultList();
+            for(Girls gg : activeGirls){
+                if(gg.getId()!=id){
+                    activeGirlsF.add(gg);
+                }
+            }
+            
+            activeGirlsF.size();
+            if(activeGirlsF.size()==4){
+                activeGirlsF.remove(3);
+            }
+            
+            
+            }
+           
+        } catch (HibernateException e) {
+        }
+        return activeGirlsF;
+
+    }
 
     public Girls findByUsername(String username) {
 
