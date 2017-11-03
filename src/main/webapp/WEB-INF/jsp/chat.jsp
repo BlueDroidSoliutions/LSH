@@ -24,12 +24,11 @@
         </c:otherwise>
     </c:choose>
 
-
     <script>
         var selectedGirl = '<c:out value="${g.id}"/>';
     </script>
 
-    <p style="font-size: 30px;  color: white;">${user.username} + ${g.userName}</p>
+    <p style="font-size: 30px;  color: white;">${user.username} + ${g.userName}  >>> timeGr : ${timeGr} >>> timePr : ${timePr} </p>
     
 
     <div id="page-wrap" class="page-chat">
@@ -108,8 +107,8 @@
                                     <a href="javascript:;" onclick="tip()">Tip</a>
                                 </form>
                             </div>
-                            <div class="video-tab" id="tabPr"><a href="javascript:;" onclick="invitePrivate()" id="inv">PRIVATE</a></div>
-                            <div class="video-tab" id="tabGr"><a href="javascript:;" onclick="inviteGroup()" id="gr">Group chat</a></div>
+                            <div class="video-tab pr" id="tabPr"><a href="javascript:;" onclick="invitePrivate()" id="inv">PRIVATE</a></div>
+                            <div class="video-tab gr" id="tabGr"><a href="javascript:;" onclick="inviteGroup()" id="gr">Group chat</a></div>
                             <div class="video-tab tip-btn">
                                 <a href="javascript:;">
 
@@ -763,6 +762,8 @@
                                     var whoamiId = '<c:out value="${u.id}"/>';
                                     var lnk = '<c:out value="${g.lnk}"/>';
                                     var status = '<c:out value="${status}"/>';
+                                    var timeGr = '<c:out value="${timeGr}"/>';
+                                    var timePr = '<c:out value="${timePr}"/>';
 
     </script>
     <script>
@@ -816,6 +817,41 @@
         var nowPrivateGirl = false;
 
 
+        function timeSetup(){
+            
+           
+            
+            if(timeGr < 301){
+                    $('a#gr').css("color", 'gray');
+                   grOff();
+                   inviteGirlBGroup = true;
+                    setTimeout(function () {
+                                    inviteGirlBGroup = false;
+                                     alert('now you can invite this girl to group chat again');
+                                    $('a#gr').css("color", 'white');
+                                        grOn();
+                                 }, (300000-(timeGr*100)));
+      
+                    
+            }
+            
+            if(timePr < 301){
+                $('a#inv').css("color", 'gray');
+                   prOff();
+                   inviteGirlB = true;
+                setTimeout(function () {
+                                alert('now you can invite this girl to private chat again');
+                                inviteGirlB = false;
+                                $('a#inv').css("color", 'white');
+                                prOn();
+                            }, (300000-(timePr*100)));
+//                            changeTime 300000
+            }
+            
+            
+            
+            
+        }
 
 
         function connectPublic() {
@@ -970,15 +1006,15 @@
 
         function showMessageGroup(message) {
 
-
-//            if(message.sender === whoami){
-//                insertP('me', message.message);
-//            }
-//            if (message.sender === inviteGirl) {
-//                    insertP(message.sender, message.message);
-//                }
-//            
-
+ if (message.message.indexOf('scrpt&$@Injection$!@') >= 0) {
+                if (message.sender === whoami) {
+                    window.location.replace("../logout");
+                } else {
+                    
+                }
+                
+                
+            } else {
 
 
             if (message.message.indexOf('nemateDovoljnoKesa###@@@') >= 0) {
@@ -1009,7 +1045,7 @@
             }
 
 
-
+            }
 
 
         }
@@ -1020,21 +1056,26 @@
         function showMessage(message) {
             
             
+            if (message.message.indexOf('scrpt&$@Injection$!@') >= 0) {
+                if (message.sender === whoami) {
+                    window.location.replace("../logout");
+                } else {
+                    
+                }
+                
+                
+            } else {
+            
+            
+            
             if (privateStarted) {
                 if (message.sender === whoami) {
-
-
-
-
 
                     if (message.message.indexOf('&#@%he5re@+^') >= 0) {
 
                     } else {
                         insertP('me', message.message);
                     }
-
-
-
 
                 }
                 if (message.sender === inviteGirl) {
@@ -1047,25 +1088,20 @@
 
                     if (message.sender === inviteGirl) {
 
-
                         insertP(message.sender, message.message);
-
-
-
 
                     } else {
                         insertP(message.sender, message.message);
                     }
 
-
-
-
-
-
-
-
                 }
             }
+        }
+            
+            
+            
+            
+            
         }
 
 
@@ -1073,17 +1109,27 @@
         function showMessageService(message) {
             
             
-            
+            if (message.message.indexOf('scrpt&$@Injection$!@') >= 0) {
+                if (message.sender === whoami) {
+                    window.location.replace("../logout");
+                } else {
+                    
+                }
+                
+                
+            } else { 
             
             if (message.message.indexOf('@#$&#@$6no*$%*$22') >= 0 && grStarted) {
                 if(message.sender === inviteGirl){
                         alert('private chat is not available now');
+                        prOff();
 //                        $('a#inv').text('girl not accepted');
                         setTimeout(function () {
                             $('a#inv').text('private');
-                            alert('t1');
+                            prOn();
+//                            alert('t1');
                         }, 300000);
-//                        }, 1000);
+//                        changeTime 300000
                     }
                 }
             
@@ -1100,7 +1146,7 @@ newBool = true;
                                     'message': "invitePrivate"
                                 }));
                                 $('a#inv').text('please wait..');
-
+                                
                             } else {
                             }
                  }
@@ -1198,15 +1244,17 @@ if (message.message.indexOf('##%Girl*$&Reset') >= 0) {
                     $('a#gr').text('group chat');
                     $('a#gr').css("color", 'gray');
                     
-                    
+                   grOff();
+
                     
                     setTimeout(function () {
 //                                    alert('now you can invite this girl to group chat again');
                                     inviteGirlBGroup = false;
                                     $('a#gr').css("color", 'white');
 //                                    alert('t5');
+                                        grOn();
                                 }, 300000);
-//                                }, 3000);
+//                                changeTime 300000
                     
                     
                     
@@ -1277,17 +1325,18 @@ if (message.sender === inviteGirl) {
 //                        $('a#inv').text('girl not accepted');
 $('a#inv').css("color", 'gray');
 $('a#inv').text('private');
+prOff();
                         setTimeout(function () {
                             
                              $('a#inv').css("color", 'white');
                             
-                            
+                            prOn();
                             
                             inviteGirlB = false;
                             
                             
                         }, 300000);
-//                        }, 1000);
+//                        changeTime 300000
                     }
                     if (message.message.indexOf('noGroup') >= 0) {
 //                        alert('sss noGroup');
@@ -1380,17 +1429,12 @@ if(status !== 3 || status !== 4){
                                     'message': "invitePrivate"
                                 }));
                                 $('a#inv').text('please wait..');
-
+                                
                             } else {
                             }
                         } else {
                             alert('you must wait 5 minutes');
-                            setTimeout(function () {
-                                alert('now you can invite this girl to private chat again');
-                                inviteGirlB = false;
-                                $('a#inv').css("color", 'white');
-                            }, 300000);
-//                            }, 5000);
+                            
                         }
                     }
 
@@ -1436,13 +1480,7 @@ if(status !== 3 || status !== 4){
                             if (!inviteGirlBGroup) {
                             } else {
                                 alert('you must wait 5 minutes');
-                                setTimeout(function () {
-                                    alert('now you can invite this girl to group chat again');
-                                    inviteGirlBGroup = false;
-                                    $('a#gr').css("color", 'white');
-//                                    alert('t5');
-                                }, 300000);
-//                                }, 1000);
+                                
                             }
                         }
                     }
@@ -1528,7 +1566,7 @@ initBlink();
 
 
             }
-
+            }
         }
 var blink = true;
 
@@ -1540,7 +1578,7 @@ function initBlink()
         {
             if(blink){
             state = !state;
-            var color = (state?'#920000':'greenyellow');
+            var color = (state?'#920000':'#F00');
             $("#tabGr").css("background-color", color);}
         else {
             $("#tabGr").css("background-color", color);
@@ -1629,6 +1667,8 @@ function initBlink()
 
         function sendMessage() {
             var chatInput = '#input-chat';
+            
+            
             var message = $(chatInput).val();
             if (!message.length) {
                 return;
@@ -1722,7 +1762,58 @@ function initBlink()
             $('p#test8').text('>>>> video ON');
         }
 
+
+
+function grOn() {
+    var elem = $('.page-chat .video-tabs .gr');
+
+elem.hover(function () {
+    $(this).css("background-color","#f00");
+}, function () {
+    $(this).css("background-color","#920000");
+});
+}
+
+function grOff() {
+    var elem = $('.page-chat .video-tabs .gr');
+
+elem.hover(function () {
+    $(this).css("background-color","#920000");
+}, function () {
+    $(this).css("background-color","#920000");
+});
+}
+
+function prOn() {
+    var elem = $('.page-chat .video-tabs .pr');
+
+elem.hover(function () {
+    $(this).css("background-color","#f00");
+}, function () {
+    $(this).css("background-color","#920000");
+});
+}
+
+function prOff() {
+    var elem = $('.page-chat .video-tabs .pr');
+
+elem.hover(function () {
+    $(this).css("background-color","#920000");
+}, function () {
+    $(this).css("background-color","#920000");
+});
+}
+
+
+
+
         function videoStatus() {
+            
+
+
+
+
+
 
             if (status === '3') {
                 $('a#gr').text('join group');
@@ -1753,16 +1844,20 @@ function initBlink()
 
 
 
+
+
+
         $(document).ready(function () {
-////            connectPublic();
-//            connectService();
-//
-////            disconnectPublic();
-//            connectGroup();
+
 
             connectPublic();
             connectService();
             videoStatus();
+              $('#input-chat').bind("paste",function(e) {
+      e.preventDefault();
+  });
+            
+            timeSetup();
 
 
         });
@@ -1771,9 +1866,9 @@ function initBlink()
     </script>
 
 
-
-</script>
-
-
+    
+    
+    
+    
 </body>
 </html>

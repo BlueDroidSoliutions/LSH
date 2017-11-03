@@ -134,7 +134,7 @@ public class GirlDao {
             activeGirlsF.size();
             if(activeGirlsF.size()==4){
                 activeGirlsF.remove(3);
-            }
+            } 
             
             }
 

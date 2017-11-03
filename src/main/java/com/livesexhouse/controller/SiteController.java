@@ -8,6 +8,7 @@ import com.livesexhouse.model.Heartbeat;
 import com.livesexhouse.model.MemberHouse;
 import com.livesexhouse.model.MembersRank;
 import com.livesexhouse.model.Participant;
+import com.livesexhouse.model.Time;
 import com.livesexhouse.model.UserM2m;
 import com.livesexhouse.model.UserRoles;
 import com.livesexhouse.model.Users;
@@ -147,6 +148,9 @@ public class SiteController {
 
     @Autowired
     HeartbeatDao heartbeatDao;
+    
+    @Autowired
+    TimeDao timeDao;
 
     @Autowired
     private PricePackageService pricePackageService;
@@ -243,6 +247,35 @@ public class SiteController {
                 u = userDao.findByUsername(principal.getName());
                 model.addAttribute("userName", principal.getName());
                 model.addAttribute("user", u);
+                System.out.println("w1");
+                
+                Time tGr = timeDao.getTimeGr(u.getId(), id);
+                Time tPr = timeDao.getTimePr(u.getId(), id);
+                
+                System.out.println("w2");
+                
+                long timeGr = 301;
+                long timePr = 301;
+                
+                if(tGr.getUserId()!=0){
+                    Date d2 = new Date();
+                    Date d1 = tGr.getTime();
+                    timeGr = (d2.getTime()-d1.getTime())/1000;
+                    
+                }
+                if(tPr.getUserId()!=0){
+                    Date d2 = new Date();
+                    Date d1 = tPr.getTime();
+                    timePr = (d2.getTime()-d1.getTime())/1000;
+                }
+                
+                model.addAttribute("timeGr", timeGr);
+                model.addAttribute("timePr", timePr);
+                
+                
+                
+                
+                
 
                 Girls g = new Girls();
                 g = girlDao.findById(id);

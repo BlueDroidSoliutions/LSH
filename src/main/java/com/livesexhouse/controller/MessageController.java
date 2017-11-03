@@ -6,6 +6,7 @@ import com.livesexhouse.DAO.GirlDao;
 import com.livesexhouse.DAO.HeartbeatDao;
 import com.livesexhouse.DAO.KingRoomDao;
 import com.livesexhouse.DAO.OnlineDao;
+import com.livesexhouse.DAO.TimeDao;
 import com.livesexhouse.DAO.UserDao;
 import com.livesexhouse.chat.ChatMessage;
 import com.livesexhouse.model.Chat;
@@ -13,6 +14,7 @@ import com.livesexhouse.model.ChatMembers;
 import com.livesexhouse.model.Girls;
 import com.livesexhouse.model.Heartbeat;
 import com.livesexhouse.model.KingRoom;
+import com.livesexhouse.model.Time;
 import com.livesexhouse.model.Users;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -59,6 +61,9 @@ public class MessageController {
     
     @Autowired
     KingRoomDao kingRoomDao;
+    
+    @Autowired
+    TimeDao timeDao;
 
     private Chat chat = new Chat();
     private Date date = new Date();
@@ -74,7 +79,40 @@ public class MessageController {
                 Principal principal = message.getHeaders().get(SimpMessageHeaderAccessor.USER_HEADER, Principal.class);
 
                 boolean b = true;
+ chatMessage.setSender(principal.getName());
+                String recipient = chatMessage.getRecipient();
+                
+                
+       //         @#$&#@$6no*$%*$22  private   1status    TIME           Group chat not available now        2status
+                if(chatMessage.getMessage().contains(">") || chatMessage.getMessage().contains("<")){
+                    String msg = chatMessage.getMessage();
+                    msg = chatMessage.getMessage().replaceAll(">", "&gt;");
+                    msg = chatMessage.getMessage().replaceAll("<", "&lt;");
+                    chatMessage.setMessage(msg);
+                }
+                
+                
+                
+                if(chatMessage.getMessage().contains("<script")){
+                chatMessage.setMessage("scrpt&$@Injection$!@");
+                template.convertAndSend("/queue/messages/" + recipient, chatMessage);
+                System.out.println("*****************");
+                System.out.println("public");
+                System.out.println("TO: " + recipient);
+                System.out.println("MSG: " + chatMessage.getMessage());
+                System.out.println("*****************");
 
+                date = new Date();
+
+                chat.setFromUser(principal.getName());
+                chat.setMsg(chatMessage.getMessage());
+                chat.setService(9);
+                chat.setToUser(chatMessage.getRecipient());
+                chat.setDate(date);
+                chatDAO.save(chat);
+                } else {
+                
+                
                 date = new Date();
 
                 chat.setFromUser(principal.getName());
@@ -83,9 +121,49 @@ public class MessageController {
                 chat.setToUser(chatMessage.getRecipient());
                 chat.setDate(date);
 
-                chatMessage.setSender(principal.getName());
-                String recipient = chatMessage.getRecipient();
+               
+if(chatMessage.getMessage().contains("@#$&#@$6no*$%*$22")){
+ 
+    Time t = new Time();
+    
+    Users ug = new Users();
+    ug=userDao.findByUsername(principal.getName());
+    
+    Users u = new Users();
+    u = userDao.findByUsername(chatMessage.getRecipient());
+    
+    Date d = new Date();
+    
+    t.setGirlId(ug.getId());
+    t.setStatus(1);
+    t.setTime(date);
+    t.setUserId(u.getId());
+    timeDao.save(t);
+    
+}
 
+
+
+
+if(chatMessage.getMessage().equals("Group chat not available now")){
+    
+    System.out.println("usloooooo");
+     Time t = new Time();
+    
+    Users ug = new Users();
+    ug=userDao.findByUsername(principal.getName());
+    
+    Users u = new Users();
+    u = userDao.findByUsername(chatMessage.getRecipient());
+    
+    Date d = new Date();
+    
+    t.setGirlId(ug.getId());
+    t.setStatus(2);
+    t.setTime(date);
+    t.setUserId(u.getId());
+    timeDao.save(t);
+}
                 
                 
                 
@@ -195,10 +273,7 @@ public class MessageController {
                     
                     uG=userDao.findByUsername(principal.getName());
                     
-//                    List<Heartbeat> hbL = new ArrayList<>();
-//                    hbL = heartbeatDao.findByGirl(uG.getId());
-//                    
-//                    
+                    
                     
                     
                     chatMembersDao.deleteFromGirl(uG.getId());
@@ -560,7 +635,7 @@ public class MessageController {
                 System.out.println("MSG: " + chatMessage.getMessage());
                 System.out.println("*****************");
 
-            }
+            }}
         } catch (MessagingException e) {
 
         }
@@ -574,12 +649,40 @@ public class MessageController {
         try {
             if (message.getHeaders().get(SimpMessageHeaderAccessor.USER_HEADER, Principal.class) != null) {
 
+                 if(chatMessage.getMessage().contains(">") || chatMessage.getMessage().contains("<")){
+                    String msg = chatMessage.getMessage();
+                    msg = chatMessage.getMessage().replaceAll(">", "&gt;");
+                    msg = chatMessage.getMessage().replaceAll("<", "&lt;");
+                    chatMessage.setMessage(msg);
+                }
+                
                 Principal principal = message.getHeaders().get(SimpMessageHeaderAccessor.USER_HEADER, Principal.class);
 
                 String authedSender = principal.getName();
 
                 chatMessage.setSender(authedSender);
                 String recipient = chatMessage.getRecipient();
+                
+                if(chatMessage.getMessage().contains("<script")){
+                chatMessage.setMessage("scrpt&$@Injection$!@");
+                template.convertAndSend("/queue/messages/" + recipient, chatMessage);
+                System.out.println("*****************");
+                System.out.println("public");
+                System.out.println("FROM: " + authedSender);
+                System.out.println("TO: " + recipient);
+                System.out.println("MSG: " + chatMessage.getMessage());
+                System.out.println("*****************");
+
+                date = new Date();
+
+                chat.setFromUser(principal.getName());
+                chat.setMsg(chatMessage.getMessage());
+                chat.setService(9);
+                chat.setToUser(chatMessage.getRecipient());
+                chat.setDate(date);
+                chatDAO.save(chat);
+                } else {
+                
                 if (!authedSender.equals(recipient)) {
                     template.convertAndSendToUser(authedSender, "/queue/messages", chatMessage);
                 }
@@ -601,7 +704,7 @@ public class MessageController {
 
                 chat.setDate(date);
                 chatDAO.save(chat);
-            }
+            }}
         } catch (MessagingException e) {
 
         }
@@ -615,6 +718,14 @@ public class MessageController {
         try {
             if (message.getHeaders().get(SimpMessageHeaderAccessor.USER_HEADER, Principal.class) != null) {
 
+                 if(chatMessage.getMessage().contains(">") || chatMessage.getMessage().contains("<")){
+                    String msg = chatMessage.getMessage();
+                    msg = chatMessage.getMessage().replaceAll(">", "&gt;");
+                    msg = chatMessage.getMessage().replaceAll("<", "&lt;");
+                    chatMessage.setMessage(msg);
+                }
+                
+                
                 Principal principal = message.getHeaders().get(SimpMessageHeaderAccessor.USER_HEADER, Principal.class);
 
                 String authedSender = principal.getName();
@@ -624,6 +735,28 @@ public class MessageController {
 //            if (!authedSender.equals(recipient)) {
 //                template.convertAndSendToUser(authedSender, "/queue/messages", chatMessage);
 //            } 
+
+
+if(chatMessage.getMessage().contains("<script")){
+                chatMessage.setMessage("scrpt&$@Injection$!@");
+                template.convertAndSend("/queue/messages/" + recipient, chatMessage);
+                System.out.println("*****************");
+                System.out.println("public");
+                System.out.println("FROM: " + authedSender);
+                System.out.println("TO: " + recipient);
+                System.out.println("MSG: " + chatMessage.getMessage());
+                System.out.println("*****************");
+
+                date = new Date();
+
+                chat.setFromUser(principal.getName());
+                chat.setMsg(chatMessage.getMessage());
+                chat.setService(9);
+                chat.setToUser(chatMessage.getRecipient());
+                chat.setDate(date);
+                chatDAO.save(chat);
+                } else {
+                
 
                 template.convertAndSend("/queue/messages/" + recipient, chatMessage);
 
@@ -644,6 +777,7 @@ public class MessageController {
                 chatDAO.save(chat);
 
             }
+            }
         } catch (MessagingException e) {
 
         }
@@ -658,11 +792,40 @@ public class MessageController {
 
                 Principal principal = message.getHeaders().get(SimpMessageHeaderAccessor.USER_HEADER, Principal.class);
 
+                
+                 if(chatMessage.getMessage().contains(">") || chatMessage.getMessage().contains("<")){
+                    String msg = chatMessage.getMessage();
+                    msg = chatMessage.getMessage().replaceAll(">", "&gt;");
+                    msg = chatMessage.getMessage().replaceAll("<", "&lt;");
+                    chatMessage.setMessage(msg);
+                }
+                 
+                 
                 String authedSender = principal.getName();
 
                 chatMessage.setSender(authedSender);
                 String recipient = chatMessage.getRecipient();
 
+                if(chatMessage.getMessage().contains("<script")){
+                chatMessage.setMessage("scrpt&$@Injection$!@");
+                template.convertAndSend("/queue/messages/" + recipient, chatMessage);
+                System.out.println("*****************");
+                System.out.println("public");
+                System.out.println("FROM: " + authedSender);
+                System.out.println("TO: " + recipient);
+                System.out.println("MSG: " + chatMessage.getMessage());
+                System.out.println("*****************");
+
+                date = new Date();
+
+                chat.setFromUser(principal.getName());
+                chat.setMsg(chatMessage.getMessage());
+                chat.setService(9);
+                chat.setToUser(chatMessage.getRecipient());
+                chat.setDate(date);
+                chatDAO.save(chat);
+                } else {
+                
                 template.convertAndSend("/queue/messages/" + recipient, chatMessage);
 
                 System.out.println("*****************");
@@ -682,7 +845,7 @@ public class MessageController {
                 chat.setDate(date);
                 chatDAO.save(chat);
 
-            }
+            }}
         } catch (MessagingException e) {
 
         }
@@ -697,13 +860,38 @@ public class MessageController {
 
                 Principal principal = message.getHeaders().get(SimpMessageHeaderAccessor.USER_HEADER, Principal.class);
 
+                
+                 if(chatMessage.getMessage().contains(">") || chatMessage.getMessage().contains("<")){
+                    String msg = chatMessage.getMessage();
+                    msg = chatMessage.getMessage().replaceAll(">", "&gt;");
+                    msg = chatMessage.getMessage().replaceAll("<", "&lt;");
+                    chatMessage.setMessage(msg);
+                }
+                 
+                 
                 String authedSender = principal.getName();
 
                 chatMessage.setSender(authedSender);
                 String recipient = chatMessage.getRecipient();
-//            if (!authedSender.equals(recipient)) {
-//                template.convertAndSendToUser(authedSender, "/queue/messages", chatMessage);
-//            }
+if(chatMessage.getMessage().contains("<script")){
+                chatMessage.setMessage("scrpt&$@Injection$!@");
+                template.convertAndSend("/queue/messages/" + recipient, chatMessage);
+                System.out.println("*****************");
+                System.out.println("public");
+                System.out.println("FROM: " + authedSender);
+                System.out.println("TO: " + recipient);
+                System.out.println("MSG: " + chatMessage.getMessage());
+                System.out.println("*****************");
+
+                date = new Date();
+
+                chat.setFromUser(principal.getName());
+                chat.setMsg(chatMessage.getMessage());
+                chat.setService(9);
+                chat.setToUser(chatMessage.getRecipient());
+                chat.setDate(date);
+                chatDAO.save(chat);
+                } else {
 
                 List<String> allUsers = new ArrayList();
 
@@ -761,7 +949,7 @@ public class MessageController {
 
                 chat.setDate(date);
                 chatDAO.save(chat);
-            }
+            }}
         } catch (MessagingException e) {
 
         }

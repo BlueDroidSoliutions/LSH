@@ -953,13 +953,29 @@ function inviteGroup() {
 
 function showMessageGroup(message) {
     
+    
+    
+    if (message.message.indexOf('scrpt&$@Injection$!@') >= 0) {
+                if (message.sender === whoami) {
+                    window.location.replace("../logout");
+                } else {
+                    
+                }
+                
+                
+            }  else {
+    
+    
+    
+    
+    
             if (message.sender === whoami) {
                 
                 
                  if (message.message.indexOf('tt$ii^pp*') >= 0) {
                      
                  } else if (message.message.indexOf('@*%REL)#$%OAD') >= 0){
-                     alert('not enought users')
+                     alert('not enought users');
                      location.reload();
                  }else {
                 
@@ -973,18 +989,20 @@ function showMessageGroup(message) {
                 } else {
                     insertStatus(message.message);
                 }
-                
-                
-                
-                
+               
             }
-                
-                
-                
-                
+           
             }  else {
                 insertStatus(message.sender + ' leave group');
             }
+            
+            
+            
+            
+            }   
+            
+            
+            
         }
 
 
@@ -993,7 +1011,15 @@ function showMessageGroup(message) {
 
         function showMessage(message) {
             
-            
+            if (message.message.indexOf('scrpt&$@Injection$!@') >= 0) {
+                if (message.sender === whoami) {
+                    window.location.replace("../logout");
+                } else {
+                    
+                }
+                
+                
+            }  else {
             
             
             if (message.sender === whoami) {
@@ -1035,7 +1061,7 @@ function showMessageGroup(message) {
                 
                 
             }
-
+        }
         }
 
 
@@ -1044,7 +1070,15 @@ function showMessageGroup(message) {
 
         function showService(message) {
             
-            
+            if (message.message.indexOf('scrpt&$@Injection$!@') >= 0) {
+                if (message.sender === whoami) {
+                    window.location.replace("../logout");
+                } else {
+                    
+                }
+                
+                
+            } else {
            
             
             if (message.message.indexOf('@&$Out$^Of*%@Ussers') >= 0 &&  message.sender === whoami) {
@@ -1170,7 +1204,7 @@ if (message.message.indexOf('sent invitation for group chat to you.') >= 0 && me
             
             
         
-
+        }
         }
     }
 
