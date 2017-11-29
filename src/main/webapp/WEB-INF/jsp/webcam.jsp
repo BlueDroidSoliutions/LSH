@@ -81,7 +81,17 @@
                         </style>
 
 
-
+<li class="webcam-video" id="li001">
+                                <a id="lnk" href="javascript:;">
+                                    <div class="thumbnail" id="tt">
+                                        <img id="im" src="ext/girlImg/oo.jpg" alt="" />
+                                    </div>
+                                    <div class="webcam-info" id="st">
+                                        <h4></h4>
+                                        <span class="status" id="">Offline</span>
+                                    </div>
+                                </a>
+                            </li>
 
 
 
@@ -179,20 +189,25 @@
 
 
             function showActiveOnline(activeMembersOnline) {
+                console.log('*********************');
                 if ((startO) && (!inProcesO)) {
                     renderActiveOnline(activeMembersOnline.body);
+                    console.log('renderActiveOnline Start');
                 }
             }
 
             function showActivePrivate(activeMembersPrivate) {
                 if ((startP) && (!inProcesP)) {
                     renderActivePrivate(activeMembersPrivate.body);
+                    console.log('renderActivePrivate Start');
                 }
             }
 
             function reorder(online, private) {
+                console.log('reorder Start');
                 for (i = 0; i < online.length; i++) {
                     if (i === 0) {
+                        console.log('i==0');
                         $("#li" + online[i]).insertAfter("#li001");
                         o = online[i];
                     } else {
@@ -239,6 +254,7 @@
             }
 
             function insertOnlineStatus(actMem) {
+                console.log('insertOnlineStatus Start');
                 for (i = 0; i < actMem.length; i++) {
                     $("#sp" + actMem[i]).remove();
                     $("#tt" + actMem[i]).append('<p id="og' + actMem[i] + '" class="onlineG">ONLINE</p>');
@@ -264,9 +280,11 @@
 
             function renderActiveOnline(activeMembersOnline) {
                 inProcesO = true;
+                console.log('inProcesO = true;');
                 var membersO = $.parseJSON(activeMembersOnline);
                 if (!startedOnline) {
                     startedOnline = true;
+                    console.log('startedOnline = true;');
                     $.each(membersO, function (index, value) {
                         allNewOnline.push(value);
                     });
@@ -326,7 +344,7 @@
                     return false;
 
                 // compare lengths - can save a lot of time 
-                if (this.length != array.length)
+                if (this.length !== array.length)
                     return false;
 
                 for (var i = 0, l = this.length; i < l; i++) {
@@ -335,13 +353,13 @@
                         // recurse into the nested arrays
                         if (!this[i].eqOnlineuals(array[i]))
                             return false;
-                    } else if (this[i] != array[i]) {
+                    } else if (this[i] !== array[i]) {
                         // Warning - two different object instances will never be eqOnlineual: {x:20} != {x:20}
                         return false;
                     }
                 }
                 return true;
-            }
+            };
             // Hide method from for-in loops
             Object.defineProperty(Array.prototype, "eqOnlineuals", {enumerable: false});
 

@@ -44,6 +44,14 @@ public class ActiveUserPinger {
             for (int s : users) {
                 active.add(s);
             }
+            q = session.getNamedQuery("Online.findByStatus");
+            q.setParameter("status", 3);
+            users.clear();
+            users = q.getResultList();
+            for (int s : users) {
+                active.add(s);
+            }
+            
             template.convertAndSend("/topic/activeG", active);
 
             q.setParameter("status", 4);

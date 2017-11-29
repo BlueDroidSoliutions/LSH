@@ -27,7 +27,7 @@
 
 
 
-    <p style="font-size: 30px;  color: white;">JA SAM ${g.userName} ////////////////////////////////////////////</p>
+<!--    <p style="font-size: 30px;  color: white;">JA SAM ${g.userName} ////////////////////////////////////////////</p>-->
 
     <div id="page-wrap" class="page-chat">
         <div class="wrapper ">

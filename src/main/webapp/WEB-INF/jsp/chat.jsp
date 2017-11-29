@@ -28,7 +28,7 @@
         var selectedGirl = '<c:out value="${g.id}"/>';
     </script>
 
-    <p style="font-size: 30px;  color: white;">${user.username} + ${g.userName}  >>> timeGr : ${timeGr} >>> timePr : ${timePr} </p>
+    <!--<p style="font-size: 30px;  color: white;">${user.username} + ${g.userName}  >>> timeGr : ${timeGr} >>> timePr : ${timePr} </p>-->
     
 
     <div id="page-wrap" class="page-chat">
@@ -195,11 +195,17 @@
                                 </li>
                                 <li class="genre">
                                     Gender
-                                    <span class="list-big-title">Female</span>
+                                    <c:if test="${g.gender == true}">
+                                        <span class="list-big-title">male</span>
+                                    </c:if>
+                                        <c:if test="${g.gender == false}">
+                                        <span class="list-big-title">female</span>
+                                    </c:if>
+                                    
                                 </li>
                                 <li class="age">
                                     Age
-                                    <span class="list-big-title">25</span>
+                                    <span class="list-big-title">${g.age}</span>
                                 </li>
 
                                 <li class="preferences">
@@ -258,7 +264,7 @@
                         <div class="more-details more-info more-box-holder">
                             <p>In Private Chat, I'm willing to perform:</p>
                             <p><strong>
-                                    Anal sex, Cameltoe, Close up, Dancing, Dildo, Fingering, Live orgasm, Oil, Roleplay, Squirt, Striptease, Shaved, Piercing, Tattoo
+                                    ${g.story}
                                 </strong></p>
                             <p>Special places:</p>
                             <p><strong>Office</strong></p>
@@ -768,7 +774,7 @@
     </script>
     <script>
                                                 var notice1 = '<div class="notice-box"> <p>  User ';
-                                                var notice2 = ' is now  <span class="svg-notice"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="26.75px" height="18.542px" viewBox="0.667 0 26.75 18.542" enable-background="new 0.667 0 26.75 18.542" xml:space="preserve"> <path fill="#FFFFFF" d="M24.126,6.357c-0.183-0.369-0.335-0.592-0.405-0.84c-0.212-0.73,0.047-1.326,0.694-1.676 c0.642-0.347,1.29-0.256,1.788,0.314c0.49,0.563,0.629,1.307,0.078,1.787c-0.754,0.658-0.859,1.502-1.073,2.346 c-0.34,1.339-0.701,2.675-0.993,4.023c-0.181,0.834-0.559,1.207-1.471,1.207c-5.834-0.011-11.667,0.021-17.5,0.068  c-0.876,0.007-1.32-0.313-1.503-1.181C3.45,11.023,3.062,9.66,2.726,8.286c-0.209-0.851-0.328-1.685-1.098-2.33 c-0.56-0.47-0.441-1.218,0.05-1.785C2.204,3.57,2.874,3.479,3.543,3.886c0.635,0.384,0.955,1.044,0.58,1.69 c-0.414,0.713-0.096,1.053,0.369,1.47c0.466,0.417,0.87,0.905,1.347,1.308c1.127,0.953,2.678,0.912,3.635-0.209 c1.111-1.302,2.11-2.699,3.119-4.082c0.128-0.176,0.082-0.537,0.016-0.785c-0.191-0.694-0.151-1.312,0.46-1.777 c0.565-0.43,1.163-0.438,1.736-0.018c0.616,0.453,0.659,1.064,0.502,1.77c-0.066,0.295-0.033,0.709,0.133,0.943 c0.869,1.24,1.77,2.463,2.711,3.649c1.174,1.481,2.822,1.563,4.197,0.255C22.941,7.533,23.52,6.952,24.126,6.357"/>  <path fill="#FFFFFF" d="M13.926,18.19c-2.862,0-5.726,0.004-8.589-0.002c-1.135-0.002-1.252-0.147-1.256-1.461 c-0.005-1.49,0.115-1.666,1.269-1.666c5.759-0.008,11.518,0.008,17.275-0.016c0.949-0.004,1.338,0.369,1.241,1.297 c-0.024,0.229-0.019,0.463-0.001,0.689c0.068,0.845-0.297,1.178-1.153,1.17C19.785,18.172,16.855,18.19,13.926,18.19"/> </svg> </span> king of the room.  </p>  </div>'
+                                                var notice2 = ' is now  <span class="svg-notice"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="26.75px" height="18.542px" viewBox="0.667 0 26.75 18.542" enable-background="new 0.667 0 26.75 18.542" xml:space="preserve"> <path fill="#FFFFFF" d="M24.126,6.357c-0.183-0.369-0.335-0.592-0.405-0.84c-0.212-0.73,0.047-1.326,0.694-1.676 c0.642-0.347,1.29-0.256,1.788,0.314c0.49,0.563,0.629,1.307,0.078,1.787c-0.754,0.658-0.859,1.502-1.073,2.346 c-0.34,1.339-0.701,2.675-0.993,4.023c-0.181,0.834-0.559,1.207-1.471,1.207c-5.834-0.011-11.667,0.021-17.5,0.068  c-0.876,0.007-1.32-0.313-1.503-1.181C3.45,11.023,3.062,9.66,2.726,8.286c-0.209-0.851-0.328-1.685-1.098-2.33 c-0.56-0.47-0.441-1.218,0.05-1.785C2.204,3.57,2.874,3.479,3.543,3.886c0.635,0.384,0.955,1.044,0.58,1.69 c-0.414,0.713-0.096,1.053,0.369,1.47c0.466,0.417,0.87,0.905,1.347,1.308c1.127,0.953,2.678,0.912,3.635-0.209 c1.111-1.302,2.11-2.699,3.119-4.082c0.128-0.176,0.082-0.537,0.016-0.785c-0.191-0.694-0.151-1.312,0.46-1.777 c0.565-0.43,1.163-0.438,1.736-0.018c0.616,0.453,0.659,1.064,0.502,1.77c-0.066,0.295-0.033,0.709,0.133,0.943 c0.869,1.24,1.77,2.463,2.711,3.649c1.174,1.481,2.822,1.563,4.197,0.255C22.941,7.533,23.52,6.952,24.126,6.357"/>  <path fill="#FFFFFF" d="M13.926,18.19c-2.862,0-5.726,0.004-8.589-0.002c-1.135-0.002-1.252-0.147-1.256-1.461 c-0.005-1.49,0.115-1.666,1.269-1.666c5.759-0.008,11.518,0.008,17.275-0.016c0.949-0.004,1.338,0.369,1.241,1.297 c-0.024,0.229-0.019,0.463-0.001,0.689c0.068,0.845-0.297,1.178-1.153,1.17C19.785,18.172,16.855,18.19,13.926,18.19"/> </svg> </span> king of the room.  </p>  </div>';
                                                 
                                                 
                                             </script>
@@ -847,9 +853,7 @@
                             }, (300000-(timePr*100)));
 //                            changeTime 300000
             }
-            
-            
-            
+        
             
         }
 
@@ -1044,14 +1048,9 @@
                 }
             }
 
-
             }
 
-
         }
-
-
-
 
         function showMessage(message) {
             
@@ -1097,14 +1096,9 @@
                 }
             }
         }
-            
-            
-            
-            
+       
             
         }
-
-
 
         function showMessageService(message) {
             
@@ -1160,11 +1154,7 @@ if (message.message.indexOf('The girl is in private mode') >= 0 && grStrt && !in
     alert('The girl is in private mode');
     location.reload();
 }
-            
-            
-            
-            
-
+ 
 
 if (message.message.indexOf('##%Girl*$&Reset') >= 0) {
                 if (message.sender === inviteGirl) {
@@ -1172,8 +1162,6 @@ if (message.message.indexOf('##%Girl*$&Reset') >= 0) {
                 }
 
             }
-
-
 
 
             if (message.message.indexOf('I accepted invitation from you.') >= 0) {
@@ -1189,8 +1177,6 @@ if (message.message.indexOf('##%Girl*$&Reset') >= 0) {
                 }
 
             }
-
-
 
             if (message.message.indexOf('@@#$#$&ut$^@%Of*%@Ussers#@#%#*!^') >= 0 && grStarted) {
                 if (message.sender === inviteGirl) {
@@ -1256,9 +1242,6 @@ if (message.message.indexOf('##%Girl*$&Reset') >= 0) {
                                 }, 300000);
 //                                changeTime 300000
                     
-                    
-                    
-                    
                 }
 
 
@@ -1282,9 +1265,6 @@ if (message.message.indexOf('##%Girl*$&Reset') >= 0) {
                     alert('You do not have enough tokens, try a smaller amount');
                 }
             }
-
-
-
 
 if (message.sender === inviteGirl) {
                     if (message.message.indexOf('yes%%#*^Private##%&(') >= 0) {
@@ -1396,13 +1376,6 @@ if(status !== 3 || status !== 4){
                         alert("U don't have enought tokens");
                     }
 
-
-
-
-
-
-
-
                     if (message.message.indexOf('accepted your invitation for group chat, please wait for other users') >= 0) {
 
                         insertService(message.message);
@@ -1415,9 +1388,6 @@ if(status !== 3 || status !== 4){
                         alert("You do not have enough tokens");
                         $('a#gr').text('buy tokens');
                     }
-
-
-
 
                     if (message.message.indexOf('Are you sure you want to invite this girl to private chat') >= 0) {
                        
@@ -1437,10 +1407,6 @@ if(status !== 3 || status !== 4){
                             
                         }
                     }
-
-
-
-
 
 
                     if (message.message.indexOf('Are you sure you want to invite this girl to group chat?') >= 0) {
@@ -1486,19 +1452,6 @@ if(status !== 3 || status !== 4){
                     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
                     if (message.message.indexOf('Are you sure you want to join this group chat?') >= 0) {
 
                         if (confirm(message.message) === true) {
@@ -1516,17 +1469,7 @@ if(status !== 3 || status !== 4){
                         }
                     }
 
-
-
-
-
                 }
-
-
-
-
-
-
                 if (message.sender === inviteGirl && inviteI === false && !inviteGirlB) {
                     if (message.message.indexOf('The girl is in private mode') >= 0) {
                         alert('The girl is in private mode');
@@ -1659,11 +1602,6 @@ function initBlink()
             }
 
         }
-
-
-
-
-
 
         function sendMessage() {
             var chatInput = '#input-chat';
@@ -1804,18 +1742,9 @@ elem.hover(function () {
 });
 }
 
-
-
-
         function videoStatus() {
             
-
-
-
-
-
-
-            if (status === '3') {
+              if (status === '3') {
                 $('a#gr').text('join group');
                 groupAlredyStarted = true;
                 insertService("Girl is in group chat , to join her group click 'JOIN GROUP'" );
@@ -1835,17 +1764,8 @@ elem.hover(function () {
                 closeVideo();
                 
             }
-            
-            
-            
-            
+         
         }
-
-
-
-
-
-
 
         $(document).ready(function () {
 

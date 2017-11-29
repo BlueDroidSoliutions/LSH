@@ -273,9 +273,6 @@ public class SiteController {
                 model.addAttribute("timePr", timePr);
                 
                 
-                
-                
-                
 
                 Girls g = new Girls();
                 g = girlDao.findById(id);

@@ -73,29 +73,32 @@ public class HeartbeatDao {
 
     }
 
+    /// usg 1
     public void findStatusTakeMoney(int i) {
         boolean reverse = false;
         try {
 
             Session session = sessionFactory.getCurrentSession();
 
-            girlsGList.clear();
-            girlsGSet.clear();
             usersIdList.clear();
             heartBeatList.clear();
             usersList.clear();
             girlsList.clear();
+            girlsGList.clear();
+            girlsGSet.clear();
+            girlsGFailSet.clear();
             girlsListId.clear();
             girlsSet.clear();
             usersSet.clear();
+            usersFailSet.clear();
             heartBeatDeleteList.clear();
             chatMembersUserIdDelete.clear();
             chatMembersDeleteList.clear();
-            girlsGFailSet.clear();
-            min = 0;
-            usersFailSet.clear();
             chatMembersDeleteUsers.clear();
+            list.clear();
             onlineList.clear();
+
+            min = 0;
 
             //uzimamo sve heartbeat-ove
             Query q = session.getNamedQuery("Heartbeat.findByStatus");
@@ -204,60 +207,67 @@ public class HeartbeatDao {
             heartBeatList.clear();
             usersList.clear();
             girlsList.clear();
-            girlsListId.clear();
-            girlsSet.clear();
-            usersSet.clear();
-            heartBeatDeleteList.clear();
-            chatMembersUserIdDelete.clear();
-            chatMembersDeleteList.clear();
             girlsGList.clear();
             girlsGSet.clear();
             girlsGFailSet.clear();
-            min = 0;
+            girlsListId.clear();
+            girlsSet.clear();
+            usersSet.clear();
             usersFailSet.clear();
+            heartBeatDeleteList.clear();
+            chatMembersUserIdDelete.clear();
+            chatMembersDeleteList.clear();
             chatMembersDeleteUsers.clear();
+            list.clear();
             onlineList.clear();
+            min = 0;
+            
 
         } catch (HibernateException e) {
             usersIdList.clear();
             heartBeatList.clear();
             usersList.clear();
             girlsList.clear();
-            girlsListId.clear();
-            girlsSet.clear();
-            usersSet.clear();
-            heartBeatDeleteList.clear();
-            chatMembersUserIdDelete.clear();
-            chatMembersDeleteList.clear();
             girlsGList.clear();
             girlsGSet.clear();
             girlsGFailSet.clear();
-            min = 0;
+            girlsListId.clear();
+            girlsSet.clear();
+            usersSet.clear();
             usersFailSet.clear();
+            heartBeatDeleteList.clear();
+            chatMembersUserIdDelete.clear();
+            chatMembersDeleteList.clear();
             chatMembersDeleteUsers.clear();
+            list.clear();
             onlineList.clear();
+            min = 0;
+            
         }
 
     }
 
+    // usg 1
     public void checkGroupGirlUser(int i) {
-        girlsGList.clear();
-        girlsGSet.clear();
         usersIdList.clear();
-        heartBeatList.clear();
-        usersList.clear();
-        girlsList.clear();
-        girlsListId.clear();
-        girlsSet.clear();
-        usersSet.clear();
-        heartBeatDeleteList.clear();
-        chatMembersUserIdDelete.clear();
-        chatMembersDeleteList.clear();
-        girlsGFailSet.clear();
+            heartBeatList.clear();
+            usersList.clear();
+            girlsList.clear();
+            girlsGList.clear();
+            girlsGSet.clear();
+            girlsGFailSet.clear();
+            girlsListId.clear();
+            girlsSet.clear();
+            usersSet.clear();
+            usersFailSet.clear();
+            heartBeatDeleteList.clear();
+            chatMembersUserIdDelete.clear();
+            chatMembersDeleteList.clear();
+            chatMembersDeleteUsers.clear();
+            list.clear();
+            onlineList.clear();
         min = 0;
-        usersFailSet.clear();
-        chatMembersDeleteUsers.clear();
-        onlineList.clear();
+        
 
         if (i != 5) {
             i++;
@@ -345,49 +355,70 @@ public class HeartbeatDao {
 
             }
 
-            girlsGList.clear();
-            girlsGSet.clear();
             usersIdList.clear();
             heartBeatList.clear();
             usersList.clear();
             girlsList.clear();
+            girlsGList.clear();
+            girlsGSet.clear();
+            girlsGFailSet.clear();
             girlsListId.clear();
             girlsSet.clear();
             usersSet.clear();
+            usersFailSet.clear();
             heartBeatDeleteList.clear();
             chatMembersUserIdDelete.clear();
             chatMembersDeleteList.clear();
-            girlsGFailSet.clear();
-            min = 0;
-            usersFailSet.clear();
             chatMembersDeleteUsers.clear();
+            list.clear();
             onlineList.clear();
+            min = 0;
+            
         } catch (Exception e) {
-            girlsGList.clear();
-            girlsGSet.clear();
             usersIdList.clear();
             heartBeatList.clear();
             usersList.clear();
             girlsList.clear();
+            girlsGList.clear();
+            girlsGSet.clear();
+            girlsGFailSet.clear();
             girlsListId.clear();
             girlsSet.clear();
             usersSet.clear();
+            usersFailSet.clear();
             heartBeatDeleteList.clear();
             chatMembersUserIdDelete.clear();
             chatMembersDeleteList.clear();
-            girlsGFailSet.clear();
-            min = 0;
-            usersFailSet.clear();
             chatMembersDeleteUsers.clear();
+            list.clear();
             onlineList.clear();
+            min = 0;
+            
         }
 
     }
 
+    ///  usg 1
     public void check(int i) {
 
         try {
-
+usersIdList.clear();
+            heartBeatList.clear();
+            usersList.clear();
+            girlsList.clear();
+            girlsGList.clear();
+            girlsGSet.clear();
+            girlsGFailSet.clear();
+            girlsListId.clear();
+            girlsSet.clear();
+            usersSet.clear();
+            usersFailSet.clear();
+            heartBeatDeleteList.clear();
+            chatMembersUserIdDelete.clear();
+            chatMembersDeleteList.clear();
+            chatMembersDeleteUsers.clear();
+            list.clear();
+            onlineList.clear();
             Session session = sessionFactory.getCurrentSession();
             Query q = session.getNamedQuery("Heartbeat.findByStatus");
 
@@ -475,19 +506,13 @@ public class HeartbeatDao {
             usersIdList = q.getResultList();
             girlsInPrivate = !usersIdList.isEmpty();
 
-            
-            
             if (girlsInPrivate) {
-               q = session.createQuery("SELECT u from Users u WHERE u.id IN :idl");
+                q = session.createQuery("SELECT u from Users u WHERE u.id IN :idl");
                 q.setParameter("idl", usersIdList);
                 girlsList.clear();
                 girlsList = q.getResultList();
             }
 
-            
-           
-            
-            
             if (!list.isEmpty()) {
 
                 if (girlsInPrivate) {
@@ -495,15 +520,15 @@ public class HeartbeatDao {
                     for (Heartbeat h : list) {
                         h.setStatus(7);
                         session.update(h);
-                        for (Users g :girlsList) {
+                        for (Users g : girlsList) {
 
                             if (h.getGirl() == g.getId()) {
-                              
-                            chatMessage.setMessage("leave*#^Private@#&$");
-                            chatMessage.setRecipient(g.getUsername());
-                            chatMessage.setSender(g.getUsername());
-                            template.convertAndSendToUser(g.getUsername(), "/queue/messages", chatMessage);
-                                
+
+                                chatMessage.setMessage("leave*#^Private@#&$");
+                                chatMessage.setRecipient(g.getUsername());
+                                chatMessage.setSender(g.getUsername());
+                                template.convertAndSendToUser(g.getUsername(), "/queue/messages", chatMessage);
+
                             }
 
                         }
@@ -519,12 +544,45 @@ public class HeartbeatDao {
                 }
 
             }
+            usersIdList.clear();
+            heartBeatList.clear();
+            usersList.clear();
+            girlsList.clear();
+            girlsGList.clear();
+            girlsGSet.clear();
+            girlsGFailSet.clear();
+            girlsListId.clear();
+            girlsSet.clear();
+            usersSet.clear();
+            usersFailSet.clear();
+            heartBeatDeleteList.clear();
+            chatMembersUserIdDelete.clear();
+            chatMembersDeleteList.clear();
+            chatMembersDeleteUsers.clear();
             list.clear();
+            onlineList.clear();
         } catch (HibernateException e) {
+            usersIdList.clear();
+            heartBeatList.clear();
+            usersList.clear();
+            girlsList.clear();
+            girlsGList.clear();
+            girlsGSet.clear();
+            girlsGFailSet.clear();
+            girlsListId.clear();
+            girlsSet.clear();
+            usersSet.clear();
+            usersFailSet.clear();
+            heartBeatDeleteList.clear();
+            chatMembersUserIdDelete.clear();
+            chatMembersDeleteList.clear();
+            chatMembersDeleteUsers.clear();
             list.clear();
+            onlineList.clear();
         }
     }
 
+    // usg 1
     public void findStatus9giveNew(int newStatus) {
         list.clear();
         try {
@@ -547,6 +605,7 @@ public class HeartbeatDao {
 
     }
 
+    ////// usg 1
     public void deleteStatus7() {
         list.clear();
         List<Integer> li = new ArrayList<>();
@@ -695,11 +754,29 @@ public class HeartbeatDao {
         return hbL;
     }
 
+    // usg 1
     public void checkAloneGirls() {
         List<Integer> isti = new ArrayList<>();
         Set<Integer> sIsti = new HashSet<>();
         List<Integer> nisu = new ArrayList<>();
         Set<Integer> sNisu = new HashSet<>();
+        usersIdList.clear();
+            heartBeatList.clear();
+            usersList.clear();
+            girlsList.clear();
+            girlsGList.clear();
+            girlsGSet.clear();
+            girlsGFailSet.clear();
+            girlsListId.clear();
+            girlsSet.clear();
+            usersSet.clear();
+            usersFailSet.clear();
+            heartBeatDeleteList.clear();
+            chatMembersUserIdDelete.clear();
+            chatMembersDeleteList.clear();
+            chatMembersDeleteUsers.clear();
+            list.clear();
+            onlineList.clear();
         try {
             Session session = sessionFactory.getCurrentSession();
             Query q = session.createNativeQuery("select girl_id from chatmembers where  girl_id = user_id; ");
@@ -734,8 +811,42 @@ public class HeartbeatDao {
                 }
 
             }
+            usersIdList.clear();
+            heartBeatList.clear();
+            usersList.clear();
+            girlsList.clear();
+            girlsGList.clear();
+            girlsGSet.clear();
+            girlsGFailSet.clear();
+            girlsListId.clear();
+            girlsSet.clear();
+            usersSet.clear();
+            usersFailSet.clear();
+            heartBeatDeleteList.clear();
+            chatMembersUserIdDelete.clear();
+            chatMembersDeleteList.clear();
+            chatMembersDeleteUsers.clear();
+            list.clear();
+            onlineList.clear();
 
         } catch (HibernateException e) {
+            usersIdList.clear();
+            heartBeatList.clear();
+            usersList.clear();
+            girlsList.clear();
+            girlsGList.clear();
+            girlsGSet.clear();
+            girlsGFailSet.clear();
+            girlsListId.clear();
+            girlsSet.clear();
+            usersSet.clear();
+            usersFailSet.clear();
+            heartBeatDeleteList.clear();
+            chatMembersUserIdDelete.clear();
+            chatMembersDeleteList.clear();
+            chatMembersDeleteUsers.clear();
+            list.clear();
+            onlineList.clear();
         }
 
     }
