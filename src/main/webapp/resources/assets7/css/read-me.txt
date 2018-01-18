@@ -1,0 +1,4 @@
+This project uses compass/scss.
+Do not change CSS file, because it will be overwritten when scss is compiled. 
+
+Thanks

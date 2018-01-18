@@ -1,0 +1,27 @@
+/*----------  footer
+------------------------------------------------------------------------------*/
+
+.footer {
+	@include base-float;
+	text-align: center;
+	min-height: 35px;
+	p {
+		font-size: 12px;
+		color: #fff;
+		line-height: 16px;
+		a {
+			color: #fff;
+		}
+	}
+        .banner {
+            width: 100%;
+            max-width: calc(100% - 560px);
+            margin: 0 auto 20px auto;
+            padding: 0 10px;
+            img {
+                display: block;
+                max-width: 100%;
+                height: auto;
+            }
+        }
+}

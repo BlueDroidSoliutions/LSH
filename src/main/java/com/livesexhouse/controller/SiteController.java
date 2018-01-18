@@ -2,11 +2,16 @@ package com.livesexhouse.controller;
 
 import com.google.common.collect.Sets;
 import com.livesexhouse.DAO.*;
+import com.livesexhouse.model.BlockedCountryM2m;
+import com.livesexhouse.model.BlockedRegionM2m;
 import com.livesexhouse.model.Contact;
 import com.livesexhouse.model.Girls;
 import com.livesexhouse.model.Heartbeat;
+import com.livesexhouse.model.InteresM2m;
+import com.livesexhouse.model.KinkyM2m;
 import com.livesexhouse.model.MemberHouse;
 import com.livesexhouse.model.MembersRank;
+import com.livesexhouse.model.Model;
 import com.livesexhouse.model.Participant;
 import com.livesexhouse.model.Time;
 import com.livesexhouse.model.UserM2m;
@@ -23,6 +28,7 @@ import com.livesexhouse.model.YourWish;
 import com.livesexhouse.model.YourWishAction;
 import com.livesexhouse.model.YourWishExtra;
 import com.livesexhouse.service.PricePackageService;
+import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
@@ -52,6 +58,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -148,9 +155,15 @@ public class SiteController {
 
     @Autowired
     HeartbeatDao heartbeatDao;
-    
+
     @Autowired
     TimeDao timeDao;
+
+    @Autowired
+    Checker checker;
+
+    @Autowired
+    ModelDao modelDao;
 
     @Autowired
     private PricePackageService pricePackageService;
@@ -248,31 +261,29 @@ public class SiteController {
                 model.addAttribute("userName", principal.getName());
                 model.addAttribute("user", u);
                 System.out.println("w1");
-                
+
                 Time tGr = timeDao.getTimeGr(u.getId(), id);
                 Time tPr = timeDao.getTimePr(u.getId(), id);
-                
+
                 System.out.println("w2");
-                
+
                 long timeGr = 301;
                 long timePr = 301;
-                
-                if(tGr.getUserId()!=0){
+
+                if (tGr.getUserId() != 0) {
                     Date d2 = new Date();
                     Date d1 = tGr.getTime();
-                    timeGr = (d2.getTime()-d1.getTime())/1000;
-                    
+                    timeGr = (d2.getTime() - d1.getTime()) / 1000;
+
                 }
-                if(tPr.getUserId()!=0){
+                if (tPr.getUserId() != 0) {
                     Date d2 = new Date();
                     Date d1 = tPr.getTime();
-                    timePr = (d2.getTime()-d1.getTime())/1000;
+                    timePr = (d2.getTime() - d1.getTime()) / 1000;
                 }
-                
+
                 model.addAttribute("timeGr", timeGr);
                 model.addAttribute("timePr", timePr);
-                
-                
 
                 Girls g = new Girls();
                 g = girlDao.findById(id);
@@ -289,16 +300,12 @@ public class SiteController {
                 }
 
                 int status = onlineDao.getStatus(id);
-                
-                
-                
+
                 List<Girls> l = new ArrayList<>();
                 l = girlDao.findGirlsActive23(id);
-                
-                
-                
-        model.addAttribute("girlsOnline", l);
-                
+
+                model.addAttribute("girlsOnline", l);
+
                 String onl = "";
                 onl = onlineDao.onlineNow();
                 model.addAttribute("status", status);
@@ -795,7 +802,7 @@ public class SiteController {
         return "uploadMulti";
     }
 
-    @RequestMapping(value = "/becomeaparticipant", method = RequestMethod.POST)
+    @RequestMapping(value = "/becomeapartpost", method = RequestMethod.POST)
     public String becomeaparticipant(
             @RequestParam("file") MultipartFile file,
             @RequestParam("name") String name,
@@ -1467,6 +1474,490 @@ public class SiteController {
         } catch (Exception ex) {
         }
         return "index";
+    }
+
+    @RequestMapping(value = "/participatepost", method = RequestMethod.POST)
+    public String partpost(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("name") String name,
+            @RequestParam("birth") String birth,
+            @RequestParam("email") String email,
+            @RequestParam("state") String state,
+            @RequestParam("city") String city,
+            @RequestParam("message-text") String msg,
+            ModelMap model,
+            HttpServletResponse response, RedirectAttributes redirectAttributes,
+            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
+            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
+            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
+            Principal principal,
+            HttpServletRequest request) throws Exception {
+        Boolean alredySigned = false;
+         String ret = "becomemodelFAIL";
+        try {
+
+            if (cookieTrust != null) {
+                model.addAttribute("trustedUser", true);
+            } else {
+                if (cookieSigned != null) {
+                    model.addAttribute("alredySigned", true);
+                } else {
+                    if (cookieMail != null) {
+                        model.addAttribute("checkEmail", true);
+                    }
+                }
+            }
+            if (principal != null) {
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
+            }
+
+            List<Setup> setups = setupDao.getSetups();
+            String imgSaveLocation = setups.get(12).getValueString();
+
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("bck", "");
+            model.addAttribute("location", setupDao.getLocation());
+
+            Participant p = new Participant();
+            Date date = new Date();
+
+            String videoName2save = "";
+
+            boolean ok = false;
+            boolean ok2 = false;
+            boolean myChk = (request.getParameter("checkboxAccept") != null) ? true : false;
+
+            if (myChk) {
+                System.out.println("t1");
+
+                if (!file.isEmpty() && !name.isEmpty() && !birth.isEmpty() && !email.isEmpty() && !state.isEmpty() && !city.isEmpty()) {
+                    System.out.println("t2");
+                    String ext = file.getOriginalFilename().substring(file.getOriginalFilename().length() - 3, file.getOriginalFilename().length()).toUpperCase();
+                    if (ext.equals("JPG") || ext.equals("GIF") || ext.equals("PNG")) {
+                        ok = true;
+                        System.out.println("t3");
+                    }
+
+                    if (ext.equals("PEG")) {
+                        System.out.println("t4");
+                        if (file.getOriginalFilename().substring(file.getOriginalFilename().length() - 4, file.getOriginalFilename().length()).toUpperCase().equals("JPEG")) {
+                            System.out.println("t5");
+                            ok = true;
+                        }
+                    }
+
+                    if (ok) {
+                        System.out.println("t6");
+                        if (checker.check(request.getParameter("name"))) {
+                            System.out.println("t61");
+                            if (checker.check(request.getParameter("birth"))) {
+                                System.out.println("t62");
+                                if (checker.checkEmail(request.getParameter("email"))) {
+                                    System.out.println("t63");
+                                    if (checker.check(request.getParameter("state"))) {
+                                        System.out.println("t64");
+                                        if (checker.check(request.getParameter("city"))) {
+                                            System.out.println("t65");
+
+                                            if (checker.check(request.getParameter("message-text"))) {
+                                                System.out.println("t66");
+                                                ok2 = true;
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+
+                    System.out.println("t7");
+                }
+                System.out.println("t8");
+            } else {
+                System.out.println("please check");
+            }
+            System.out.println("t9");
+            if (ok2) {
+                System.out.println("t10");
+
+                videoName2save = imgSaveLocation + request.getParameter("email") + "_" + date + file.getOriginalFilename().substring(file.getOriginalFilename().length() - 4, file.getOriginalFilename().length());
+                //
+                if (saveVideoFile.savePic(file.getBytes(), videoName2save)) {
+                    System.out.println("t11");
+                    p.setName(request.getParameter("name"));
+                    p.setBirth(request.getParameter("birth"));
+                    p.setEmail(request.getParameter("email"));
+                    p.setState(request.getParameter("state"));
+                    p.setCity(request.getParameter("city"));
+                    p.setMsg(request.getParameter("message-text"));
+                    p.setDate(date);
+
+                    participantDao.saveParticipant(p);
+                      ret = "becomemodelOK";
+                }
+
+            }
+        } catch (Exception ex) {
+        }
+        return ret;
+    }
+
+    @RequestMapping(value = "/modelpost", method = RequestMethod.POST)
+    public String modelpost(
+            @RequestParam("files") MultipartFile[] files,
+            ModelMap model,
+            HttpServletResponse response, RedirectAttributes redirectAttributes,
+            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
+            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
+            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
+            Principal principal,
+            HttpServletRequest request) throws Exception {
+        Boolean alredySigned = false;
+        String ret = "becomemodelFAIL";
+        try {
+            System.out.println("*****************");
+            if (cookieTrust != null) {
+                model.addAttribute("trustedUser", true);
+            } else {
+                if (cookieSigned != null) {
+                    model.addAttribute("alredySigned", true);
+                } else {
+                    if (cookieMail != null) {
+                        model.addAttribute("checkEmail", true);
+                    }
+                }
+            }
+            
+            
+            if (principal != null) {
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
+            }
+
+                Integer fail = 0;
+            boolean acceptTerms = (request.getParameter("acceptterms") != null) ? true : false;
+            System.out.println("t1");
+            boolean passErr = true;
+            System.out.println("t2");
+            String audio = request.getParameter("Audio");
+            String hdVideo = request.getParameter("hdVideo");
+            String phoneService = request.getParameter("phoneService");
+            String groupShow = request.getParameter("groupShow");
+            String privateShow = request.getParameter("privateShow");
+            String permanentID = request.getParameter("permanentID");
+            System.out.println("t3");
+            String in =  request.getParameter("interes");
+           
+            System.out.println("gender" + request.getParameter("gender"));
+            System.out.println("t4");
+            
+            Model m = new Model();
+            boolean ok = false;
+            if (acceptTerms) {
+                if (audio != null && hdVideo != null && phoneService != null && groupShow != null && privateShow != null && permanentID != null && in!=null) {
+                    System.out.println("u1");
+                        if (!request.getParameter("email").equals("") && checker.checkEmail(request.getParameter("email"))) {
+                            if (!request.getParameter("fullname").equals("") && checker.check(request.getParameter("fullname"))) {
+                                if (checker.check(request.getParameter("region"))) {
+                                    if (!request.getParameter("country").equals("") && checker.check(request.getParameter("country"))) {
+                                        if (!request.getParameter("telep").equals("") && checker.check(request.getParameter("telep"))) {
+                                            if (!request.getParameter("password").equals("") && checker.checkPass(request.getParameter("password"))) {
+                                                passErr = false;
+                                                System.out.println("u2");
+                                                if (!request.getParameter("nick").equals("") && checker.check(request.getParameter("nick"))) {
+                                                    System.out.println("u21");
+                                                    if (!request.getParameter("birthday").equals("") && checker.check(request.getParameter("birthday"))) {
+                                                        System.out.println("u22");
+                                                        if (!request.getParameter("Adress").equals("") && checker.check(request.getParameter("Adress"))) {
+                                                            System.out.println("u23");
+                                                            if (!request.getParameter("gender").equals("") && checker.check(request.getParameter("gender"))) {
+                                                                System.out.println("u24");
+                                                                if (!request.getParameter("birthday").equals("") && checker.check(request.getParameter("birthday"))) {
+                                                                    System.out.println("u25");
+                                                                    if (!request.getParameter("sex").equals("") && checker.check(request.getParameter("sex"))) {
+                                                                        System.out.println("u26");
+                                                                        if (!request.getParameter("displayName").equals("") && checker.check(request.getParameter("displayName"))) {
+                                                                            System.out.println("u3");
+                                                                            if (!request.getParameter("zodiac").equals("") && checker.check(request.getParameter("zodiac"))) {
+                                                                                if (!request.getParameter("language").equals("") && checker.check(request.getParameter("language"))) {
+                                                                                    if (!request.getParameter("body").equals("") && checker.check(request.getParameter("body"))) {
+                                                                                        if (checker.check(request.getParameter("decorations"))) {
+                                                                                            if (!request.getParameter("lngSpoken").equals("") && checker.check(request.getParameter("lngSpoken"))) {
+                                                                                                if (!request.getParameter("height").equals("") && checker.check(request.getParameter("height"))) {
+                                                                                                    if (!request.getParameter("weight").equals("") && checker.check(request.getParameter("weight"))) {
+                                                                                                        System.out.println("u4");
+                                                                                                        if (!request.getParameter("hairColor").equals("") && checker.check(request.getParameter("hairColor"))) {
+                                                                                                            if (!request.getParameter("eyes").equals("") && checker.check(request.getParameter("eyes"))) {
+                                                                                                                if (!request.getParameter("ethnicity").equals("") && checker.check(request.getParameter("ethnicity"))) {
+                                                                                                                    if (!request.getParameter("cupSize").equals("") && checker.check(request.getParameter("cupSize"))) {
+                                                                                                                        System.out.println("u5");
+                                                                                                                        if (!request.getParameter("pubicHair").equals("") && checker.check(request.getParameter("pubicHair"))) {
+                                                                                                                            if (!request.getParameter("mes1").equals("") && checker.check(request.getParameter("mes1"))) {
+                                                                                                                                if (!request.getParameter("mes2").equals("") && checker.check(request.getParameter("mes2"))) {
+                                                                                                                                    if (!request.getParameter("mes3").equals("") && checker.check(request.getParameter("mes3"))) {
+                                                                                                                                        if (checker.check(request.getParameter("Audio"))) {
+                                                                                                                                            if (checker.check(request.getParameter("hdVideo"))) {
+                                                                                                                                                if (checker.check(request.getParameter("phoneService"))) {
+                                                                                                                                                    System.out.println("u7");
+                                                                                                                                                    if (checker.check(request.getParameter("groupShow"))) {
+                                                                                                                                                        if (checker.check(request.getParameter("privateShow"))) {
+                                                                                                                                                            if (checker.check(request.getParameter("permanentID"))) {
+                                                                                                                                                                if (!request.getParameter("idExpire").equals("") && checker.check(request.getParameter("idExpire"))) {
+                                                                                                                                                                    if (!request.getParameter("about").equals("") && checker.check(request.getParameter("about"))) {
+                                                                                                                                                                        ok = true;
+
+                                                                                                                                                                    }
+                                                                                                                                                                }
+                                                                                                                                                            }
+                                                                                                                                                        }
+                                                                                                                                                    }
+                                                                                                                                                }
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                        }
+
+                                    }
+
+                                
+
+                            }
+
+                        }
+
+                    }
+                }
+            }
+
+            if (ok) {
+                System.out.println("qq1");
+                         
+m.setEmail(request.getParameter("email"));
+m.setFullname(request.getParameter("fullname"));
+
+m.setRegion(request.getParameter("region"));
+m.setCountry(Integer.valueOf(request.getParameter("country")));
+m.setAddress(request.getParameter("Adress"));
+                System.out.println("s1");
+m.setTelephone(request.getParameter("telep"));
+m.setPassword(request.getParameter("password"));
+m.setNickname(request.getParameter("nick"));
+m.setGender(request.getParameter("gender"));
+m.setBirthday(request.getParameter("birthday"));
+m.setSex(request.getParameter("sex"));
+m.setDspName(request.getParameter("displayName"));
+                System.out.println("s2");
+m.setZodiac(request.getParameter("zodiac"));
+                System.out.println("o1");
+                System.out.println(request.getParameter("language"));
+m.setLanguage(Integer.valueOf(request.getParameter("language")));
+                System.out.println("o2");
+m.setBody(Integer.valueOf(request.getParameter("body")));
+                System.out.println("o3");
+if(!request.getParameter("decorations").equals(""))
+                    
+m.setDecoration(Integer.valueOf(request.getParameter("decorations")));
+System.out.println("o4");
+m.setLanguageSpoken(Integer.valueOf(request.getParameter("lngSpoken")));
+                System.out.println("s3");
+m.setWeight(request.getParameter("weight"));
+m.setHeight(request.getParameter("height"));
+m.setHair(Integer.valueOf(request.getParameter("hairColor")));
+m.setEye(request.getParameter("eyes"));
+m.setEthnicity(request.getParameter("ethnicity"));
+m.setCupSize(request.getParameter("cupSize"));
+                System.out.println("s4");
+m.setPubicHair(request.getParameter("pubicHair"));
+m.setMeasurements(request.getParameter("mes1")+"-"+request.getParameter("mes2")+"-"+request.getParameter("mes3"));
+m.setAudio(Integer.valueOf(request.getParameter("Audio")));
+m.setHd(Integer.valueOf(request.getParameter("hdVideo")));
+m.setPhoneService(Integer.valueOf(request.getParameter("phoneService")));
+m.setGroupYN(Integer.valueOf(request.getParameter("groupShow")));
+m.setAbout(request.getParameter("about"));
+                System.out.println("s5");
+m.setPrivate1(Integer.valueOf(request.getParameter("privateShow")));
+m.setExpireID(request.getParameter("idExpire"));
+m.setPermanentId(Integer.valueOf(request.getParameter("permanentID")));
+
+                     fail =    modelDao.saveI(m);
+                System.out.println("!!!!!!!!!######################## ok ok ok "+ fail);
+            }
+            
+            String bc =  request.getParameter("blockedCountry");
+            String br =  request.getParameter("blockedRegion");
+               String knk =  request.getParameter("kinky");
+            
+            if(fail>0){
+                 List<Setup> setups = setupDao.getSetups();
+            String imgSaveLocation = setups.get(13).getValueString();
+            String videoName2save = "";
+               //  cuvaj ostale m2m i slike
+                System.out.println("%%%%%%% fail");
+                ret = "becomemodelOK";
+                  for (int i = 0; i < files.length; i++) {
+                videoName2save = imgSaveLocation +fail+"_" +files[i].getOriginalFilename();
+
+                saveVideoFile.savePic(files[i].getBytes(), videoName2save);
+
+            }
+                
+                
+                if(bc!=null){
+               String[] blockedCountrys = request.getParameterValues("blockedCountry");
+            for (String s : blockedCountrys){
+                BlockedCountryM2m bcm2m = new BlockedCountryM2m();
+                bcm2m.setBlockedCountryId(Integer.valueOf(s));
+                bcm2m.setUserId(fail);
+                modelDao.saveBC(bcm2m);
+            }  }
+                
+                
+                
+                
+                
+                if(br!=null){
+            String[] blockedRegions = request.getParameterValues("blockedRegion");
+            for (String s : blockedRegions){
+                BlockedRegionM2m brm2m = new BlockedRegionM2m();
+                brm2m.setBlockedRegionId(Integer.valueOf(s));
+                brm2m.setUserId(fail);
+                modelDao.saveBR(brm2m);
+            }}
+                
+                if(in!=null){
+            String[] interests = request.getParameterValues("interes");
+            for (String s : interests){
+                InteresM2m im2m = new InteresM2m();
+                im2m.setInteresId(Integer.valueOf(s));
+                im2m.setUserId(fail);
+                modelDao.saveIn(im2m);
+            }}
+                
+                
+                
+                
+            if(knk!=null){
+            String[] kinkys = request.getParameterValues("kinky");
+            for (String s : kinkys){
+                KinkyM2m km2m = new KinkyM2m();
+                km2m.setKinkyId(Integer.valueOf(s));
+                km2m.setUserId(fail);
+                modelDao.saveKn(km2m);
+                System.out.println("Xxxxxxxxxxxx kn " + s );
+            }}
+            
+                
+            }
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+   
+            System.out.println(files.length);
+
+           
+          
+
+            System.out.println("acceptTerms: " + acceptTerms);
+           
+
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("bck", "");
+            model.addAttribute("location", setupDao.getLocation());
+
+
+        } catch (Exception ex) {
+        }
+        return ret;
+    }
+
+    @RequestMapping("/becomemodel")
+    public String becomeModel(
+            Principal principal, RedirectAttributes redirectAttributes,
+            ModelMap model,
+            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
+            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
+            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
+            HttpServletResponse response,
+            HttpServletRequest request) throws Exception {
+        Boolean alredySigned = false;
+       
+        try {
+            if (cookieTrust != null) {
+                model.addAttribute("trustedUser", true);
+            } else {
+                if (cookieSigned != null) {
+                    model.addAttribute("alredySigned", true);
+                } else {
+                    if (cookieMail != null) {
+                        model.addAttribute("checkEmail", true);
+                    }
+                }
+            }
+            if (principal != null) {
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
+            }
+            System.out.println("t1");
+            model.addAttribute("findInteres", modelDao.findInteres());
+            model.addAttribute("findCountry", modelDao.findCountry());
+            model.addAttribute("findLanguage", modelDao.findLanguage());
+            model.addAttribute("findBody", modelDao.findBody());
+            model.addAttribute("findDecoration", modelDao.findDecoration());
+            model.addAttribute("findLanguageSpoken", modelDao.findLanguageSpoken());
+            model.addAttribute("findHair", modelDao.findHair());
+            model.addAttribute("findKinky", modelDao.findKinky());
+            model.addAttribute("findBlockedCountry", modelDao.findBlockedCountry());
+            model.addAttribute("findBlockedRegion", modelDao.findBlockedRegion());
+            System.out.println("t2");
+            model.addAttribute("path", setupDao.getPath());
+            model.addAttribute("location", setupDao.getLocation());
+            model.addAttribute("bck", "");
+
+        } catch (Exception ex) {
+        }
+        return "becomemodel";
     }
 
     @RequestMapping(value = "/formWish", method = RequestMethod.POST)
@@ -2916,7 +3407,6 @@ public class SiteController {
 //                    }
 //                }
 //            }
-
 //            HeartBeatCTRL hb = new HeartBeatCTRL();
 //            System.out.println(hb.i);
 //List<Heartbeat> l = new ArrayList<>();
@@ -2935,5 +3425,4 @@ public class SiteController {
 //
 ////        return redirect.re(request.getHeader("referer"));
 //    }
-
 }

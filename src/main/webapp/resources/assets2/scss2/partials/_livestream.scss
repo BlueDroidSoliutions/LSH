@@ -1,0 +1,450 @@
+.livestream {
+    padding-bottom: 20px;
+    .stream-rooms {
+        width: 280px;
+        float: left;
+    }
+    .stream-main {
+        width: calc(100% - 560px);
+        float: left;
+        padding: 0 20px;
+    }
+    .stream-aside {
+        width: 280px;
+        float: left;
+    }
+    @include breakpoint(tablet) {
+        .stream-rooms {
+            width: 100%;
+            float: none;
+            margin-bottom: 20px;
+        }
+        .stream-main {
+            width: 100%;
+            float: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        .stream-aside {
+            width: 100%;
+            float: none;
+        }
+    }
+    @include breakpoint(phone) {
+        .stream-rooms {
+            width: 100%;
+            float: none;
+            margin-bottom: 20px;
+        }
+        .stream-main {
+            width: 100%;
+            float: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        .stream-aside {
+            width: 100%;
+            float: none;
+        }
+    }
+}
+
+.stream-rooms {
+    padding: 20px 15px;
+    background-color: #5e0b0e;
+    background-image: radial-gradient(ellipse at top left, #650a0d 130px, #5e0b0e 0);
+    border-radius: 10px;
+    font-family: $font-q;
+    .housemap {
+        display: block;
+        max-width: 400px;
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+    }
+    .selected-room {
+        font-size: 24px;
+        line-height: 28px;
+        display: inline-block;
+        color: $yellow;
+        transform: translateY(-15px);
+    }
+    .room-navigation {
+        margin-top: 68px;
+        > li {
+            display: block;
+            position: relative;
+            width: 100%;
+            max-width: 130px;
+            margin-bottom: 5px;
+            > a {
+                display: block;
+                font-size: 24px;
+                line-height: 28px;
+                color: $white;
+                span {
+                    display: inline-block;
+                    padding: 2px 10px 2px 0;
+                    background-color: #5e0b0e;
+                }
+            }
+            ul {
+                position: absolute;
+                left: 130px;
+                top: 0;
+                width: 120px;
+                padding-left: 10px;
+                display: none;
+                li {
+                    display: block;
+                    a {
+                        display: block;
+                        font-size: 14px;
+                        line-height: 16px;
+                        color: #b3b3b3;
+                        padding: 2px 0;
+                    }
+                }
+            }
+            &:hover,
+            &.active {
+                > a {
+                    background: linear-gradient(to bottom, transparent 15px, white 0, white 17px, transparent 0);
+                     color: $yellow;
+                }
+                > ul {
+                    display: block;
+                }
+            }
+            &.active {
+            }
+            a:hover {
+               
+            }
+        }
+    }
+    @include breakpoint(phone) {
+        .room-navigation {
+            margin-top: 20px;
+            > li > a {
+                font-size: 20px;
+                line-height: 24px;
+            }
+        }
+    }
+}
+
+.stream-main {
+    .stream-video {
+        margin-bottom: 15px;
+        position: relative;
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+        .videoWrapper {
+            width: 100%;
+        }
+        .overlay {
+            display: none;
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, .6);
+            background-image: url('../img/plus-icon.png');
+            background-repeat: no-repeat;
+            background-position: 50% 50%;
+            opacity: 0;
+            transition: opacity 200ms ease-in-out;
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+    .sex-cam {
+        display: inline-block;
+        border-radius: 8px;
+        padding: 50px 12px;
+        color: #fff;
+        background: #ff0000;
+        position: relative;
+        font-size: 32px;
+        line-height: 34px;
+        text-transform: uppercase;
+        text-align: center;
+        font-family: $main-f;
+        box-shadow: 4px 4px 10px 2px rgba(0, 0, 0, .3);
+        width: 100%;
+        max-width: 170px;
+        span {
+            display: block;
+            font-size: 16px;
+            line-height: 22px;
+            text-transform: lowercase;
+        }
+        &:hover {
+            background-color: #990000;
+        }
+    }
+
+    @include breakpoint(tablet) {
+        .sex-cam {
+            padding: 35px 12px;
+        }
+    }
+    @include breakpoint(phone) {
+        .sex-cam {
+            padding: 30px 12px;
+        }
+    }
+}
+
+.stream-aside {
+    .live-web-chat {
+        position: relative;
+        padding-right: 150px;
+        overflow: hidden;
+        display: block;
+        div {
+            display: block;
+            width: 100%;
+            padding: 32px 5px;
+            font-size: 30px;
+            line-height: 34px;
+            font-family: $main-f;
+            text-align: center;
+            color: $white;
+            background-color: #ff0000;
+            border-radius: 8px;
+            position: relative;
+            z-index: 5;
+           @include transition(all 0.3s ease-in-out);
+            span {
+                display: block;
+                font-size: 16px;
+                line-height: 24px;
+            }
+        }
+        img {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 4;
+        }
+        &:hover div {
+            background-color: #990000;
+        }
+    }
+}
+
+.vote-section {
+    background-color: #ac0b0e;
+    background: linear-gradient(to right, #a90b0e, #ae0b0e);
+    box-shadow: 4px 4px 10px 2px rgba(0, 0, 0, .3);
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 20px;
+    .inner {
+        padding: 20px;
+        background: url('../img/content/vote-list-bg.png') no-repeat top right;
+    }
+    .heading {
+        width: 100%;
+        display: inline-block;
+        text-align: center;
+        color: $white;
+        margin-bottom: 35px;
+    }
+    h3 {
+        text-transform: uppercase;
+        font-size: 40px;
+        line-height: 44px;
+    }
+    p {
+        font-family: $font-q;
+        margin-bottom: 0;
+    }
+    .vote-list {
+        display: inline-block;
+        vertical-align: top;
+        text-align: center;
+    }
+    li {
+        display: inline-block;
+        vertical-align: top;
+        position: relative;
+        margin: 5px 12px 5px;
+        .number-of-votes {
+            position: absolute;
+            line-height: 1;
+            font-size: 35px;
+            color: #fff;
+            top: -15px;
+            right: 5px;
+            z-index: 25;
+            font-family: $main-f;
+        }
+        a {
+            display: block;
+            max-width: 90px;
+            overflow: hidden;
+            border-radius: 50%;
+            position: relative;
+            margin-bottom: 3px;
+            img {
+                display: block;
+                max-width: 100%;
+                height: auto;
+                border-radius: 50%;
+                transition: transform 200ms linear;
+            }
+            .vote {
+                display: block;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.6);
+                font-size: 28px;
+                line-height: 1;
+                border-radius: 50%;
+                text-align: center;
+                color: $yellow;
+                text-transform: uppercase;
+                opacity: 0;
+                transition: opacity 200ms linear;
+                z-index: 10;
+                span {
+                    position: absolute;
+                    display: inline-block;
+                    top: 50%;
+                    font-family: "Coluna";
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                }
+            }
+            &:hover {
+                img {
+                    transform: scale(1.14);
+                }
+                .vote {
+                    display: block;
+                    opacity: 1;
+                }
+            }
+        }
+        .name {
+            display: block;
+            font-size: 14px;
+            line-height: 1;
+            color: white;
+        }
+    }
+    @include breakpoint(phone) {
+        padding: 12px;
+        .heading {
+            margin-bottom: 10px;
+        }
+        h3 {
+            font-size: 26px;
+            line-height: 30px;
+        }
+        p {
+            margin-bottom: 35px;
+        }
+        li {
+            margin: 5px 8px 20px;
+            max-width: 26%;
+            .number-of-votes {
+                top: -10px;
+                right: 5px;
+                font-size: 32px;
+            }
+            a {
+                max-width: 150px;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 1550px) {
+    .vote-section {
+        width: calc(100% - 185px);
+        float: right;
+        margin-top: 0;
+        .heading {
+            width: 85px;
+            display: inline-block;
+            vertical-align: top;
+            margin-bottom: 0;
+        }
+        .vote-list {
+            display: inline-block;
+            vertical-align: top;
+        }
+    }
+}
+
+@media screen and (max-width: 1549px) and (min-width: 1280px) {
+    .vote-section {
+        width: calc(100% - 20%);
+        float: right;
+        margin-top: 0;
+        .inner {
+            padding-left: 6px;
+            padding-right: 6px;
+        }
+        li {
+            margin: 5px 6px 5px;
+        }
+    }
+    .stream-main .sex-cam {
+        max-width: 18%;
+    }
+}
+
+
+
+.chat-section {
+    border-radius: 8px;
+    .chat-box {
+        margin-bottom: 10px;
+    }
+    .chat-box-middle {
+        min-height: 400px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding: 20px 15px;
+        h3 {
+            color: white;
+            font-family: $main-f;
+            font-size: 24px;
+            line-height: 28px;
+            position: relative;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            &::after {
+                content: '';
+                display: inline-block;
+                width: 50px;
+                height: 3px;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                background-color: white;
+            }
+        }
+        p {
+            font-family: $font-q;
+            font-size: 14px;
+            line-height: 20px;
+            color: white;
+            margin: 15px 0;
+        }
+    }
+}

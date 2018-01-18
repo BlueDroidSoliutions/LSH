@@ -39,7 +39,7 @@
 							<div class="form-holder">
                                                             
                                                             
-<form method="POST" role="form" action="${pageContext.request.contextPath}/uploadMulti" enctype="multipart/form-data">
+<form method="POST" role="form" action="${pageContext.request.contextPath}/participatepost" enctype="multipart/form-data">
 
  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
  
@@ -55,26 +55,26 @@
 										</div>
 										<div class="field-wrapper required-holder">
 											<span class="field-label">Email address</span>
-											<input id="emailAddress" type="email">
+                                                                                        <input id="emailAddress" type="email" name="email">
 											<span class="required-f  r-email">Required<br>field</span>
 										</div>
 										<div class="field-wrapper">
 											<span class="field-label">Upload your photo</span>
-											<input id="name" type="file">
+                                                                                        <input id="name" type="file" name="file">
 										</div>
 									</div>
 									<div class="one-third clearfix">
 										<div class="field-wrapper">
 											<span class="field-label">Date of birth</span>
-											<input id="subject" type="date">
+                                                                                        <input id="subject" type="date" name="birth">
 										</div>
 										<div class="field-wrapper">
 											<span class="field-label">State of residence</span>
-											<input id="state" type="text">
+                                                                                        <input id="state" type="text" name="state">
 										</div>
 										<div class="field-wrapper">
 											<span class="field-label">City of residence</span>
-											<input id="city" type="text">
+                                                                                        <input id="city" type="text" name="city">
 										</div>
 									</div>
 									<div class="one-third textarea-holder clearfix">

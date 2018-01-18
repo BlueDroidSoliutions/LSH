@@ -54,8 +54,23 @@
                 <value>com.livesexhouse.model.Participant</value>
                 <value>com.livesexhouse.model.Heartbeat</value>
                 <value>com.livesexhouse.model.KingRoom</value>
-                 <value>com.livesexhouse.model.Time</value>
+                <value>com.livesexhouse.model.Time</value>
                 
+                <value>com.livesexhouse.model.BlockedCountry</value>
+                <value>com.livesexhouse.model.BlockedCountryM2m</value>
+                <value>com.livesexhouse.model.BlockedRegion</value>
+                <value>com.livesexhouse.model.BlockedRegionM2m</value>
+                <value>com.livesexhouse.model.Body</value>
+                <value>com.livesexhouse.model.Country</value>
+                <value>com.livesexhouse.model.Decoration</value>
+                <value>com.livesexhouse.model.Hair</value>
+                <value>com.livesexhouse.model.InteresM2m</value>
+                <value>com.livesexhouse.model.Kinky</value>
+                <value>com.livesexhouse.model.KinkyM2m</value>
+                <value>com.livesexhouse.model.Language</value>
+                <value>com.livesexhouse.model.LanguageSpoken</value>
+                <value>com.livesexhouse.model.Model</value>
+                <value>com.livesexhouse.model.Interes</value>
                 
                 <value>com.livesexhouse.model.YourWish</value>
                 <value>com.livesexhouse.model.YourWishAction</value>
@@ -134,6 +149,7 @@
         <bean id="heartbeatDao" class="com.livesexhouse.DAO.HeartbeatDao" />
         <bean id="kingRoomDao" class="com.livesexhouse.DAO.KingRoomDao" />
         <bean id="timeDao" class="com.livesexhouse.DAO.TimeDao" />
+        <bean id="modelDao" class="com.livesexhouse.DAO.ModelDao" />
         
         
         <!--<bean id="orderService" class="com.livesexhouse.service.OrderService" />-->

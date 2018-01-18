@@ -30,8 +30,8 @@
     </mvc:annotation-driven>
     
     <mvc:resources mapping="/resources/**" location="/resources/" />
-    <!--<mvc:resources mapping="/ext/**" location="file:C:/ftp/"/>-->
-    <mvc:resources mapping="/ext/**" location="file:/Users/roller/Desktop/vudu/"/>
+    <mvc:resources mapping="/ext/**" location="file:C:/ftp/"/>
+    <!--<mvc:resources mapping="/ext/**" location="file:/Users/roller/Desktop/vudu/"/>-->
     
     
     

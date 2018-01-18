@@ -109,11 +109,12 @@ public class OnlineDao {
     
     
     public int onlineMember() {
-            int active = 0;
+            Integer active = 0;
         try {
             Session session = sessionFactory.getCurrentSession();
             Query q = session.getNamedQuery("Online.findMemberOnline");
-            active = (int)q.getSingleResult();
+           
+active = Integer.valueOf(q.getSingleResult().toString());
            
         } catch (HibernateException e) {
         }

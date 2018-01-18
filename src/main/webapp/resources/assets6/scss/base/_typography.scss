@@ -1,0 +1,67 @@
+/*----------  typography
+------------------------------------------------------------------------------*/
+
+@font-face {
+    font-family:'Coluna';
+    src: url('../fonts/Coluna-CondensedBold.eot');
+	src: url('../fonts/Coluna-CondensedBold.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/Coluna-CondensedBold.woff2') format('woff2'),
+		url('../fonts/Coluna-CondensedBold.woff') format('woff'),
+		url('../fonts/Coluna-CondensedBold.svg#Coluna-CondensedBold') format('svg');
+    font-weight: 700;
+    font-style: normal;
+    font-stretch: condensed;
+    unicode-range: U+0020-00FE;
+}
+
+
+@font-face {
+    font-family:'Questrial';
+    src: url('../fonts/Questrial-Regular.eot');
+	src: url('../fonts/Questrial-Regular.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/Questrial-Regular.woff2') format('woff2'),
+		url('../fonts/Questrial-Regular.woff') format('woff'),
+		url('../fonts/Questrial-Regular.svg#Questrial-Regular') format('svg');
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+0020-02DC;
+}
+
+$main-f: 'Coluna';
+$font-q: 'Questrial';
+$base-f: 'Roboto', sans-serif;
+
+h1 {
+	font-size: 18px;
+	color: $grey;
+	text-transform: uppercase;
+}
+
+h2 {
+	
+}
+
+h3 {
+	
+}
+
+h4 {
+	
+}
+
+h5 {
+	
+}
+
+h1, h2, h3 {
+	font-family: $main-f;
+}
+
+h6 {
+	&.offscreen {
+		font-size: 0;
+		position: absolute;
+		left: -50000px;
+	}
+}

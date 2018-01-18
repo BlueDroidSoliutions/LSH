@@ -10,13 +10,20 @@
     <http pattern="/epoch/*" security="none">
     </http>
 
+<!--<http auto-config='true' >
+          <intercept-url pattern="/**" requires-channel="https" />    
+       </http>-->
+
+
+
     <!-- enable use-expressions -->
 	<http  use-expressions="true">
 
 		<intercept-url pattern="/admin**" access="hasRole('ADMIN')" />
                 <intercept-url pattern="/uploadMultiPage**" access="hasRole('VIDEO')" />
                 <intercept-url pattern="/uploadMulti**" access="hasRole('VIDEO')" />
-                
+                <!--<intercept-url pattern="/"  requires-channel="https"/>-->
+                <!--<intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="https"/>-->
 
 		<!-- access denied page -->
 		<access-denied-handler error-page="/403" />
@@ -29,6 +36,9 @@
                     password-parameter="password" />
 		<logout logout-success-url="/logout"  />
 	</http>
+        
+        
+        
 
 	<!-- Select users and user_roles from database -->
 	<authentication-manager alias="authenticationManage">

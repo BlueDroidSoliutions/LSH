@@ -46,14 +46,35 @@
             <!-- <div class="video-view-wrapper">
                     
             </div> -->
-            <div class="video-view">
-                <!-- left blocl -->
-                <div class="left-container">
-                    <div class="main-video-block">
-                        <iframe id="main_frame" src="https://www.youtube.com/embed/LIMYj5mpMM4" frameborder="0" ></iframe>
-                        <div class="overflow-box private-only">
-                            <p>In private chat now</p>
-                        </div>
+            
+            
+            
+            
+            
+           <div class="video-view">
+						<!-- left blocl -->
+						<div class="left-container">
+							<div class="main-video-block">
+								<video id="my_video_1" class="video-js vjs-default-skin" controls autoplay
+                                      controls 
+                                      data-setup='{ "aspectRatio":"16:9", "autoplay": true }'>
+                                    <source src="${g.lnk}" type='video/mp4' />
+                                </video>
+
+								<div class="overflow-box private-only">
+									<p>In private chat now</p>
+								</div>
+                                                            
+                                                            
+                                                            
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
                         <ul class="iframe-menu">
                             <li>
                                 <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.86 21.96" ><defs><style>.cls-1{fill:#fff;}.cls-2{fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:1.16px;}</style></defs><title>profile info</title><path class="cls-1" d="M14,13.8V15H0V13.8c0-2.33,4.67-3.61,7-3.61S14,11.47,14,13.8Z" transform="translate(0 -1)"/><circle class="cls-1" cx="6.98" cy="3.49" r="3.49"/><circle class="cls-1" cx="6.98" cy="3.49" r="3.49"/><rect class="cls-1" x="15" y="12" width="2" height="7"/><rect class="cls-1" x="15" y="8" width="2" height="2"/><circle class="cls-2" cx="15.99" cy="13.09" r="8.29"/></svg>
@@ -756,16 +777,34 @@
 
     <!-- javascript -->
 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript">window.jQuery || document.write("<script src='${bck}${location}/assets/scripts/main/jquery-1.8.3.min.js'>\x3C/script>");</script>
     <script type="text/javascript" src="${bck}${location}/assets/scripts/libs/jquery.flexslider-min.js"></script>
     <script type="text/javascript" src="${bck}${location}/assets/scripts/libs/jQuery.fakeScroll.js"></script>
     <script type="text/javascript" src="${bck}${location}/assets/scripts/libs/jcf.js"></script>
     <script type="text/javascript" src="${bck}${location}/assets/scripts/libs/jcf.range.js"></script>
-    <script type="text/javascript" src="${bck}${location}/assets/scripts/main/default.js"></script>
+    
+    
+    <link href="http://vjs.zencdn.net/6.2.8/video-js.css" rel="stylesheet">
+	<script type="text/javascript" src="http://vjs.zencdn.net/6.2.8/video.js"></script>
+    
+        
+        
+        
+        
+    <script type="text/javascript" src="${bck}${location}/assets/scripts/libs/videojs-contrib-hls.min.js"></script>
+
+	<script type="text/javascript" src="${bck}${location}/assets/scripts/libs/nouislider.min.js"></script>
+
+	<script type="text/javascript" src="${bck}${location}/assets/scripts/main/default.js"></script>
+    
+    
+    
+    
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
     <script src="../resources/st2/sockjs.js"></script>
+
 
     <!--[if lt IE 7]>
        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>

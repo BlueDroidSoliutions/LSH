@@ -1,0 +1,21 @@
+/*----------  icons
+------------------------------------------------------------------------------*/
+
+// .ico {
+// 	display: inline-block;
+// 	&.star {
+// 		@include sprite(star);
+// 	}
+// }
+
+/*
+.ico {
+	display: inline-block;
+	position: absolute;
+	top: 50%;
+	&.star {
+		@include sprite('star');
+		margin-top: -((image-height("icons/star.png"))/2);
+	}
+}
+*/

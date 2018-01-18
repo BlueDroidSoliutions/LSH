@@ -1,0 +1,181 @@
+.model-f-wrap {
+	.ff_fileupload_wrap {
+		width: 100%;
+		float: left;
+		.ff_fileupload_uploads {
+			float: left;
+			width: 55%;
+			margin-left: 5%;
+		}
+		.ff_fileupload_fileinfo,
+		table.ff_fileupload_uploads td.ff_fileupload_summary .ff_fileupload_filename {
+			color: #fff;
+		}
+		.table.ff_fileupload_uploads td.ff_fileupload_actions button {
+			color: red;
+		}
+	}
+	.ff_fileupload_dropzone_wrap {
+		width: 40%;
+		float: left;
+		.ff_fileupload_dropzone {
+			background-color: #cfcfcf;
+			color: $red;
+			border: 2px solid $red;
+			background-position: center 66%;
+			position: relative;
+			&:before {
+				position: absolute;
+				top: 30px;
+				font-size: 20px;
+				content: "Click or upload images here";
+				left: 0;
+				right: 0;
+				margin: auto;
+				font-weight: bold;
+				color: #8c8b8b;
+			}
+		}
+	}
+	.ff_fileupload_filename {
+		input {
+			height: auto;
+			font-size: 16px;
+			border-radius: 5px;
+		}
+	}
+	
+	@include breakpoint(phone){
+		.ff_fileupload_dropzone_wrap {
+			width: 100%;
+			.ff_fileupload_dropzone {
+				background-position: center 80%;
+				background-size: 30% auto;
+			}
+		}
+	}
+	
+}
+
+.accept-radio {
+	padding-top: 33px;
+	a {
+		color: #fff;
+		@include transition(all 0.3s ease-in-out);
+		&:hover {
+			color: $red;
+		}
+	}
+}
+
+#uploadme {
+	.one-half {
+		width: 50%;
+		float: left;
+		padding: 25px;
+		margin: 0 0 25px 0;
+		position: relative;
+		.ff_fileupload_dropzone_wrap {
+			width: 197px;
+			.ff_fileupload_dropzone {
+				background: transparent;
+				&:before {
+					color: #fff;
+					max-width: 80%;
+					text-align: center;
+					font-size: 24px;
+					top: 30%;
+				}
+			}
+		}
+	}
+	.ff_fileupload_wrap .ff_fileupload_dropzone:hover, .ff_fileupload_wrap .ff_fileupload_dropzone:focus, .ff_fileupload_wrap .ff_fileupload_dropzone:active {
+	   
+	    border-color: $red;
+	}
+	
+	.frontpage, .snapshot {
+		.ff_fileupload_dropzone_wrap {
+			float: right;
+		}
+	}
+	.backpage, .snapshotID {
+		
+		.ff_fileupload_wrap .ff_fileupload_uploads {
+		    right: auto;
+		    left:220px;
+		}
+	}
+	.frontpage {
+		.ff_fileupload_dropzone_wrap .ff_fileupload_dropzone {
+			&:before {
+	    		content: 'ID front page';
+	    	}
+		}
+	}
+	.backpage {
+		.ff_fileupload_dropzone_wrap .ff_fileupload_dropzone {
+			&:before {
+	    		content: 'ID back page';
+	    	}
+		}
+	}
+	.snapshot {
+		.ff_fileupload_dropzone_wrap .ff_fileupload_dropzone {
+			&:before {
+	    		content: 'Snapshot of you';
+	    	}
+		}
+	}
+	.snapshotID {
+		.ff_fileupload_dropzone_wrap .ff_fileupload_dropzone {
+			&:before {
+	    		content: 'Snapshot with ID';
+	    	}
+		}
+	}
+
+	.ff_fileupload_wrap .ff_fileupload_uploads {
+	    position: absolute;
+	    width: 200px;
+	    top: 130px;
+	    top: 10px;
+	    right: 180px;
+	    left: auto;
+	}
+
+	.ff_fileupload_wrap {
+		table.ff_fileupload_uploads {
+			td {
+				display: block;
+			}
+			td.ff_fileupload_summary {
+				display: none;
+			}
+			td.ff_fileupload_preview {
+				.ff_fileupload_preview_image {
+					width: 140px;
+			  		height: 130px;
+			  		background-size: contain;
+				}
+			}
+		}
+	}
+
+	@include breakpoint(phone){
+		.one-half {
+			width: 100%;
+			.ff_fileupload_dropzone_wrap {
+				width: 100%;
+				.ff_fileupload_dropzone {
+					height: 80px;
+				}
+			}
+		}
+		.ff_fileupload_wrap .ff_fileupload_uploads {
+			position: relative;
+			margin-left: 0;
+			width: 100%;
+		}
+	}
+}

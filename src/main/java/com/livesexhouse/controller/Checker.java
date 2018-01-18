@@ -13,6 +13,7 @@ public class Checker {
 
     public boolean check(String search) {
         boolean b = false;
+        search = search.toLowerCase();
         if ((!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "admin"))
                 && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "administrator"))
                 && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "root"))
@@ -31,6 +32,20 @@ public class Checker {
                 && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "+"))
                 && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "%"))
                 && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "'"))
+                && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "script"))
+                && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "join"))) {
+            b = true;
+        }
+        return b;
+    }
+    
+      public boolean checkPass(String search) {
+        boolean b = false;
+        search = search.toLowerCase();
+        if ((!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "admin"))
+                && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "administrator"))
+                && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "union"))
+                && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "select"))
                 && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "join"))) {
             b = true;
         }
@@ -39,11 +54,11 @@ public class Checker {
     
     public boolean checkEmail(String search) {
         boolean b = false;
+        search = search.toLowerCase();
         if ((!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "admin"))
                 && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "administrator"))
                 && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "root"))
                 && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "insert"))
-                && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "@"))
                 && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, ":="))
                 && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "="))
                 && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, ":"))
@@ -58,6 +73,7 @@ public class Checker {
                 && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "+"))
                 && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "%"))
                 && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "'"))
+                && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "script"))
                 && (!org.apache.commons.lang.StringUtils.containsIgnoreCase(search, "join"))) {
             b = true;
         }

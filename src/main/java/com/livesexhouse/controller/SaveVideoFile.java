@@ -55,6 +55,17 @@ public class SaveVideoFile {
         }
         return succesSave;
     }
+    
+    public boolean savePic(byte[] bytes, String pt) {
+        boolean succesSave = true;
+        try {
+            Path path = Paths.get(pt);
+            Files.write(path, bytes);
+        } catch (IOException e) {
+            succesSave = false;
+        }
+        return succesSave;
+    }
 
     public void deletePics(ArrayList<String> files, String pthDir) {
 

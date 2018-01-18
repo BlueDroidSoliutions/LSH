@@ -20,14 +20,7 @@
         
         
         
-        
-        <dependency>
-    <groupId>commons-codec</groupId>
-    <artifactId>commons-codec</artifactId>
-    <version>1.10</version>
-</dependency>
-
-
+   
 
 <!--<dependency>
     <groupId>commons-lang</groupId>
@@ -38,7 +31,7 @@
 
 
     <!--   ////////////////////     samo za GF ///////////////////-->    
-        <dependency>
+<!--        <dependency>
     <groupId>org.glassfish.tyrus</groupId>
     <artifactId>tyrus-core</artifactId>
     <version>1.13.1</version>
@@ -86,7 +79,7 @@
     <groupId>org.glassfish.tyrus</groupId>
     <artifactId>tyrus-spi</artifactId>
     <version>1.13.1</version>
-</dependency>
+</dependency>-->
 
 <!--   ////////////////////     samo za GF ///////////////////-->
 
@@ -98,20 +91,14 @@
         
 <!--   ////////////////////     samo za tomCat ///////////////////-->
         
-<!--        <dependency>
+<dependency>
     <groupId>org.apache.tomcat</groupId>
     <artifactId>tomcat-websocket</artifactId>
-    <version>9.0.0.M26</version>
-</dependency>-->
+    <version>8.0.1</version>
+</dependency>
         
 <!--   ////////////////////     samo za tomCat ///////////////////-->        
-        
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.9.0</version>
-        </dependency>
-        
+      
         
         
         <dependency>
@@ -336,7 +323,7 @@
         </dependency>
          
          
-        <dependency>
+<!--        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-search-orm</artifactId>
             <version>5.6.2.Final</version>
@@ -345,7 +332,7 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-search-infinispan</artifactId>
             <version>5.6.2.Final</version>
-        </dependency>
+        </dependency>-->
          
 
          
