@@ -1261,6 +1261,11 @@ setTimeout(function () {
 
     </script>
 
+    
+    
+    <link href="http://vjs.zencdn.net/6.2.8/video-js.css" rel="stylesheet">
+    <script type="text/javascript" src="http://vjs.zencdn.net/6.2.8/video.js"></script>
+    <script type="text/javascript" src="${bck}${location}/assets/scripts/libs/videojs-contrib-hls.min.js"></script>
 
 </body>
 </html>

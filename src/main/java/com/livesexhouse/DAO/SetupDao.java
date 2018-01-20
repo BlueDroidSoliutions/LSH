@@ -45,6 +45,50 @@ public class SetupDao {
         return r;
 
     }
+    public String getStreamLnk() {
+        String r = "";
+        try {
+            Query q = sessionFactory.getCurrentSession().getNamedQuery("Setup.findById");
+            q.setParameter("id", 15);
+            setup = (Setup) q.getSingleResult();
+            r = setup.getValueString();
+        } catch (HibernateException e) {
+        }
+        return r;
+
+    }
+    
+    
+    
+     public String getStreamLnkMH() {
+        String r = "";
+        try {
+            Query q = sessionFactory.getCurrentSession().getNamedQuery("Setup.findById");
+            q.setParameter("id", 16);
+            setup = (Setup) q.getSingleResult();
+            r = setup.getValueString();
+        } catch (HibernateException e) {
+        }
+        return r;
+
+    }
+     
+     
+     
+             
+             
+        public String defaultCamOnLiveStream() {
+        String r = "";
+        try {
+            Query q = sessionFactory.getCurrentSession().getNamedQuery("Setup.findById");
+            q.setParameter("id", 17);
+            setup = (Setup) q.getSingleResult();
+            r = setup.getValueString();
+        } catch (HibernateException e) {
+        }
+        return r;
+
+    }      
 
     public String getLocation() {
         String r = "";

@@ -37,29 +37,87 @@
         <div class="content">
             <div class="wrapper">
                 <div class="livestream clearfix">
-                     <div class="stream-rooms desktop-only">
+                    <div class="stream-rooms desktop-only">
                        <!--  <img src="${location}/assets/img/content/housemap.svg" alt="House Map" class="housemap"> -->
                         <div class="room-links">
 
-                            <c:forEach items="${vr}" var="vr">
-                                
-                                <a href="javascript:;" data-id="${vr.name}">${vr.name}</a>
-                                
-                            </c:forEach>
-                            
-                            
-                            
-                            
-                            
-                            
+                          
+                                    
+                                    <c:forEach items="${vr}" var="vr">
+                                        <a href="javascript:;" data-id="${vr.name}">${vr.name}</a>
+                                    </c:forEach>
+                                    
+                                    
+                                    
                         </div>
 
                         <span class="selected-room">Entry</span>
-                        
-                        
-                        
-                        
-                        
+                        <ul class="room-navigation">
+                            
+                            
+                            <c:forEach items="${vr}" var="vr">
+                                <li data-room="${vr.name}">
+                                        <a href="javascript:;" data-link="${vr.link}"><span>${vr.name}</span></a>
+                                        <ul>
+                                            <li>
+                                                <a href="javascript:;">Camera IP</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">Camera PTZ</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                            
+                            </c:forEach>
+                            
+                            
+                           
+                            
+                            
+                            
+                        </ul>
+                    </div>
+                    <div class="stream-main clearfix">
+<!--                        <div class="stream-video">
+                            <img src="${location}/assets/img/content/stream-preview.jpg" alt="Preview">
+                            <a class="overlay" href="javascript:;"></a>
+                        </div>-->
+                            
+                            
+                            
+                            
+                            
+                            
+                              <div class="stream-video">
+                                   <!--  <img src="assets/img/content/stream-preview.jpg" alt="Preview"> -->
+                                   <div class="videoWrapper">
+                                        <div class="overlay">
+                                            <h2>Live stream</h2>
+                                        </div>
+                                        <video src="" id="my_video_1" class="video-js vjs-default-skin" controls autoplay data-setup='{ "aspectRatio":"16:9", "autoplay": true }'></video>
+
+                                    </div>
+                                    <a class="overlay" href="javascript:;"></a>
+                                </div>
+                                 <div class="stream-rooms mobile-only" >
+                               <!--  <img src="assets/img/content/housemap.svg" alt="House Map" class="housemap"> -->
+                               <div class="room-links">
+
+                                   <c:forEach items="${vr}" var="vr">
+                                       <a href="javascript:;" data-id="${vr.name}">${vr.name}</a>
+                                   </c:forEach>
+                                   
+                                   
+                                   
+                                    
+                                 
+                                    
+                                    
+                                    
+                                    
+                               </div>
+                              
+                                <span class="selected-room">Entry</span>
                                 <ul class="room-navigation">
                                     
                                     
@@ -77,129 +135,20 @@
                                     </li>
                                     </c:forEach>
                                     
-                                    
                                    
                                     
                                     
                                     
                                     
                                     
-                                        </ul>
-                                    </li>
                                 </ul>
                             </div>
-                             
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                    <div class="stream-main clearfix">
-                        
-                        
-                        
-                        
-                   
-
- <div class="stream-video">
-     
-     
-     
-     
-     
-     
-     
-     
-                                   <div class="videoWrapper">
-                                        <div class="overlay">
-                                            <h2>Live stream</h2>
-                                        </div>
-                                         <video src="" id="my_video_1" class="video-js vjs-default-skin" controls autoplay data-setup='{ "aspectRatio":"16:9", "autoplay": true }'></video>
-
-                                    </div>
-     
-     
-     
-     
-     
-     
-     
-                                    <a class="overlay" href="javascript:;"></a>
-                                </div>
-                        
-                        
-                        
-                        
-                        
-                      
-                        
-                        
-                        
-                                
-                                 <div class="stream-rooms mobile-only" >
-                               <!--  <img src="assets/img/content/housemap.svg" alt="House Map" class="housemap"> -->
-                               <div class="room-links">
-
-                                   <c:forEach items="${vr}" var="vr">
-                                       <a href="javascript:;" data-id="${vr.name}">${vr.name}</a>
-                                   </c:forEach>
-                                   
-                                   
-                                    
-                               </div>
-                              
-                                <span class="selected-room">Entry</span>
-                                
-                                
-                                <ul class="room-navigation">
-                                    
-                                    <c:forEach items="${vr}" var="vr">
-                                        <li data-room="${vr.name}">
-                                        <a href="javascript:;" data-link="${vr.link}"><span>${vr.name}</span></a>
-                                        <ul>
-                                            <li>
-                                                <a href="javascript:;">Camera IP</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:;">Camera PTZ</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    </c:forEach>
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        <c:choose>
-                            <c:when test="${onlineMember== 0}">
-                                <a href="javascript:;" class="sex-cam">Live Sex Cam <span>with housemates</span></a>
-                            </c:when>
-                            <c:otherwise>
-                                <a href="./webcammember/${onlineMember}" class="sex-cam">Live Sex Cam <span>with housemates</span></a>
-                            </c:otherwise>
-                        </c:choose>
-                        
-                        
+                            
+                            
+                            
+                            
+                            
+                        <a href="./webcammember/${onlineMember}" class="sex-cam">Live Sex Cam <span>with housemates</span></a>
                         <div class="vote-section">
                             <div class="inner">
                                 <div class="heading">
@@ -231,6 +180,12 @@
                             </div>
                         </div>
                     </div>
+                        
+                        
+                        
+                        
+                        
+                        
                     <div class="stream-aside">
                         <div class="chat-section">
                             <div class="chat-box">
@@ -251,12 +206,10 @@
 
 
 
-
                                 <div class="chat-box-bottom">
                                     <input class="chat-input" id="input-chat" type="text" placeholder="Send a message..." onkeypress="handle(event)">
                                     <button id="submit-chat" type="submit" class="chat-submit" onclick="sendMessage()">Send</button>
                                 </div>
-
 
 
 
@@ -282,17 +235,14 @@
 </div>
 
 
-<!-- javascript -->
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script type="text/javascript">window.jQuery || document.write("<script src='${location}/assets/scripts/main/jquery-1.8.3.min.js'>\x3C/script>")</script>
-<script type="text/javascript" src="${location}/assets/scripts/libs/jquery.flexslider-min.js"></script>
-<script type="text/javascript" src="${location}/assets/scripts/libs/jQuery.fakeScroll.js"></script>
-<script type="text/javascript" src="${location}/assets/scripts/libs/jcf.js"></script>
-<script type="text/javascript" src="${location}/assets/scripts/libs/jcf.range.js"></script>
-<script type="text/javascript" src="${location}/assets/scripts/main/default.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
-<script src="./resources/st2/sockjs.js"></script>
+
+
+
+
+
+
+
 <!--<script src="./resources/st2/jquery.js"></script>-->
 
 <!--[if lt IE 7]>
@@ -387,20 +337,38 @@
                                         });
 </script>
 
-        <link href="http://vjs.zencdn.net/6.2.8/video-js.css" rel="stylesheet">
-        <script type="text/javascript" src="http://vjs.zencdn.net/6.2.8/video.js"></script>
-        <script type="text/javascript" src="${location}/assets/scripts/libs/videojs-contrib-hls.min.js"></script>
 
+
+
+
+ <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script type="text/javascript">window.jQuery || document.write("<script src='${location}/assets/scripts/main/jquery-1.8.3.min.js'>\x3C/script>")</script>
+        <script type="text/javascript" src="${location}/assets/scripts/libs/jquery.flexslider-min.js"></script>
+        <script type="text/javascript" src="${location}/assets/scripts/libs/jQuery.fakeScroll.js"></script>
+        <script type="text/javascript" src="${location}/assets/scripts/libs/jcf.js"></script>
+        <script type="text/javascript" src="${location}/assets/scripts/libs/jcf.range.js"></script>
+        <script type="text/javascript" src="${location}/assets/scripts/main/default.js"></script>
+
+        
+<!--        <link href="http://vjs.zencdn.net/6.2.8/video-js.css" rel="stylesheet">
+        <script type="text/javascript" src="http://vjs.zencdn.net/6.2.8/video.js"></script>
+        <script type="text/javascript" src="${location}/assets/scripts/libs/videojs-contrib-hls.min.js"></script>-->
+
+        
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+<script src="./resources/st2/sockjs.js"></script>
+<!--
 <script>
-        var link = '<c:out value="${defaultCam}"/>';
+        var defaultCam = '<c:out value="${defaultCam}"/>';
 </script>
 
- <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script>
-     jQuery(function ($) {
+        <script>
+            jQuery(function ($) {
 
     if (Hls.isSupported()) {
-      var linkValue = link;
+      var linkValue = defaultCam;
+      
 
       $('.room-navigation a').click(function () {
         linkValue = $(this).attr('data-link');
@@ -418,7 +386,9 @@
     }
 
   });
-    </script>
+        </script>
+-->
+
 
 
 

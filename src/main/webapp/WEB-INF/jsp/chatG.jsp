@@ -24,7 +24,9 @@
         </c:otherwise>
     </c:choose>
 
-
+<script>
+        var link = '<c:out value="${g.lnk}"/>';
+    </script>
 
 
 <!--    <p style="font-size: 30px;  color: white;">JA SAM ${g.userName} ////////////////////////////////////////////</p>-->
@@ -55,15 +57,15 @@
 						<!-- left blocl -->
 						<div class="left-container">
 							<div class="main-video-block">
-								<video id="my_video_1" class="video-js vjs-default-skin" controls autoplay
-                                      controls 
-                                      data-setup='{ "aspectRatio":"16:9", "autoplay": true }'>
-                                    <source src="${g.lnk}" type='video/mp4' />
-                                </video>
+                                                            
+                                                            
+                                                            
+                                                            
+								 <video src="" id="my_video_1" class="video-js vjs-default-skin" controls autoplay data-setup='{ "aspectRatio":"16:9", "autoplay": true }'></video>
 
-								<div class="overflow-box private-only">
+<!--								<div class="overflow-box private-only">
 									<p>In private chat now</p>
-								</div>
+								</div>-->
                                                             
                                                             
                                                             
@@ -1339,5 +1341,21 @@ setTimeout(function () {
     </script>
 
 
+    
+    
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+      if(Hls.isSupported()) {
+        var video = document.getElementById('my_video_1');
+        var hls = new Hls();
+        hls.loadSource(link);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED,function() {
+          video.play();
+        });
+      }
+    </script>
+    
+    
 </body>
 </html>

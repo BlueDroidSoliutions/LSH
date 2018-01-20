@@ -367,6 +367,7 @@ public class SiteController {
                 nameM = m.getUsername();
                 idM = m.getId();
 
+                model.addAttribute("lnk" , setupDao.getStreamLnkMH());
                 model.addAttribute("nameM", nameM);
                 model.addAttribute("idM", idM);
 
@@ -690,6 +691,8 @@ public class SiteController {
 //        model.addObject("serverOffMsg", serverOffMsg);
 //        model.addObject("serverOff", true);
             model.addObject("path", setupDao.getPath());
+            model.addObject("stream", setupDao.getStreamLnk());
+            System.out.println("GGGGGGGG GGGGG " + setupDao.getStreamLnk());
             model.addObject("location", setupDao.getLocation());
             model.addObject("bck", "");
             model.setViewName("index");
@@ -2084,8 +2087,18 @@ m.setPermanentId(Integer.valueOf(request.getParameter("permanentID")));
             mh = memberRankDao.findTop5();
 
             model.addAttribute("mh", mh);
+            
+            
+            
+            model.addAttribute("defaultCam", setupDao.defaultCamOnLiveStream());
+            
+            List<VideoRoom> vr = new ArrayList<>();
+            vr = videoRoomDao.find();
+             model.addAttribute("vr", vr);
 
-            int onlineMember = onlineDao.onlineMember();
+             int onlineMember = 0;
+             onlineMember = onlineDao.onlineMember();
+             System.out.println("www hhh "+ onlineMember);
             model.addAttribute("onlineMember", onlineMember);
 
             model.addAttribute("path", setupDao.getPath());

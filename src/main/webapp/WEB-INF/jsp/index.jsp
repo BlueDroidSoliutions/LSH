@@ -25,7 +25,9 @@
 </c:choose>
 
    
-    
+     <script>
+        var link = '<c:out value="${stream}"/>';
+    </script>
     
     
     
@@ -73,11 +75,7 @@
 								    <source src="./ext/video/4.mp4" type='video/webm' />
 								</video>-->
                                                             
-                                                            
-                                                             <video id="my_video_1" class="video-js vjs-default-skin" controls autoplay data-setup='{ "aspectRatio":"16:9", "autoplay": true }'>
-            <source src="http://67.227.214.241:1935/live/test_videa.stream/playlist.m3u8"  type='video/mp4' />
- </video>
-                                                            
+                                                             <video src="" id="my_video_1" class="video-js vjs-default-skin" controls autoplay data-setup='{ "aspectRatio":"16:9", "autoplay": true }'></video>
                                                             
                                                             
 							</div>
@@ -184,13 +182,27 @@
         
         
         
-         
-        
+   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+      if(Hls.isSupported()) {
+        var video = document.getElementById('my_video_1');
+        var hls = new Hls();
+        hls.loadSource(link);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED,function() {
+          video.play();
+        });
+      }
+    </script>
+    
+    <link href="http://vjs.zencdn.net/6.2.8/video-js.css" rel="stylesheet">
+    <script type="text/javascript" src="http://vjs.zencdn.net/6.2.8/video.js"></script>
+    <script type="text/javascript" src="assets/scripts/libs/videojs-contrib-hls.min.js"></script>
+    
 
 
 
-
-        
+     
         
         
  <!--[if lt IE 7]>

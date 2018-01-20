@@ -29,7 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "VideoRoom.findAll", query = "SELECT v FROM VideoRoom v")
     , @NamedQuery(name = "VideoRoom.findById", query = "SELECT v FROM VideoRoom v WHERE v.id = :id")
-    , @NamedQuery(name = "VideoRoom.findByName", query = "SELECT v FROM VideoRoom v WHERE v.name = :name")})
+    , @NamedQuery(name = "VideoRoom.findByName", query = "SELECT v FROM VideoRoom v WHERE v.name = :name")
+    , @NamedQuery(name = "VideoRoom.findByLink", query = "SELECT v FROM VideoRoom v WHERE v.link = :link")})
 public class VideoRoom implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,6 +44,9 @@ public class VideoRoom implements Serializable {
     @Size(min = 1, max = 32)
     @Column(name = "name")
     private String name;
+    @Size(max = 128)
+    @Column(name = "link")
+    private String link;
 
     public VideoRoom() {
     }
@@ -70,6 +74,14 @@ public class VideoRoom implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 
     @Override

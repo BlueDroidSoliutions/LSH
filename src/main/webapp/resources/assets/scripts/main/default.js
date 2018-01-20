@@ -500,11 +500,11 @@ function iframeDimensions() {
     }
         
 
-    $('.room-navigation a').click(function () {
-        var linkValue = $(this).attr("data-link");
-        console.log(linkValue);
-        document.getElementById('my_video_1_html5_api').src = linkValue;
-    });
+//    $('.room-navigation a').click(function () {
+//        var linkValue = $(this).attr("data-link");
+//        console.log(linkValue);
+//        document.getElementById('my_video_1_html5_api').src = linkValue;
+//    });
 
 
     // LOGIN / SIGN IN

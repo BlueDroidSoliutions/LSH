@@ -27,6 +27,10 @@
     <script>
         var selectedGirl = '<c:out value="${g.id}"/>';
     </script>
+    
+     <script>
+        var link = '<c:out value="${g.lnk}"/>';
+    </script>
 
     <!--<p style="font-size: 30px;  color: white;">${user.username} + ${g.userName}  >>> timeGr : ${timeGr} >>> timePr : ${timePr} </p>-->
     
@@ -59,27 +63,16 @@
                         
                         
                         
-                        
-                                <p style="color:white; font-size:100px;" id="test8"></p>
 
+                       <video src="" id="my_video_1" class="video-js vjs-default-skin" controls autoplay data-setup='{ "aspectRatio":"16:9", "autoplay": true }'></video>
 
-                        <video id="my_video_1" class="video-js vjs-default-skin" controls autoplay data-setup='{ "aspectRatio":"16:9", "autoplay": true }'> <source id="ttt222" src=""  type='video/mp43' />  </video>
-
-
+<!--
                                                 <div class="overflow-box private-only">
                                                     <p>In private chat now</p>
-                                                </div>
+                                                </div>-->
                         
                         
-<!--                        
-                         <video id="my_video_1" class="video-js vjs-default-skin" controls autoplay
-                                      controls 
-                                      data-setup='{ "aspectRatio":"16:9", "autoplay": true }'>
-                                    <source src="http://67.227.214.241:1935/live/test_videa.stream/playlist.m3u8" type='video/mp4' />
-                                </video>
-                        
-                        
-                        -->
+
                         <ul class="iframe-menu">
                             <li>
                                 <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.86 21.96" ><defs><style>.cls-1{fill:#fff;}.cls-2{fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:1.16px;}</style></defs><title>profile info</title><path class="cls-1" d="M14,13.8V15H0V13.8c0-2.33,4.67-3.61,7-3.61S14,11.47,14,13.8Z" transform="translate(0 -1)"/><circle class="cls-1" cx="6.98" cy="3.49" r="3.49"/><circle class="cls-1" cx="6.98" cy="3.49" r="3.49"/><rect class="cls-1" x="15" y="12" width="2" height="7"/><rect class="cls-1" x="15" y="8" width="2" height="2"/><circle class="cls-2" cx="15.99" cy="13.09" r="8.29"/></svg>
@@ -1802,7 +1795,18 @@ elem.hover(function () {
 
     </script>
 
-
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+      if(Hls.isSupported()) {
+        var video = document.getElementById('my_video_1');
+        var hls = new Hls();
+        hls.loadSource(link);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED,function() {
+          video.play();
+        });
+      }
+    </script>
     
     
     

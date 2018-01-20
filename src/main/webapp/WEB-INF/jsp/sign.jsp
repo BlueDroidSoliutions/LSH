@@ -20,7 +20,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
     <link rel="stylesheet" href="${bck}${location}/assets/css/lib/jcf.css">
     <link rel="stylesheet" href="${bck}${location}/assets/css/lib/fakeScroll.css">
-    <link href="${bck}${location}/assets/css/nouislider.min.css" rel="stylesheet">
+    <!--<link href="${bck}${location}/assets/css/nouislider.min.css" rel="stylesheet">-->
     <link rel="stylesheet" href="${bck}${location}/assets/css/style.css">
     <script type="text/javascript" src="${bck}${location}/assets/scripts/libs/modernizr.2.8.3.min.js"></script>
     <script src="https://use.fontawesome.com/48b7d32ec9.js"></script>
