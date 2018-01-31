@@ -95,7 +95,7 @@
 							
 						<div class="main-bottom">
 							<div class="hero">
-								<h2>Online now - Web cam</h2>
+								<h2><a href="./webcam">Online now - Web cam</a></h2>
 								<a href="./webcam">View all</a>
 								<a href="javascript:;" class="token-img">
 									<img src="" alt="" />

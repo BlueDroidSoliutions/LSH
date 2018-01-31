@@ -1359,7 +1359,7 @@ public class SiteController {
 
         Boolean alredySigned = false;
         try {
-
+int liked = 0;
             if (cookieTrust != null) {
                 model.addAttribute("trustedUser", true);
             } else {
@@ -1374,6 +1374,18 @@ public class SiteController {
             if (principal != null) {
                 Users u = new Users();
                 u = userDao.findByUsername(principal.getName());
+                
+                
+                List<VideoClip> lvc = new ArrayList<>();   
+                lvc = userM2mDAO.findLikedVideosByUser(u.getId());
+                
+                for(VideoClip v : lvc){
+                    if(v.getId() == id){
+                        liked = 1;
+                    }
+                }
+                
+                
                 model.addAttribute("userName", principal.getName());
                 model.addAttribute("user", u);
             }
@@ -1405,6 +1417,7 @@ public class SiteController {
 
             int seas = videoM2mDao.findSeasonByVideoId(id);
 
+            model.addAttribute("liked", liked);
             model.addAttribute("videoCat", videoCat);
             model.addAttribute("season", seas);
             model.addAttribute("video", v);
@@ -2491,6 +2504,16 @@ m.setPermanentId(Integer.valueOf(request.getParameter("permanentID")));
             HttpServletRequest request) throws Exception {
         Boolean alredySigned = false;
         try {
+            
+            
+            int durFilter = durationFilter[0];
+      
+            
+            int[] df = {durFilter};
+            
+            durationFilter = df;
+
+            
             if (cookieTrust != null) {
                 model.addAttribute("trustedUser", true);
             } else {
@@ -2554,7 +2577,11 @@ m.setPermanentId(Integer.valueOf(request.getParameter("permanentID")));
                 searchExist = true;
             }
 
-            if (!dateFilter.equals("0") || roomFilter.length > 1 || seasonFilter.length > 1 || durationFilter.length > 1 || memberFilter.length > 1 || categoryFilter.length > 1 || sort != 0 || searchExist) {
+            
+            
+            if (!dateFilter.equals("0") || roomFilter.length > 1 || seasonFilter.length > 1 
+//                    || durationFilter.length > 1 
+                    || memberFilter.length > 1 || categoryFilter.length > 1 || sort != 0 || searchExist) {
                 bigPagination = true;
             }
 

@@ -257,22 +257,24 @@
                                     <button id="submit-chat" type="submit" class="chat-submit" onclick="sendMessage()">Send</button>
                                 </div>
 
-
-
-
-
-
-
-
-
-
-
                             </div>
                         </div>
-                        <div class="live-web-chat">
-                            <a href="./webcam">Live Now Web Chat <span>View all</span></a>
-                            <img src="${location}/assets/img/content/live-chat.png" alt="live chat">
-                        </div>
+                        
+                        
+                        
+                        
+                 
+                          
+                            
+                              <a href="./webcam" class="live-web-chat">
+                                    <div>Live Now Web Chat <span>View all</span></div>
+                                    <img src="${location}/assets/img/content/live-chat.png" alt="live chat">
+                                </a>
+                            
+                            
+                            
+                            
+                            
                     </div>
                 </div>
             </div>
