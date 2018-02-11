@@ -12,8 +12,9 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 
 
-
-
+    
+    
+    
 
     <c:choose>
         <c:when test="${not empty userName}">
@@ -291,6 +292,10 @@
 <script type="text/javascript" src="${location}/assets/scripts/libs/jQuery.fakeScroll.js"></script>
 <script type="text/javascript" src="${location}/assets/scripts/libs/jcf.js"></script>
 <script type="text/javascript" src="${location}/assets/scripts/libs/jcf.range.js"></script>
+<link href="http://vjs.zencdn.net/6.2.8/video-js.css" rel="stylesheet">
+<script type="text/javascript" src="http://vjs.zencdn.net/6.2.8/video.js"></script>
+<script type="text/javascript" src="assets/scripts/libs/videojs-contrib-hls.min.js"></script>
+
 <script type="text/javascript" src="${location}/assets/scripts/main/default.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
@@ -301,7 +306,7 @@
    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
 
-
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
 
 
@@ -398,29 +403,40 @@
 </script>
 
  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script>
-     jQuery(function ($) {
+   <script>
+
+  jQuery(function ($) {
 
     if (Hls.isSupported()) {
       var linkValue = link;
 
       $('.room-navigation a').click(function () {
-        linkValue = $(this).attr('data-link');
+        linkValue = $(this).attr('data-link')
         console.log(linkValue);
-      });
+        var video = document.getElementById('my_video_1')
+        var hls = new Hls()
+        hls.loadSource(linkValue)
+        hls.attachMedia(video)
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+          video.play()
+        })
+        console.log('link:', linkValue)
+      })
 
-      var video = document.getElementById('my_video_1');
-      var hls = new Hls();
-      hls.loadSource(linkValue);
-      hls.attachMedia(video);
+      var video = document.getElementById('my_video_1')
+      var hls = new Hls()
+      hls.loadSource(linkValue)
+      hls.attachMedia(video)
       hls.on(Hls.Events.MANIFEST_PARSED, function () {
-        video.play();
-      });
-      console.log('link:', linkValue);
+        video.play()
+      })
+      console.log('link:', linkValue)
     }
 
-  });
-    </script>
+  })
+
+
+</script>
 
 
 

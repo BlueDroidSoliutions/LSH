@@ -18,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -73,6 +74,8 @@ public class VideoClip implements Serializable {
     private Date uploadDate;
     @Column(name = "enabled")
     private Integer enabled;
+    @Transient
+    private String mLink = "";
 
     public VideoClip() {
     }
@@ -197,6 +200,20 @@ public class VideoClip implements Serializable {
     @Override
     public String toString() {
         return "com.livesexhouse.model.VideoClip[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the mLink
+     */
+    public String getmLink() {
+        return mLink;
+    }
+
+    /**
+     * @param mLink the mLink to set
+     */
+    public void setmLink(String mLink) {
+        this.mLink = mLink;
     }
 
 }

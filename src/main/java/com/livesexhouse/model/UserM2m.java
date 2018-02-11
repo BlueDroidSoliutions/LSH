@@ -30,9 +30,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "UserM2m.findById", query = "SELECT u FROM UserM2m u WHERE u.id = :id")
     , @NamedQuery(name = "UserM2m.findByUserId", query = "SELECT u FROM UserM2m u WHERE u.userId = :userId")
     , @NamedQuery(name = "UserM2m.findByFavClip", query = "SELECT u FROM UserM2m u WHERE u.favClip = :favClip")
+    , @NamedQuery(name = "UserM2m.findByLikedClip", query = "SELECT u FROM UserM2m u WHERE u.likedClip = :likedClip")
     , @NamedQuery(name = "UserM2m.findByFavGirl", query = "SELECT u FROM UserM2m u WHERE u.favGirl = :favGirl")
     , @NamedQuery(name = "UserM2m.findByVote", query = "SELECT u FROM UserM2m u WHERE u.vote = :vote")
-    , @NamedQuery(name = "UserM2m.findByLikedClip", query = "SELECT u FROM UserM2m u WHERE u.likedClip = :likedClip")})
+    , @NamedQuery(name = "UserM2m.findByDisLikedclip", query = "SELECT u FROM UserM2m u WHERE u.disLikedclip = :disLikedclip")})
 public class UserM2m implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,12 +48,14 @@ public class UserM2m implements Serializable {
     private int userId;
     @Column(name = "fav_clip")
     private Integer favClip;
+    @Column(name = "liked_clip")
+    private Integer likedClip;
     @Column(name = "fav_girl")
     private Integer favGirl;
     @Column(name = "vote")
     private Integer vote;
-    @Column(name = "liked_clip")
-    private Integer likedClip;
+    @Column(name = "disLiked_clip")
+    private Integer disLikedclip;
 
     public UserM2m() {
     }
@@ -90,6 +93,14 @@ public class UserM2m implements Serializable {
         this.favClip = favClip;
     }
 
+    public Integer getLikedClip() {
+        return likedClip;
+    }
+
+    public void setLikedClip(Integer likedClip) {
+        this.likedClip = likedClip;
+    }
+
     public Integer getFavGirl() {
         return favGirl;
     }
@@ -106,12 +117,12 @@ public class UserM2m implements Serializable {
         this.vote = vote;
     }
 
-    public Integer getLikedClip() {
-        return likedClip;
+    public Integer getDisLikedclip() {
+        return disLikedclip;
     }
 
-    public void setLikedClip(Integer likedClip) {
-        this.likedClip = likedClip;
+    public void setDisLikedclip(Integer disLikedclip) {
+        this.disLikedclip = disLikedclip;
     }
 
     @Override

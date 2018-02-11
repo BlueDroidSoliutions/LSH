@@ -92,5 +92,80 @@ public class UserM2mDAO {
 
         return result;
     }
+    
+    public List<UserM2m> findLikedVideosByUserId(int id, int vid) {
+        List<UserM2m> result = new ArrayList<>();
+        try {
+            Query q = sessionFactory.getCurrentSession().createQuery("SELECT v FROM UserM2m v WHERE v.userId = :m AND v.likedClip = :n");
+            q.setParameter("m", id);
+            q.setParameter("n", vid);
+           
+            result = q.getResultList();
+        } catch (HibernateException e) {
+
+        }
+
+        return result;
+    }
+    
+    public List<UserM2m> findDisLikedVideosByUserId(int id , int vid) {
+        List<UserM2m> result = new ArrayList<>();
+        try {
+            Query q = sessionFactory.getCurrentSession().createQuery("SELECT v FROM UserM2m v WHERE v.userId = :m AND v.disLikedclip = :n");
+            q.setParameter("m", id);
+             q.setParameter("n", vid);
+           
+
+            result = q.getResultList();
+        } catch (HibernateException e) {
+
+        }
+
+        return result;
+    }
+    
+    public List<UserM2m> findFacVideosByUserId(int id , int cid) {
+        List<UserM2m> result = new ArrayList<>();
+        try {
+            Query q = sessionFactory.getCurrentSession().createQuery("SELECT v FROM UserM2m v WHERE v.userId = :m AND v.favClip = :n");
+            q.setParameter("m", id);
+            q.setParameter("n", cid);
+           
+            result = q.getResultList();
+        } catch (HibernateException e) {
+
+        }
+
+        return result;
+    }
+    
+     public void deleteLiked(int userId , int liked) {
+        List<VideoClip> result = new ArrayList<>();
+        try {
+            Query q = sessionFactory.getCurrentSession().createQuery("delete FROM UserM2m v WHERE v.userId = :m AND v.likedClip = :n");
+           
+            q.setParameter("m", userId);
+            q.setParameter("n", liked);
+           
+            q.executeUpdate();
+        } catch (HibernateException e) {
+
+        }}
+        
+         public void deleteDisLiked(int userId , int disliked) {
+        List<VideoClip> result = new ArrayList<>();
+        try {
+            Query q = sessionFactory.getCurrentSession().createQuery("delete FROM UserM2m v WHERE v.userId = :m AND v.disLikedclip = :n");
+           
+            q.setParameter("m", userId);
+            q.setParameter("n", disliked);
+           
+            q.executeUpdate();
+        } catch (HibernateException e) {
+
+        }
+
+       
+    }
 
 }

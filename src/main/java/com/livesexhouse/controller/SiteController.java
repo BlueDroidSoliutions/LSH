@@ -310,6 +310,16 @@ public class SiteController {
                 onl = onlineDao.onlineNow();
                 model.addAttribute("status", status);
                 model.addAttribute("onlineNow", onl);
+                
+                List<Girls> l2 = new ArrayList<>();
+            l2 = girlDao.findGirls();
+
+            model.addAttribute("girl2", l2);
+
+            String onl2 = "";
+            onl2 = onlineDao.onlineNow();
+            model.addAttribute("onlineNow2", onl2);
+                
 
             } else {
 
@@ -367,7 +377,7 @@ public class SiteController {
                 nameM = m.getUsername();
                 idM = m.getId();
 
-                model.addAttribute("lnk" , setupDao.getStreamLnkMH());
+                model.addAttribute("lnk", setupDao.getStreamLnkMH());
                 model.addAttribute("nameM", nameM);
                 model.addAttribute("idM", idM);
 
@@ -1345,21 +1355,53 @@ public class SiteController {
         return "redirect:/uploadStatus";
 
     }
-
-    @RequestMapping("/video/{id}")
-    public String video2(
-            @PathVariable int id,
-            ModelMap model,
-            HttpServletResponse response, RedirectAttributes redirectAttributes,
+    
+      @RequestMapping(value = "/video", method = RequestMethod.GET)
+    public String videos(
+            Principal principal, RedirectAttributes redirectAttributes,
             @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
             @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
             @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
-            Principal principal,
+            //1.firstResult
+            @RequestParam(required = false, value = "1", defaultValue = "0") int firstResult,
+            //2.SORT
+            //name 1=asc 2=desc
+            //wishList 3=desc 
+            //views 4=edsc
+            //likes 5=asc 6=desc
+            //date 7=asc 8=desc
+            //season 9=asc 10=desc
+            //duration 11=asc 12=desc
+            @RequestParam(required = false, value = "2", defaultValue = "0") int sort,
+            //FILTERS
+            //3.date 
+            @RequestParam(required = false, value = "3", defaultValue = "0") String dateFilter,
+            //4.room 
+            @RequestParam(required = false, value = "4", defaultValue = "0") int[] roomFilter,
+            //5.season 
+            @RequestParam(required = false, value = "5", defaultValue = "0") int[] seasonFilter,
+            //6.duration
+            @RequestParam(required = false, value = "6", defaultValue = "0") int[] durationFilter,
+            //7.member
+            @RequestParam(required = false, value = "7", defaultValue = "0") int[] memberFilter,
+            //8.category
+            @RequestParam(required = false, value = "8", defaultValue = "0") int[] categoryFilter,
+            //9.reset
+            @RequestParam(required = false, value = "9", defaultValue = "0") int resetFirstResult,
+            //10.search
+            @RequestParam(required = false, value = "10", defaultValue = "0") String search,
+            ModelMap model,
+            HttpServletResponse response,
             HttpServletRequest request) throws Exception {
-
         Boolean alredySigned = false;
         try {
-int liked = 0;
+
+            int durFilter = durationFilter[0];
+
+            int[] df = {durFilter};
+
+            durationFilter = df;
+
             if (cookieTrust != null) {
                 model.addAttribute("trustedUser", true);
             } else {
@@ -1374,18 +1416,6 @@ int liked = 0;
             if (principal != null) {
                 Users u = new Users();
                 u = userDao.findByUsername(principal.getName());
-                
-                
-                List<VideoClip> lvc = new ArrayList<>();   
-                lvc = userM2mDAO.findLikedVideosByUser(u.getId());
-                
-                for(VideoClip v : lvc){
-                    if(v.getId() == id){
-                        liked = 1;
-                    }
-                }
-                
-                
                 model.addAttribute("userName", principal.getName());
                 model.addAttribute("user", u);
             }
@@ -1399,25 +1429,426 @@ int liked = 0;
             String videoLocation = setups.get(8).getValueString();
             String imgLocation = setups.get(9).getValueString();
             String startDate = setups.get(10).getValueString();
+            Boolean bigPagination = false;
+            String pag = "";
+            int numberOfVideos = 0;
+            List<VideoClip> videosResultsList = new ArrayList<>();
+            List<MemberHouse> memberHouse = memberHouseDao.find();
 
+            List<VideoRoom> videoRoom = videoRoomDao.find();
+            List<VideoCategories> videoCategories = videoCategoryDao.find();
+            List<VideoCategoryCountClip> videoCategoryCountClips = videoCategoryCountClipDao.find();
+            List<String> individualPar = new ArrayList<>();
+            int videoNumTotal = 0;
+
+            noVideoFound = "<p style=\"color:white\">" + noVideoFound + "</p>";
+
+            String allParams = "";
+            String paramsWithoutSort = "";
+
+            if (!dateFilter.equals("0")) {
+                if (dateFilter.charAt(4) != '-') {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm/DD/yyyy");
+                    Date date = simpleDateFormat.parse(dateFilter);
+                    SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-mm-DD");
+                    dateFilter = simpleDateFormat2.format(date);
+                }
+            }
+
+            String filterDateExist = "yes";
+            if (!dateFilter.equals("0")) {
+                filterDateExist = "1";
+            }
+
+            Boolean searchExist = false;
+            if (!search.equals("0")) {
+                searchExist = true;
+            }
+
+            if (!dateFilter.equals("0") || roomFilter.length > 1 || seasonFilter.length > 1
+                    //                    || durationFilter.length > 1 
+                    || memberFilter.length > 1 || categoryFilter.length > 1 || sort != 0 || searchExist) {
+                bigPagination = true;
+            }
+
+            if (!bigPagination) {
+
+                if (roomFilter.length == 1) {
+                    if (roomFilter[0] != 0) {
+                        bigPagination = true;
+                    }
+                }
+
+                if (searchExist) {
+                    bigPagination = true;
+                }
+
+                if (seasonFilter.length == 1) {
+                    if (seasonFilter[0] != 0) {
+                        bigPagination = true;
+                    }
+                }
+
+                if (durationFilter.length == 1) {
+                    if (durationFilter[0] != 0) {
+                        bigPagination = true;
+                    }
+                }
+
+                if (memberFilter.length == 1) {
+                    if (memberFilter[0] != 0) {
+                        bigPagination = true;
+                    }
+                }
+
+                if (categoryFilter.length == 1) {
+                    if (categoryFilter[0] != 0) {
+                        bigPagination = true;
+                    }
+                }
+
+            }
+
+            if (bigPagination) {
+                Object[] par = params.allParam(categoryFilter, roomFilter, memberFilter, seasonFilter, durationFilter, sort, dateFilter, totalSeasons, memberHouse, videoRoom, videoCategories, totalSeasons, search);
+                allParams = (String) par[0];
+                paramsWithoutSort = (String) par[1];
+                individualPar = (List<String>) par[2];
+
+                Object[] tmp = videoDao.find(maxVideoPerPage, firstResult, sort, dateFilter, roomFilter, seasonFilter, durationFilter, memberFilter, categoryFilter, search);
+
+                videosResultsList = (List<VideoClip>) tmp[0];
+                numberOfVideos = (int) tmp[1];
+                videoNumTotal = (int) tmp[2];
+            } else {
+                Object[] tmp = videoDao.findAll(maxVideoPerPage, firstResult);
+                videosResultsList = (List<VideoClip>) tmp[0];
+                numberOfVideos = (int) tmp[1];
+                videoNumTotal = numberOfVideos;
+            }
+
+            if (numberOfVideos > maxVideoPerPage) {
+                if (!bigPagination) {
+                    pag = pagination.pagination(firstResult, numberOfVideos, "video", maxVideoPerPage, path);
+                } else {
+                    pag = pagination.pagination(firstResult, numberOfVideos, "video", maxVideoPerPage, path, allParams);
+                }
+            }
+
+            if (numberOfVideos != 0) {
+                noVideoFound = "";
+            }
+            String percent = "";
+int searchInt = 0;
+
+if(searchExist){
+   searchInt = 1; 
+   for(VideoClip v : videosResultsList){
+       v.setmLink("./video/"+v.getId()+"?10="+search);
+       System.out.println(v.getmLink());
+   }
+}
+
+
+          
+
+            model.addAttribute("searchInt", searchInt);
+            model.addAttribute("percent", percent);
+            model.addAttribute("individualPar", individualPar);
+            model.addAttribute("noVideoFound", noVideoFound);
+            model.addAttribute("member", memberHouse);
+            model.addAttribute("videoRoom", videoRoom);
+            model.addAttribute("videoCategories", videoCategories);
+            model.addAttribute("path", path);
+            model.addAttribute("location", location);
+            model.addAttribute("pagination", pag);
+
+            model.addAttribute("video", videosResultsList);
+            
+            model.addAttribute("totalSeasons", totalSeasons);
+            model.addAttribute("videoNumTotal", videoNumTotal);
+            model.addAttribute("videoCategoryCountClips", videoCategoryCountClips);
+            model.addAttribute("videoLocation", videoLocation);
+            model.addAttribute("imgLocation", imgLocation);
+            model.addAttribute("filterDateExist", filterDateExist);
+
+            model.addAttribute("startDate", startDate);
+            model.addAttribute("sort", sort);
+            model.addAttribute("dateFilter", dateFilter);
+            model.addAttribute("roomFilter", roomFilter);
+            model.addAttribute("seasonFilter", seasonFilter);
+
+            model.addAttribute("durationFilter", durationFilter);
+            model.addAttribute("memberFilter", memberFilter);
+            model.addAttribute("categoryFilter", categoryFilter);
+
+            if (paramsWithoutSort.length() > 1) {
+                model.addAttribute("paramsWithoutSort", paramsWithoutSort.substring(0, paramsWithoutSort.length() - 2));
+            } else {
+                model.addAttribute("paramsWithoutSort", paramsWithoutSort);
+            }
+
+            model.addAttribute("params", allParams);
+            model.addAttribute("bck", "");
+
+        } catch (ParseException ex) {
+        }
+        return "video-archive";
+    }
+    
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public String search(
+            Principal principal,
+            ModelMap model,
+            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
+            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
+            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
+            HttpServletResponse response, RedirectAttributes redirectAttributes,
+            HttpServletRequest request) throws Exception {
+        Boolean alredySigned = false;
+        try {
+            int searchInt = 0;
+            if (cookieTrust != null) {
+                model.addAttribute("trustedUser", true);
+            } else {
+                if (cookieSigned != null) {
+                    model.addAttribute("alredySigned", true);
+                } else {
+                    if (cookieMail != null) {
+                        model.addAttribute("checkEmail", true);
+                    }
+                }
+            }
+            if (principal != null) {
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
+            }
+
+            List<Setup> setups = setupDao.getSetups();
+            int maxVideoPerPage = setups.get(2).getValueInt();
+            int totalSeasons = setups.get(5).getValueInt();
+            String location = setups.get(0).getValueString();
+            String noVideoFound = setups.get(6).getValueString();
+            String path = setups.get(1).getValueString();
+            String videoLocation = setups.get(8).getValueString();
+            String imgLocation = setups.get(9).getValueString();
+            String startDate = setups.get(10).getValueString();
+            Boolean bigPagination = false;
+            String pag = "";
+            int numberOfVideos = 0;
+            List<VideoClip> videosResultsList = new ArrayList<>();
+            List<MemberHouse> memberHouse = memberHouseDao.find();
+
+            List<VideoRoom> videoRoom = videoRoomDao.find();
+            List<VideoCategories> videoCategories = videoCategoryDao.find();
+            List<VideoCategoryCountClip> videoCategoryCountClips = videoCategoryCountClipDao.find();
+            List<String> individualPar = new ArrayList<>();
+            int videoNumTotal = 0;
+
+            noVideoFound = "<p style=\"color:white\">" + noVideoFound + "</p>";
+
+            String string = "";
+
+            string = request.getParameter("string");
+
+            if (!string.isEmpty()) {
+
+                String[] parts;
+                parts = string.split(" ");
+                individualPar.add("Search: " + string + ",10=0");
+            }
+
+            Object[] tmp = videoDao.search(maxVideoPerPage, string);
+
+            videosResultsList = (List<VideoClip>) tmp[0];
+//            checker.check(search);
+            if(videosResultsList.size()>0){
+                string = string.replaceAll(" ", "-");
+                searchInt = 1;
+                for(VideoClip v : videosResultsList){
+                    v.setmLink("./video/"+v.getId().toString()+"?10="+string);
+                    System.out.println("###################### " + v.getmLink());
+                }
+            }
+            
+            numberOfVideos = (int) tmp[1];
+            videoNumTotal = (int) tmp[2];
+            String percent = (String) tmp[3];
+
+            if (numberOfVideos > maxVideoPerPage) {
+                pag = pagination.pagination(0, numberOfVideos, "video", maxVideoPerPage, path, percent.substring(2));
+            }
+
+            if (numberOfVideos != 0) {
+                noVideoFound = "";
+            }
+            
+            
+            
+           
+    
+    
+         
+
+            model.addAttribute("searchInt", searchInt);
+            model.addAttribute("startDate", startDate);
+            model.addAttribute("percent", percent);
+            model.addAttribute("individualPar", individualPar);
+            model.addAttribute("noVideoFound", noVideoFound);
+            model.addAttribute("member", memberHouse);
+            model.addAttribute("videoRoom", videoRoom);
+            model.addAttribute("videoCategories", videoCategories);
+            model.addAttribute("path", path);
+            model.addAttribute("location", location);
+            model.addAttribute("pagination", pag);
+            model.addAttribute("video", videosResultsList);
+            model.addAttribute("totalSeasons", totalSeasons);
+            model.addAttribute("videoNumTotal", videoNumTotal);
+            model.addAttribute("videoCategoryCountClips", videoCategoryCountClips);
+            model.addAttribute("videoLocation", videoLocation);
+            model.addAttribute("imgLocation", imgLocation);
+
+        } catch (Exception ex) {
+        }
+        model.addAttribute("bck", "");
+        return "video-archive";
+    }
+
+    @RequestMapping("/video/{id}")
+    public String video2(
+            @PathVariable int id,
+            ModelMap model,
+            HttpServletResponse response, RedirectAttributes redirectAttributes,
+            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
+            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
+            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
+            Principal principal,
+            @RequestParam(required = false, value = "10", defaultValue = "") String search,
+
+            HttpServletRequest request) throws Exception {
+
+        Boolean alredySigned = false;
+        try {
+            
+            System.out.println("k1");
+            boolean simVideo = false;
+            List<VideoClip> similarVideo = new ArrayList<>();
+            if(search.equals("")){
+                simVideo = true;
+            } 
+            
+            System.out.println("k2");
+          
+            
+            
+            int liked = 0;
+            int disLiked = 0;
+            int fav = 0;
+            if (cookieTrust != null) {
+                model.addAttribute("trustedUser", true);
+            } else {
+                if (cookieSigned != null) {
+                    model.addAttribute("alredySigned", true);
+                } else {
+                    if (cookieMail != null) {
+                        model.addAttribute("checkEmail", true);
+                    }
+                }
+            }
+            System.out.println("k3");
+            
+            if (principal != null) {
+                Users u = new Users();
+                u = userDao.findByUsername(principal.getName());
+
+                System.out.println("t0");
+                List<UserM2m> lvc = new ArrayList<>();
+                lvc = userM2mDAO.findLikedVideosByUserId(u.getId() , id);
+                
+                System.out.println("t01");
+                List<UserM2m> dlvc = new ArrayList<>();
+                dlvc = userM2mDAO.findDisLikedVideosByUserId(u.getId(), id);
+                
+                System.out.println("t02");
+                List<UserM2m> fvc = new ArrayList<>();
+                fvc = userM2mDAO.findFacVideosByUserId(u.getId() , id);
+
+                System.out.println("t11");
+                if(lvc.size()>0){
+                    System.out.println("y1");
+                for (UserM2m v : lvc) {
+                    System.out.println("r1");
+                    if (v.getLikedClip() == id) {
+                        System.out.println("yy1");
+                        liked = 1;
+                    }
+                }}
+
+                 if(dlvc.size()>0){
+                     System.out.println("z2");
+                for (UserM2m v : dlvc) {
+                    if (v.getDisLikedclip() == id) {
+                        disLiked = 1;
+                    }
+                }}
+
+                  if(fvc.size()>0){
+                      System.out.println("z3");
+                for (UserM2m v : fvc) {
+                    if (v.getDisLikedclip()== id) {
+                        fav = 1;
+                    }
+                }}
+                System.out.println("t2");
+                model.addAttribute("userName", principal.getName());
+                model.addAttribute("user", u);
+            }
+            System.out.println("k4");
+            List<Setup> setups = setupDao.getSetups();
+            int maxVideoPerPage = setups.get(2).getValueInt();
+            int totalSeasons = setups.get(5).getValueInt();
+            String location = setups.get(0).getValueString();
+            String noVideoFound = setups.get(6).getValueString();
+            String path = setups.get(1).getValueString();
+            String videoLocation = setups.get(8).getValueString();
+            String imgLocation = setups.get(9).getValueString();
+            String startDate = setups.get(10).getValueString();
+            System.out.println("k41");
+            int maxSimilar = setups.get(17).getValueInt();
+            System.out.println("k5");
             VideoClip v = videoDao.findById(id);
             v.setViewCount(v.getViewCount() + 1);
             videoDao.update(v);
             VideoM2m vm2m = new VideoM2m();
-
+            
+            System.out.println("r1");
+            if(simVideo){
+                similarVideo = videoDao.findSimilarByVideo(v,maxSimilar);
+                System.out.println("***************** 11111");
+            } else {
+                System.out.println("***************** 222222");
+                 similarVideo = videoDao.findSimilarByVideoSearch(v,maxSimilar,search);
+            }
+            
+           
+            System.out.println("r2");
             List videoCat = new ArrayList();
             videoCat = videoM2mDao.findCategoriesByVideoId(id);
 
             vm2m = videoM2mDao.findById(id);
-
+            System.out.println("k6");
             List<MemberHouse> memberHouse = memberHouseDao.find();
             List<VideoRoom> videoRoom = videoRoomDao.find();
             List<VideoCategories> videoCategories = videoCategoryDao.find();
             List<VideoCategoryCountClip> videoCategoryCountClips = videoCategoryCountClipDao.find();
-
+            System.out.println("k7");
             int seas = videoM2mDao.findSeasonByVideoId(id);
-
+            model.addAttribute("similarVideo", similarVideo); 
             model.addAttribute("liked", liked);
+            model.addAttribute("disLiked", disLiked);
+            model.addAttribute("fav", fav);
             model.addAttribute("videoCat", videoCat);
             model.addAttribute("season", seas);
             model.addAttribute("video", v);
@@ -1434,12 +1865,13 @@ int liked = 0;
             model.addAttribute("videoLocation", videoLocation);
             model.addAttribute("imgLocation", imgLocation);
             model.addAttribute("bck", ".");
+            System.out.println("k8");
         } catch (Exception ex) {
         }
         return "video-player";
     }
 
-    @RequestMapping(value = "/contactpost", method = RequestMethod.POST)
+   @RequestMapping(value = "/contactpost", method = RequestMethod.POST)
     public String contactpost(
             ModelMap model,
             HttpServletResponse response, RedirectAttributes redirectAttributes,
@@ -1509,7 +1941,7 @@ int liked = 0;
             Principal principal,
             HttpServletRequest request) throws Exception {
         Boolean alredySigned = false;
-         String ret = "becomemodelFAIL";
+        String ret = "becomemodelFAIL";
         try {
 
             if (cookieTrust != null) {
@@ -1614,7 +2046,7 @@ int liked = 0;
                     p.setDate(date);
 
                     participantDao.saveParticipant(p);
-                      ret = "becomemodelOK";
+                    ret = "becomemodelOK";
                 }
 
             }
@@ -1648,8 +2080,7 @@ int liked = 0;
                     }
                 }
             }
-            
-            
+
             if (principal != null) {
                 Users u = new Users();
                 u = userDao.findByUsername(principal.getName());
@@ -1657,7 +2088,7 @@ int liked = 0;
                 model.addAttribute("user", u);
             }
 
-                Integer fail = 0;
+            Integer fail = 0;
             boolean acceptTerms = (request.getParameter("acceptterms") != null) ? true : false;
             System.out.println("t1");
             boolean passErr = true;
@@ -1669,67 +2100,66 @@ int liked = 0;
             String privateShow = request.getParameter("privateShow");
             String permanentID = request.getParameter("permanentID");
             System.out.println("t3");
-            String in =  request.getParameter("interes");
-           
+            String in = request.getParameter("interes");
+
             System.out.println("gender" + request.getParameter("gender"));
             System.out.println("t4");
-            
+
             Model m = new Model();
             boolean ok = false;
             if (acceptTerms) {
-                if (audio != null && hdVideo != null && phoneService != null && groupShow != null && privateShow != null && permanentID != null && in!=null) {
+                if (audio != null && hdVideo != null && phoneService != null && groupShow != null && privateShow != null && permanentID != null && in != null) {
                     System.out.println("u1");
-                        if (!request.getParameter("email").equals("") && checker.checkEmail(request.getParameter("email"))) {
-                            if (!request.getParameter("fullname").equals("") && checker.check(request.getParameter("fullname"))) {
-                                if (checker.check(request.getParameter("region"))) {
-                                    if (!request.getParameter("country").equals("") && checker.check(request.getParameter("country"))) {
-                                        if (!request.getParameter("telep").equals("") && checker.check(request.getParameter("telep"))) {
-                                            if (!request.getParameter("password").equals("") && checker.checkPass(request.getParameter("password"))) {
-                                                passErr = false;
-                                                System.out.println("u2");
-                                                if (!request.getParameter("nick").equals("") && checker.check(request.getParameter("nick"))) {
-                                                    System.out.println("u21");
-                                                    if (!request.getParameter("birthday").equals("") && checker.check(request.getParameter("birthday"))) {
-                                                        System.out.println("u22");
-                                                        if (!request.getParameter("Adress").equals("") && checker.check(request.getParameter("Adress"))) {
-                                                            System.out.println("u23");
-                                                            if (!request.getParameter("gender").equals("") && checker.check(request.getParameter("gender"))) {
-                                                                System.out.println("u24");
-                                                                if (!request.getParameter("birthday").equals("") && checker.check(request.getParameter("birthday"))) {
-                                                                    System.out.println("u25");
-                                                                    if (!request.getParameter("sex").equals("") && checker.check(request.getParameter("sex"))) {
-                                                                        System.out.println("u26");
-                                                                        if (!request.getParameter("displayName").equals("") && checker.check(request.getParameter("displayName"))) {
-                                                                            System.out.println("u3");
-                                                                            if (!request.getParameter("zodiac").equals("") && checker.check(request.getParameter("zodiac"))) {
-                                                                                if (!request.getParameter("language").equals("") && checker.check(request.getParameter("language"))) {
-                                                                                    if (!request.getParameter("body").equals("") && checker.check(request.getParameter("body"))) {
-                                                                                        if (checker.check(request.getParameter("decorations"))) {
-                                                                                            if (!request.getParameter("lngSpoken").equals("") && checker.check(request.getParameter("lngSpoken"))) {
-                                                                                                if (!request.getParameter("height").equals("") && checker.check(request.getParameter("height"))) {
-                                                                                                    if (!request.getParameter("weight").equals("") && checker.check(request.getParameter("weight"))) {
-                                                                                                        System.out.println("u4");
-                                                                                                        if (!request.getParameter("hairColor").equals("") && checker.check(request.getParameter("hairColor"))) {
-                                                                                                            if (!request.getParameter("eyes").equals("") && checker.check(request.getParameter("eyes"))) {
-                                                                                                                if (!request.getParameter("ethnicity").equals("") && checker.check(request.getParameter("ethnicity"))) {
-                                                                                                                    if (!request.getParameter("cupSize").equals("") && checker.check(request.getParameter("cupSize"))) {
-                                                                                                                        System.out.println("u5");
-                                                                                                                        if (!request.getParameter("pubicHair").equals("") && checker.check(request.getParameter("pubicHair"))) {
-                                                                                                                            if (!request.getParameter("mes1").equals("") && checker.check(request.getParameter("mes1"))) {
-                                                                                                                                if (!request.getParameter("mes2").equals("") && checker.check(request.getParameter("mes2"))) {
-                                                                                                                                    if (!request.getParameter("mes3").equals("") && checker.check(request.getParameter("mes3"))) {
-                                                                                                                                        if (checker.check(request.getParameter("Audio"))) {
-                                                                                                                                            if (checker.check(request.getParameter("hdVideo"))) {
-                                                                                                                                                if (checker.check(request.getParameter("phoneService"))) {
-                                                                                                                                                    System.out.println("u7");
-                                                                                                                                                    if (checker.check(request.getParameter("groupShow"))) {
-                                                                                                                                                        if (checker.check(request.getParameter("privateShow"))) {
-                                                                                                                                                            if (checker.check(request.getParameter("permanentID"))) {
-                                                                                                                                                                if (!request.getParameter("idExpire").equals("") && checker.check(request.getParameter("idExpire"))) {
-                                                                                                                                                                    if (!request.getParameter("about").equals("") && checker.check(request.getParameter("about"))) {
-                                                                                                                                                                        ok = true;
+                    if (!request.getParameter("email").equals("") && checker.checkEmail(request.getParameter("email"))) {
+                        if (!request.getParameter("fullname").equals("") && checker.check(request.getParameter("fullname"))) {
+                            if (checker.check(request.getParameter("region"))) {
+                                if (!request.getParameter("country").equals("") && checker.check(request.getParameter("country"))) {
+                                    if (!request.getParameter("telep").equals("") && checker.check(request.getParameter("telep"))) {
+                                        if (!request.getParameter("password").equals("") && checker.checkPass(request.getParameter("password"))) {
+                                            passErr = false;
+                                            System.out.println("u2");
+                                            if (!request.getParameter("nick").equals("") && checker.check(request.getParameter("nick"))) {
+                                                System.out.println("u21");
+                                                if (!request.getParameter("birthday").equals("") && checker.check(request.getParameter("birthday"))) {
+                                                    System.out.println("u22");
+                                                    if (!request.getParameter("Adress").equals("") && checker.check(request.getParameter("Adress"))) {
+                                                        System.out.println("u23");
+                                                        if (!request.getParameter("gender").equals("") && checker.check(request.getParameter("gender"))) {
+                                                            System.out.println("u24");
+                                                            if (!request.getParameter("birthday").equals("") && checker.check(request.getParameter("birthday"))) {
+                                                                System.out.println("u25");
+                                                                if (!request.getParameter("sex").equals("") && checker.check(request.getParameter("sex"))) {
+                                                                    System.out.println("u26");
+                                                                    if (!request.getParameter("displayName").equals("") && checker.check(request.getParameter("displayName"))) {
+                                                                        System.out.println("u3");
+                                                                        if (!request.getParameter("zodiac").equals("") && checker.check(request.getParameter("zodiac"))) {
+                                                                            if (!request.getParameter("language").equals("") && checker.check(request.getParameter("language"))) {
+                                                                                if (!request.getParameter("body").equals("") && checker.check(request.getParameter("body"))) {
+                                                                                    if (checker.check(request.getParameter("decorations"))) {
+                                                                                        if (!request.getParameter("lngSpoken").equals("") && checker.check(request.getParameter("lngSpoken"))) {
+                                                                                            if (!request.getParameter("height").equals("") && checker.check(request.getParameter("height"))) {
+                                                                                                if (!request.getParameter("weight").equals("") && checker.check(request.getParameter("weight"))) {
+                                                                                                    System.out.println("u4");
+                                                                                                    if (!request.getParameter("hairColor").equals("") && checker.check(request.getParameter("hairColor"))) {
+                                                                                                        if (!request.getParameter("eyes").equals("") && checker.check(request.getParameter("eyes"))) {
+                                                                                                            if (!request.getParameter("ethnicity").equals("") && checker.check(request.getParameter("ethnicity"))) {
+                                                                                                                if (!request.getParameter("cupSize").equals("") && checker.check(request.getParameter("cupSize"))) {
+                                                                                                                    System.out.println("u5");
+                                                                                                                    if (!request.getParameter("pubicHair").equals("") && checker.check(request.getParameter("pubicHair"))) {
+                                                                                                                        if (!request.getParameter("mes1").equals("") && checker.check(request.getParameter("mes1"))) {
+                                                                                                                            if (!request.getParameter("mes2").equals("") && checker.check(request.getParameter("mes2"))) {
+                                                                                                                                if (!request.getParameter("mes3").equals("") && checker.check(request.getParameter("mes3"))) {
+                                                                                                                                    if (checker.check(request.getParameter("Audio"))) {
+                                                                                                                                        if (checker.check(request.getParameter("hdVideo"))) {
+                                                                                                                                            if (checker.check(request.getParameter("phoneService"))) {
+                                                                                                                                                System.out.println("u7");
+                                                                                                                                                if (checker.check(request.getParameter("groupShow"))) {
+                                                                                                                                                    if (checker.check(request.getParameter("privateShow"))) {
+                                                                                                                                                        if (checker.check(request.getParameter("permanentID"))) {
+                                                                                                                                                            if (!request.getParameter("idExpire").equals("") && checker.check(request.getParameter("idExpire"))) {
+                                                                                                                                                                if (!request.getParameter("about").equals("") && checker.check(request.getParameter("about"))) {
+                                                                                                                                                                    ok = true;
 
-                                                                                                                                                                    }
                                                                                                                                                                 }
                                                                                                                                                             }
                                                                                                                                                         }
@@ -1760,12 +2190,11 @@ int liked = 0;
                                                     }
                                                 }
                                             }
-
                                         }
 
                                     }
 
-                                
+                                }
 
                             }
 
@@ -1777,149 +2206,126 @@ int liked = 0;
 
             if (ok) {
                 System.out.println("qq1");
-                         
-m.setEmail(request.getParameter("email"));
-m.setFullname(request.getParameter("fullname"));
 
-m.setRegion(request.getParameter("region"));
-m.setCountry(Integer.valueOf(request.getParameter("country")));
-m.setAddress(request.getParameter("Adress"));
+                m.setEmail(request.getParameter("email"));
+                m.setFullname(request.getParameter("fullname"));
+
+                m.setRegion(request.getParameter("region"));
+                m.setCountry(Integer.valueOf(request.getParameter("country")));
+                m.setAddress(request.getParameter("Adress"));
                 System.out.println("s1");
-m.setTelephone(request.getParameter("telep"));
-m.setPassword(request.getParameter("password"));
-m.setNickname(request.getParameter("nick"));
-m.setGender(request.getParameter("gender"));
-m.setBirthday(request.getParameter("birthday"));
-m.setSex(request.getParameter("sex"));
-m.setDspName(request.getParameter("displayName"));
+                m.setTelephone(request.getParameter("telep"));
+                m.setPassword(request.getParameter("password"));
+                m.setNickname(request.getParameter("nick"));
+                m.setGender(request.getParameter("gender"));
+                m.setBirthday(request.getParameter("birthday"));
+                m.setSex(request.getParameter("sex"));
+                m.setDspName(request.getParameter("displayName"));
                 System.out.println("s2");
-m.setZodiac(request.getParameter("zodiac"));
+                m.setZodiac(request.getParameter("zodiac"));
                 System.out.println("o1");
                 System.out.println(request.getParameter("language"));
-m.setLanguage(Integer.valueOf(request.getParameter("language")));
+                m.setLanguage(Integer.valueOf(request.getParameter("language")));
                 System.out.println("o2");
-m.setBody(Integer.valueOf(request.getParameter("body")));
+                m.setBody(Integer.valueOf(request.getParameter("body")));
                 System.out.println("o3");
-if(!request.getParameter("decorations").equals(""))
-                    
-m.setDecoration(Integer.valueOf(request.getParameter("decorations")));
-System.out.println("o4");
-m.setLanguageSpoken(Integer.valueOf(request.getParameter("lngSpoken")));
+                if (!request.getParameter("decorations").equals("")) {
+                    m.setDecoration(Integer.valueOf(request.getParameter("decorations")));
+                }
+                System.out.println("o4");
+                m.setLanguageSpoken(Integer.valueOf(request.getParameter("lngSpoken")));
                 System.out.println("s3");
-m.setWeight(request.getParameter("weight"));
-m.setHeight(request.getParameter("height"));
-m.setHair(Integer.valueOf(request.getParameter("hairColor")));
-m.setEye(request.getParameter("eyes"));
-m.setEthnicity(request.getParameter("ethnicity"));
-m.setCupSize(request.getParameter("cupSize"));
+                m.setWeight(request.getParameter("weight"));
+                m.setHeight(request.getParameter("height"));
+                m.setHair(Integer.valueOf(request.getParameter("hairColor")));
+                m.setEye(request.getParameter("eyes"));
+                m.setEthnicity(request.getParameter("ethnicity"));
+                m.setCupSize(request.getParameter("cupSize"));
                 System.out.println("s4");
-m.setPubicHair(request.getParameter("pubicHair"));
-m.setMeasurements(request.getParameter("mes1")+"-"+request.getParameter("mes2")+"-"+request.getParameter("mes3"));
-m.setAudio(Integer.valueOf(request.getParameter("Audio")));
-m.setHd(Integer.valueOf(request.getParameter("hdVideo")));
-m.setPhoneService(Integer.valueOf(request.getParameter("phoneService")));
-m.setGroupYN(Integer.valueOf(request.getParameter("groupShow")));
-m.setAbout(request.getParameter("about"));
+                m.setPubicHair(request.getParameter("pubicHair"));
+                m.setMeasurements(request.getParameter("mes1") + "-" + request.getParameter("mes2") + "-" + request.getParameter("mes3"));
+                m.setAudio(Integer.valueOf(request.getParameter("Audio")));
+                m.setHd(Integer.valueOf(request.getParameter("hdVideo")));
+                m.setPhoneService(Integer.valueOf(request.getParameter("phoneService")));
+                m.setGroupYN(Integer.valueOf(request.getParameter("groupShow")));
+                m.setAbout(request.getParameter("about"));
                 System.out.println("s5");
-m.setPrivate1(Integer.valueOf(request.getParameter("privateShow")));
-m.setExpireID(request.getParameter("idExpire"));
-m.setPermanentId(Integer.valueOf(request.getParameter("permanentID")));
+                m.setPrivate1(Integer.valueOf(request.getParameter("privateShow")));
+                m.setExpireID(request.getParameter("idExpire"));
+                m.setPermanentId(Integer.valueOf(request.getParameter("permanentID")));
 
-                     fail =    modelDao.saveI(m);
-                System.out.println("!!!!!!!!!######################## ok ok ok "+ fail);
+                fail = modelDao.saveI(m);
+                System.out.println("!!!!!!!!!######################## ok ok ok " + fail);
             }
-            
-            String bc =  request.getParameter("blockedCountry");
-            String br =  request.getParameter("blockedRegion");
-               String knk =  request.getParameter("kinky");
-            
-            if(fail>0){
-                 List<Setup> setups = setupDao.getSetups();
-            String imgSaveLocation = setups.get(13).getValueString();
-            String videoName2save = "";
-               //  cuvaj ostale m2m i slike
+
+            String bc = request.getParameter("blockedCountry");
+            String br = request.getParameter("blockedRegion");
+            String knk = request.getParameter("kinky");
+
+            if (fail > 0) {
+                List<Setup> setups = setupDao.getSetups();
+                String imgSaveLocation = setups.get(13).getValueString();
+                String videoName2save = "";
+                //  cuvaj ostale m2m i slike
                 System.out.println("%%%%%%% fail");
                 ret = "becomemodelOK";
-                  for (int i = 0; i < files.length; i++) {
-                videoName2save = imgSaveLocation +fail+"_" +files[i].getOriginalFilename();
+                for (int i = 0; i < files.length; i++) {
+                    videoName2save = imgSaveLocation + fail + "_" + files[i].getOriginalFilename();
 
-                saveVideoFile.savePic(files[i].getBytes(), videoName2save);
+                    saveVideoFile.savePic(files[i].getBytes(), videoName2save);
+
+                }
+
+                if (bc != null) {
+                    String[] blockedCountrys = request.getParameterValues("blockedCountry");
+                    for (String s : blockedCountrys) {
+                        BlockedCountryM2m bcm2m = new BlockedCountryM2m();
+                        bcm2m.setBlockedCountryId(Integer.valueOf(s));
+                        bcm2m.setUserId(fail);
+                        modelDao.saveBC(bcm2m);
+                    }
+                }
+
+                if (br != null) {
+                    String[] blockedRegions = request.getParameterValues("blockedRegion");
+                    for (String s : blockedRegions) {
+                        BlockedRegionM2m brm2m = new BlockedRegionM2m();
+                        brm2m.setBlockedRegionId(Integer.valueOf(s));
+                        brm2m.setUserId(fail);
+                        modelDao.saveBR(brm2m);
+                    }
+                }
+
+                if (in != null) {
+                    String[] interests = request.getParameterValues("interes");
+                    for (String s : interests) {
+                        InteresM2m im2m = new InteresM2m();
+                        im2m.setInteresId(Integer.valueOf(s));
+                        im2m.setUserId(fail);
+                        modelDao.saveIn(im2m);
+                    }
+                }
+
+                if (knk != null) {
+                    String[] kinkys = request.getParameterValues("kinky");
+                    for (String s : kinkys) {
+                        KinkyM2m km2m = new KinkyM2m();
+                        km2m.setKinkyId(Integer.valueOf(s));
+                        km2m.setUserId(fail);
+                        modelDao.saveKn(km2m);
+                        System.out.println("Xxxxxxxxxxxx kn " + s);
+                    }
+                }
 
             }
-                
-                
-                if(bc!=null){
-               String[] blockedCountrys = request.getParameterValues("blockedCountry");
-            for (String s : blockedCountrys){
-                BlockedCountryM2m bcm2m = new BlockedCountryM2m();
-                bcm2m.setBlockedCountryId(Integer.valueOf(s));
-                bcm2m.setUserId(fail);
-                modelDao.saveBC(bcm2m);
-            }  }
-                
-                
-                
-                
-                
-                if(br!=null){
-            String[] blockedRegions = request.getParameterValues("blockedRegion");
-            for (String s : blockedRegions){
-                BlockedRegionM2m brm2m = new BlockedRegionM2m();
-                brm2m.setBlockedRegionId(Integer.valueOf(s));
-                brm2m.setUserId(fail);
-                modelDao.saveBR(brm2m);
-            }}
-                
-                if(in!=null){
-            String[] interests = request.getParameterValues("interes");
-            for (String s : interests){
-                InteresM2m im2m = new InteresM2m();
-                im2m.setInteresId(Integer.valueOf(s));
-                im2m.setUserId(fail);
-                modelDao.saveIn(im2m);
-            }}
-                
-                
-                
-                
-            if(knk!=null){
-            String[] kinkys = request.getParameterValues("kinky");
-            for (String s : kinkys){
-                KinkyM2m km2m = new KinkyM2m();
-                km2m.setKinkyId(Integer.valueOf(s));
-                km2m.setUserId(fail);
-                modelDao.saveKn(km2m);
-                System.out.println("Xxxxxxxxxxxx kn " + s );
-            }}
-            
-                
-            }
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-   
+
             System.out.println(files.length);
 
-           
-          
-
             System.out.println("acceptTerms: " + acceptTerms);
-           
 
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("bck", "");
             model.addAttribute("location", setupDao.getLocation());
-
 
         } catch (Exception ex) {
         }
@@ -1936,7 +2342,7 @@ m.setPermanentId(Integer.valueOf(request.getParameter("permanentID")));
             HttpServletResponse response,
             HttpServletRequest request) throws Exception {
         Boolean alredySigned = false;
-       
+
         try {
             if (cookieTrust != null) {
                 model.addAttribute("trustedUser", true);
@@ -2100,18 +2506,16 @@ m.setPermanentId(Integer.valueOf(request.getParameter("permanentID")));
             mh = memberRankDao.findTop5();
 
             model.addAttribute("mh", mh);
-            
-            
-            
+
             model.addAttribute("defaultCam", setupDao.defaultCamOnLiveStream());
-            
+
             List<VideoRoom> vr = new ArrayList<>();
             vr = videoRoomDao.find();
-             model.addAttribute("vr", vr);
+            model.addAttribute("vr", vr);
 
-             int onlineMember = 0;
-             onlineMember = onlineDao.onlineMember();
-             System.out.println("www hhh "+ onlineMember);
+            int onlineMember = 0;
+            onlineMember = onlineDao.onlineMember();
+            System.out.println("www hhh " + onlineMember);
             model.addAttribute("onlineMember", onlineMember);
 
             model.addAttribute("path", setupDao.getPath());
@@ -2161,7 +2565,7 @@ m.setPermanentId(Integer.valueOf(request.getParameter("permanentID")));
         return "my-account";
     }
 
-    @RequestMapping("/offline")
+    @RequestMapping("/offline/{id}")
     public String offline(
             Principal principal, RedirectAttributes redirectAttributes,
             ModelMap model,
@@ -2169,6 +2573,7 @@ m.setPermanentId(Integer.valueOf(request.getParameter("permanentID")));
             @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
             @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
             HttpServletResponse response,
+            @PathVariable int id,
             HttpServletRequest request) throws Exception {
         Boolean alredySigned = false;
         try {
@@ -2189,6 +2594,9 @@ m.setPermanentId(Integer.valueOf(request.getParameter("permanentID")));
                 model.addAttribute("userName", principal.getName());
                 model.addAttribute("user", u);
             }
+            
+            Girls g = new Girls();
+            g=girlDao.findById(id);
 
             model.addAttribute("path", setupDao.getPath());
             model.addAttribute("location", setupDao.getLocation());
@@ -2465,338 +2873,9 @@ m.setPermanentId(Integer.valueOf(request.getParameter("permanentID")));
         return "wish";
     }
 
-    @RequestMapping(value = "/video", method = RequestMethod.GET)
-    public String videos(
-            Principal principal, RedirectAttributes redirectAttributes,
-            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
-            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
-            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
-            //1.firstResult
-            @RequestParam(required = false, value = "1", defaultValue = "0") int firstResult,
-            //2.SORT
-            //name 1=asc 2=desc
-            //wishList 3=desc 
-            //views 4=edsc
-            //likes 5=asc 6=desc
-            //date 7=asc 8=desc
-            //season 9=asc 10=desc
-            //duration 11=asc 12=desc
-            @RequestParam(required = false, value = "2", defaultValue = "0") int sort,
-            //FILTERS
-            //3.date 
-            @RequestParam(required = false, value = "3", defaultValue = "0") String dateFilter,
-            //4.room 
-            @RequestParam(required = false, value = "4", defaultValue = "0") int[] roomFilter,
-            //5.season 
-            @RequestParam(required = false, value = "5", defaultValue = "0") int[] seasonFilter,
-            //6.duration
-            @RequestParam(required = false, value = "6", defaultValue = "0") int[] durationFilter,
-            //7.member
-            @RequestParam(required = false, value = "7", defaultValue = "0") int[] memberFilter,
-            //8.category
-            @RequestParam(required = false, value = "8", defaultValue = "0") int[] categoryFilter,
-            //9.reset
-            @RequestParam(required = false, value = "9", defaultValue = "0") int resetFirstResult,
-            //10.search
-            @RequestParam(required = false, value = "10", defaultValue = "0") String search,
-            ModelMap model,
-            HttpServletResponse response,
-            HttpServletRequest request) throws Exception {
-        Boolean alredySigned = false;
-        try {
-            
-            
-            int durFilter = durationFilter[0];
-      
-            
-            int[] df = {durFilter};
-            
-            durationFilter = df;
+  
 
-            
-            if (cookieTrust != null) {
-                model.addAttribute("trustedUser", true);
-            } else {
-                if (cookieSigned != null) {
-                    model.addAttribute("alredySigned", true);
-                } else {
-                    if (cookieMail != null) {
-                        model.addAttribute("checkEmail", true);
-                    }
-                }
-            }
-            if (principal != null) {
-                Users u = new Users();
-                u = userDao.findByUsername(principal.getName());
-                model.addAttribute("userName", principal.getName());
-                model.addAttribute("user", u);
-            }
-
-            List<Setup> setups = setupDao.getSetups();
-            int maxVideoPerPage = setups.get(2).getValueInt();
-            int totalSeasons = setups.get(5).getValueInt();
-            String location = setups.get(0).getValueString();
-            String noVideoFound = setups.get(6).getValueString();
-            String path = setups.get(1).getValueString();
-            String videoLocation = setups.get(8).getValueString();
-            String imgLocation = setups.get(9).getValueString();
-            String startDate = setups.get(10).getValueString();
-            Boolean bigPagination = false;
-            String pag = "";
-            int numberOfVideos = 0;
-            List<VideoClip> videosResultsList = new ArrayList<>();
-            List<MemberHouse> memberHouse = memberHouseDao.find();
-
-            List<VideoRoom> videoRoom = videoRoomDao.find();
-            List<VideoCategories> videoCategories = videoCategoryDao.find();
-            List<VideoCategoryCountClip> videoCategoryCountClips = videoCategoryCountClipDao.find();
-            List<String> individualPar = new ArrayList<>();
-            int videoNumTotal = 0;
-
-            noVideoFound = "<p style=\"color:white\">" + noVideoFound + "</p>";
-
-            String allParams = "";
-            String paramsWithoutSort = "";
-
-            if (!dateFilter.equals("0")) {
-                if (dateFilter.charAt(4) != '-') {
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm/DD/yyyy");
-                    Date date = simpleDateFormat.parse(dateFilter);
-                    SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-mm-DD");
-                    dateFilter = simpleDateFormat2.format(date);
-                }
-            }
-
-            String filterDateExist = "yes";
-            if (!dateFilter.equals("0")) {
-                filterDateExist = "1";
-            }
-
-            Boolean searchExist = false;
-            if (!search.equals("0")) {
-                searchExist = true;
-            }
-
-            
-            
-            if (!dateFilter.equals("0") || roomFilter.length > 1 || seasonFilter.length > 1 
-//                    || durationFilter.length > 1 
-                    || memberFilter.length > 1 || categoryFilter.length > 1 || sort != 0 || searchExist) {
-                bigPagination = true;
-            }
-
-            if (!bigPagination) {
-
-                if (roomFilter.length == 1) {
-                    if (roomFilter[0] != 0) {
-                        bigPagination = true;
-                    }
-                }
-
-                if (searchExist) {
-                    bigPagination = true;
-                }
-
-                if (seasonFilter.length == 1) {
-                    if (seasonFilter[0] != 0) {
-                        bigPagination = true;
-                    }
-                }
-
-                if (durationFilter.length == 1) {
-                    if (durationFilter[0] != 0) {
-                        bigPagination = true;
-                    }
-                }
-
-                if (memberFilter.length == 1) {
-                    if (memberFilter[0] != 0) {
-                        bigPagination = true;
-                    }
-                }
-
-                if (categoryFilter.length == 1) {
-                    if (categoryFilter[0] != 0) {
-                        bigPagination = true;
-                    }
-                }
-
-            }
-
-            if (bigPagination) {
-                Object[] par = params.allParam(categoryFilter, roomFilter, memberFilter, seasonFilter, durationFilter, sort, dateFilter, totalSeasons, memberHouse, videoRoom, videoCategories, totalSeasons, search);
-                allParams = (String) par[0];
-                paramsWithoutSort = (String) par[1];
-                individualPar = (List<String>) par[2];
-
-                Object[] tmp = videoDao.find(maxVideoPerPage, firstResult, sort, dateFilter, roomFilter, seasonFilter, durationFilter, memberFilter, categoryFilter, search);
-
-                videosResultsList = (List<VideoClip>) tmp[0];
-                numberOfVideos = (int) tmp[1];
-                videoNumTotal = (int) tmp[2];
-            } else {
-                Object[] tmp = videoDao.findAll(maxVideoPerPage, firstResult);
-                videosResultsList = (List<VideoClip>) tmp[0];
-                numberOfVideos = (int) tmp[1];
-                videoNumTotal = numberOfVideos;
-            }
-
-            if (numberOfVideos > maxVideoPerPage) {
-                if (!bigPagination) {
-                    pag = pagination.pagination(firstResult, numberOfVideos, "video", maxVideoPerPage, path);
-                } else {
-                    pag = pagination.pagination(firstResult, numberOfVideos, "video", maxVideoPerPage, path, allParams);
-                }
-            }
-
-            if (numberOfVideos != 0) {
-                noVideoFound = "";
-            }
-            String percent = "";
-
-            model.addAttribute("percent", percent);
-            model.addAttribute("individualPar", individualPar);
-            model.addAttribute("noVideoFound", noVideoFound);
-            model.addAttribute("member", memberHouse);
-            model.addAttribute("videoRoom", videoRoom);
-            model.addAttribute("videoCategories", videoCategories);
-            model.addAttribute("path", path);
-            model.addAttribute("location", location);
-            model.addAttribute("pagination", pag);
-
-            model.addAttribute("video", videosResultsList);
-            model.addAttribute("totalSeasons", totalSeasons);
-            model.addAttribute("videoNumTotal", videoNumTotal);
-            model.addAttribute("videoCategoryCountClips", videoCategoryCountClips);
-            model.addAttribute("videoLocation", videoLocation);
-            model.addAttribute("imgLocation", imgLocation);
-            model.addAttribute("filterDateExist", filterDateExist);
-
-            model.addAttribute("startDate", startDate);
-            model.addAttribute("sort", sort);
-            model.addAttribute("dateFilter", dateFilter);
-            model.addAttribute("roomFilter", roomFilter);
-            model.addAttribute("seasonFilter", seasonFilter);
-
-            model.addAttribute("durationFilter", durationFilter);
-            model.addAttribute("memberFilter", memberFilter);
-            model.addAttribute("categoryFilter", categoryFilter);
-
-            if (paramsWithoutSort.length() > 1) {
-                model.addAttribute("paramsWithoutSort", paramsWithoutSort.substring(0, paramsWithoutSort.length() - 2));
-            } else {
-                model.addAttribute("paramsWithoutSort", paramsWithoutSort);
-            }
-
-            model.addAttribute("params", allParams);
-            model.addAttribute("bck", "");
-
-        } catch (ParseException ex) {
-        }
-        return "video-archive";
-    }
-
-    @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public String search(
-            Principal principal,
-            ModelMap model,
-            @CookieValue(value = "livesexhouseCheckMail", required = false) Cookie cookieMail,
-            @CookieValue(value = "livesexhouseSigned", required = false) Cookie cookieSigned,
-            @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust,
-            HttpServletResponse response, RedirectAttributes redirectAttributes,
-            HttpServletRequest request) throws Exception {
-        Boolean alredySigned = false;
-        try {
-
-            if (cookieTrust != null) {
-                model.addAttribute("trustedUser", true);
-            } else {
-                if (cookieSigned != null) {
-                    model.addAttribute("alredySigned", true);
-                } else {
-                    if (cookieMail != null) {
-                        model.addAttribute("checkEmail", true);
-                    }
-                }
-            }
-            if (principal != null) {
-                Users u = new Users();
-                u = userDao.findByUsername(principal.getName());
-                model.addAttribute("userName", principal.getName());
-                model.addAttribute("user", u);
-            }
-
-            List<Setup> setups = setupDao.getSetups();
-            int maxVideoPerPage = setups.get(2).getValueInt();
-            int totalSeasons = setups.get(5).getValueInt();
-            String location = setups.get(0).getValueString();
-            String noVideoFound = setups.get(6).getValueString();
-            String path = setups.get(1).getValueString();
-            String videoLocation = setups.get(8).getValueString();
-            String imgLocation = setups.get(9).getValueString();
-            String startDate = setups.get(10).getValueString();
-            Boolean bigPagination = false;
-            String pag = "";
-            int numberOfVideos = 0;
-            List<VideoClip> videosResultsList = new ArrayList<>();
-            List<MemberHouse> memberHouse = memberHouseDao.find();
-
-            List<VideoRoom> videoRoom = videoRoomDao.find();
-            List<VideoCategories> videoCategories = videoCategoryDao.find();
-            List<VideoCategoryCountClip> videoCategoryCountClips = videoCategoryCountClipDao.find();
-            List<String> individualPar = new ArrayList<>();
-            int videoNumTotal = 0;
-
-            noVideoFound = "<p style=\"color:white\">" + noVideoFound + "</p>";
-
-            String string = "";
-
-            string = request.getParameter("string");
-
-            if (!string.isEmpty()) {
-
-                String[] parts;
-                parts = string.split(" ");
-                individualPar.add("Search: " + string + ",10=0");
-            }
-
-            Object[] tmp = videoDao.search(maxVideoPerPage, string);
-
-            videosResultsList = (List<VideoClip>) tmp[0];
-            numberOfVideos = (int) tmp[1];
-            videoNumTotal = (int) tmp[2];
-            String percent = (String) tmp[3];
-
-            if (numberOfVideos > maxVideoPerPage) {
-                pag = pagination.pagination(0, numberOfVideos, "video", maxVideoPerPage, path, percent.substring(2));
-            }
-
-            if (numberOfVideos != 0) {
-                noVideoFound = "";
-            }
-
-            model.addAttribute("startDate", startDate);
-            model.addAttribute("percent", percent);
-            model.addAttribute("individualPar", individualPar);
-            model.addAttribute("noVideoFound", noVideoFound);
-            model.addAttribute("member", memberHouse);
-            model.addAttribute("videoRoom", videoRoom);
-            model.addAttribute("videoCategories", videoCategories);
-            model.addAttribute("path", path);
-            model.addAttribute("location", location);
-            model.addAttribute("pagination", pag);
-            model.addAttribute("video", videosResultsList);
-            model.addAttribute("totalSeasons", totalSeasons);
-            model.addAttribute("videoNumTotal", videoNumTotal);
-            model.addAttribute("videoCategoryCountClips", videoCategoryCountClips);
-            model.addAttribute("videoLocation", videoLocation);
-            model.addAttribute("imgLocation", imgLocation);
-
-        } catch (Exception ex) {
-        }
-        model.addAttribute("bck", "");
-        return "video-archive";
-    }
+    
 
     @RequestMapping("/addtofav/{id}")
     public String addtofav(
@@ -2821,12 +2900,21 @@ m.setPermanentId(Integer.valueOf(request.getParameter("permanentID")));
                 u = userDao.findByUsername(principal.getName());
                 model.addAttribute("userName", principal.getName());
                 model.addAttribute("user", u);
-                UserM2m um = new UserM2m();
-                int userId = u.getId();
-                um.setUserId(userId);
-                um.setFavClip(id);
 
-                userM2mDAO.save(um);
+                List<UserM2m> fvc = new ArrayList<>();
+                fvc = userM2mDAO.findFacVideosByUserId(u.getId(),id);
+
+                for (UserM2m v : fvc) {
+                    if (v.getFavClip() != id) {
+                        UserM2m um = new UserM2m();
+                        int userId = u.getId();
+                        um.setUserId(userId);
+                        um.setFavClip(id);
+
+                        userM2mDAO.save(um);
+                    }
+                }
+
             }
 
             if (cookieTrust != null) {
@@ -2935,25 +3023,68 @@ m.setPermanentId(Integer.valueOf(request.getParameter("permanentID")));
             }
 
             if (principal != null) {
+                System.out.println("voteUp " + id);
                 Users u = new Users();
                 u = userDao.findByUsername(principal.getName());
                 model.addAttribute("userName", principal.getName());
                 model.addAttribute("user", u);
 
-                VideoClip v = new VideoClip();
+                System.out.println("t0");
+                  // gledamo da li ima taj klip vec lajkovan
+                List<UserM2m> lvc = new ArrayList<>();
+                lvc = userM2mDAO.findLikedVideosByUserId(u.getId(),id);
 
-                v = videoDao.findById(id);
-                int vote = v.getVoteUp();
-                v.setVoteUp(vote + 1);
+                
+                boolean liked = false;
+                boolean disliked = false;
+                
+                for (UserM2m vv : lvc) {
+                    if (vv.getLikedClip() == id) {
+                        liked = true;
+                    }}   
+                        
+                        
+                        
+                        List<UserM2m> dlvc = new ArrayList<>();
+                dlvc = userM2mDAO.findDisLikedVideosByUserId(u.getId(),id);
+                      
+                for (UserM2m vvvv : dlvc) {
+                    if (vvvv.getDisLikedclip() == id) {
+                        disliked = true;
+                    }
+                }
+                        
+                 
+                if(!liked){
+                     VideoClip v = new VideoClip();
 
-                videoDao.update(v);
+                        v = videoDao.findById(id);
+                        int vote = v.getVoteUp();
+                        v.setVoteUp(vote + 1);
 
-                UserM2m um = new UserM2m();
-                int userId = u.getId();
-                um.setUserId(userId);
-                um.setLikedClip(userId);
+                        videoDao.update(v);
+                        
+                        
+                        UserM2m um = new UserM2m();
+                        int userId = u.getId();
+                        um.setUserId(userId);
+                        um.setLikedClip(id);
 
-                userM2mDAO.save(um);
+                        userM2mDAO.save(um);
+                }
+                
+                if(disliked){
+                     userM2mDAO.deleteDisLiked(u.getId(), id);
+                        VideoClip v = new VideoClip();
+                         v = videoDao.findById(id);
+                        int vote = v.getVoteDown();
+                        if (v.getVoteDown() > 0){
+                           v.setVoteDown(vote - 1);
+
+                        videoDao.update(v); 
+                        }
+                }
+                
 
             }
 
@@ -3004,23 +3135,65 @@ m.setPermanentId(Integer.valueOf(request.getParameter("permanentID")));
                 model.addAttribute("userName", principal.getName());
                 model.addAttribute("user", u);
 
-                VideoClip v = new VideoClip();
+                // gledamo da li ima taj klip vec dislajkovan
+                List<UserM2m> dlvc = new ArrayList<>();
+                dlvc = userM2mDAO.findDisLikedVideosByUserId(u.getId(),id);
 
-                v = videoDao.findById(id);
-                int vote = v.getVoteDown();
-                v.setVoteDown(vote + 1);
+                
+                boolean liked = false;
+                boolean disliked = false;
+                
+                
+                for (UserM2m vv : dlvc) {
+                    if (vv.getDisLikedclip() == id) {
+                        disliked = true;
+                    }}
+                
+                
+                        List<UserM2m> lvc = new ArrayList<>();
+                lvc = userM2mDAO.findLikedVideosByUserId(u.getId(),id);
 
-                videoDao.update(v);
+                for (UserM2m vvvv : lvc) {
+                    if (vvvv.getLikedClip() == id) {
+                        liked = true;
+                        
+                        }
+                        
+                    }
+                
+                       
+                if(liked){
+                   userM2mDAO.deleteLiked(u.getId(), id);
+                        VideoClip v = new VideoClip();
+                         v = videoDao.findById(id);
+                        int vote = v.getVoteUp();
+                        if (v.getVoteUp() > 0){
+                           v.setVoteUp(vote - 1);
 
+                        videoDao.update(v);  
+                }
+                }
+                if(!disliked){
+                 VideoClip ve = new VideoClip();
+
+                        ve = videoDao.findById(id);
+                        int votee = ve.getVoteDown();
+                        ve.setVoteDown(votee + 1);
+
+                        videoDao.update(ve);
+                        
+                        
+                        UserM2m um = new UserM2m();
+                        int userId = u.getId();
+                        um.setUserId(userId);
+                        um.setDisLikedclip(id);
+
+                        userM2mDAO.save(um);
+                }
+
+                
             }
-
-            if (principal != null) {
-                Users u = new Users();
-                u = userDao.findByUsername(principal.getName());
-                model.addAttribute("userName", principal.getName());
-                model.addAttribute("user", u);
-
-            }
+                
 
         } catch (Exception ex) {
         }

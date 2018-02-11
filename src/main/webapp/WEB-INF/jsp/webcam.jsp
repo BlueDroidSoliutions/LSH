@@ -31,7 +31,7 @@
             <div class="wrapper">
                 <div class="sticky-wrap">
                     <div class="wrapper clearfix">
-<!--                        <div class="filters-wrap">
+                        <div class="filters-wrap">
                             <span class="filters-toggle">Filter</span>
                             <div class="filters">
                                 <ul>
@@ -52,17 +52,17 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div>-->
+                        </div>
                         <div class="online-models">
                             <span>Models online:</span>
                             <strong>${onlineNow}</strong>
                         </div>
-<!--                        <div class="search-form">
+                        <div class="search-form">
                             <form action="" method="post">
                                 <input type="text" placeholder="Search" />
                                 <button type="submit">Search</button>
                             </form>
-                        </div>-->
+                        </div>
                     </div>
                 </div>
                 <div class="webcam-videos">

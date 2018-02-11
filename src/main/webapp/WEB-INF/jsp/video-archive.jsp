@@ -304,8 +304,49 @@
                                    ${noVideoFound}
                                     
                                     
+                                   
+                                   <c:choose>
+    <c:when test="${searchInt==1}">
+      <c:forEach items="${video}" var="video">
+								<li class="video-item">
+									<a href="${video.mLink}">
+										<div class="thumbnail">
+                                                                                    
+                         <c:forEach begin="1" end="5" var="cfe" varStatus="loopStatus">
+                                                                                        
+                               
+                               <img src="./ext/slike/${video.id}_${cfe}.jpg" class="rollme" alt=""/>                                                         
+                                                                                        
+                         </c:forEach>
+                                                                                    
+											
+                                                                                        
+										</div>
+										<div class="video-info">
+											<div class="description">
+												<h5>${video.name}</h5>
+												<span class="views">${video.viewCount} views</span>
+											</div>
+											<span class="access-link">Access</span>
+											<span class="video-duration">${video.duration}</span>
+											<div class="video-thumbs">
+												<span class="thumbs thumbs-down">
+													<span class="icon"></span>
+													<span class="counter">${video.voteDown}</span>
+												</span>
+												<span class="thumbs thumbs-up">
+													<span class="icon"></span>
+													<span class="counter">${video.voteUp}</span>
+												</span>
+											</div>
+										</div>
+									</a>
+								</li>
+                                                                </c:forEach>
                                     
-                                     <c:forEach items="${video}" var="video">
+    </c:when>
+    <c:otherwise>
+     <c:forEach items="${video}" var="video">
 								<li class="video-item">
 									<a href="./video/${video.id}">
 										<div class="thumbnail">
@@ -342,6 +383,13 @@
 								</li>
                                                                 </c:forEach>
                                     
+    </c:otherwise>
+</c:choose>
+                                   
+                                   
+                                   
+                                    
+                                   
                                     
                                     
                                     

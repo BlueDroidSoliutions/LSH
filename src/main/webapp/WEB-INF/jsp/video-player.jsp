@@ -36,13 +36,36 @@
                         <video id="my_video_1" class="video-js vjs-default-skin" width="640px" height="267px"
                                controls preload="none"
                                data-setup='{ "aspectRatio":"640:267", "playbackRates": [1, 1.5, 2] }'>
-                            <source src="../ext/video/${video.id}.mp4" type='video/mp4' 
+                            <!--<source src="../ext/video/${video.id}.mp4" type='video/mp4'--> 
                                     <!--<source src="http://192.168.1.7:1935/live/myStream_360p/manifest.mpd" type='video/mp4'-->
 
 
 
                         </video>
                     </div>
+                                    
+                                    <img src="../ext/slike/${video.id}_1.jpg" alt="Smiley face" height="42" width="42">
+                                    <img src="../ext/slike/${video.id}_1.jpg" alt="Smiley face" height="42" width="42">
+                                    <img src="../ext/slike/${video.id}_1.jpg" alt="Smiley face" height="42" width="42">
+                                    <img src="../ext/slike/${video.id}_1.jpg" alt="Smiley face" height="42" width="42">
+                                    <img src="../ext/slike/${video.id}_1.jpg" alt="Smiley face" height="42" width="42">
+                                    <img src="../ext/slike/${video.id}_1.jpg" alt="Smiley face" height="42" width="42">
+                                    <img src="../ext/slike/${video.id}_1.jpg" alt="Smiley face" height="42" width="42">
+                                    <img src="../ext/slike/${video.id}_1.jpg" alt="Smiley face" height="42" width="42">
+                                    <img src="../ext/slike/${video.id}_1.jpg" alt="Smiley face" height="42" width="42">
+                                    <img src="../ext/slike/${video.id}_1.jpg" alt="Smiley face" height="42" width="42">
+                                    <img src="../ext/slike/${video.id}_1.jpg" alt="Smiley face" height="42" width="42">
+                                    <img src="../ext/slike/${video.id}_1.jpg" alt="Smiley face" height="42" width="42">
+                                    <img src="../ext/slike/${video.id}_1.jpg" alt="Smiley face" height="42" width="42">
+                                    <img src="../ext/slike/${video.id}_1.jpg" alt="Smiley face" height="42" width="42">
+                                    <img src="../ext/slike/${video.id}_1.jpg" alt="Smiley face" height="42" width="42">
+                                    <img src="../ext/slike/${video.id}_1.jpg" alt="Smiley face" height="42" width="42">
+                                    <img src="../ext/slike/${video.id}_1.jpg" alt="Smiley face" height="42" width="42">
+                                    <img src="../ext/slike/${video.id}_1.jpg" alt="Smiley face" height="42" width="42">
+                                    
+                                    <img src="../ext/slike/${video.id}_1.jpg" alt="Smiley face" height="42" width="42">
+                                    <img src="../ext/slike/${video.id}_1.jpg" alt="Smiley face" height="42" width="42">
+                                    
                     <div class="bottom">
                         <div class="main-info">
                             <ul class="main-info-list">
@@ -55,6 +78,12 @@
 
                                         <c:choose>
                                             <c:when test="${not empty userName}">
+                                                
+                                                
+                                                
+                                                <c:choose>
+        <c:when test="${fav==1}">
+              <p>log f=1</p>
                                                 <a href="../addtofav/${video.id}">
                                                     <svg version="1.1" id="fav" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                                          width="24.75px" height="23px" viewBox="0 0 24.75 23" enable-background="new 0 0 24.75 23" xml:space="preserve">
@@ -62,8 +91,26 @@
                                                           l6.609,5.726L5.164,23L12.645,18.485z"/>
                                                     </svg>
                                                 </a>
+        </c:when>
+        <c:otherwise>
+             <p>log f=0</p>
+                                                <a href="../addtofav/${video.id}">
+                                                    <svg version="1.1" id="fav" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                         width="24.75px" height="23px" viewBox="0 0 24.75 23" enable-background="new 0 0 24.75 23" xml:space="preserve">
+                                                    <path fill="rgb(255, 255, 255)" d="M12.645,18.485L20.126,23l-1.985-8.51l6.609-5.726l-8.704-0.738L12.645,0L9.243,8.026L0.539,8.764
+                                                          l6.609,5.726L5.164,23L12.645,18.485z"/>
+                                                    </svg>
+                                                </a>
+        </c:otherwise>
+    </c:choose>
+                                                
+                                                
+                                                
+                                                
+                                              
                                             </c:when>
                                             <c:otherwise>
+                                                <p>noLog</p>
                                                 <svg version="1.1" id="fav" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                                      width="24.75px" height="23px" viewBox="0 0 24.75 23" enable-background="new 0 0 24.75 23" xml:space="preserve">
                                                 <path fill="rgb(255, 255, 255)" d="M12.645,18.485L20.126,23l-1.985-8.51l6.609-5.726l-8.704-0.738L12.645,0L9.243,8.026L0.539,8.764
@@ -85,7 +132,15 @@
 
                                         <c:choose>
                                             <c:when test="${not empty userName}">
-
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                <c:choose>
+        <c:when test="${disLiked == 1}">
+           <p>log d=1</p>
 
                                                 <a href="../voteDown/${video.id}">
                                                     <svg version="1.1" id="dislike" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -95,12 +150,30 @@
                                                           l7.189-7.189c0.393-0.393,0.633-0.938,0.633-1.538V2.182C17.455,0.982,16.473,0,15.273,0z M19.636,0v13.091H24V0H19.636z"/>
                                                     </svg>
                                                 </a>
+        </c:when>
+        <c:otherwise>
+            <p>log d=0</p>
+
+                                                <a href="../voteDown/${video.id}">
+                                                    <svg version="1.1" id="dislike" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                         width="24.75px" height="23px" viewBox="0 0 24.75 23" enable-background="new 0 0 24.75 23" xml:space="preserve">
+                                                    <path fill="rgb(255,255,255)" d="M15.273,0H5.455c-0.905,0-1.68,0.545-2.007,1.331L0.153,9.022C0.055,9.273,0,9.535,0,9.818v2.084
+                                                          l0.011,0.011L0,12c0,1.2,0.982,2.182,2.182,2.182h6.884l-1.036,4.985l-0.033,0.349c0,0.447,0.185,0.862,0.48,1.156l1.156,1.145
+                                                          l7.189-7.189c0.393-0.393,0.633-0.938,0.633-1.538V2.182C17.455,0.982,16.473,0,15.273,0z M19.636,0v13.091H24V0H19.636z"/>
+                                                    </svg>
+                                                </a>
+        </c:otherwise>
+    </c:choose>
+                                                
+                                                
+                                                
+                                             
 
 
                                             </c:when>
                                             <c:otherwise>
 
-
+                                                <p>noLog</p>
                                                 <svg version="1.1" id="dislike" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                                      width="24.75px" height="23px" viewBox="0 0 24.75 23" enable-background="new 0 0 24.75 23" xml:space="preserve">
                                                 <path fill="rgb(255,255,255)" d="M15.273,0H5.455c-0.905,0-1.68,0.545-2.007,1.331L0.153,9.022C0.055,9.273,0,9.535,0,9.818v2.084
@@ -127,7 +200,7 @@
                                                 
     <c:choose>
         <c:when test="${liked == 1}">
-           
+            <p>log L=1</p>
              <a href="../voteUp/${video.id}">
                                                     <svg version="1.1" id="like" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                                          width="24.75px" height="23px" viewBox="0 0 24.75 23" enable-background="new 0 0 24.75 23" xml:space="preserve">
@@ -139,6 +212,7 @@
                                                 </a>
         </c:when>
         <c:otherwise>
+            <p>log L=0</p>
              <a href="../voteUp/${video.id}">
                                                     <svg version="1.1" id="like" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                                          width="24.75px" height="23px" viewBox="0 0 24.75 23" enable-background="new 0 0 24.75 23" xml:space="preserve">
@@ -160,6 +234,7 @@
                                                     
                                             </c:when>
                                             <c:otherwise>
+                                                <p>noLog</p>
                                                 <svg version="1.1" id="like" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                                      width="24.75px" height="23px" viewBox="0 0 24.75 23" enable-background="new 0 0 24.75 23" xml:space="preserve">
                                                 <path fill="rgb(255, 255, 255)" d="M8.727,21.818h9.818c0.905,0,1.68-0.545,2.007-1.331l3.295-7.691C23.945,12.545,24,12.284,24,12V9.916
@@ -254,145 +329,38 @@
                 <div class="right-container">
                     <div id="carousel" class="flexslider">
                         <ul class="slides">
-                            <li>
-                                <a href="https://www.youtube.com/embed/azwzZIZHXzk" >
+                            
+                            
+                           
+                            
+                            <c:forEach items="${similarVideo}" var="similarVideo">
+                                <li>
+                                <a href="../video/${similarVideo.id}" >
                                     <div class="inner">
                                         <div class="video-info">
                                             <div class="description">
-                                                <h5>Name name name</h5>
+                                                <h5>${similarVideo.name}</h5>
                                             </div>
-                                            <span class="video-duration">10:36</span>
+                                            <span class="video-duration">${similarVideo.duration}</span>
                                             <div class="video-thumbs">
                                                 <span class="thumbs thumbs-down">
                                                     <span class="icon"></span>
-                                                    <span class="counter">2</span>
+                                                    <span class="counter">${similarVideo.voteDown}</span>
                                                 </span>
                                                 <span class="thumbs thumbs-up">
                                                     <span class="icon"></span>
-                                                    <span class="counter">25</span>
+                                                    <span class="counter">${similarVideo.voteUp}</span>
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
-                                    <img src=".${location}/assets/img/content/slider-1.png" />
+                                    <img src="../ext/slike/${similarVideo.id}_1.jpg"  alt=""/>  
                                 </a>
                             </li>
-                            <li>
-                                <a href="https://www.youtube.com/embed/HOU4k7z7QjE" target="main_frame">
-                                    <div class="inner">
-                                        <div class="video-info">
-                                            <div class="description">
-                                                <h5>Name name name</h5>
-                                            </div>
-                                            <span class="video-duration">10:36</span>
-                                            <div class="video-thumbs">
-                                                <span class="thumbs thumbs-down">
-                                                    <span class="icon"></span>
-                                                    <span class="counter">2</span>
-                                                </span>
-                                                <span class="thumbs thumbs-up">
-                                                    <span class="icon"></span>
-                                                    <span class="counter">25</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <img src=".${location}/assets/img/content/slider-1.png" />
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://www.youtube.com/embed/azwzZIZHXzk" target="main_frame">
-                                    <div class="inner">
-                                        <div class="video-info">
-                                            <div class="description">
-                                                <h5>Name name name</h5>
-                                            </div>
-                                            <span class="video-duration">10:36</span>
-                                            <div class="video-thumbs">
-                                                <span class="thumbs thumbs-down">
-                                                    <span class="icon"></span>
-                                                    <span class="counter">2</span>
-                                                </span>
-                                                <span class="thumbs thumbs-up">
-                                                    <span class="icon"></span>
-                                                    <span class="counter">25</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <img src=".${location}/assets/img/content/slider-1.png" />
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://www.youtube.com/embed/HOU4k7z7QjE" target="main_frame">
-                                    <div class="inner">
-                                        <div class="video-info">
-                                            <div class="description">
-                                                <h5>Name name name</h5>
-                                            </div>
-                                            <span class="video-duration">10:36</span>
-                                            <div class="video-thumbs">
-                                                <span class="thumbs thumbs-down">
-                                                    <span class="icon"></span>
-                                                    <span class="counter">2</span>
-                                                </span>
-                                                <span class="thumbs thumbs-up">
-                                                    <span class="icon"></span>
-                                                    <span class="counter">25</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <img src=".${location}/assets/img/content/slider-1.png" />
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://www.youtube.com/embed/azwzZIZHXzk" target="main_frame">
-                                    <div class="inner">
-                                        <div class="video-info">
-                                            <div class="description">
-                                                <h5>Name name name</h5>
-                                            </div>
-                                            <span class="video-duration">10:36</span>
-                                            <div class="video-thumbs">
-                                                <span class="thumbs thumbs-down">
-                                                    <span class="icon"></span>
-                                                    <span class="counter">2</span>
-                                                </span>
-                                                <span class="thumbs thumbs-up">
-                                                    <span class="icon"></span>
-                                                    <span class="counter">25</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <img src=".${location}/assets/img/content/slider-1.png" />
-                                </a>
-
-                            </li>
-                            <li>
-                                <a href="https://www.youtube.com/embed/HOU4k7z7QjE" target="main_frame">
-                                    <div class="inner">
-                                        <div class="video-info">
-                                            <div class="description">
-                                                <h5>Name name name</h5>
-                                            </div>
-                                            <span class="video-duration">10:36</span>
-                                            <div class="video-thumbs">
-                                                <span class="thumbs thumbs-down">
-                                                    <span class="icon"></span>
-                                                    <span class="counter">2</span>
-                                                </span>
-                                                <span class="thumbs thumbs-up">
-                                                    <span class="icon"></span>
-                                                    <span class="counter">25</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <img src=".${location}/assets/img/content/slider-1.png" />
-                                </a>
-                            </li>
+                            </c:forEach>
+                            
+                           
+                            
                         </ul>
                     </div>
                     <a href="javascript:;" class="o-right-container">
