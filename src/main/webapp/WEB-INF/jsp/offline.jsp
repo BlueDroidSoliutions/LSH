@@ -27,19 +27,29 @@
 
     <main class="page-offline">
 			<div class="offline-container clearfix">
-					<div class="employee-cover" href="javascript:;"><img src="${location}/assets/img/content/offline_big.jpg" alt=""></div>
+					<div class="employee-cover" href="javascript:;"><img src="${bck}${location}/assets/img/content/offline_big.jpg" alt=""></div>
 				<div class="stat-wrapper">
 					<div class="stats-bottom">
-						<p>Last broadcast:</p>
-						<p>Highest daily honorar</p>
-						<p class="schedule">Schedule:</p>
+                                            
+                                            <c:if test="${date != ''}">
+                                                <p>Last broadcast: ${date}</p>
+                                            </c:if>
+						
+                                                <c:if test="${high != ''}">
+                                                    <p>Highest daily honorar: ${high}</p>
+                                                </c:if>
+						
+                                                
+                                                
+                                                
+<!--						<p class="schedule">Schedule:</p>
 						<ul>
 							<li class="clearfix"><span class="day">Monday</span><span class="time">8AM</span></li>
 							<li class="clearfix"><span class="day">Monday</span><span class="time">8AM</span></li>
 							<li class="clearfix"><span class="day">Monday</span><span class="time">8AM</span></li>
 							<li class="clearfix"><span class="day">Monday</span><span class="time">8AM</span></li>
-						</ul>
-						<p class="views">Views: <span>8522</span></p>
+						</ul>-->
+						<p class="views">Views: <span>${cg.views}</span></p>
 					</div>
 				</div>
 				<div class="employee-wrapper">
@@ -78,7 +88,7 @@
 												c1.09-1.28,2.76-2.09,4.5-2.09c3.08,0,5.5,2.42,5.5,5.5c0,3.78-3.4,6.86-8.55,11.54L10.75,19.3z"/>
 											</svg>
 										</span>
-										4.7
+										${cg.rate}
 									</a>
 								</li>
 								<li>
@@ -90,31 +100,46 @@
 													0.584,8.809 6.708,14.114 4.868,22 "/>
 											</svg>
 										</span>
-										526
+										${fav}
 									</a>
 								</li>
 							</ul>
 							<div class="txt-holder">
 								<p>
-									I am lorem ipsud dolor amet sit um busi avec. Doram pedi lero ub aba apotrice. I am lorem ipsud dolor  amet sit um busi avec. Doram pedi lero ub aba apotrice.I am lorem ipsud dolor amet sit um busi avec. Doram pedi lero ub aba apotrice. I am lorem ipsud dolor  amet sit um busi avec. Doram pedi lero ub aba apotrice.
+									${cg.story}
 								</p>
 							</div>
 						</div>
 						<div class="major-info clearfix">
 							<ul>
 								<li class="clearfix"><span class="title">Preferences</span><span class="txt">Bisexual</span></li>
-								<li class="clearfix"><span class="title">Age</span><span class="txt">23</span></li>
-								<li class="clearfix"><span class="title">Gender</span><span class="txt">Female</span></li>
-								<li class="clearfix"><span class="title">Gender</span><span class="txt">Female</span></li>
+								<li class="clearfix"><span class="title">Age</span><span class="txt">${cg.age}</span></li>
+                                                                <c:choose>
+                                                                    <c:when test="${cg.gender == false}">
+                                                                    <li class="clearfix"><span class="title">Gender</span><span class="txt">Female</span></li>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <li class="clearfix"><span class="title">Gender</span><span class="txt">Male</span></li>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+								
+								<li class="clearfix"><span class="title">Measurements</span><span class="txt">${cg.measure}</span></li>
+                                                                <li class="clearfix"><span class="title">Language</span><span class="txt">${cg.language}</span></li>
 							</ul>
 							<ul>
-								<li class="clearfix"><span class="title">Gender</span><span class="txt">Female</span></li>
-								<li class="clearfix"><span class="title">Gender</span><span class="txt">Female</span></li>
-								<li class="clearfix"><span class="title">Gender</span><span class="txt">Female</span></li>
-								<li class="clearfix"><span class="title">Gender</span><span class="txt">Female</span></li>
+								<li class="clearfix"><span class="title">Height</span><span class="txt">${cg.height}</span></li>
+								<li class="clearfix"><span class="title">Weight</span><span class="txt">${cg.weight}</span></li>
+								<li class="clearfix"><span class="title">Hair</span><span class="txt">${cg.hair}</span></li>
+								<li class="clearfix"><span class="title">Cup Size</span><span class="txt">${cg.breast}</span></li>
+ <li class="clearfix"><span class="title">Other</span><span class="txt">${cg.body} ${cg.decoration} ${cg.pubicHair}</span></li>
 							</ul>
 						</div>
-						<div class="top-fans">
+                                                                
+
+                                                                <c:choose>
+                                                                    <c:when test="${empty topFan}"></c:when>
+                                                                    <c:otherwise>
+                                                                        <div class="top-fans">
 							<p>
 								<span>
 									<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -126,11 +151,19 @@
 								Top fans:
 							</p>
 							<ul>
-								<li><img src="${location}/assets/img/content/user_img.jpg" alt=""><span>User 343</span></li>
-								<li><img src="${location}/assets/img/content/user_img.jpg" alt=""><span>User 343</span></li>
-								<li><img src="${location}/assets/img/content/user_img.jpg" alt=""><span>User 343</span></li>
+                                                            
+                                                            <c:forEach items="${topFan}" var="tf">
+                                                                <li><img src="${bck}${location}/assets/img/content/user_img.jpg" alt=""><span>${tf.username}</span></li>
+                                                            </c:forEach>
 							</ul>
 						</div>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                                
+						
+                                                                
+                                                                
+                                                                
 					</div>
 				</div>
 				<div class="gallery-wrapper">
@@ -138,13 +171,13 @@
 						<a class="gallery-popup">
 							<span>Watch me <br>in my gallery</span>
 						</a>
-						<img src="${location}/assets/img/content/offline_gallery.jpg" alt="">
-						<img src="${location}/assets/img/content/offline_gallery.jpg" alt="">
-						<img src="${location}/assets/img/content/offline_gallery.jpg" alt="">
-						<img src="${location}/assets/img/content/offline_gallery.jpg" alt="">
+						<img src="${bck}${location}/assets/img/content/offline_gallery.jpg" alt="">
+						<img src="${bck}${location}/assets/img/content/offline_gallery.jpg" alt="">
+						<img src="${bck}${location}/assets/img/content/offline_gallery.jpg" alt="">
+						<img src="${bck}${location}/assets/img/content/offline_gallery.jpg" alt="">
 					</div>
 					<div class="gallery-bottom">
-						<img src="${location}/assets/img/content/offline_big.jpg" alt="">
+						<img src="${bck}${location}/assets/img/content/offline_big.jpg" alt="">
 					</div>
 				</div>
 			</div>
@@ -156,9 +189,9 @@
 	</div>
 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-	<script type="text/javascript">window.jQuery || document.write("<script src='${location}/assets/scripts/main/jquery-1.8.3.min.js'>\x3C/script>")</script>
-	<script type="text/javascript" src="${location}/assets/scripts/libs/owl.carousel.min.js"></script>
-	<script type="text/javascript" src="${location}/assets/scripts/main/default.js"></script>
+	<script type="text/javascript">window.jQuery || document.write("<script src='${bck}${location}/assets/scripts/main/jquery-1.8.3.min.js'>\x3C/script>")</script>
+	<script type="text/javascript" src="${bck}${location}/assets/scripts/libs/owl.carousel.min.js"></script>
+	<script type="text/javascript" src="${bck}${location}/assets/scripts/main/default.js"></script>
 
 </body>
 </html>

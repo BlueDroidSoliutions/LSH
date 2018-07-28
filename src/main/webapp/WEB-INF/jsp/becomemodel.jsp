@@ -26,7 +26,7 @@
                 <!-- multistep form -->
                 <div id="wantedBlock">
                     <div class="modelHero">
-<!--                        <div class="heroIner">
+                        <div class="heroIner">
                             <h2>Fast, discretly, safe!</h2>
                             <p>
                                 <span class="big">
@@ -49,7 +49,7 @@
                                 </li>
                             </ul>
                             <a href="javascript:;" class="button">Became a model <img src="${location}/assets/img/da.png" alt-""/></i></a>
-                        </div>-->
+                        </div>
                     </div>
 
 

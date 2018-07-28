@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -53,7 +54,31 @@
     </c:if>
 
 
-    <div class="side-nav fakeScroll">
+    <div class="main-popup">
+        <div class="popup-wrapper">
+           <div class="inner" id="change-password">
+                <a href="javascript:;" class="close-me"></a>
+                <div class="inner-wrapper">
+                    <h2>Change Password</h2>
+                    <form name='loginForm' action="${bck}./chPass" method='POST'>
+                        <div>
+                            <input type="text" id="oldpass" name="oldpass" placeholder="Old Password">
+                        </div>
+                        <div>
+                            <input type="password" id="newpass" name="newpass" placeholder="New Password">
+                        </div>
+                        <button  name="submit" type="submit"  value="submit" class="btn">Submit</button>
+                        <input type="hidden" name="" value="" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="side-nav">
         <div class="head-section">
             <div class="top clearfix">
                 <h3>My Account</h3>
@@ -110,7 +135,8 @@
                 <span class="icon"></span>
                 <div class="info-content">
                     <span class="title">Member since:</span>
-                    <span>${user.memberfrom}</span>
+                    <c:set var="dateParts" value="${fn:split(user.memberfrom, ' ')}"></c:set>
+                    <span>${dateParts[0]}</span>
                 </div>
             </div>
             <div class="info-box">
@@ -130,13 +156,12 @@
                     <path fill="none" stroke="#FFFFFF" stroke-width="1.533" stroke-miterlimit="10" d="M24.54,12.745
                           c0,6.448-5.228,11.676-11.676,11.676"/>
                     </svg>
-                    <span>${user.tokens}</span>
                 </span>
                 <div class="info-content">
                     <span>Tokens ${user.tokens}</span>
                     <ul>
                         <li>
-                            <a href="javascript:;">Buy</a>
+                            <a id="showTokens" href="javascript:;">Buy</a>
                         </li>
                     </ul>
                 </div>
@@ -190,7 +215,7 @@
                     <span>Settings</span>
                     <ul>
                         <li>
-                            <a href="javascript:;">Change password</a>
+                                <a id="change-pass" href="javascript:;">Change password</a>
                         </li>
                     </ul>
                 </div>
@@ -211,16 +236,12 @@
                     <a href="${bck}./delete" class="delete-account">Delete account</a>
                 </div>
             </div>
-            <c:if test="
-                  <%--!user.isVipMember--%>
-                  ">
-                <!--	                                                <div class="vip-member">
+                <div class="vip-member">
                                                                             <p><a href="javascript:;" onclick="buyVipMembership('${_csrf.token}')">Become a V.I.P. memeber</a></p>
                                                                             <a href="javascript:;" onclick="buyVipMembership('${_csrf.token}')">
                                                                                 <img src="${bck}${location}/assets/img/vip-member-icon.png" alt="" />
                                                                             </a>
-                                                                        </div>-->
-            </c:if>
+                                                                        </div>
         </div>
     </div>
 

@@ -21,8 +21,6 @@
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
                     <input id="subject" type="text" name="subject">
-
-
                     <div>
                         <input type="text" id="name" name="username" placeholder="username">
                     </div>

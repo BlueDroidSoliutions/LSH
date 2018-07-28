@@ -24,6 +24,19 @@
     <%@include file="sign.jsp" %>
     </c:otherwise>
 </c:choose>
+<c:choose>
+        <c:when test="${not empty userName}">
+            <script>
+        	loggedUser= true;
+    	    </script>
+        </c:when>
+	<c:otherwise>
+            <script>
+        	loggedUser= false;
+    	    </script>
+	</c:otherwise>
+    </c:choose>
+
 
 		<div id="token-section">
 			<div class="token-wrapper">
@@ -93,7 +106,7 @@
                                             
 						<div class="tab-wrapper">
 							<div class="img-block">
-								<img src="./ext/ProfileMembers/${mh.id}.jpg" alt="">
+								<img src="./ext/HouseMembersProfileImages/${mh.id}.jpg" alt="">
 							</div>
 
 							<div class="description-block">
@@ -123,9 +136,11 @@
 											<span>votes</span>
 										</li>
 										<li>
-											<a href="./vote/${mh.id}" class="vote-btn">Vote</a>
+											<a data-id="${mh.id}" href="javascript:;" class="vote-btn">Vote</a>
 										</li>
 									</ul>
+
+
 								</div>
 							</div>
 
@@ -165,7 +180,7 @@
                                              >
 						<div class="tab-wrapper">
 							<div class="img-block">
-								<img src="./ext/ProfileMembers/${mh.id}.jpg" alt="">
+								<img src="./ext/HouseMembersProfileImages/${mh.id}.jpg" alt="">
 							</div>
 
 							<div class="description-block">
@@ -195,7 +210,7 @@
 											<span>votes</span>
 										</li>
 										<li>
-											<a href="./vote/${mh.id}" class="vote-btn">Vote</a>
+											<a data-id="${mh.id}" href="javascript:;" class="vote-btn">Vote</a>
 										</li>
 									</ul>
 								</div>
@@ -250,7 +265,7 @@
 									<div class="overlay">
 										<span>Vote</span>
 									</div>
-									<img src="./ext/ProfileMembers/a${mh.id}.jpg" alt="">
+									<img src="./ext/HouseMembersProfileImages/a${mh.id}.jpg" alt="">
 								</div>
 								<p>${mh.name}</p>
 								<span class="total">${mh.vote}</span>
@@ -267,7 +282,7 @@
 									<div class="overlay">
 										<span>Vote</span>
 									</div>
-									<img src="./ext/ProfileMembers/a${mh.id}.jpg" alt="">
+									<img src="./ext/HouseMembersProfileImages/a${mh.id}.jpg" alt="">
 								</div>
 								<p>${mh.name}</p>
 								<span class="total">${mh.vote}</span>
@@ -296,6 +311,50 @@
         <script type="text/javascript" src="${location}/assets/scripts/libs/jcf.js"></script>
 	<script type="text/javascript" src="${bck}${location}/assets/scripts/main/default.js"></script>
 
+<script>
+jQuery(function($){
+
+
+console.log(loggedUser)
+
+$("#showTokens").on('click', function(e){
+console.log('token klik')
+    if(loggedUser === false){
+        $('.main-popup').addClass('active');
+            if (alredySigned == true) {
+              $('#sign-up').hide();
+              $('#sign-in').show();
+            } else if (checkEmail == true) {
+              $('.main-popup').addClass('active');
+              $(' #sign-in').show();
+              $(' #sign-up').hide();
+              $(' #showCreate').hide();
+              $(' #dont').hide();
+              $(' .inner-wrapper h2').hide();
+              $(' #name').hide();
+              $(' #password').hide();
+              $(' .btn').hide();
+            } else {
+              $('#sign-up').show();
+              $('#sign-in').hide();
+            }
+    }else{
+        $('#token-section').addClass('opened');
+    }
+
+})
+
+$(".vote-btn").on('click', function(e){
+
+    e.preventDefault();
+    var houseId = $(this).data('id');
+   $.ajax({url: "http://67.227.214.241:8080/www.livesexhouse.com/vote/"+ houseId +"", success: function(result){
+        console.log("Voted")
+    }});
+
+})
+})
+</script>
 </body>
 </html>
 

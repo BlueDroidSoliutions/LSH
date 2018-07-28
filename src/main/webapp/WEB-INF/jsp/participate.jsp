@@ -24,7 +24,7 @@
     </c:otherwise>
 </c:choose>
 
-		<div id="page-wrap">
+		<div class="page-participate" id="page-wrap">
 			<div class="content">
 				<div class="wrapper">
 					<!-- Form block -->

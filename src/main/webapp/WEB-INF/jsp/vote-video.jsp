@@ -24,7 +24,7 @@
     </c:otherwise>
 </c:choose>
 
-		
+
 		<div id="page-wrap" class="full-height-wrap">
 			<div class="wrapper">
 				<div class="video-view-wrapper">
@@ -324,7 +324,7 @@
 	
 	<script type="text/javascript" src="${location}/assets/scripts/libs/jcf.js"></script>
 	<script type="text/javascript" src="${location}/assets/scripts/libs/jcf.checkbox.js"></script>
-	
+
 
 	<script type="text/javascript" src="${location}/assets/scripts/main/default.js"></script>
 

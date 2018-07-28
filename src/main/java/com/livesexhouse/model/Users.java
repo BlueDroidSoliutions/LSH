@@ -47,11 +47,10 @@ public class Users implements Serializable {
     private String username;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 1, max = 256)
     @Column(name = "password")
     private String password;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "enabled")
     private short enabled;
     @Basic(optional = false)

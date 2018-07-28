@@ -21,7 +21,7 @@ public class GoogleMail {
 
     
 
-        final String username = "lshtest11";
+        final String username = "lshtest11@gmail.com";
         final String password = "livesexhouse";
         
         public void send(String email, String key, String name){
@@ -47,7 +47,9 @@ public class GoogleMail {
                 InternetAddress.parse(email));
             message.setSubject("Verify");
             message.setText("Dear "+name+","
-                + "\n please click on link:\n"+ "http://www.livesexhouse.com/check/"+key);
+                + "\n please click on link:\n"+ "http://178.220.207.177/check/"+key);
+            	/*	 + "\n please click on link:\n"+ "http://localhost:8080"
+            		 		+ "/www.livesexhouse.com/check/"+key);*/
 
             Transport.send(message);
 

@@ -15,15 +15,8 @@
     </properties> 
     <dependencies> 
          
-        
-        
-        
-        
-
-
-
     <!--   ////////////////////     samo za GF ///////////////////-->    
-        <dependency>
+   <!--     <dependency>
     <groupId>org.glassfish.tyrus</groupId>
     <artifactId>tyrus-core</artifactId>
     <version>1.13.1</version>
@@ -71,8 +64,8 @@
     <groupId>org.glassfish.tyrus</groupId>
     <artifactId>tyrus-spi</artifactId>
     <version>1.13.1</version>
-</dependency>
-
+</dependency> 
+ -->
 <!--   ////////////////////     samo za GF ///////////////////-->
 
 
@@ -83,11 +76,11 @@
         
 <!--   ////////////////////     samo za tomCat ///////////////////-->
         
-<!--<dependency>
+ <dependency>
     <groupId>org.apache.tomcat</groupId>
     <artifactId>tomcat-websocket</artifactId>
     <version>8.0.1</version>
-</dependency>-->
+</dependency> 
         
 <!--   ////////////////////     samo za tomCat ///////////////////-->        
       
@@ -125,18 +118,12 @@
             <version>3.10.6.Final</version>
         </dependency>
 
-
         <dependency>
             <groupId>io.projectreactor</groupId>
             <artifactId>reactor-core</artifactId>
             <version>3.0.7.RELEASE</version>
         </dependency>
-        
-        
-        
-        
-        
-        
+
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
@@ -156,14 +143,6 @@
             <version>22.0</version>
         </dependency>
         
-        
-        
-        
-        
-        
-        
-        
-        
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-websocket</artifactId>
@@ -175,10 +154,6 @@
             <version>9.0.0.M22</version>
             <scope>provided</scope>
         </dependency>
-        
-        
-        
-        
         
         <dependency>
             <groupId>net.coobird</groupId>
@@ -197,8 +172,6 @@
             <artifactId>spring-security-config</artifactId>
             <version>4.2.2.RELEASE</version>
         </dependency>	
-         
-     
          
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -239,7 +212,6 @@
             <artifactId>hibernate-core</artifactId>
             <version>5.2.9.Final</version>
         </dependency>
-         
          
         <dependency>
             <groupId>commons-fileupload</groupId>

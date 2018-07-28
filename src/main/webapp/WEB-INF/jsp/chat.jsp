@@ -164,7 +164,7 @@
                                 </li>
                                 <li class="vote">
                                     <div class="ico-wrapper">
-                                        <a href="javascript:;">
+                                        <a href="./rateGirl/${g.id}?rate=3">
                                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                                  width="21.375px" height="19.875px" viewBox="0 0 21.375 19.875" enable-background="new 0 0 21.375 19.875" xml:space="preserve">
                                             <path fill="#F3F3F3" d="M10.75,19.3L9.3,17.98c-5.149-4.67-8.55-7.75-8.55-11.53c0-3.08,2.42-5.5,5.5-5.5c1.74,0,3.41,0.81,4.5,2.09
@@ -734,7 +734,7 @@
                                 <li class="webcam-video" id="li001">
                                 <a id="lnk" href="javascript:;">
                                     <div class="thumbnail" id="tt">
-                                        <img id="im" src="../ext/girlImg/oo.jpg" alt="" />
+                                        <img id="im" src="../ext/GirlsImages/oo.jpg" alt="" />
                                     </div>
                                     <div class="webcam-info" id="st">
                                         <h4></h4>
@@ -747,14 +747,14 @@
                                 <c:forEach items="${girl2}" var="g">
 <!--                                     <li>
                                          <a href="../webcam/${g.id}">
-                                    <img src="../ext/girlImg/${g.name}.jpg" />
+                                    <img src="../ext/GirlsImages/${g.name}.jpg" />
                                          </a>
                                 </li>-->
                                 
                                  <li class="webcam-video" id="li${g.id}">
                                 <a id="lnk${g.id}" href="javascript:;">
                                     <div class="thumbnail" id="tt${g.id}">
-                                        <img id="im${g.id}" src="../ext/girlImg/${g.name}.jpg" alt="" />
+                                        <img id="im${g.id}" src="../ext/GirlsImages/${g.name}.jpg" alt="" />
                                     </div>
                                     <div class="webcam-info" id="st${g.id}">
                                         <h4>${g.userName}</h4>

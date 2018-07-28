@@ -49,6 +49,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -167,6 +168,9 @@ public class SiteController {
 
     @Autowired
     private PricePackageService pricePackageService;
+    
+    @Autowired
+    BCryptPasswordEncoder encoder;
 
     @RequestMapping(value = "/girlSetup", method = RequestMethod.POST)
     public String girlSetup(
@@ -501,7 +505,9 @@ public class SiteController {
                     user.setEnabled(m);
                     Date date = new Date();
                     user.setMemberfrom(date);
-                    user.setPassword(password);
+                    String passEn = encoder.encode(password);
+                    user.setPassword(passEn);
+                   
                     user.setTokens(0);
                     user.setUsername(username);
 
@@ -555,7 +561,10 @@ public class SiteController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(@RequestParam(value = "error", required = false) String error, @CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust, HttpServletRequest request, HttpServletResponse response, ModelMap model, RedirectAttributes redirectAttributes, Principal principal, Authentication au
+    public String login(@RequestParam(value = "error", required = false) String error,
+    		@CookieValue(value = "livesexhouseTrust", required = false) Cookie cookieTrust, 
+    		HttpServletRequest request, HttpServletResponse response, ModelMap model,
+    		RedirectAttributes redirectAttributes, Principal principal, Authentication au
     ) {
         try {
             Boolean loginError = false;
@@ -596,8 +605,11 @@ public class SiteController {
         } catch (Exception e) {
 
         }
+       // redirectAttributes.
 
-        return redirect.re(request.getHeader("referer"));
+       //return redirect.re(request.getHeader("referer"));
+        //return request.getHeader("referer");
+        return "redirect:/index";
     }
 
     @RequestMapping("/check/{key}")
@@ -760,7 +772,8 @@ public class SiteController {
         } catch (Exception ex) {
 
         }
-        return redirect.re(request.getHeader("referer"));
+        return "redirect:/index";
+        //return redirect.re(request.getHeader("referer"));
     }
 
     //for 403 access denied page

@@ -70,8 +70,7 @@
                                                 <span class="value">${iipp[0]}</span>
                                             </a>
                                         </c:forEach>
-
-
+                                    <a id="clearFilter" href="${bck}./video">Clear Filters</a>
                                     </div>
                                 </div>
                             </div>
@@ -206,14 +205,16 @@
                                                             </div>
                                                             </c:when>
                                                             <c:otherwise>
-                                                                <p style="color:white">Remove Date from filters and try again</p>
+                                                                <div class="btn-wrap">
+                                                                <a href="javascript:;" class="btn-small">Choose date</a>
+                                                            </div>
                                                             </c:otherwise>
                                                         </c:choose>
-                                                       
 
 
 
-                                                    </div>	
+
+                                                    </div>
 
 
 
@@ -304,49 +305,8 @@
                                    ${noVideoFound}
                                     
                                     
-                                   
-                                   <c:choose>
-    <c:when test="${searchInt==1}">
-      <c:forEach items="${video}" var="video">
-								<li class="video-item">
-									<a href="${video.mLink}">
-										<div class="thumbnail">
-                                                                                    
-                         <c:forEach begin="1" end="5" var="cfe" varStatus="loopStatus">
-                                                                                        
-                               
-                               <img src="./ext/slike/${video.id}_${cfe}.jpg" class="rollme" alt=""/>                                                         
-                                                                                        
-                         </c:forEach>
-                                                                                    
-											
-                                                                                        
-										</div>
-										<div class="video-info">
-											<div class="description">
-												<h5>${video.name}</h5>
-												<span class="views">${video.viewCount} views</span>
-											</div>
-											<span class="access-link">Access</span>
-											<span class="video-duration">${video.duration}</span>
-											<div class="video-thumbs">
-												<span class="thumbs thumbs-down">
-													<span class="icon"></span>
-													<span class="counter">${video.voteDown}</span>
-												</span>
-												<span class="thumbs thumbs-up">
-													<span class="icon"></span>
-													<span class="counter">${video.voteUp}</span>
-												</span>
-											</div>
-										</div>
-									</a>
-								</li>
-                                                                </c:forEach>
                                     
-    </c:when>
-    <c:otherwise>
-     <c:forEach items="${video}" var="video">
+                                     <c:forEach items="${video}" var="video">
 								<li class="video-item">
 									<a href="./video/${video.id}">
 										<div class="thumbnail">
@@ -383,13 +343,6 @@
 								</li>
                                                                 </c:forEach>
                                     
-    </c:otherwise>
-</c:choose>
-                                   
-                                   
-                                   
-                                    
-                                   
                                     
                                     
                                     
@@ -421,14 +374,14 @@
 
 
         
-        <script type="text/javascript" src="${location}/assets/scripts/libs/datepicker.min.js"></script>
-       <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="${location}/assets/scripts/libs/datepicker.min.js"></script>
 	<script type="text/javascript">window.jQuery || document.write("<script src='${location}/assets/scripts/main/jquery-1.8.3.min.js'>\x3C/script>")</script>
 	<script type="text/javascript" src="${location}/assets/scripts/libs/masonry.pkgd.min.js"></script>
 	<script type="text/javascript" src="${location}/assets/scripts/libs/datepicker.min.js"></script>
 	<script type="text/javascript" src="${location}/assets/scripts/main/default.js"></script>
-        <script type="text/javascript" src="${location}/assets/scripts/libs/jquery.flexslider-min.js"></script>
-        <script type="text/javascript" src="${location}/assets/scripts/libs/jQuery.fakeScroll.js"></script>
+    <script type="text/javascript" src="${location}/assets/scripts/libs/jquery.flexslider-min.js"></script>
+    <script type="text/javascript" src="${location}/assets/scripts/libs/jQuery.fakeScroll.js"></script>
         
         
         <c:set var="startD" value='${startDate}'/> 
@@ -436,67 +389,85 @@
         
        
     <script>
-    if ( $( '[data-toggle="datepicker"]' ).length ) {
 
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; 
-        var yyyy = today.getFullYear();
+       var filterLength = $(".filter-tag").length;
 
-        if(dd<10) {
-            dd = '0'+dd
-        } 
 
-        if(mm<10) {
-            mm = '0'+mm
-        }
+       if(filterLength => 3){
+           $("#clearFilter").css("display", "block")
+       }
+       if(filterLength < 3){
+           $("#clearFilter").css("display", "none")
+       }
 
-        console.log(today);
 
-        var today = $().datepicker('getDate', true);
-        var firstVideo = $().datepicker('getDate', true);
 
-       $('[data-toggle="datepicker"]').datepicker({
-            inline: true,
-            container: '.picker-wrapper',
-            endDate: today, 
-            startDate: sd
-       });
 
-    }
+      if ( $( '[data-toggle="datepicker"]' ).length ) {
 
-    $('.filter-tag').click(function(){
-        var selectedFilter = $(this).find('.value').text();
-//        alert(selectedFilter);
-    });
+              var today = new Date();
+              var dd = today.getDate();
+              var mm = today.getMonth()+1;
+              var yyyy = today.getFullYear();
 
-    jQuery.fn.checkEmpty = function() {
-       return !$.trim(this.html()).length;
-    };
-         
-    $('.btn-small').click(function(e){
+              if(dd<10) {
+                  dd = '0'+dd
+              }
 
-        if($(".pickedDate").checkEmpty()){
-            console.log('empty'); 
-            e.preventDefault();
-        } else {
-            console.log('full');    
-            var selectedDate = $('.pickedDate').text();
+              if(mm<10) {
+                  mm = '0'+mm
+              }
 
-            var pageUrl = window.location.href;
-            var newUrl;
-        } 
+              console.log(today);
 
-   if (pageUrl.indexOf('?') == -1) {
-            newUrl = pageUrl + "?3=" + selectedDate;
-        } else {
-            newUrl = pageUrl + "&&3=" + selectedDate;
-           
-        }
+              var today = $().datepicker('getDate', true);
+              var firstVideo = $().datepicker('getDate', true);
 
-   location.href = newUrl;
+             $('[data-toggle="datepicker"]').datepicker({
+                  inline: true,
+                  container: '.picker-wrapper',
+                  endDate: today,
+                  startDate: sd
+             }).attr('readonly','readonly');
 
-    });
+          }
+
+          $('.filter-tag').click(function(){
+              var selectedFilter = $(this).find('.value').text();
+      //        alert(selectedFilter);
+          });
+
+          jQuery.fn.checkEmpty = function() {
+             return !$.trim(this.html()).length;
+          };
+
+          $('.btn-small').click(function(e){
+
+              if($(".pickedDate").checkEmpty()){
+                  console.log('empty');
+                  e.preventDefault();
+              } else {
+                  console.log('full');
+                  var selectedDate = $('.pickedDate').text();
+
+                  var pageUrl = window.location.href;
+                  var newUrl;
+              }
+
+         if (pageUrl.indexOf('?') == -1) {
+                  newUrl = pageUrl + "?3=" + selectedDate;
+              } else {
+                  newUrl = pageUrl + "&&3=" + selectedDate;
+
+              }
+
+         location.href = newUrl;
+
+          });
+
+
+
+
 
         </script>
         

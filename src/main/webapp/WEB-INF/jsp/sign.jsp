@@ -153,7 +153,8 @@
                 <a href="javascript:;" class="close-me"></a>
                 <div class="inner-wrapper">
                     <h2>Sign in</h2>
-                    <form name='loginForm' action="${bck}./login" method='POST'>
+                    <%-- <form name='loginForm' action="${bck}./login" method='POST'> --%>
+                    <form name='loginForm' action="${pageContext.request.contextPath}${path}/login" method='POST'>
                         <div>
                             <input type="text" id="name" name="username" placeholder="username">
                         </div>

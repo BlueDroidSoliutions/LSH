@@ -77,7 +77,7 @@ ${sdfdsf}
                             <li class="webcam-video" id="li${g.id}">
                                 <a id="lnk${g.id}" href="./webcam/${g.id}">
                                     <div class="thumbnail" id="tt${g.id}">
-                                        <img id="im${g.id}" src="ext/girlImg/${g.name}.jpg" alt="" />
+                                        <img id="im${g.id}" src="ext/GirlsImages/${g.name}.jpg" alt="" />
                                     </div>
                                     <div class="webcam-info" id="st${g.id}">
                                         <h4>${g.userName}</h4>

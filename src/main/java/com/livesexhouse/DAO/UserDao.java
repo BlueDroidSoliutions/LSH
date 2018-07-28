@@ -10,10 +10,16 @@ import com.livesexhouse.model.UserRoles;
 import com.livesexhouse.model.Users;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.persistence.Query;
+
+import org.apache.commons.logging.Log;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +30,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 public class UserDao {
+	
+	private static final Logger loger = Logger.getLogger(UserDao.class.getName());
 
     @Autowired
     SessionFactory sessionFactory;
@@ -81,6 +89,7 @@ public class UserDao {
             Session session = sessionFactory.getCurrentSession();
             i = (Integer) session.save(c);
         } catch (HibernateException e) {
+        	loger.log(Level.SEVERE, "desila se greskaka " + e.getLocalizedMessage(), e);
         }
         return i;
     }

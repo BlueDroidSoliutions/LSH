@@ -732,7 +732,7 @@
                                 <c:forEach items="${girlsOnline}" var="g">
                                      <li>
                                          <a href="../webcam/${g.id}">
-                                    <img src="../ext/girlImg/${g.name}.jpg" />
+                                    <img src="../ext/GirlsImages/${g.name}.jpg" />
                                          </a>
                                 </li>
                                 </c:forEach>
